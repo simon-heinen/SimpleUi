@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.rwth"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="3"
+        android:targetSdkVersion="15" />
+
+    <!-- add the following permission entry and uses-permission entries for the google maps v2 -->
+    <permission
+        android:name="de.rwth.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="de.rwth.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".JsonDemoMain"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="V2ExampleUI" >
+        </activity>
+        <activity android:name="v1.V1SimpleUI" >
+        </activity>
+        <activity android:name="ExampleSurveyActivity" >
+        </activity>
+        <activity android:name="Main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="v2.simpleUi.SimpleUI"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+
+        <service android:name="v2.simpleUi.util.KeepProcessAliveService" >
+        </service>
+
+        <!-- get your key at https://code.google.com/apis/console -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
+
+        <activity android:name="de.rwth.TestMapsV2Activity" >
+        </activity>
+    </application>
+
+</manifest>
