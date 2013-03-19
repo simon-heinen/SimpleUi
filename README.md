@@ -4,8 +4,22 @@ SimpleUi
 SimpleUI is a small library to generate out of the box usable and good looking UIs for Android. It follows the model view controller principle and you create a controller which can generate a working connected view for your model. It is possible to specify the appearance of the views but normally this is not necessary. The framework is designed to create usable UIs in a very fast and intuitive way using the advantages of auto completion and anonymous classes. 
 
 =Screencast tutorials=
-|| <wiki:video url="http://www.youtube.com/watch?v=PWwyYP0ck3Y"/> || <wiki:video url="http://www.youtube.com/watch?v=tMLi3OVEUCY"/> ||
-|| <wiki:video url="http://www.youtube.com/watch?v=hcZ8AHGL4Oc"/> || <wiki:video url="http://www.youtube.com/watch?v=VEqCZdWmUnw"/> ||
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
+" target="_blank"><img src="http://img.youtube.com/viPWwyYP0ck3Y/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=tMLi3OVEUCY
+" target="_blank"><img src="http://img.youtube.com/vi/tMLi3OVEUCY/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=hcZ8AHGL4Oc
+" target="_blank"><img src="http://img.youtube.com/vi/hcZ8AHGL4Oc/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=VEqCZdWmUnw
+" target="_blank"><img src="http://img.youtube.com/vi/VEqCZdWmUnw/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+
+
 
 
 =Example APK=
