@@ -6,7 +6,7 @@ SimpleUI is a small library to generate out of the box usable and good looking U
 =Screencast tutorials=
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
-" target="_blank"><img src="http://img.youtube.com/viPWwyYP0ck3Y/0.jpg" 
+" target="_blank"><img src="http://img.youtube.com/PWwyYP0ck3Y/0.jpg" 
 alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=tMLi3OVEUCY
 " target="_blank"><img src="http://img.youtube.com/vi/tMLi3OVEUCY/0.jpg" 
