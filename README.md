@@ -23,7 +23,8 @@ alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 
 
 =Example APK=
-http://simpleui.googlecode.com/files/simpeUiExampleAPK.png
+![](http://simpleui.googlecode.com/files/simpeUiExampleAPK.png "QR Code")
+
 
 The QR code link is: http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/bin/SimpleUiExamples.apk
 
