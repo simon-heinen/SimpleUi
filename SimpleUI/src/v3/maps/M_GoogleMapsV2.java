@@ -1,12 +1,15 @@
 package v3.maps;
 
 import v2.simpleUi.ModifierInterface;
+import v2.simpleUi.util.ImageTransform;
 import v3.maps.GoogleMapsV2View.MapsV2EventListener;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -27,12 +30,14 @@ public abstract class M_GoogleMapsV2 implements ModifierInterface,
 
 	private static final String LOG_TAG = "M_GoogleMapsV2";
 	private GoogleMapsV2View mapView;
+	private Resources resources;
 	private boolean isFirstUpdate = true;
 
 	@Override
 	public View getView(Context context) {
 		mapView = new GoogleMapsV2View((FragmentActivity) context, this);
 		FrameLayout v = mapView.getContainerView();
+		resources = v.getResources();
 		// the map is in a scroll view so the default match parrend wount help
 		// for the height:
 		v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -43,7 +48,7 @@ public abstract class M_GoogleMapsV2 implements ModifierInterface,
 	@Override
 	public void onMyLocationChange(Location location) {
 		onDevicePosUpdate(mapView.getActivity(), mapView, toLatLng(location),
-				isFirstUpdate);
+				location, isFirstUpdate);
 		isFirstUpdate = false;
 	}
 
@@ -52,14 +57,35 @@ public abstract class M_GoogleMapsV2 implements ModifierInterface,
 	}
 
 	public void onDevicePosUpdate(Activity activity, I_MapView mapView,
-			LatLng pos, boolean firstUpdate) {
+			LatLng pos, Location posAsLocation, boolean firstUpdate) {
+	}
+
+	public int getDisplayHeightInDip(Activity a) {
+		Display display = a.getWindowManager().getDefaultDisplay();
+		return (int) ImageTransform.PixelsToDip(a, display.getHeight());
 	}
 
 	public GoogleMapsV2View getMapView() {
 		return mapView;
 	}
 
-	public abstract int getMapHeight();
+	/**
+	 * overwrite this method to return values like
+	 * {@link LayoutParams#MATCH_PARENT}
+	 * 
+	 * @return
+	 */
+	public int getMapHeight() {
+		return (int) ImageTransform.dipToPixels(resources, getMapHeigthInDip());
+	}
+
+	/**
+	 * called by {@link M_GoogleMapsV2#getMapHeight()} on default to allow the
+	 * same map size on every device
+	 * 
+	 * @return
+	 */
+	public abstract int getMapHeigthInDip();
 
 	/**
 	 * @param topLeft

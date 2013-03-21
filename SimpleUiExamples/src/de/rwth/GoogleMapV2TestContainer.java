@@ -15,8 +15,9 @@ public class GoogleMapV2TestContainer extends M_Container {
 	public GoogleMapV2TestContainer() {
 		add(M_SeperatorLine.newDefaultOne());
 		add(new M_GoogleMapsV2() {
+
 			@Override
-			public int getMapHeight() {
+			public int getMapHeigthInDip() {
 				return 400;
 			}
 
