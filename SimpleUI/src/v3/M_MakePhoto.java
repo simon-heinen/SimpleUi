@@ -258,6 +258,10 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	@Override
 	public void onActivityResult(Activity a, int requestCode, int resultCode,
 			Intent data) {
+
+		Log.d(LOG_TAG, "onActivityResult");
+		Log.d(LOG_TAG, "resultCode=" + resultCode);
+		Log.d(LOG_TAG, "requestCode=" + requestCode);
 		if (resultCode == Activity.RESULT_OK) {
 			activity = a;
 			if (requestCode == M_MakePhoto.TAKE_PICTURE) {
@@ -279,21 +283,6 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		}
 	}
 
-	public String getPathFromImageFileSelectionIntent(Activity a, Uri uri) {
-		String[] projection = { MediaStore.Images.Media.DATA };
-		Cursor cursor = a.managedQuery(uri, projection, null, null, null);
-		if (cursor != null) {
-			// HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-			// THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-			int column_index = cursor
-					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();
-			return cursor.getString(column_index);
-		} else {
-			return null;
-		}
-	}
-
 	/**
 	 * TODO
 	 * http://stackoverflow.com/questions/2169649/open-an-image-in-androids-
@@ -303,27 +292,33 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	 * @param data
 	 */
 	private void loadBitmapFromFile(Activity a, Intent data) {
-		Uri selectedImage = data.getData();
-		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		if (data == null || data.getData() == null) {
+			Log.e(LOG_TAG, "Could not load image from intent " + data);
+			return;
+		}
 
 		Uri selectedImageUri = data.getData();
 
 		// MEDIA GALLERY
-		String filePath = getPathFromImageFileSelectionIntent(a,
-				selectedImageUri);
-
-		if (filePath == null) {
-			// OI FILE Manager
-			filePath = selectedImageUri.getPath();
-		}
-
-		if (filePath == null) {
-			filePath = getFilePathFromGalleryIntent(a, selectedImage,
-					filePathColumn, filePath);
-		}
-
+		String filePath = null;
 		try {
-			Log.i(LOG_TAG, "Loadin bitmap from " + filePath);
+			filePath = getPathFromImageFileSelectionIntent(a, selectedImageUri);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		if (filePath == null) {
+			Log.d(LOG_TAG, "Loading image from gallery intent");
+			filePath = getFilePathFromGalleryIntent(a, selectedImageUri);
+		}
+
+		if (filePath == null) {
+			Log.e(LOG_TAG, "Could not load image from intent " + data);
+			return;
+		}
+
+		Log.i(LOG_TAG, "Loadin bitmap from " + filePath);
+		try {
 			setTakenBitmapFileAndUri(new File(filePath));
 			setTakenBitmap(BitmapFactory.decodeFile(filePath));
 			if (takenBitmap != null) {
@@ -345,19 +340,37 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		}
 	}
 
-	private String getFilePathFromGalleryIntent(Activity a, Uri selectedImage,
-			String[] filePathColumn, String filePath) {
+	public String getPathFromImageFileSelectionIntent(Activity a, Uri uri) {
+		Log.i(LOG_TAG, "Loading image from storage path uri: " + uri);
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = a.managedQuery(uri, projection, null, null, null);
+		if (cursor != null) {
+			// HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+			// THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+			int columnIndex = cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			cursor.moveToFirst();
+			return cursor.getString(columnIndex);
+		} else {
+			return uri.getPath();
+		}
+	}
+
+	@Deprecated
+	private String getFilePathFromGalleryIntent(Activity a, Uri uri) {
 		try {
-			Cursor cursor = a.getContentResolver().query(selectedImage,
-					filePathColumn, null, null, null);
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			Cursor cursor = a.getContentResolver().query(uri, filePathColumn,
+					null, null, null);
 			cursor.moveToFirst();
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			filePath = cursor.getString(columnIndex);
+			String filePath = cursor.getString(columnIndex);
 			cursor.close();
+			return filePath;
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		return filePath;
+		return null;
 	}
 
 	private void getBitmap(Activity a, Intent data) {
@@ -406,14 +419,8 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		Log.d(LOG_TAG, "Loading bitmap object from uri: " + uri);
 		Bitmap b = ImageTransform.getBitmapFromUri(context, uri,
 				maxWidthInPixel, maxHeightInPixel);
-		Log.d(LOG_TAG, "BEFORE rotation:");
-		Log.d(LOG_TAG, "b.getWidth():" + b.getWidth());
-		Log.d(LOG_TAG, "b.getHeight():" + b.getHeight());
 		b = ImageTransform.rotateAndResizeBitmap(context, b, uri,
 				maxWidthInPixel, maxHeightInPixel);
-		Log.d(LOG_TAG, "AFTER rotation:");
-		Log.d(LOG_TAG, "b.getWidth():" + b.getWidth());
-		Log.d(LOG_TAG, "b.getHeight():" + b.getHeight());
 		return b;
 	}
 
