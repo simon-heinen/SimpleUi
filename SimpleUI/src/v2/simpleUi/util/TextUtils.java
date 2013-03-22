@@ -60,12 +60,15 @@ public class TextUtils {
 	}
 
 	public void applyTo(TextView v) {
-		if (textTypeface != null)
+		if (textTypeface != null) {
 			v.setTypeface(textTypeface);
-		if (textSize != 0)
+		}
+		if (textSize != 0) {
 			v.setTextSize(textSize);
-		if (shadowColor != 0)
+		}
+		if (shadowColor != 0) {
 			v.setShadowLayer(shadowSize, shadowXPos, shadowYPos, shadowColor);
+		}
 
 	}
 

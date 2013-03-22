@@ -23,7 +23,9 @@ public abstract class M_DateModifier implements ModifierInterface,
 	public View getView(Context context) {
 		Date d = loadDate();
 		final Calendar c = Calendar.getInstance();
-		c.setTime(d);
+		if (d != null) {
+			c.setTime(d);
+		}
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);
