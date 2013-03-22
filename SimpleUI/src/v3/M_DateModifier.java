@@ -22,10 +22,11 @@ public abstract class M_DateModifier implements ModifierInterface,
 	@Override
 	public View getView(Context context) {
 		Date d = loadDate();
-		final Calendar c = Calendar.getInstance();
-		if (d != null) {
-			c.setTime(d);
+		if (d == null) {
+			d = new Date();
 		}
+		final Calendar c = Calendar.getInstance();
+		c.setTime(d);
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);

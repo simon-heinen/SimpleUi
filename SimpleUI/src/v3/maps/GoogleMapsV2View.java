@@ -521,7 +521,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 		googleMapsV2View.showUserLocation(true);
 		UiSettings mapUiSettings = googleMapsV2View.getMap().getUiSettings();
 		mapUiSettings.setZoomControlsEnabled(false);
-		mapUiSettings.setMyLocationButtonEnabled(false);
+		// mapUiSettings.setMyLocationButtonEnabled(false);
 		return true;
 	}
 
