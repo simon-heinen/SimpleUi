@@ -222,6 +222,9 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	@Override
 	public boolean save() {
+		if (imageUri == null) {
+			return true;
+		}
 		if (save(activity, takenBitmap, toFile(imageUri))) {
 			Log.i(LOG_TAG,
 					"Save action correct so setting bitmap reference to null");
@@ -232,6 +235,9 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	}
 
 	private File toFile(Uri uri) {
+		if (uri == null) {
+			return null;
+		}
 		return new File(uri.getPath());
 	}
 
