@@ -96,6 +96,9 @@ public class IO {
 	}
 
 	public static Bitmap loadBitmapFromFile(File file) {
+		if (file == null) {
+			return null;
+		}
 		return loadBitmapFromFile(file.toString());
 	}
 

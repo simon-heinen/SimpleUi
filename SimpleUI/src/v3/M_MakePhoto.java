@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import v2.simpleUi.ActivityLifecycleListener;
 import v2.simpleUi.M_Button;
+import v2.simpleUi.M_Caption;
 import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.util.IO;
 import v2.simpleUi.util.ImageTransform;
@@ -24,7 +25,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 @TargetApi(5)
 public abstract class M_MakePhoto implements ModifierInterface,
@@ -115,9 +115,8 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 		String caption = getModifierCaption();
 		if (caption != null) {
-			TextView c = new TextView(context);
-			c.setText(caption);
-			box.addView(c);
+			M_Caption c = new M_Caption(caption);
+			box.addView(c.getView(context));
 		}
 
 		imageView = new M_ImageView();
@@ -130,13 +129,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 		if (imageUri != null && takenBitmap == null) {
 			try {
-				Log.d(LOG_TAG, "imageUri=" + imageUri);
-				Log.d(LOG_TAG, "takenBitmap=" + takenBitmap);
 				takenBitmap = IO.loadBitmapFromUri(imageUri);
-				Log.d(LOG_TAG,
-						"takenBitmap.getHeight()=" + takenBitmap.getHeight());
-				Log.d(LOG_TAG,
-						"takenBitmap.getWidth()=" + takenBitmap.getWidth());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -210,8 +203,11 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	}
 
 	protected void selectPhotoFromFile(Activity context) {
-		Intent intent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		// Intent intent = new Intent(Intent.ACTION_PICK,
+		// android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
 		context.startActivityForResult(intent, M_MakePhoto.SELECT_FROM_FILE);
 	}
 
@@ -283,6 +279,21 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		}
 	}
 
+	public String getPathFromImageFileSelectionIntent(Activity a, Uri uri) {
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = a.managedQuery(uri, projection, null, null, null);
+		if (cursor != null) {
+			// HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+			// THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			cursor.moveToFirst();
+			return cursor.getString(column_index);
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * TODO
 	 * http://stackoverflow.com/questions/2169649/open-an-image-in-androids-
@@ -295,13 +306,21 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		Uri selectedImage = data.getData();
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-		Cursor cursor = a.getContentResolver().query(selectedImage,
-				filePathColumn, null, null, null);
-		cursor.moveToFirst();
+		Uri selectedImageUri = data.getData();
 
-		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-		String filePath = cursor.getString(columnIndex);
-		cursor.close();
+		// MEDIA GALLERY
+		String filePath = getPathFromImageFileSelectionIntent(a,
+				selectedImageUri);
+
+		if (filePath == null) {
+			// OI FILE Manager
+			filePath = selectedImageUri.getPath();
+		}
+
+		if (filePath == null) {
+			filePath = getFilePathFromGalleryIntent(a, selectedImage,
+					filePathColumn, filePath);
+		}
 
 		try {
 			Log.i(LOG_TAG, "Loadin bitmap from " + filePath);
@@ -324,6 +343,21 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			Log.e(LOG_TAG, "Error while loading bitmap from " + filePath);
 			e.printStackTrace();
 		}
+	}
+
+	private String getFilePathFromGalleryIntent(Activity a, Uri selectedImage,
+			String[] filePathColumn, String filePath) {
+		try {
+			Cursor cursor = a.getContentResolver().query(selectedImage,
+					filePathColumn, null, null, null);
+			cursor.moveToFirst();
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			filePath = cursor.getString(columnIndex);
+			cursor.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return filePath;
 	}
 
 	private void getBitmap(Activity a, Intent data) {
