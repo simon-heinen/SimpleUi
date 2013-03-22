@@ -1,12 +1,12 @@
 package v3;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import v2.simpleUi.ActivityLifecycleListener;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.ModifierInterface;
+import v2.simpleUi.util.IO;
 import v2.simpleUi.util.ImageTransform;
 import v2.simpleUi.util.KeepProcessAliveService;
 import android.R;
@@ -23,7 +23,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,16 +33,15 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	public final static int TAKE_PICTURE = 367289;
 	public static final int SELECT_FROM_FILE = 3463270;
 
-	private static final String LOG_TAG = "M_MakePhoto";
-
-	private Uri imageUri;
-	private ImageView imageView;
-	private Bitmap takenBitmap;
 	private int maxWidth = 640;
 	private int maxHeight = 480;
 	private int imageQuality = 60;
 
-	private File takenBitmapFile;
+	private static final String LOG_TAG = "M_MakePhoto";
+
+	private Uri imageUri;
+	private M_ImageView imageView;
+	private Bitmap takenBitmap;
 
 	private Activity activity;
 
@@ -59,18 +57,18 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	}
 
 	public M_MakePhoto(Uri uri) {
-		imageUri = uri;
+		if (uri != null) {
+			setFileToLoadInImageViewFromUiThread(activity, toFile(uri));
+		}
 	}
 
 	public M_MakePhoto(File f) {
-
 		setTakenBitmapFileAndUri(f);
 
 	}
 
 	public void setTakenBitmapFileAndUri(File takenBitmapFile) {
 		if (takenBitmapFile != null) {
-			this.takenBitmapFile = takenBitmapFile;
 			imageUri = Uri.fromFile(takenBitmapFile);
 		}
 	}
@@ -79,10 +77,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			File bitmap) {
 		try {
 			setTakenBitmapFileAndUri(bitmap);
-			takenBitmap = loadBitmapFromImageUri(context, imageUri, maxWidth,
-					maxHeight);
-			Log.d(LOG_TAG, "takenBitmap.getWidth()=" + takenBitmap.getWidth());
-			Log.d(LOG_TAG, "takenBitmap.getHeight()=" + takenBitmap.getHeight());
+			takenBitmap = IO.loadBitmapFromUri(imageUri);
 			refreshImageInImageView();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,7 +120,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			box.addView(c);
 		}
 
-		imageView = new ImageView(context);
+		imageView = new M_ImageView();
 
 		if (takenBitmap != null && takenBitmap.isRecycled()) {
 			Log.w(LOG_TAG, "Image bitmap was recycled but "
@@ -133,19 +128,21 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			takenBitmap = null;
 		}
 
-		Log.d(LOG_TAG, "imageUri=" + imageUri);
-		Log.d(LOG_TAG, "takenBitmapFile=" + takenBitmapFile);
-		Log.d(LOG_TAG, "takenBitmap=" + takenBitmap);
 		if (imageUri != null && takenBitmap == null) {
 			try {
-				takenBitmap = loadBitmapFromImageUri(context, imageUri,
-						maxWidth, maxHeight);
+				Log.d(LOG_TAG, "imageUri=" + imageUri);
+				Log.d(LOG_TAG, "takenBitmap=" + takenBitmap);
+				takenBitmap = IO.loadBitmapFromUri(imageUri);
+				Log.d(LOG_TAG,
+						"takenBitmap.getHeight()=" + takenBitmap.getHeight());
+				Log.d(LOG_TAG,
+						"takenBitmap.getWidth()=" + takenBitmap.getWidth());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		box.addView(imageView.getView(context));
 		refreshImageInImageView();
-		box.addView(imageView);
 
 		M_Button bTakePhoto = new M_Button(R.drawable.ic_menu_camera,
 				getTextOnTakePhotoButton()) {
@@ -229,13 +226,17 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	@Override
 	public boolean save() {
-		if (save(activity, takenBitmap, takenBitmapFile)) {
+		if (save(activity, takenBitmap, toFile(imageUri))) {
 			Log.i(LOG_TAG,
 					"Save action correct so setting bitmap reference to null");
-			takenBitmap = null;
+			setTakenBitmap(null);
 			return true;
 		}
 		return false;
+	}
+
+	private File toFile(Uri uri) {
+		return new File(uri.getPath());
 	}
 
 	/**
@@ -276,6 +277,8 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	private void refreshImageInImageView() {
 		if (imageView != null && takenBitmap != null) {
 			// TODO process image
+			Log.d(LOG_TAG, "takenBitmap.getWidth()=" + takenBitmap.getWidth());
+			Log.d(LOG_TAG, "takenBitmap.getHeight()=" + takenBitmap.getHeight());
 			imageView.setImageBitmap(takenBitmap);
 		}
 	}
@@ -303,16 +306,16 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		try {
 			Log.i(LOG_TAG, "Loadin bitmap from " + filePath);
 			setTakenBitmapFileAndUri(new File(filePath));
-			takenBitmap = BitmapFactory.decodeFile(filePath);
+			setTakenBitmap(BitmapFactory.decodeFile(filePath));
 			if (takenBitmap != null) {
-				takenBitmap = ImageTransform.rotateAndResizeBitmap(a,
-						takenBitmap, imageUri, maxWidth, maxHeight);
+				setTakenBitmap(ImageTransform.rotateAndResizeBitmap(a,
+						takenBitmap, imageUri, maxWidth, maxHeight));
 				if (rewriteImageToStorage) {
 					setTakenBitmapFileAndUri(new File(
 							Environment.getExternalStorageDirectory(),
 							getImageFileName()));
 					ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
-							takenBitmapFile, imageQuality);
+							toFile(imageUri), imageQuality);
 				}
 			} else {
 				Log.e(LOG_TAG, "Could not load bitmap from file " + filePath);
@@ -325,7 +328,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	private void getBitmap(Activity a, Intent data) {
 		try {
-			takenBitmap = (Bitmap) data.getExtras().get("data");
+			setTakenBitmap((Bitmap) data.getExtras().get("data"));
 			Log.i(LOG_TAG,
 					"Got small image preview for backup, now trying to load real bitmap");
 		} catch (Exception e1) {
@@ -338,17 +341,22 @@ public abstract class M_MakePhoto implements ModifierInterface,
 				imageUri = data.getData();
 			}
 			a.getContentResolver().notifyChange(imageUri, null);
-			takenBitmap = loadBitmapFromImageUri(a, imageUri, maxWidth,
-					maxHeight);
+
+			setTakenBitmap(rotateAndResizeReceivedImage(a, imageUri, maxWidth,
+					maxHeight));
 
 			setTakenBitmapFileAndUri(new File(
 					Environment.getExternalStorageDirectory(), imageFileName));
 			ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
-					takenBitmapFile, imageQuality);
+					toFile(imageUri), imageQuality);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void setTakenBitmap(Bitmap takenBitmap) {
+		this.takenBitmap = takenBitmap;
 	}
 
 	@Override
@@ -359,20 +367,19 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	public void onResume(Activity activity) {
 	}
 
-	private static Bitmap loadBitmapFromImageUri(Context context, Uri uri,
-			int maxWidthInPixel, int maxHeightInPixel)
-			throws FileNotFoundException, IOException {
-		// takenBitmap =
-		// android.provider.MediaStore.Images.Media.getBitmap(context.getContentResolver(),
-		// imageUri);
+	private static Bitmap rotateAndResizeReceivedImage(Context context,
+			Uri uri, int maxWidthInPixel, int maxHeightInPixel) {
 		Log.d(LOG_TAG, "Loading bitmap object from uri: " + uri);
 		Bitmap b = ImageTransform.getBitmapFromUri(context, uri,
 				maxWidthInPixel, maxHeightInPixel);
-		Log.d(LOG_TAG, "before rotation:");
+		Log.d(LOG_TAG, "BEFORE rotation:");
 		Log.d(LOG_TAG, "b.getWidth():" + b.getWidth());
 		Log.d(LOG_TAG, "b.getHeight():" + b.getHeight());
 		b = ImageTransform.rotateAndResizeBitmap(context, b, uri,
 				maxWidthInPixel, maxHeightInPixel);
+		Log.d(LOG_TAG, "AFTER rotation:");
+		Log.d(LOG_TAG, "b.getWidth():" + b.getWidth());
+		Log.d(LOG_TAG, "b.getHeight():" + b.getHeight());
 		return b;
 	}
 

@@ -26,9 +26,11 @@ import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;
 import v2.simpleUi.uiDecoration.ExampleDecorator;
 import v2.simpleUi.util.DragAndDropListener;
+import v2.simpleUi.util.IO;
 import v2.simpleUi.util.ProgressScreen;
 import v2.simpleUi.util.SimpleAsyncTask;
 import v3.M_DateModifier;
+import v3.M_ImageView;
 import v3.M_ItemBar;
 import v3.M_MakePhoto;
 import v3.M_RadioButtonListCreator2;
@@ -343,6 +345,13 @@ public class Main extends Activity {
 					public String getImageFileName() {
 						return "/testImageCache/" + new Date().getTime()
 								+ ".jpg";
+					}
+				});
+
+				c2.add(new M_ImageView() {
+					@Override
+					public Bitmap loadBitmapFromUrl(String url) {
+						return IO.loadBitmapFromUri(uri);
 					}
 				});
 

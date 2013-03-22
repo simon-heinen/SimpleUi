@@ -30,6 +30,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -431,6 +432,20 @@ public class IO {
 					+ " from assets folder!");
 		}
 		return null;
+	}
+
+	public static File toFile(Uri uri) {
+		if (uri == null) {
+			return null;
+		}
+		return new File(uri.getPath());
+	}
+
+	public static Bitmap loadBitmapFromUri(Uri uri) {
+		if (uri == null) {
+			return null;
+		}
+		return loadBitmapFromFile(toFile(uri));
 	}
 
 }
