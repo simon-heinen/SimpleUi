@@ -586,6 +586,15 @@ public class Main extends Activity {
 						TestMapsV2Activity.class);
 			}
 		});
+		c.add(new M_Button("Select pos on map v2") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				SimpleUIWithMaps.showUi(Main.this,
+						new GoogleMapV2PosOnMapTests(),
+						TestMapsV2Activity.class);
+			}
+		});
 	}
 
 	protected void addcheckboxtestingstuff(M_Container c) {

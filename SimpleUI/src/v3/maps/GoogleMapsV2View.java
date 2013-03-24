@@ -70,12 +70,12 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 
 		/**
 		 * @param marker
-		 * @param type
+		 * @param eventType
 		 *            can be {@link MarkerListener#DRAG_START},
 		 *            {@link MarkerListener#DRAG} or
 		 *            {@link MarkerListener#DRAG_END}
 		 */
-		void onDrag(Marker marker, int type);
+		void onDragEvent(Marker marker, int eventType);
 
 	}
 
@@ -393,9 +393,11 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 
 	@Override
 	public void onSingleTab(MotionEvent e) {
-
-		LatLng gpsPos = getLatLngPosFromClickEvent(e);
-		eventListener.onSingleTab(getActivity(), getMap(), gpsPos);
+		if (!markerConsumedClick) {
+			LatLng gpsPos = getLatLngPosFromClickEvent(e);
+			eventListener.onSingleTab(getActivity(), getMap(), gpsPos);
+		}
+		markerConsumedClick = false;
 	}
 
 	public void enableZoomButtons(boolean showThem) {
@@ -413,6 +415,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	}
 
 	private Long lastTime = null;
+	private boolean markerConsumedClick = false;
 
 	/**
 	 * will send onNewAreaOnMapIsShown in an max interval of 1 second
@@ -480,7 +483,10 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	public boolean onMarkerClick(Marker marker) {
 		MarkerListener listener = listeners.get(marker);
 		if (listener != null) {
-			return listener.onTab(marker);
+			if (listener.onTab(marker)) {
+				markerConsumedClick = true;
+				return true;
+			}
 		} else {
 			Log.w(LOG_TAG,
 					"No listener found for clicked marker. listeners.size()="
@@ -507,7 +513,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	private void sendDragEventToMarkerListener(Marker marker, final int type) {
 		MarkerListener listener = listeners.get(marker);
 		if (listener != null) {
-			listener.onDrag(marker, type);
+			listener.onDragEvent(marker, type);
 		}
 	}
 

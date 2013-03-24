@@ -22,6 +22,13 @@ public abstract class M_DateModifier implements ModifierInterface,
 	@Override
 	public View getView(Context context) {
 		Date d = loadDate();
+		b = new Button(context);
+		if (d != null) {
+			b.setText(getTextFor(d,
+					new SimpleDateFormat("dd.MM.yyyy").format(d)));
+		} else {
+			b.setText("...");
+		}
 		if (d == null) {
 			d = new Date();
 		}
@@ -32,8 +39,7 @@ public abstract class M_DateModifier implements ModifierInterface,
 		int day = c.get(Calendar.DAY_OF_MONTH);
 		final DatePickerDialog p = new DatePickerDialog(context, this, year,
 				month, day);
-		b = new Button(context);
-		b.setText(getTextFor(d, new SimpleDateFormat("dd.MM.yyyy").format(d)));
+
 		b.setOnClickListener(new OnClickListener() {
 
 			@Override
