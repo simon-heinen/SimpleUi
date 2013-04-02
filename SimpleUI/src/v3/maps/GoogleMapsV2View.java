@@ -1,6 +1,7 @@
 package v3.maps;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
@@ -197,7 +198,6 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 
 	public GoogleMapsV2View(FragmentActivity a, MapsV2EventListener l) {
 		this.eventListener = l;
-		int MAPS_CONTAINER_ID = 1680234530;
 		container = new FrameLayout(a) {
 			@Override
 			public boolean dispatchTouchEvent(MotionEvent event) {
@@ -234,6 +234,8 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 
 		};
 
+		int MAPS_CONTAINER_ID = (int) (new Date().getTime() + 10000 * Math
+				.random());
 		container.setId(MAPS_CONTAINER_ID);
 		container.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT));

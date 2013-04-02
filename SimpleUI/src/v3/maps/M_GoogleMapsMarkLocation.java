@@ -2,6 +2,8 @@ package v3.maps;
 
 import v3.maps.GoogleMapsV2View.MarkerListener;
 import v3.maps.GoogleMapsV2View.Overlay;
+import android.app.Activity;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -29,9 +31,18 @@ public abstract class M_GoogleMapsMarkLocation extends M_GoogleMapsV2 {
 	}
 
 	@Override
+	public void onDevicePosUpdate(Activity activity, I_MapView mapView,
+			LatLng pos, Location posAsLocation, boolean firstUpdate) {
+		if (firstUpdate) {
+			getMapView().setMapCenterTo(pos, 17);
+		}
+	}
+
+	@Override
 	public void onMapViewIsReadyForTheFirstTime(
 			GoogleMapsV2View googleMapsV2View, FragmentActivity activity,
 			GoogleMap mapController) {
+		GoogleMapsV2View.initDefaultBehavior(googleMapsV2View);
 	}
 
 	@Override

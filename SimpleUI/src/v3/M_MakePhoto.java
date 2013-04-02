@@ -208,6 +208,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
+		KeepProcessAliveService.startKeepAliveService(context);
 		context.startActivityForResult(intent, M_MakePhoto.SELECT_FROM_FILE);
 	}
 
@@ -346,7 +347,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		}
 	}
 
-	public String getPathFromImageFileSelectionIntent(Activity a, Uri uri) {
+	public static String getPathFromImageFileSelectionIntent(Activity a, Uri uri) {
 		Log.i(LOG_TAG, "Loading image from storage path uri: " + uri);
 		String[] projection = { MediaStore.Images.Media.DATA };
 		Cursor cursor = a.managedQuery(uri, projection, null, null, null);

@@ -1,6 +1,6 @@
 package v4;
 
-import android.content.Context;
+import android.app.Activity;
 import android.view.View;
 
 public interface ModifierInterfaceV2 {
@@ -8,21 +8,23 @@ public interface ModifierInterfaceV2 {
 	/**
 	 * generates the android UI for the modifier
 	 * 
-	 * @param context
+	 * @param activity
+	 * @param parent
+	 *            the parent or null if no parent exists
 	 * @return
 	 */
-	View getView(Context context);
+	View getView(Activity activity, ModifierInterfaceV2 parent);
 
 	/**
-	 * @param context
+	 * @param activity
 	 * @return true if the save procedure was successful
 	 */
-	boolean save(Context context);
+	boolean save(Activity activity);
 
 	/**
-	 * @param context
+	 * @param activity
 	 * @return true
 	 */
-	boolean cancel(Context context);
+	boolean cancel(Activity activity);
 
 }
