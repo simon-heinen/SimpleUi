@@ -26,10 +26,12 @@ import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;
 import v2.simpleUi.uiDecoration.ExampleDecorator;
 import v2.simpleUi.util.DragAndDropListener;
+import v2.simpleUi.util.ErrorHandler;
 import v2.simpleUi.util.IO;
 import v2.simpleUi.util.ProgressScreen;
 import v2.simpleUi.util.SimpleAsyncTask;
 import v3.M_DateModifier;
+import v3.M_FilePickerButton;
 import v3.M_ImageView;
 import v3.M_ItemBar;
 import v3.M_MakePhoto;
@@ -49,6 +51,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class Main extends Activity {
 
@@ -61,7 +64,17 @@ public class Main extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		v2.simpleUi.util.ErrorHandler.registerNewErrorHandler(this,
+				"errors/testErrorHandlerSimpleUiTests");
+		ErrorHandler.enableEmailReports("simon.heinen@gmail.com",
+				"Error in SimpleUi Test project");
+
 		M_Container c = new M_Container();
+
+		addCrashButtonForErrorHandlerTesting(c);
+
+		addTestFileSelector(c);
 
 		addTestPhotoModifier(c);
 
@@ -307,6 +320,40 @@ public class Main extends Activity {
 
 		setContentView(c.getView(this));
 
+	}
+
+	private void addCrashButtonForErrorHandlerTesting(M_Container c) {
+		c.add(new M_Button("Crash") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+
+				String s = null;
+				s.toCharArray();
+			}
+		});
+	}
+
+	private void addTestFileSelector(M_Container c) {
+
+		c.add(new M_Button("File-Tests") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				M_Container c2 = new M_Container();
+
+				c2.add(new M_FilePickerButton("Load file") {
+					@Override
+					public void onFilePathReceived(Activity a, String filePath,
+							File file, Intent data) {
+						Toast.makeText(a, "path=" + filePath, Toast.LENGTH_LONG)
+								.show();
+					}
+				});
+				SimpleUI.showCancelOkDialog(Main.this, "Cancel", "Ok", c2);
+
+			}
+		});
 	}
 
 	private void addTestPhotoModifier(M_Container c) {
