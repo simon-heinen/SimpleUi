@@ -153,11 +153,25 @@ public class M_Container2 extends ArrayList<ModifierInterface> implements
 	 */
 	public boolean invalidate() {
 		if (expandablePanel != null) {
-			expandablePanel.removeAllViews();
-			fillPanel(expandablePanel.getContext());
+			if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+				removeAllOldViewsAndAddAllModifiersAgain();
+			} else {
+				myHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						removeAllOldViewsAndAddAllModifiersAgain();
+					}
+				});
+			}
 			return true;
 		}
 		return false;
+	}
+
+	private void removeAllOldViewsAndAddAllModifiersAgain() {
+		expandablePanel.removeAllViews();
+		fillPanel(expandablePanel.getContext());
 	}
 
 	@Override
