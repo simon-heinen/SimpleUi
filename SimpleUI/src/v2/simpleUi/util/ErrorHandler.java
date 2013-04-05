@@ -452,7 +452,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		}
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
 				myMailSubject);
-		emailIntent.setType("*/*");
+		emailIntent.setType("message/rfc822");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
 				new String[] { myDeveloperMailAdress });
 		emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
