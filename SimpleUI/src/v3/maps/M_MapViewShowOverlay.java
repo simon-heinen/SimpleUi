@@ -20,8 +20,10 @@ public abstract class M_MapViewShowOverlay extends M_GoogleMapsV2 {
 			public void onRun() {
 				Location lastKnownUserPosition = new GeoUtils(
 						googleMapsV2View.getActivity()).getLastKnownPosition();
-				onFirstTimeUserPositionKnown(googleMapsV2View,
-						lastKnownUserPosition);
+				if (lastKnownUserPosition != null) {
+					onFirstTimeUserPositionKnown(googleMapsV2View,
+							lastKnownUserPosition);
+				}
 			}
 		}.run();
 	}

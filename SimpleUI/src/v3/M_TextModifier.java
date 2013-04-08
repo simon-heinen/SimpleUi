@@ -83,11 +83,14 @@ public abstract class M_TextModifier implements ModifierInterface,
 				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
 				weightOfInputText);
 
-		TextView t = new TextView(context);
-		t.setLayoutParams(p);
-		t.setText(this.getVarName());
-
-		l.addView(t);
+		String varName = this.getVarName();
+		TextView t = null;
+		if (varName != null) {
+			t = new TextView(context);
+			t.setLayoutParams(p);
+			t.setText(varName);
+			l.addView(t);
+		}
 
 		if (isLongText()) {
 			int m = 8;
@@ -121,8 +124,10 @@ public abstract class M_TextModifier implements ModifierInterface,
 
 		if (myDecorator != null) {
 			int level = myDecorator.getCurrentLevel();
-			myDecorator.decorate(context, t, level + 1,
-					UiDecorator.TYPE_INFO_TEXT);
+			if (t != null) {
+				myDecorator.decorate(context, t, level + 1,
+						UiDecorator.TYPE_INFO_TEXT);
+			}
 			myDecorator.decorate(context, editText, level + 1,
 					UiDecorator.TYPE_EDIT_TEXT);
 		}

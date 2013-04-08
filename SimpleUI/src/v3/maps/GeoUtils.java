@@ -195,7 +195,7 @@ public class GeoUtils {
 	 * accurate location provider. If the last location is unknown, a toast
 	 * message is displayed instead.
 	 * 
-	 * @return
+	 * @return null if no last known position was found
 	 */
 	public Location getLastKnownPosition() {
 		Location currentLocation;

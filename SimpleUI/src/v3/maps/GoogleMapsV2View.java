@@ -269,9 +269,13 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	}
 
 	public void setMapCenterTo(Location location, int zoomLevel) {
-		setMapCenterTo(
-				new LatLng(location.getLatitude(), location.getLongitude()),
-				zoomLevel);
+		if (location != null) {
+			setMapCenterTo(
+					new LatLng(location.getLatitude(), location.getLongitude()),
+					zoomLevel);
+		} else {
+			Log.e(LOG_TAG, "Passed location to set center to was null");
+		}
 	}
 
 	public void setMapCenterTo(Location location) {
