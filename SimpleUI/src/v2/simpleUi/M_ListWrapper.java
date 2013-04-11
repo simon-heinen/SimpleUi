@@ -12,6 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+/**
+ * use the M_ListWrapperV2 instead
+ * 
+ * @param <T>
+ */
+@Deprecated
 public abstract class M_ListWrapper<T> implements ModifierInterface {
 
 	private class ModifierAndView<T> {
@@ -47,6 +53,7 @@ public abstract class M_ListWrapper<T> implements ModifierInterface {
 	private LinearLayout linLayContainer;
 	private LinkedHashSet<ModifierAndView<T>> hashmap = new LinkedHashSet<ModifierAndView<T>>();
 
+	@Deprecated
 	public M_ListWrapper(List<T> list, String addItemText) {
 		passedList = list;
 		this.addItemText = addItemText;
