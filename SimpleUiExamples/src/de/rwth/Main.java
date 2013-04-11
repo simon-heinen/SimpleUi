@@ -34,6 +34,7 @@ import v3.M_DateModifier;
 import v3.M_FilePickerButton;
 import v3.M_ImageView;
 import v3.M_ItemBar;
+import v3.M_ListWrapperV2;
 import v3.M_MakePhoto;
 import v3.M_RadioButtonListCreator2;
 import v3.M_SpinnerWithCheckboxesCreator2;
@@ -71,6 +72,8 @@ public class Main extends Activity {
 				"Error in SimpleUi Test project");
 
 		M_Container c = new M_Container();
+
+		addListWrapperTestUi(c);
 
 		addCrashButtonForErrorHandlerTesting(c);
 
@@ -319,6 +322,66 @@ public class Main extends Activity {
 		});
 
 		setContentView(c.getView(this));
+
+	}
+
+	public void addListWrapperTestUi(M_Container c) {
+
+		final ArrayList<String> l = new ArrayList<String>();
+		l.add("A");
+		l.add("B");
+		l.add("C");
+
+		c.add(new M_Button("List wrapper test ui") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				M_Container c = new M_Container();
+				c.add(new M_ListWrapperV2<String>(l, "Add text") {
+
+					@Override
+					public ModifierInterface getModifierForItem(Context c,
+							final String item) {
+						return new M_TextModifier() {
+
+							@Override
+							public boolean save(String newValue) {
+								Log.i("", "item=" + item);
+								l.set(l.indexOf(item), newValue);
+								return true;
+							}
+
+							@Override
+							public String load() {
+								return item;
+							}
+
+							@Override
+							public String getVarName() {
+								return null;
+							}
+						};
+					}
+
+					@Override
+					public String getNewItemInstance(Context c,
+							int posOfNewItemInList) {
+						return "";
+					}
+
+					@Override
+					public boolean onRemoveRequest(String item) {
+						return l.remove(item);
+					}
+
+					@Override
+					public boolean onAddRequest(String item) {
+						return l.add(item);
+					}
+				});
+				SimpleUI.showCancelOkDialog(context, "Cancel", "Ok", c);
+			}
+		});
 
 	}
 
