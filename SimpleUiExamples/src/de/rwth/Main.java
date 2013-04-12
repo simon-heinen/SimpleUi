@@ -34,7 +34,6 @@ import v3.M_DateModifier;
 import v3.M_FilePickerButton;
 import v3.M_ImageView;
 import v3.M_ItemBar;
-import v3.M_ListWrapperV2;
 import v3.M_MakePhoto;
 import v3.M_RadioButtonListCreator2;
 import v3.M_SpinnerWithCheckboxesCreator2;
@@ -327,58 +326,32 @@ public class Main extends Activity {
 
 	public void addListWrapperTestUi(M_Container c) {
 
-		final ArrayList<String> l = new ArrayList<String>();
-		l.add("A");
-		l.add("B");
-		l.add("C");
+		final ArrayList<String> answers = new ArrayList<String>();
+		answers.add("aA");
+		answers.add("aB");
+		answers.add("aC");
+
+		final ArrayList<String> questions = new ArrayList<String>();
+		questions.add("fA");
+		questions.add("fB");
+		questions.add("fC");
+
+		final ArrayList<Integer> numbers = new ArrayList<Integer>();
+		numbers.add(2);
+		numbers.add(1);
+		numbers.add(0);
 
 		c.add(new M_Button("List wrapper test ui") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				M_Container c = new M_Container();
-				c.add(new M_ListWrapperV2<String>(l, "Add text") {
 
-					@Override
-					public ModifierInterface getModifierForItem(Context c,
-							final String item) {
-						return new M_TextModifier() {
-
-							@Override
-							public boolean save(String newValue) {
-								Log.i("", "item=" + item);
-								l.set(l.indexOf(item), newValue);
-								return true;
-							}
-
-							@Override
-							public String load() {
-								return item;
-							}
-
-							@Override
-							public String getVarName() {
-								return null;
-							}
-						};
-					}
-
-					@Override
-					public String getNewItemInstance(Context c,
-							int posOfNewItemInList) {
-						return "";
-					}
-
-					@Override
-					public boolean onRemoveRequest(String item) {
-						return l.remove(item);
-					}
-
-					@Override
-					public boolean onAddRequest(String item) {
-						return l.add(item);
-					}
-				});
+				// c.add(M_ListWrapperV2.newStringCollectionModifier(l1,
+				// "Add"));
+				ViewEditAssociationQuestion
+						.generateEditUiForAssociationQuestionQuestion(c,
+								answers, questions, numbers);
 				SimpleUI.showCancelOkDialog(context, "Cancel", "Ok", c);
 			}
 		});
