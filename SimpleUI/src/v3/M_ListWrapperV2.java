@@ -30,6 +30,8 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	private ArrayList<WrapperItem<T>> items;
 	private String addItemButtonText;
 	private LinearLayout linLayContainer;
+	private int leftSize = 3;
+	private int rightSize = 3;
 
 	public static class WrapperItem<T> {
 		public WrapperItem(T item) {
@@ -41,6 +43,13 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		public View view;
 		public boolean removeRequest;
 		public boolean isNewItem;
+	}
+
+	public M_ListWrapperV2(Collection<T> initialList, String addButtonText,
+			int leftSize, int rightSize) {
+		this(initialList, addButtonText);
+		this.leftSize = leftSize;
+		this.rightSize = rightSize;
 	}
 
 	/**
@@ -99,7 +108,7 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	public View generateNewViewForItem(Context context,
 			final WrapperItem<T> itemWrapper,
 			ArrayList<WrapperItem<T>> itemList, int posInList) {
-		M_LeftRight h = new M_LeftRight(itemWrapper.modifier, 3,
+		M_LeftRight h = new M_LeftRight(itemWrapper.modifier, leftSize,
 				new M_IconButtonWithText(R.drawable.ic_delete) {
 
 					@Override
@@ -121,7 +130,7 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 						refreshListContent(context);
 					}
 
-				}, 1);
+				}, rightSize);
 		return h.getView(context);
 	}
 

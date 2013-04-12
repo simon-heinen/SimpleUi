@@ -15,7 +15,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -55,7 +54,7 @@ public abstract class M_Spinner implements ModifierInterface {
 	private Integer selectedItemPos;
 	private float weightOfDescription = 1;
 	private float weightOfSpinner = 1;
-	private List<SpinnerItem> list;
+	private List<SpinnerItem> spinnerItemsList;
 
 	public void setWeightOfDescription(float weightOfDescription) {
 		this.weightOfDescription = weightOfDescription;
@@ -121,11 +120,9 @@ public abstract class M_Spinner implements ModifierInterface {
 	}
 
 	public void reloadItemsInSpinner(final Context context) {
-		CheckBox x;
-
-		list = loadListToDisplay();
+		spinnerItemsList = loadListToDisplay();
 		ArrayAdapter<SpinnerItem> a = new ArrayAdapter<SpinnerItem>(context,
-				android.R.layout.simple_spinner_item, list);
+				android.R.layout.simple_spinner_item, spinnerItemsList);
 		a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		int oldPos = s.getSelectedItemPosition();
 		if (oldPos != AdapterView.INVALID_POSITION) {
@@ -172,6 +169,9 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	@Override
 	public boolean save() {
+		if (s.getSelectedItemId() == s.INVALID_ROW_ID) {
+			return false;
+		}
 		return save((SpinnerItem) s.getSelectedItem());
 	}
 
@@ -182,7 +182,12 @@ public abstract class M_Spinner implements ModifierInterface {
 	public abstract List<SpinnerItem> loadListToDisplay();
 
 	public boolean setSelectedItemId(int selectedItemId) {
-
+		List<SpinnerItem> list = spinnerItemsList;
+		if (spinnerItemsList == null || spinnerItemsList.isEmpty()) {
+			Log.e(LOG_TAG, "spinnerItemsList was null or "
+					+ "empty cant select an item in it");
+			return false;
+		}
 		if (selectedItemId < 0 || selectedItemId >= list.size()) {
 			Log.w(LOG_TAG, "selectedItemId was out of range (selectedItemId="
 					+ selectedItemId + ")");
@@ -204,12 +209,22 @@ public abstract class M_Spinner implements ModifierInterface {
 		return false;
 	}
 
-	public void selectInSpinner(int posInList) {
-		this.selectedItemPos = posInList;
+	public void selectInSpinner(final int posInList) {
 		if (s != null) {
 			myHandler.post(new Runnable() {
 				@Override
 				public void run() {
+					if (spinnerItemsList == null || spinnerItemsList.isEmpty()) {
+						Log.e(LOG_TAG, "spinnerItemsList was null or "
+								+ "empty cant select an item in it");
+						return;
+					}
+					if (posInList < 0 || posInList >= spinnerItemsList.size()) {
+						Log.e(LOG_TAG, "posInList was out of range (posInList="
+								+ posInList + ")");
+						return;
+					}
+					selectedItemPos = posInList;
 					Log.i(LOG_TAG, "selected item pos=" + selectedItemPos);
 					s.setSelection(selectedItemPos);
 				}
