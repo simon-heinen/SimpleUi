@@ -30,8 +30,8 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	private ArrayList<WrapperItem<T>> items;
 	private String addItemButtonText;
 	private LinearLayout linLayContainer;
-	private int leftSize = 3;
-	private int rightSize = 3;
+	private int leftSize = 4;
+	private int rightSize = 1;
 
 	public static class WrapperItem<T> {
 		public WrapperItem(T item) {
