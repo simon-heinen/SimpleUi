@@ -36,11 +36,11 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 			this.item = item;
 		}
 
-		T item;
-		ModifierInterface modifier;
-		View view;
-		boolean removeRequest;
-		boolean isNewItem;
+		public T item;
+		public ModifierInterface modifier;
+		public View view;
+		public boolean removeRequest;
+		public boolean isNewItem;
 	}
 
 	/**
@@ -55,6 +55,15 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		for (T item : initialList) {
 			items.add(new WrapperItem<T>(item));
 		}
+	}
+
+	/**
+	 * @return the temporary list while the modifier is shown, which contains
+	 *         all elements (also the removed ones from this session) together
+	 *         with their modifiers and generated views
+	 */
+	public ArrayList<WrapperItem<T>> getItems() {
+		return items;
 	}
 
 	@Override
@@ -75,10 +84,11 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		if (addItemButtonText != null) {
 			linLayContainer.addView(createAddButton(context).getView(context));
 		}
-		for (WrapperItem<T> iw : items) {
+		for (int posInList = 0; posInList < items.size(); posInList++) {
+			WrapperItem<T> iw = items.get(posInList);
 			if (iw.modifier == null || iw.view == null) {
-				iw.modifier = getModifierForItem(context, iw.item);
-				iw.view = generateNewViewForItem(context, iw);
+				iw.modifier = getModifierForItem(context, iw.item, posInList);
+				iw.view = generateNewViewForItem(context, iw, items, posInList);
 			}
 			if (!iw.removeRequest) {
 				linLayContainer.addView(iw.view);
@@ -87,13 +97,27 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	}
 
 	public View generateNewViewForItem(Context context,
-			final WrapperItem<T> itemWrapper) {
+			final WrapperItem<T> itemWrapper,
+			ArrayList<WrapperItem<T>> itemList, int posInList) {
 		M_LeftRight h = new M_LeftRight(itemWrapper.modifier, 3,
 				new M_IconButtonWithText(R.drawable.ic_delete) {
 
 					@Override
 					public void onClick(Context context, ImageView clickedButton) {
-						itemWrapper.removeRequest = true;
+						if (itemWrapper.isNewItem) {
+							/*
+							 * if its a new item it is not yet in the original
+							 * list and can be removed instantly
+							 */
+							items.remove(itemWrapper);
+						} else {
+							/*
+							 * mark it as "to be removed" to inform the real
+							 * list to remove it when the save action is
+							 * executed
+							 */
+							itemWrapper.removeRequest = true;
+						}
 						refreshListContent(context);
 					}
 
@@ -167,9 +191,11 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	 * 
 	 * @param c
 	 * @param item
+	 * @param posInList
 	 * @return a modifier for the item
 	 */
-	public abstract ModifierInterface getModifierForItem(Context c, T item);
+	public abstract ModifierInterface getModifierForItem(Context c, T item,
+			int posInList);
 
 	/**
 	 * @param c
@@ -197,5 +223,54 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	 * @return
 	 */
 	public abstract boolean onAddRequest(T item);
+
+	public static M_ListWrapperV2<String> newStringCollectionModifier(
+			final Collection<String> list, String buttonText) {
+		return new M_ListWrapperV2<String>(list, buttonText) {
+			@Override
+			public ModifierInterface getModifierForItem(Context c,
+					final String item, int posInList) {
+				return new M_TextModifier() {
+
+					@Override
+					public boolean save(String newValue) {
+						list.remove(item);
+						list.add(newValue);
+						return true;
+					}
+
+					@Override
+					public String load() {
+						return item;
+					}
+
+					@Override
+					public String getVarName() {
+						return null;
+					}
+				};
+			}
+
+			@Override
+			public String getNewItemInstance(Context c, int posOfNewItemInList) {
+				return "";
+			}
+
+			@Override
+			public boolean onRemoveRequest(String item) {
+				if (!list.remove(item)) {
+					Log.w(LOG_TAG, "Item " + item
+							+ " to remove was not in the target list!");
+				}
+				return true;
+			}
+
+			@Override
+			public boolean onAddRequest(String item) {
+				return list.add(item);
+			}
+
+		};
+	}
 
 }

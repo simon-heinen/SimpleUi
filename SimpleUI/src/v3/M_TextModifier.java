@@ -254,4 +254,11 @@ public abstract class M_TextModifier implements ModifierInterface,
 		editText.setInputType(InputType.TYPE_CLASS_TEXT
 				| InputType.TYPE_TEXT_VARIATION_PASSWORD);
 	}
+
+	public String getCurrentTextValue() {
+		if (editText != null) {
+			return editText.getText().toString();
+		}
+		return null;
+	}
 }
