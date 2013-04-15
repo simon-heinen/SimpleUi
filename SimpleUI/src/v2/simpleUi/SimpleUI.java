@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
+import v2.simpleUi.util.ErrorHandler;
 import v3.simpleUi.SimpleUIInterface;
 import android.R;
 import android.app.Activity;
@@ -476,7 +477,8 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ErrorHandler.showErrorActivity(a, e, true);
+			a.finish();
 		}
 	}
 

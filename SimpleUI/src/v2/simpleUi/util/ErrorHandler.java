@@ -221,6 +221,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 
 	public static void showErrorActivity(Activity a, Throwable errorToShow,
 			boolean keepBrokenProcessRunning) {
+		errorToShow.printStackTrace();
 		showErrorActivity(a, throwableToString(errorToShow), null,
 				keepBrokenProcessRunning);
 	}
@@ -234,6 +235,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	 */
 	public static void showErrorActivity(Activity a, Throwable errorToShow,
 			String[] optionalFilePathToSend, boolean keepBrokenProcessRunning) {
+		errorToShow.printStackTrace();
 		showErrorActivity(a, throwableToString(errorToShow),
 				optionalFilePathToSend, keepBrokenProcessRunning);
 	}
@@ -259,6 +261,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	public static void showErrorActivity(final Activity activity,
 			final String errorText, String[] optionalFilePathsToSend,
 			boolean keepBrokenProcessRunning) {
+
 		if (activity != null) {
 			myCurrentActivity = activity;
 			Intent i = new Intent(Intent.ACTION_VIEW);
