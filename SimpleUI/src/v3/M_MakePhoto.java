@@ -39,9 +39,10 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	private static final String LOG_TAG = "M_MakePhoto";
 
-	private Uri imageUri;
-	private M_ImageView imageView;
 	private Bitmap takenBitmap;
+	private Uri takenBitmapUri;
+
+	private M_ImageView imageViewModifier;
 
 	private Activity activity;
 
@@ -58,26 +59,24 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	public M_MakePhoto(Uri uri) {
 		if (uri != null) {
-			setFileToLoadInImageViewFromUiThread(activity, toFile(uri));
+			setFileToLoadInImageView(IO.toFile(uri));
 		}
 	}
 
 	public M_MakePhoto(File f) {
 		setTakenBitmapFileAndUri(f);
-
 	}
 
-	public void setTakenBitmapFileAndUri(File takenBitmapFile) {
+	private void setTakenBitmapFileAndUri(File takenBitmapFile) {
 		if (takenBitmapFile != null) {
-			imageUri = Uri.fromFile(takenBitmapFile);
+			takenBitmapUri = IO.toUri(takenBitmapFile);
 		}
 	}
 
-	public void setFileToLoadInImageViewFromUiThread(Context context,
-			File bitmap) {
+	public void setFileToLoadInImageView(File bitmap) {
 		try {
 			setTakenBitmapFileAndUri(bitmap);
-			takenBitmap = IO.loadBitmapFromUri(imageUri);
+			takenBitmap = IO.loadBitmapFromUri(takenBitmapUri);
 			refreshImageInImageView();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +118,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			box.addView(c.getView(context));
 		}
 
-		imageView = new M_ImageView();
+		imageViewModifier = new M_ImageView();
 
 		if (takenBitmap != null && takenBitmap.isRecycled()) {
 			Log.w(LOG_TAG, "Image bitmap was recycled but "
@@ -127,14 +126,14 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			takenBitmap = null;
 		}
 
-		if (imageUri != null && takenBitmap == null) {
+		if (takenBitmapUri != null && takenBitmap == null) {
 			try {
-				takenBitmap = IO.loadBitmapFromUri(imageUri);
+				takenBitmap = IO.loadBitmapFromUri(takenBitmapUri);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		box.addView(imageView.getView(context));
+		box.addView(imageViewModifier.getView(context));
 		refreshImageInImageView();
 
 		M_Button bTakePhoto = new M_Button(R.drawable.ic_menu_camera,
@@ -191,8 +190,8 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		try {
 			file.getParentFile().mkdirs();
 			file.createNewFile();
-			imageUri = Uri.fromFile(file);
-			i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
+			takenBitmapUri = IO.toUri(file);
+			i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, takenBitmapUri);
 			KeepProcessAliveService.startKeepAliveService(activity);
 			Log.d(LOG_TAG, "Starting image capture to store in file: " + file);
 			activity.startActivityForResult(i, TAKE_PICTURE);
@@ -223,10 +222,10 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	@Override
 	public boolean save() {
-		if (imageUri == null) {
+		if (takenBitmapUri == null) {
 			return true;
 		}
-		if (save(activity, takenBitmap, toFile(imageUri))) {
+		if (save(activity, IO.toFile(takenBitmapUri))) {
 			Log.i(LOG_TAG,
 					"Save action correct so setting bitmap reference to null");
 			setTakenBitmap(null);
@@ -235,23 +234,12 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		return false;
 	}
 
-	private File toFile(Uri uri) {
-		if (uri == null) {
-			return null;
-		}
-		return new File(uri.getPath());
-	}
-
 	/**
 	 * @param activity
-	 * @param takenBitmap
-	 *            if you do not need the bitmap anymore call
-	 *            {@link Bitmap#recycle()} !
 	 * @param takenBitmapFile
 	 * @return
 	 */
-	public abstract boolean save(Activity activity, Bitmap takenBitmap,
-			File takenBitmapFile);
+	public abstract boolean save(Activity activity, File takenBitmapFile);
 
 	@Override
 	public boolean onCloseWindowRequest(Activity a) {
@@ -282,11 +270,11 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	}
 
 	private void refreshImageInImageView() {
-		if (imageView != null && takenBitmap != null) {
+		if (imageViewModifier != null && takenBitmap != null) {
 			// TODO process image
 			Log.d(LOG_TAG, "takenBitmap.getWidth()=" + takenBitmap.getWidth());
 			Log.d(LOG_TAG, "takenBitmap.getHeight()=" + takenBitmap.getHeight());
-			imageView.setImageBitmap(takenBitmap);
+			imageViewModifier.setImage(takenBitmapUri, takenBitmap);
 		}
 	}
 
@@ -330,13 +318,13 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			setTakenBitmap(BitmapFactory.decodeFile(filePath));
 			if (takenBitmap != null) {
 				setTakenBitmap(ImageTransform.rotateAndResizeBitmap(a,
-						takenBitmap, imageUri, maxWidth, maxHeight));
+						takenBitmap, takenBitmapUri, maxWidth, maxHeight));
 				if (rewriteImageToStorage) {
 					setTakenBitmapFileAndUri(new File(
 							Environment.getExternalStorageDirectory(),
 							getImageFileName()));
 					ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
-							toFile(imageUri), imageQuality);
+							IO.toFile(takenBitmapUri), imageQuality);
 				}
 			} else {
 				Log.e(LOG_TAG, "Could not load bitmap from file " + filePath);
@@ -391,18 +379,18 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		}
 		try {
 
-			if (imageUri == null && data != null) {
-				imageUri = data.getData();
+			if (takenBitmapUri == null && data != null) {
+				takenBitmapUri = data.getData();
 			}
-			a.getContentResolver().notifyChange(imageUri, null);
+			a.getContentResolver().notifyChange(takenBitmapUri, null);
 
-			setTakenBitmap(rotateAndResizeReceivedImage(a, imageUri, maxWidth,
-					maxHeight));
+			setTakenBitmap(rotateAndResizeReceivedImage(a, takenBitmapUri,
+					maxWidth, maxHeight));
 
 			setTakenBitmapFileAndUri(new File(
 					Environment.getExternalStorageDirectory(), imageFileName));
 			ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
-					toFile(imageUri), imageQuality);
+					IO.toFile(takenBitmapUri), imageQuality);
 
 		} catch (Exception e) {
 			e.printStackTrace();

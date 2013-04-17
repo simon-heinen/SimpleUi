@@ -10,7 +10,6 @@ import v3.M_MakePhoto;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -47,8 +46,7 @@ public class SimpleUiTestbed extends LinearLayout {
 			}
 
 			@Override
-			public boolean save(Activity activity, Bitmap takenBitmap,
-					File takenBitmapFile) {
+			public boolean save(Activity activity, File takenBitmapFile) {
 				// TODO Auto-generated method stub
 				return false;
 			}

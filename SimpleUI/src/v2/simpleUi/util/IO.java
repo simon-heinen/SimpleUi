@@ -437,6 +437,10 @@ public class IO {
 		return null;
 	}
 
+	public static Uri toUri(File file) {
+		return Uri.fromFile(file);
+	}
+
 	public static File toFile(Uri uri) {
 		if (uri == null) {
 			return null;
