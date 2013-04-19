@@ -26,6 +26,7 @@
         android:required="true" />
 
     <application
+        android:name="v2.simpleUi.SimpleUiApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
@@ -59,6 +60,18 @@
             android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
 
         <activity android:name="de.rwth.TestMapsV2Activity" >
+        </activity>
+        <activity
+            android:name="v2.simpleUi.util.ErrorHandler"
+            android:process=":myexeptionprocess"
+            android:taskAffinity="v2.simpleUi.util.ErrorHandler" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="errors/testErrorHandlerSimpleUiTests" />
+            </intent-filter>
         </activity>
     </application>
 

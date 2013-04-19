@@ -32,9 +32,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>srcSimpleUI</name>
+			<name>srcSimpleUi</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/SimpleUI/src</locationURI>
+			<locationURI>WORKSPACE_LOC/SimpleUi/SimpleUI/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
