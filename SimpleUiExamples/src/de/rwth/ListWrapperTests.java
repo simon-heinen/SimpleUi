@@ -14,7 +14,7 @@ import v3.M_TextModifier;
 import android.content.Context;
 import android.util.Log;
 
-public class ViewEditAssociationQuestion {
+public class ListWrapperTests {
 
 	public static void generateEditUiForAssociationQuestionQuestion(
 			M_Container container, Collection<String> getAnswers,
