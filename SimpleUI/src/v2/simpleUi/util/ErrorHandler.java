@@ -191,8 +191,6 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	private static String myMailSubject = "Error in DroidAR";
 
 	/**
-	 * DO NOT DELETE THIS CONSTURUCTOR!
-	 * 
 	 * use the {@link ErrorHandler#ErrorHandler(Activity) constructor instead}.
 	 * This constructor is required by the Android system and the
 	 * {@link ErrorHandler} can only work properly if a activity is provided, so
