@@ -40,6 +40,7 @@ public abstract class M_TextModifier implements ModifierInterface,
 	private OnClickListener myNotEditableInfo;
 	private String additionalInfoText;
 	private boolean inPasswordInputMode;
+	private boolean autoSuggestionsEnabled;
 
 	public M_TextModifier() {
 	}
@@ -110,6 +111,9 @@ public abstract class M_TextModifier implements ModifierInterface,
 		};
 		if (inPasswordInputMode) {
 			setEditTextToPWMode();
+		}
+		if (!autoSuggestionsEnabled) {
+			setAutoSuggestions(autoSuggestionsEnabled);
 		}
 		editText.setLayoutParams(p2);
 		editText.setText(load());
@@ -248,6 +252,23 @@ public abstract class M_TextModifier implements ModifierInterface,
 		}
 	}
 
+	public void setAutoSuggestions(final boolean autoSuggestionsEnabled) {
+		this.autoSuggestionsEnabled = autoSuggestionsEnabled;
+		if (editText != null) {
+			myHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					if (!autoSuggestionsEnabled) {
+						editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+					} else {
+						editText.setTransformationMethod(null);
+						editText.setInputType(InputType.TYPE_CLASS_TEXT);
+					}
+				}
+			});
+		}
+	}
+
 	private void setEditTextToPWMode() {
 		editText.setTransformationMethod(PasswordTransformationMethod
 				.getInstance());
@@ -261,4 +282,5 @@ public abstract class M_TextModifier implements ModifierInterface,
 		}
 		return null;
 	}
+
 }
