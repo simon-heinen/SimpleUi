@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
  */
 public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 
-	protected static final String LOG_TAG = "M_ListWrapperV2";
+	private static final String LOG_TAG = "M_ListWrapperV2";
 	private ArrayList<WrapperItem<T>> items;
 	private String addItemButtonText;
 	private LinearLayout linLayContainer;
@@ -61,8 +61,10 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 	public M_ListWrapperV2(Collection<T> initialList, String addButtonText) {
 		addItemButtonText = addButtonText;
 		items = new ArrayList<M_ListWrapperV2.WrapperItem<T>>();
-		for (T item : initialList) {
-			items.add(new WrapperItem<T>(item));
+		if (initialList != null) {
+			for (T item : initialList) {
+				items.add(new WrapperItem<T>(item));
+			}
 		}
 	}
 
@@ -235,6 +237,10 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 
 	public static M_ListWrapperV2<String> newStringCollectionModifier(
 			final Collection<String> list, String buttonText) {
+		if (list == null) {
+			Log.e(LOG_TAG, "Can't pass a null object for the target list");
+			return null;
+		}
 		return new M_ListWrapperV2<String>(list, buttonText) {
 			@Override
 			public ModifierInterface getModifierForItem(Context c,

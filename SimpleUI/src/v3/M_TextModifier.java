@@ -40,7 +40,7 @@ public abstract class M_TextModifier implements ModifierInterface,
 	private OnClickListener myNotEditableInfo;
 	private String additionalInfoText;
 	private boolean inPasswordInputMode;
-	private boolean autoSuggestionsEnabled;
+	private boolean autoSuggestionsEnabled = true;
 
 	public M_TextModifier() {
 	}
