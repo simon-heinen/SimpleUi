@@ -50,7 +50,9 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 				M_Button.this.onClick(context, button);
 			}
 		});
-		button.setText(myText);
+		if (myText != null) {
+			button.setText(myText);
+		}
 		button.setEnabled(enabled);
 		if (button.getPaddingLeft() == 0) {
 			int p = 12;

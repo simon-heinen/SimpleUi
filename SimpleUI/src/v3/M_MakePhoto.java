@@ -156,8 +156,29 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		};
 		box.addView(bSelectFromFile.getView(context));
 
+		M_Button deleteButton = new M_Button(R.drawable.ic_menu_delete,
+				getTextOnDeleteButton()) {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				if (onDeleteRequest((Activity) context)) {
+					removeImage();
+				}
+			}
+		};
+		box.addView(deleteButton.getView(context));
+
 		return box;
 	}
+
+	public void removeImage() {
+		imageViewModifier.removeImage();
+		takenBitmapUri = null;
+	}
+
+	public abstract boolean onDeleteRequest(Activity context);
+
+	public abstract String getTextOnDeleteButton();
 
 	/**
 	 * @return null to not add a caption
@@ -171,7 +192,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	public void takePhoto(Activity activity) {
 
 		/*
-		 * TODO check if sd card available if yes then do is the current way if
+		 * TODO check if sd card available if yes then do it the current way if
 		 * no use
 		 * 
 		 * i.putExtra( android.provider.MediaStore.EXTRA_OUTPUT,

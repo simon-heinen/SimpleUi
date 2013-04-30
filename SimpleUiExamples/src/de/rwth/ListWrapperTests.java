@@ -16,6 +16,8 @@ import android.util.Log;
 
 public class ListWrapperTests {
 
+	private static String LOG_TAG = "ListWrapperTests";
+
 	public static void generateEditUiForAssociationQuestionQuestion(
 			M_Container container, Collection<String> getAnswers,
 			ArrayList<String> getQuestions,

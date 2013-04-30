@@ -26,6 +26,7 @@ public class M_ImageView implements ModifierInterface {
 
 	private Integer imageBorderColor = Color.parseColor("#F5F1DE");
 	private int imageBorderSizeInPixel = 10;
+	private Bitmap oldBitmapToBeRecycled;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_ImageView() {
@@ -41,8 +42,7 @@ public class M_ImageView implements ModifierInterface {
 
 	private void setBitmap(Bitmap b) {
 		if (bitmap != null && !bitmap.isRecycled()) {
-			bitmap.recycle();
-			Log.i(LOG_TAG, "Last bitmap was recycled");
+			oldBitmapToBeRecycled = bitmap;
 		}
 		bitmap = b;
 	}
@@ -97,7 +97,7 @@ public class M_ImageView implements ModifierInterface {
 	}
 
 	private void refreshImageViewFromUiThread() {
-		if (bitmap == null || bitmap.isRecycled()) {
+		if (bitmapUri != null && (bitmap == null || bitmap.isRecycled())) {
 			Log.i(LOG_TAG, "Loading new bitmap for " + bitmapUri);
 			setBitmap(IO.loadBitmapFromUri(bitmapUri));
 		}
@@ -114,8 +114,15 @@ public class M_ImageView implements ModifierInterface {
 				if (imageBorderColor != null) {
 					// else clear image border
 					mImageView.setBackgroundColor(Color.TRANSPARENT);
-
 				}
+				mImageView.setImageBitmap(null);
+			}
+			if (oldBitmapToBeRecycled != null) {
+				if (!oldBitmapToBeRecycled.isRecycled()) {
+					oldBitmapToBeRecycled.recycle();
+					Log.i(LOG_TAG, "Last bitmap was recycled");
+				}
+				oldBitmapToBeRecycled = null;
 			}
 		}
 	}
@@ -133,8 +140,14 @@ public class M_ImageView implements ModifierInterface {
 	 *            same bitmap as this passed one!
 	 */
 	public void setImage(Uri bitmapUri, Bitmap bitmap) {
-		this.bitmapUri = bitmapUri;
-		this.bitmap = bitmap;
+		setBitmapUri(bitmapUri);
+		setBitmap(bitmap);
+		refreshImageView();
+	}
+
+	public void removeImage() {
+		setBitmapUri(null);
+		setBitmap(null);
 		refreshImageView();
 	}
 

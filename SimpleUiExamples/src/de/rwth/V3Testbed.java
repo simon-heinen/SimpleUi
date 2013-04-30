@@ -13,7 +13,6 @@ import v3.M_TextModifier;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.widget.Button;
 
 public class V3Testbed extends M_Container implements ActivityLifecycleListener {
@@ -25,8 +24,7 @@ public class V3Testbed extends M_Container implements ActivityLifecycleListener 
 		photo = new M_MakePhoto(file) {
 
 			@Override
-			public boolean save(Activity activity, Bitmap takenBitmap,
-					File takenBitmapFile) {
+			public boolean save(Activity activity, File takenBitmapFile) {
 				file = takenBitmapFile;
 				return false;
 			}
@@ -39,6 +37,17 @@ public class V3Testbed extends M_Container implements ActivityLifecycleListener 
 			@Override
 			public String getTextOnLoadFileButton() {
 				return "load photo";
+			}
+
+			@Override
+			public String getTextOnDeleteButton() {
+				return "Delete photo";
+			}
+
+			@Override
+			public boolean onDeleteRequest(Activity context) {
+				file = null;
+				return true;
 			}
 
 			@Override

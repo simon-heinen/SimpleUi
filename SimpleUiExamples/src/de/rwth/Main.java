@@ -44,7 +44,6 @@ import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -349,9 +348,8 @@ public class Main extends Activity {
 
 				// c.add(M_ListWrapperV2.newStringCollectionModifier(l1,
 				// "Add"));
-				ViewEditAssociationQuestion
-						.generateEditUiForAssociationQuestionQuestion(c,
-								answers, questions, numbers);
+				ListWrapperTests.generateEditUiForAssociationQuestionQuestion(
+						c, answers, questions, numbers);
 				SimpleUI.showCancelOkDialog(context, "Cancel", "Ok", c);
 			}
 		});
@@ -403,15 +401,25 @@ public class Main extends Activity {
 				c2.add(new M_MakePhoto(uri) {
 
 					@Override
-					public boolean save(Activity activity, Bitmap takenBitmap,
-							File takenBitmapFile) {
-						uri = Uri.fromFile(takenBitmapFile);
+					public boolean save(Activity activity, File takenBitmapFile) {
+						uri = IO.toUri(takenBitmapFile);
 						return true;
 					}
 
 					@Override
 					public String getTextOnTakePhotoButton() {
 						return "Make photo";
+					}
+
+					@Override
+					public String getTextOnDeleteButton() {
+						return "Delete photo";
+					}
+
+					@Override
+					public boolean onDeleteRequest(Activity context) {
+						uri = null;
+						return true;
 					}
 
 					@Override
@@ -431,12 +439,7 @@ public class Main extends Activity {
 					}
 				});
 
-				c2.add(new M_ImageView() {
-					@Override
-					public Bitmap loadBitmapFromUrl(String url) {
-						return IO.loadBitmapFromUri(uri);
-					}
-				});
+				c2.add(new M_ImageView(uri));
 
 				SimpleUI.showCancelOkDialog(Main.this, "Cancel", "Save", c2);
 

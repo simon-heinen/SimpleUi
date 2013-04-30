@@ -46,6 +46,18 @@ public class SimpleUiTestbed extends LinearLayout {
 			}
 
 			@Override
+			public String getTextOnDeleteButton() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public boolean onDeleteRequest(Activity context) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+
+			@Override
 			public boolean save(Activity activity, File takenBitmapFile) {
 				// TODO Auto-generated method stub
 				return false;
