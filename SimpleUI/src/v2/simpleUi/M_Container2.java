@@ -18,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
  * A collapsible container
@@ -171,41 +172,49 @@ public class M_Container2 extends ArrayList<ModifierInterface> implements
 
 	private void removeAllOldViewsAndAddAllModifiersAgain() {
 		expandablePanel.removeAllViews();
-		fillPanel(expandablePanel.getContext());
+		fillPanel(expandablePanel.getContext(), expandablePanel);
 	}
 
 	@Override
 	public View getView(Context context) {
 		expandablePanel = new ExpandableLinearLayout(context, null, listener);
-		fillPanel(context);
+		fillPanel(context, expandablePanel);
 		if (backgroundDrawable != null) {
 			expandablePanel.setBackgroundDrawable(backgroundDrawable);
 		}
+
+		// LinearLayout outerContainer = new LinearLayout(context);
+		// ScrollView scrollContainer = new ScrollView(context);
+		// outerContainer.addView(scrollContainer);
+		// scrollContainer.addView(expandablePanel);
+
 		return expandablePanel;
 	}
 
-	protected void fillPanel(Context context) {
+	protected void fillPanel(Context context, LinearLayout targetBox) {
 
-		if (decorator != null) {
-			int level = decorator.getCurrentLevel();
-			decorator.decorate(context, expandablePanel, level,
+		UiDecorator uiDecorator = this.decorator;
+
+		if (uiDecorator != null) {
+			int level = uiDecorator.getCurrentLevel();
+			uiDecorator.decorate(context, targetBox, level,
 					UiDecorator.TYPE_CONTAINER);
-			decorator.setCurrentLevel(level + 1);
+			uiDecorator.setCurrentLevel(level + 1);
 		}
 
 		for (int i = 0; i < this.size(); i++) {
 			ModifierInterface m = this.get(i);
 			if (m != null) {
 				View v = m.getView(context);
-				expandablePanel.addView(v);
+				targetBox.addView(v);
 			}
 		}
 
-		if (decorator != null) {
+		if (uiDecorator != null) {
 			/*
 			 * Then reduce level again to the previous value
 			 */
-			decorator.setCurrentLevel(decorator.getCurrentLevel() - 1);
+			uiDecorator.setCurrentLevel(uiDecorator.getCurrentLevel() - 1);
 		}
 	}
 

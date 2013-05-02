@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -122,8 +123,22 @@ public abstract class M_Spinner implements ModifierInterface {
 	public void reloadItemsInSpinner(final Context context) {
 		spinnerItemsList = loadListToDisplay();
 		ArrayAdapter<SpinnerItem> a = new ArrayAdapter<SpinnerItem>(context,
-				android.R.layout.simple_spinner_item, spinnerItemsList);
-		a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				android.R.layout.simple_spinner_item, spinnerItemsList) {
+
+			@Override
+			public View getDropDownView(int position, View convertView,
+					ViewGroup parent) {
+				/*
+				 * There is a bug in later android versions which prevents the
+				 * full text to be displayed normally when a long text is shown.
+				 * this is a fix for that problem
+				 */
+				M_InfoText t = new M_InfoText(getItem(position).text);
+				return t.getView(getContext());
+			}
+
+		};
+		a.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
 		int oldPos = s.getSelectedItemPosition();
 		if (oldPos != AdapterView.INVALID_POSITION) {
 			selectedItemPos = oldPos;
