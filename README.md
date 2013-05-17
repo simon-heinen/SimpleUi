@@ -20,12 +20,14 @@ alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 
 
-
-
 ##Example APK
 ![](http://simpleui.googlecode.com/files/simpeUiExampleAPK.png "QR Code")
 
 The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/bin/SimpleUiExamples.apk)
+
+##Installation in Eclipse
+1. Import the SimpleUi project
+2. Add the google play services to the linked libraries
 
 ##Screenshots
 The following example designs can be created in minutes using SimpleUI. For more infos read (http://andrdev.blogspot.de/2012/04/simpleui-v2.html)
