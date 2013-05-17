@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 import v3.maps.SimpleGestureListener.SimpleTouchEventInterface;
+import android.annotation.SuppressLint;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+@SuppressLint("ValidFragment")
 public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 		SimpleTouchEventInterface, OnMarkerClickListener, OnMarkerDragListener,
 		OnCameraChangeListener {
