@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import v1.Headline;
 import v1.InfoText;
 import v1.V1SimpleUI;
@@ -68,7 +70,6 @@ public class Main extends Activity {
 				"errors/testErrorHandlerSimpleUiTests");
 		ErrorHandler.enableEmailReports("simon.heinen@gmail.com",
 				"Error in SimpleUi Test project");
-
 		M_Container c = new M_Container();
 
 		addListWrapperTestUi(c);

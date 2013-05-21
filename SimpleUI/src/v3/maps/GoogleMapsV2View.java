@@ -85,7 +85,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	public static class Overlay extends LinkedHashSet<Marker> {
 
 		private Integer defaultIconId;
-		private GoogleMapsV2View googleMap;
+		private final GoogleMapsV2View googleMap;
 
 		public Overlay(GoogleMapsV2View googleMap) {
 			this.googleMap = googleMap;
@@ -165,11 +165,15 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 					.icon(BitmapDescriptorFactory
 							.fromResource(markerDrawableId))
 					.draggable(moovable);
-			Marker marker = googleMap.getMap().addMarker(options);
-			googleMap.listeners.put(marker, markerListener);
-			add(marker);
-			Log.d(LOG_TAG, "overlay.add marker");
-			return marker;
+			if (googleMap.getMap() != null) {
+				Marker marker = googleMap.getMap().addMarker(options);
+				googleMap.listeners.put(marker, markerListener);
+				add(marker);
+				Log.d(LOG_TAG, "overlay.add marker");
+				return marker;
+			}
+			Log.w(LOG_TAG, "googleMap.getMap() was null");
+			return null;
 
 		}
 
@@ -184,7 +188,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 
 	private FrameLayout container;
 	private ArrayList<Overlay> overlays;
-	private boolean longPressEnanabled = true;
+	private final boolean longPressEnanabled = true;
 	private GestureDetector myGestureDetector;
 	/**
 	 * If the screen is rotated e.g. the
@@ -192,7 +196,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	 * again. this flag can be used to reinitialize the map
 	 */
 	private boolean firstTimeThisMapIsShown = true;
-	private HashMap<Marker, MarkerListener> listeners = new HashMap<Marker, GoogleMapsV2View.MarkerListener>();
+	private final HashMap<Marker, MarkerListener> listeners = new HashMap<Marker, GoogleMapsV2View.MarkerListener>();
 
 	private MapsV2EventListener eventListener;
 
