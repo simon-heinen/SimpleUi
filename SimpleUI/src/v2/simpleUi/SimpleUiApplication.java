@@ -26,14 +26,14 @@ import android.util.Log;
  */
 public class SimpleUiApplication extends Application {
 	private static final String LOG_TAG = "SimpleUiApplication";
-	private HashMap<String, Object> transfairList;
+	private HashMap<String, Object> transferList;
 	private static Context context;
 
-	public HashMap<String, Object> getTransfairList() {
-		if (transfairList == null) {
-			transfairList = new HashMap<String, Object>();
+	public HashMap<String, Object> getTransferList() {
+		if (transferList == null) {
+			transferList = new HashMap<String, Object>();
 		}
-		return transfairList;
+		return transferList;
 	}
 
 	@Override
@@ -71,9 +71,9 @@ public class SimpleUiApplication extends Application {
 	 * @param object
 	 * @return the key for the new object
 	 */
-	public String addToTransfairList(Object object) {
+	public String addToTransferList(Object object) {
 		String newKey = new Date().toString() + object.toString();
-		getTransfairList().put(newKey, object);
+		getTransferList().put(newKey, object);
 		return newKey;
 	}
 

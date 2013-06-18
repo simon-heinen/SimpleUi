@@ -348,9 +348,9 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 			Object itemToDisplay) {
 
 		String newKey = new Date().toString() + itemToDisplay.toString();
-		getApplication(c).getTransfairList().put(newKey, itemToDisplay);
+		getApplication(c).getTransferList().put(newKey, itemToDisplay);
 		if (DEBUG) {
-			getApplication(c).getTransfairList();
+			getApplication(c).getTransferList();
 		}
 		return newKey;
 	}
@@ -367,12 +367,12 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 								+ "loaded application were not "
 								+ "equal! Replacing old reference");
 					}
-					tr = application.getTransfairList();
+					tr = application.getTransferList();
 				}
 				application = app;
 				// try to resque all the objects from the old list:
 				if (tr != null) {
-					application.getTransfairList().putAll(tr);
+					application.getTransferList().putAll(tr);
 				}
 			}
 		}
@@ -385,7 +385,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 
 	private static Object loadObjectFromTransfairList(Activity a, String key) {
 		HashMap<String, Object> transfairList = getApplication(a)
-				.getTransfairList();
+				.getTransferList();
 		if (key == null) {
 			if (DEBUG) {
 				Log.i(LOG_TAG, "passed key was null, will"
