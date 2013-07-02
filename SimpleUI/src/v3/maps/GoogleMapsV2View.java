@@ -454,23 +454,32 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 	}
 
 	public void setSatellite(boolean b) {
+		GoogleMap m = getMap();
+		if (m == null) {
+			Log.w(LOG_TAG, "getMap() was null when setSatellite() called");
+			return;
+		}
 		if (b) {
-			getMap().setMapType(GoogleMap.MAP_TYPE_HYBRID);
+			m.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 		} else {
-			getMap().setMapType(GoogleMap.MAP_TYPE_NORMAL);
+			m.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		}
 
 	}
 
 	private void showUserLocation(boolean userPositionDisplayed) {
-		getMap().setMyLocationEnabled(userPositionDisplayed);
+		if (getMap() != null) {
+			getMap().setMyLocationEnabled(userPositionDisplayed);
+		} else {
+			Log.w(LOG_TAG, "getMap() was null when showUserLocation() called");
+		}
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		// now the map is ready
-		if (firstTimeThisMapIsShown) {
+		if (getMap() != null && firstTimeThisMapIsShown) {
 			Log.d(LOG_TAG, "First time the map is shown");
 			getMap().setOnMyLocationChangeListener(eventListener);
 			getMap().setOnMarkerClickListener(this);
@@ -479,6 +488,8 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 			eventListener.onMapViewIsReadyForTheFirstTime(this, getActivity(),
 					getMap());
 			firstTimeThisMapIsShown = false;
+		} else if (getMap() == null) {
+			Log.w(LOG_TAG, "getMap() was null when onViewCreated was called!");
 		} else {
 			Log.d(LOG_TAG,
 					"Map view was restored, not calling onMapViewIsReady(..)");
