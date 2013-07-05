@@ -20,6 +20,51 @@ alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 
 
+#Details
+The SimpleUI component is a user interface generator based on the model view controller pattern. It was created for fast prototyping and to generate dynamic views based on the presented content. It is built in a modular way to allow including single independent components into an existing architecture, but it can also be used as a complete replacement for the activity system in Android. 
+
+***
+
+ ![13](https://lh3.googleusercontent.com/-McqXOnZT8Ps/Uda8FJA-frI/AAAAAAAAXEU/sc8kyxsE9T0/w1082-h709-no/13.png)
+
+(Figure 13)  UI generation with SimpleUI
+
+
+***
+
+The different modifiers represent best practice use cases and hide all the internal logic to simplify the development process. They wrap compositions of views and provide interfaces for logical interaction. The template method pattern is used to provide the fundamental methods to the developer and all modifiers follow the same lifecycle concept. Similar to web forms a modifier loads its content when it is displayed to the user and listens to a save event to push the changes back to the model when the user confirms the changes.
+
+***
+
+ ![14](https://lh3.googleusercontent.com/-PDVy9A-KPBE/Uda8Fhg7sII/AAAAAAAAXEY/37np33-BDxk/w1169-h605-no/14.png)
+
+(Figure 14)	Example modifiers
+
+***
+
+
+Snippet 6 shows a basic example of a created controller which can interact with the user and which generates the UI shown in figure 14. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
+ 
+***
+
+![6](https://lh4.googleusercontent.com/-i1tZs0b3OOw/Uda8GWz5dqI/AAAAAAAAXEg/adIJyAeGbkc/w486-h367-no/6.png)
+
+(Snippet 6)	The code for the controller
+
+         
+![15](https://lh4.googleusercontent.com/-nCqauKTm7-E/Uda8FAZ736I/AAAAAAAAXEM/CDfomidAD9Y/w276-h235-no/15.png)
+
+(Figure 15)	The generated view
+
+
+***
+
+### Error Handler
+
+The error handler can be used to catch any type of exception to give the user a better feedback and the possibility to report an existing problem with a shipped application. The Error-Handler implements the UncaughtExceptionHandler-interface provided by Android and thus can be registered as the default uncaught exception handler. The same way crash reports are collected, users can also report problems manually. The error reports are sent via email to give the user the full control what is send and when it should be send.
+It should be noted that the ErrorHandler-activity cannot be displayed by the same Android process that reported the crash since this process is in an undefined state. Therefore the error handler has to be started via an intent and handled like an external application. This is done by setting both the android:taskAffinity and android:process attributes to values different from the main activity (Google n.d.).
+
+
 ##Example APK
 ![](http://simpleui.googlecode.com/files/simpeUiExampleAPK.png "QR Code")
 
