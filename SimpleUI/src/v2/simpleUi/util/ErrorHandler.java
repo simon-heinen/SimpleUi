@@ -217,6 +217,32 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		}
 	}
 
+	/**
+	 * @param a
+	 * @param errorToShow
+	 * @param keepBrokenProcessRunning
+	 * @param mimeType
+	 *            read {@link ErrorHandler#DATA_ANDROID_MIME_TYPE}
+	 * @param errorMailAddress
+	 */
+	public static void showErrorActivity(Activity a, Throwable errorToShow,
+			boolean keepBrokenProcessRunning, String mimeType,
+			String errorMailAddress) {
+		errorToShow.printStackTrace();
+		showErrorActivity(a, throwableToString(errorToShow), null,
+				keepBrokenProcessRunning, mimeType, errorMailAddress);
+	}
+
+	/**
+	 * use
+	 * {@link ErrorHandler#showErrorActivity(Activity, Throwable, boolean, String)}
+	 * instead
+	 * 
+	 * @param a
+	 * @param errorToShow
+	 * @param keepBrokenProcessRunning
+	 */
+	@Deprecated
 	public static void showErrorActivity(Activity a, Throwable errorToShow,
 			boolean keepBrokenProcessRunning) {
 		errorToShow.printStackTrace();
@@ -256,18 +282,46 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		return s;
 	}
 
+	/**
+	 * use
+	 * {@link ErrorHandler#showErrorActivity(Activity, String, String[], boolean, String)}
+	 * instead
+	 * 
+	 * @param activity
+	 * @param errorText
+	 * @param optionalFilePathsToSend
+	 * @param keepBrokenProcessRunning
+	 */
+	@Deprecated
 	public static void showErrorActivity(final Activity activity,
 			final String errorText, String[] optionalFilePathsToSend,
 			boolean keepBrokenProcessRunning) {
+		showErrorActivity(activity, errorText, optionalFilePathsToSend,
+				keepBrokenProcessRunning, DATA_ANDROID_MIME_TYPE,
+				myDeveloperMailAdress);
+	}
 
+	/**
+	 * @param activity
+	 * @param errorText
+	 * @param optionalFilePathsToSend
+	 * @param keepBrokenProcessRunning
+	 * @param mimeTypeString
+	 *            read {@link ErrorHandler#DATA_ANDROID_MIME_TYPE}
+	 * @param errorMailAddress
+	 */
+	public static void showErrorActivity(final Activity activity,
+			final String errorText, String[] optionalFilePathsToSend,
+			boolean keepBrokenProcessRunning, String mimeTypeString,
+			String errorMailAddress) {
 		if (activity != null) {
 			myCurrentActivity = activity;
 			Intent i = new Intent(Intent.ACTION_VIEW);
 			i.putExtra(PASSED_ERROR_TEXT_ID, errorText);
 			i.putExtra(PASSED_FILE_ID, optionalFilePathsToSend);
-			i.putExtra(DEV_MAIL_ID, myDeveloperMailAdress);
+			i.putExtra(DEV_MAIL_ID, errorMailAddress);
 			i.putExtra(MAIL_TITLE_ID, myMailSubject);
-			i.setType(DATA_ANDROID_MIME_TYPE);
+			i.setType(mimeTypeString);
 			Log.e("ErrorHandler", "Starting from " + activity + " to "
 					+ ErrorHandler.class);
 			activity.startActivity(i);
