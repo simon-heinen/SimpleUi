@@ -591,7 +591,8 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 
 	@Override
 	public void uncaughtException(final Thread thread, final Throwable ex) {
-		Log.e(LOG_TAG, "A wild 'Uncaught exeption' appeares!");
+		Log.e(LOG_TAG,
+				"A wild 'Uncaught exeption' appears! uncaughtException called");
 		ex.printStackTrace();
 		if (myCurrentActivity != null) {
 			Log.e("ErrorHandler", "Starting error activity");
