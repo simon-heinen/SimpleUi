@@ -27,6 +27,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -189,6 +191,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	private static UncaughtExceptionHandler defaultHandler;
 	private static String myDeveloperMailAdress;
 	private static String myMailSubject = "Error in DroidAR";
+	private String myErrorText;
 
 	/**
 	 * use the {@link ErrorHandler#ErrorHandler(Activity) constructor instead}.
@@ -282,6 +285,22 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		return s;
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(Menu.NONE, 1, Menu.NONE, "Throw error again");
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == 1) {
+			if (myErrorText != null) {
+				new Exception(myErrorText).printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * use
 	 * {@link ErrorHandler#showErrorActivity(Activity, String, String[], boolean, String)}
@@ -344,8 +363,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String myErrorText = getIntent().getExtras().getString(
-				PASSED_ERROR_TEXT_ID);
+		myErrorText = getIntent().getExtras().getString(PASSED_ERROR_TEXT_ID);
 		String[] errorFiles = getIntent().getExtras().getStringArray(
 				PASSED_FILE_ID);
 		/*

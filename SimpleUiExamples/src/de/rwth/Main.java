@@ -69,7 +69,7 @@ public class Main extends Activity {
 		ErrorHandler.enableEmailReports("simon.heinen@gmail.com",
 				"Error in SimpleUi Test project");
 
-		throwExceptionForErrorHandlerTesting();
+		// throwExceptionForErrorHandlerTesting();
 
 		M_Container c = new M_Container();
 
