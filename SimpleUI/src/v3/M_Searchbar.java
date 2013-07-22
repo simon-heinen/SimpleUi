@@ -114,6 +114,7 @@ public abstract class M_Searchbar implements ModifierInterface, UiDecoratable {
 		setEditable(isEditable());
 
 		applyTextFilterIfNeeded(editText);
+		l.addView(editText);
 
 		ImageButton b = new ImageButton(context);
 		b.setImageResource(getButtonIcon());
@@ -124,9 +125,8 @@ public abstract class M_Searchbar implements ModifierInterface, UiDecoratable {
 				onSearchRequest(editText.getText().toString());
 			}
 		});
-		l.addView(b);
 
-		l.addView(editText);
+		l.addView(b);
 		l.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING,
 				DEFAULT_PADDING);
 

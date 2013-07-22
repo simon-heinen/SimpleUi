@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -194,20 +193,28 @@ public class IO {
 
 	/**
 	 * @param filename
-	 *            something like "/sdcard/test.txt"
+	 *            something like
+	 *            Environment.getExternalStorageDirectory().getAbsolutePath() +
+	 *            File.Separator +"test.txt"
 	 * @param objectToSave
 	 * @throws IOException
 	 */
 	public static void saveSerializableToExternalStorage(String filename,
 			Serializable objectToSave) throws IOException {
-		FileOutputStream foStream = new FileOutputStream(filename);
+
+		File file = new File(filename);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+		}
+		FileOutputStream foStream = new FileOutputStream(file);
 		saveSerializableToStream(objectToSave, foStream);
 	}
 
 	public static void saveSerializableToPrivateStorage(Context context,
 			String filename, Serializable objectToSave) throws IOException {
 		FileOutputStream fileOut = context.openFileOutput(filename,
-				Activity.MODE_PRIVATE);
+				Context.MODE_PRIVATE);
 		saveSerializableToStream(objectToSave, fileOut);
 	}
 
@@ -256,7 +263,7 @@ public class IO {
 	public static class Settings {
 
 		Context context;
-		private String mySettingsName;
+		private final String mySettingsName;
 		/**
 		 * The editor is stored as a field because every
 		 * {@link SharedPreferences}.edit() call will create a new
