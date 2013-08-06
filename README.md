@@ -27,7 +27,7 @@ The SimpleUI component is a user interface generator based on the model view con
 
  ![13](https://lh3.googleusercontent.com/-McqXOnZT8Ps/Uda8FJA-frI/AAAAAAAAXEU/sc8kyxsE9T0/w1082-h709-no/13.png)
 
-(Figure 13)  UI generation with SimpleUI
+(Figure 1)  UI generation with SimpleUI
 
 
 ***
@@ -38,23 +38,23 @@ The different modifiers represent best practice use cases and hide all the inter
 
  ![14](https://lh3.googleusercontent.com/-PDVy9A-KPBE/Uda8Fhg7sII/AAAAAAAAXEY/37np33-BDxk/w1169-h605-no/14.png)
 
-(Figure 14)	Example modifiers
+(Figure 2)	Example modifiers
 
 ***
 
 
-Snippet 6 shows a basic example of a created controller which can interact with the user and which generates the UI shown in figure 14. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
+Snippet 1 shows a basic example of a created controller which can interact with the user and which generates the UI shown in figure 3. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
  
 ***
 
 ![6](https://lh4.googleusercontent.com/-i1tZs0b3OOw/Uda8GWz5dqI/AAAAAAAAXEg/adIJyAeGbkc/w486-h367-no/6.png)
 
-(Snippet 6)	The code for the controller
+(Snippet 1)	The code for the controller
 
          
 ![15](https://lh4.googleusercontent.com/-nCqauKTm7-E/Uda8FAZ736I/AAAAAAAAXEM/CDfomidAD9Y/w276-h235-no/15.png)
 
-(Figure 15)	The generated view
+(Figure 3)	The generated view
 
 
 ***
