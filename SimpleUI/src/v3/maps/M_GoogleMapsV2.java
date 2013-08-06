@@ -32,6 +32,7 @@ public abstract class M_GoogleMapsV2 implements ModifierInterface,
 	private GoogleMapsV2View mapView;
 	private Resources resources;
 	private boolean isFirstUpdate = true;
+	private static Location currentUserPos;
 
 	@Override
 	public View getView(Context context) {
@@ -40,24 +41,70 @@ public abstract class M_GoogleMapsV2 implements ModifierInterface,
 		resources = v.getResources();
 		// the map is in a scroll view so the default match parrend wount help
 		// for the height:
-		v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+		v.setLayoutParams(new LayoutParams(
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,
 				getMapHeight()));
 		return v;
 	}
 
 	@Override
 	public void onMyLocationChange(Location location) {
+		currentUserPos = location;
 		onDevicePosUpdate(mapView.getActivity(), mapView, toLatLng(location),
 				location, isFirstUpdate);
 		isFirstUpdate = false;
+	}
+
+	public LatLng getCurrentUserLocationAsLatLng(Context context) {
+		return toLatLng(getCurrentUserLocation(context));
+	}
+
+	/**
+	 * iterates through the different map types like satellite, normal map, etc
+	 */
+	public void switchToNextMapType() {
+		if (mapView != null && mapView.getMap() != null) {
+			int type = mapView.getMap().getMapType();
+			if (type == GoogleMap.MAP_TYPE_NORMAL) {
+				type = GoogleMap.MAP_TYPE_SATELLITE;
+			} else if (type == GoogleMap.MAP_TYPE_SATELLITE) {
+				type = GoogleMap.MAP_TYPE_HYBRID;
+			} else if (type == GoogleMap.MAP_TYPE_HYBRID) {
+				type = GoogleMap.MAP_TYPE_TERRAIN;
+			} else if (type == GoogleMap.MAP_TYPE_TERRAIN) {
+				type = GoogleMap.MAP_TYPE_NORMAL;
+			}
+			mapView.getMap().setMapType(type);
+		}
+	}
+
+	public Location getCurrentUserLocation(Context context) {
+		if (currentUserPos == null) {
+			currentUserPos = mapView.getMap().getMyLocation();
+			if (currentUserPos == null) {
+				Log.i(LOG_TAG, "Current position not known jet, "
+						+ "will use last known position instead");
+				currentUserPos = new GeoUtils(context).getLastKnownPosition();
+			}
+		}
+		return currentUserPos;
 	}
 
 	public LatLng toLatLng(Location location) {
 		return new LatLng(location.getLatitude(), location.getLongitude());
 	}
 
+	/**
+	 * @param activity
+	 * @param mapView
+	 * @param currentUserPos
+	 * @param currentUserPosAsLocation
+	 * @param firstUpdate
+	 *            true if this method is called the first time
+	 */
 	public void onDevicePosUpdate(Activity activity, I_MapView mapView,
-			LatLng pos, Location posAsLocation, boolean firstUpdate) {
+			LatLng currentUserPos, Location currentUserPosAsLocation,
+			boolean firstUpdate) {
 	}
 
 	public int getDisplayHeightInDip(Activity a) {

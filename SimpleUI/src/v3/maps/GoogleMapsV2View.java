@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -490,6 +491,8 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 			firstTimeThisMapIsShown = false;
 		} else if (getMap() == null) {
 			Log.w(LOG_TAG, "getMap() was null when onViewCreated was called!");
+			Toast.makeText(getActivity(), "Update your Google Maps",
+					Toast.LENGTH_LONG).show();
 		} else {
 			Log.d(LOG_TAG,
 					"Map view was restored, not calling onMapViewIsReady(..)");
