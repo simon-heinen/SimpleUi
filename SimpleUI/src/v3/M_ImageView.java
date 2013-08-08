@@ -18,14 +18,14 @@ import android.widget.LinearLayout;
 
 public class M_ImageView implements ModifierInterface {
 
-	protected static final String LOG_TAG = "M_ImageView";
+	private static final String LOG_TAG = "M_ImageView";
 	private ImageView mImageView;
 
 	private Uri bitmapUri;
 	private Bitmap bitmap;
 
 	private Integer imageBorderColor = Color.parseColor("#F5F1DE");
-	private int imageBorderSizeInPixel = 10;
+	private final int imageBorderSizeInPixel = 10;
 	private Bitmap oldBitmapToBeRecycled;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 

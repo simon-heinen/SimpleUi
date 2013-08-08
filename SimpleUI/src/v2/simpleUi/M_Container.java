@@ -20,10 +20,11 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 			.argb(200, 0, 0, 0);
 	private static final BGUtils BACKGROUND = BGUtils.newGrayBackground();
 	private UiDecorator myDecorator;
+	private Context context;
 
 	@Override
 	public View getView(Context target) {
-
+		this.context = target;
 		LinearLayout containerForAllItems = new LinearLayout(target);
 		ScrollView scrollContainer = new ScrollView(target);
 		LinearLayout mostOuterBox = new LinearLayout(target);
@@ -66,6 +67,10 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 		}
 
 		return mostOuterBox;
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 	protected void setWindowBackgroundColor(Context c,
