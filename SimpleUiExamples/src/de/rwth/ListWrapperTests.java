@@ -20,8 +20,7 @@ public class ListWrapperTests {
 
 	public static void generateEditUiForAssociationQuestionQuestion(
 			M_Container container, Collection<String> getAnswers,
-			ArrayList<String> getQuestions,
-			ArrayList<Integer> getCorrectAnswerNrs) {
+			ArrayList<String> getQuestions, ArrayList<Long> getCorrectAnswerNrs) {
 
 		container.add(new M_InfoText("Antwortenliste"));
 		M_ListWrapperV2<String> m = M_ListWrapperV2
@@ -36,7 +35,7 @@ public class ListWrapperTests {
 
 	private static M_ListWrapperV2<String> newQuestionCollectionModifier(
 			final ArrayList<String> questions,
-			final ArrayList<Integer> correctAnswerNumbers, String buttonText,
+			final ArrayList<Long> correctAnswerNumbers, String buttonText,
 			final M_ListWrapperV2<String> answerListModifier) {
 
 		return new M_ListWrapperV2<String>(questions, buttonText, 5, 1) {
@@ -55,7 +54,7 @@ public class ListWrapperTests {
 
 						int answerNumberPosInList = posInList;
 						Log.d(LOG_TAG, "question nr=" + answerNumberPosInList);
-						int posOfNewSelectedAnswer = selectedItem.getId();
+						long posOfNewSelectedAnswer = selectedItem.getId();
 						if (answerNumberPosInList < correctAnswerNumbers.size()) {
 							Log.d(LOG_TAG,
 									"   > old value (old answer nr="
@@ -78,7 +77,7 @@ public class ListWrapperTests {
 						if (posOfCorrespondingAnswer == -1) {
 							return 0;
 						}
-						return correctAnswerNumbers
+						return (int) (long) correctAnswerNumbers
 								.get(posOfCorrespondingAnswer);
 					}
 

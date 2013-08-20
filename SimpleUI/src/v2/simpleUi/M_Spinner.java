@@ -27,10 +27,10 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	public static class SpinnerItem {
 
-		private int id;
-		private String text;
+		private final long id;
+		private final String text;
 
-		public SpinnerItem(int id, String text) {
+		public SpinnerItem(long id, String text) {
 			this.id = id;
 			this.text = text;
 		}
@@ -39,7 +39,7 @@ public abstract class M_Spinner implements ModifierInterface {
 			return text;
 		}
 
-		public int getId() {
+		public long getId() {
 			return id;
 		}
 
@@ -184,7 +184,7 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	@Override
 	public boolean save() {
-		if (s.getSelectedItemId() == s.INVALID_ROW_ID) {
+		if (s.getSelectedItemId() == AdapterView.INVALID_ROW_ID) {
 			return false;
 		}
 		return save((SpinnerItem) s.getSelectedItem());

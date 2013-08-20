@@ -342,10 +342,10 @@ public class Main extends Activity {
 		questions.add("fB");
 		questions.add("fC");
 
-		final ArrayList<Integer> numbers = new ArrayList<Integer>();
-		numbers.add(2);
-		numbers.add(1);
-		numbers.add(0);
+		final ArrayList<Long> numbers = new ArrayList<Long>();
+		numbers.add(2L);
+		numbers.add(1L);
+		numbers.add(0L);
 
 		c.add(new M_Button("List wrapper test ui") {
 
