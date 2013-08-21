@@ -52,6 +52,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 public class Main extends Activity {
 
 	protected static final String LOG_TAG = "Main";
@@ -59,6 +61,18 @@ public class Main extends Activity {
 	private double doubleValue1;
 	private double doubleValue2;
 	private int intValue;
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		EasyTracker.getInstance(this).activityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

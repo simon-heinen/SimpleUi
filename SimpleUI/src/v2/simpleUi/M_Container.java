@@ -6,6 +6,7 @@ import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import v2.simpleUi.util.BGUtils;
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -19,6 +20,7 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 	private static final int OUTER_BACKGROUND_DIMMING_COLOR = android.graphics.Color
 			.argb(200, 0, 0, 0);
 	private static final BGUtils BACKGROUND = BGUtils.newGrayBackground();
+	private static final String LOG_TAG = "M_Container";
 	private UiDecorator myDecorator;
 	private Context context;
 
@@ -104,10 +106,18 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 
 	@Override
 	public String toString() {
-		if (!isEmpty() && get(0) instanceof M_Caption) {
-			return "'Container with name " + get(0).toString() + "'";
+		if (!isEmpty()) {
+			if (get(0).getClass() == M_Caption.class
+					|| get(0).getClass().isAssignableFrom(M_Caption.class)
+					|| M_Caption.class.isAssignableFrom(get(0).getClass())) {
+				return "Screen with " + get(0).toString();
+			} else {
+				Log.w(LOG_TAG, "first element is a " + get(0).getClass() + ": "
+						+ get(0));
+			}
 		}
-		return super.toString();
+
+		return "Screen: " + super.toString();
 	}
 
 	@Override

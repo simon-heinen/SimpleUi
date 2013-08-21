@@ -21,6 +21,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Logger.LogLevel;
+import com.google.analytics.tracking.android.MapBuilder;
+
 /**
  * Don't forget to add<br>
  * <br>
@@ -324,6 +330,18 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 		if (DEBUG) {
 			Log.v(LOG_TAG, "onStart" + " by " + this);
 		}
+		EasyTracker t = EasyTracker.getInstance(this);
+		GoogleAnalytics.getInstance(this).getLogger()
+				.setLogLevel(LogLevel.VERBOSE);
+		t.activityStart(this);
+		if (myModifier != null) {
+			String screenName = "" + this.myModifier.getClass() + ": "
+					+ this.myModifier;
+			MapBuilder a = MapBuilder.createAppView();
+			a.set(Fields.SCREEN_NAME, screenName);
+			t.send(a.build());
+			Log.i(LOG_TAG, "Analytics info sent: Showing " + screenName);
+		}
 	}
 
 	@Override
@@ -338,6 +356,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 			m.onStop(this);
 		}
 		super.onStop();
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	/**
