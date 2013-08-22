@@ -6,7 +6,6 @@ import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import v2.simpleUi.util.BGUtils;
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -110,14 +109,16 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 			if (get(0).getClass() == M_Caption.class
 					|| get(0).getClass().isAssignableFrom(M_Caption.class)
 					|| M_Caption.class.isAssignableFrom(get(0).getClass())) {
-				return "Screen with " + get(0).toString();
+				return "Screen " + get(0).toString();
 			} else {
-				Log.w(LOG_TAG, "first element is a " + get(0).getClass() + ": "
-						+ get(0));
+				String cl = "";
+				for (ModifierInterface m : this) {
+					cl += m.getClass() + ",";
+				}
+				return "(" + this.size() + ")[" + cl + "]";
 			}
 		}
-
-		return "Screen: " + super.toString();
+		return getClass() + "(0)[]";
 	}
 
 	@Override

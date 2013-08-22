@@ -23,8 +23,6 @@ import android.widget.Button;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Logger.LogLevel;
 import com.google.analytics.tracking.android.MapBuilder;
 
 /**
@@ -49,6 +47,8 @@ import com.google.analytics.tracking.android.MapBuilder;
  * 
  */
 public class SimpleUI extends Activity implements SimpleUIInterface {
+
+	public static final String TRACK_DEFAULT_CATEGORY = "defEvents";
 
 	public interface OptionsMenuListener {
 
@@ -135,14 +135,19 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	}
 
 	public static ModifierInterface newOkButton(String okButtonText,
-			final ModifierInterface targetModifier) {
+			final ModifierInterface targetContainer) {
 
 		return new M_Button(okButtonText) {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				if (targetModifier.save() && context instanceof Activity) {
+				if (targetContainer.save() && context instanceof Activity) {
+					track(context, "okSucc", "OkPress "
+							+ getTrackText(targetContainer));
 					((Activity) context).finish();
+				} else {
+					track(context, "okError", "OkPress "
+							+ getTrackText(targetContainer));
 				}
 			}
 		};
@@ -163,6 +168,43 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	}
 
 	/**
+	 * see {@link SimpleUI#track(Context, String, String, String, Long)}
+	 * 
+	 * @param c
+	 * @param action
+	 * @param label
+	 */
+	public static void track(Context c, String action, String label) {
+		track(c, TRACK_DEFAULT_CATEGORY, action, label, null);
+	}
+
+	/**
+	 * https://developers.google.com/analytics/devguides/collection/android/v3/
+	 * events
+	 * 
+	 * @param c
+	 * @param category
+	 *            the category of the event (you can use the placeholder
+	 *            {@link SimpleUI#TRACK_DEFAULT_CATEGORY} or define your own one
+	 * @param action
+	 *            the action like "coinsCollectedIngame"
+	 * @param label
+	 *            the label like "User collected coins"
+	 * @param value
+	 *            e.g. the amount of coins the user collected
+	 */
+	public static void track(Context c, String category, String action,
+			String label, Long value) {
+		if (c != null) {
+			EasyTracker.getInstance(c).send(
+					MapBuilder.createEvent(category, action, label, value)
+							.build());
+		} else {
+			Log.w(LOG_TAG, "track: c was null");
+		}
+	}
+
+	/**
 	 * uses a default {@link CancelOkListener} which just closes the window on
 	 * cancel and executes the save command on ok
 	 * 
@@ -179,6 +221,8 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 					public void onCancel(Context context,
 							M_Container targetContainer) {
 						if (context instanceof Activity) {
+							track(context, "cancelPress", "Cancelled "
+									+ getTrackText(targetContainer));
 							((Activity) context).finish();
 						}
 					}
@@ -186,9 +230,15 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 					@Override
 					public void onOk(Context context,
 							M_Container targetContainer) {
+
 						if (targetContainer.save()
 								&& context instanceof Activity) {
+							track(context, "saveSucc", "SavePress "
+									+ getTrackText(targetContainer));
 							((Activity) context).finish();
+						} else {
+							track(context, "saveError", "SavePress "
+									+ getTrackText(targetContainer));
 						}
 					}
 
@@ -330,18 +380,17 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 		if (DEBUG) {
 			Log.v(LOG_TAG, "onStart" + " by " + this);
 		}
-		EasyTracker t = EasyTracker.getInstance(this);
-		GoogleAnalytics.getInstance(this).getLogger()
-				.setLogLevel(LogLevel.VERBOSE);
-		t.activityStart(this);
+
 		if (myModifier != null) {
-			String screenName = "" + this.myModifier.getClass() + ": "
-					+ this.myModifier;
-			MapBuilder a = MapBuilder.createAppView();
-			a.set(Fields.SCREEN_NAME, screenName);
-			t.send(a.build());
-			Log.i(LOG_TAG, "Analytics info sent: Showing " + screenName);
+			trackStart(this, getTrackText(myModifier));
 		}
+	}
+
+	public static String getTrackText(ModifierInterface m) {
+		if (m == null) {
+			return null;
+		}
+		return "" + m.getClass() + ":" + m;
 	}
 
 	@Override
@@ -356,7 +405,23 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 			m.onStop(this);
 		}
 		super.onStop();
-		EasyTracker.getInstance(this).activityStop(this);
+		trackStop(this);
+	}
+
+	public static void trackStart(Activity a, String screenName) {
+		EasyTracker t = EasyTracker.getInstance(a);
+		if (screenName != null) {
+			t.set(Fields.SCREEN_NAME, screenName);
+			MapBuilder map = MapBuilder.createAppView();
+			map.set(Fields.SCREEN_NAME, screenName);
+			t.send(map.build());
+			Log.d(LOG_TAG, "Analytics info sent: 'Showing " + screenName + "'");
+		}
+		t.activityStart(a);
+	}
+
+	public static void trackStop(Activity a) {
+		EasyTracker.getInstance(a).activityStop(a);
 	}
 
 	/**

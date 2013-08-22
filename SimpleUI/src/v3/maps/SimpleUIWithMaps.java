@@ -110,6 +110,18 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 	}
 
 	@Override
+	protected void onStart() {
+		SimpleUI.trackStart(this, SimpleUI.getTrackText(myModifier));
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		SimpleUI.trackStop(this);
+		super.onStop();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		if (getMyModifier() instanceof ActivityLifecycleListener) {
