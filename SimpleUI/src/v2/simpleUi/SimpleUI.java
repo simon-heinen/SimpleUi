@@ -43,6 +43,14 @@ import com.google.analytics.tracking.android.MapBuilder;
  * {@link Activity} but is not required to be able to use
  * {@link ModifierInterface}s.
  * 
+ * <br>
+ * <br>
+ * To enable analytics include a analytics.xml file in your project as
+ * instructed in
+ * https://developers.google.com/analytics/devguides/collection/android/v3/
+ * events
+ * 
+ * 
  * @author Simon Heinen
  * 
  */
