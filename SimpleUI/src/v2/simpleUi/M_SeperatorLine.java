@@ -1,7 +1,7 @@
 package v2.simpleUi;
 
+import tools.ImageTransform;
 import v2.simpleUi.util.BGUtils;
-import v2.simpleUi.util.ImageTransform;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.View;

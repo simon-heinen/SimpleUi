@@ -1,7 +1,7 @@
 package v3.maps;
 
+import tools.ImageTransform;
 import v2.simpleUi.ModifierInterface;
-import v2.simpleUi.util.ImageTransform;
 import v3.maps.GoogleMapsV2View.MapsV2EventListener;
 import android.app.Activity;
 import android.content.Context;

@@ -3,13 +3,13 @@ package v3;
 import java.io.File;
 import java.io.IOException;
 
+import tools.IO;
+import tools.ImageTransform;
+import tools.KeepProcessAliveService;
 import v2.simpleUi.ActivityLifecycleListener;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.ModifierInterface;
-import v2.simpleUi.util.IO;
-import v2.simpleUi.util.ImageTransform;
-import v2.simpleUi.util.KeepProcessAliveService;
 import android.R;
 import android.annotation.TargetApi;
 import android.app.Activity;

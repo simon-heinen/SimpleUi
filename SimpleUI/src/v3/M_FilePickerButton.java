@@ -2,9 +2,9 @@ package v3;
 
 import java.io.File;
 
+import tools.KeepProcessAliveService;
 import v2.simpleUi.ActivityLifecycleListener;
 import v2.simpleUi.M_Button;
-import v2.simpleUi.util.KeepProcessAliveService;
 import android.R;
 import android.app.Activity;
 import android.content.Context;

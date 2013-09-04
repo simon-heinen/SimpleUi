@@ -1,6 +1,6 @@
 package v2.simpleUi.customViews;
 
-import v2.simpleUi.util.ImageTransform;
+import tools.ImageTransform;
 import android.R;
 import android.content.Context;
 import android.graphics.Bitmap;

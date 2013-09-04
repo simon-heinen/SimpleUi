@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-import v2.simpleUi.util.ErrorHandler;
+import tools.ErrorHandler;
 import v3.simpleUi.SimpleUIInterface;
 import android.R;
 import android.app.Activity;

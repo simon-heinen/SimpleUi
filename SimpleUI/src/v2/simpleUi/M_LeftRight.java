@@ -1,8 +1,8 @@
 package v2.simpleUi;
 
+import tools.ImageTransform;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
-import v2.simpleUi.util.ImageTransform;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;

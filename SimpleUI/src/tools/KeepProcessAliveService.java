@@ -1,4 +1,4 @@
-package v2.simpleUi.util;
+package tools;
 
 import android.R;
 import android.app.IntentService;

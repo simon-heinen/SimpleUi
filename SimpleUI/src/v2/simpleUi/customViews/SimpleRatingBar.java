@@ -3,9 +3,9 @@ package v2.simpleUi.customViews;
 import java.util.ArrayList;
 import java.util.List;
 
+import tools.IO;
+import tools.ImageTransform;
 import v2.simpleUi.util.ColorCollections;
-import v2.simpleUi.util.IO;
-import v2.simpleUi.util.ImageTransform;
 import v2.simpleUi.util.NameGenerator;
 import android.content.Context;
 import android.content.res.Resources;
