@@ -57,7 +57,7 @@ import android.widget.Button;
  * <span class=SpellE><span
  * style='color:#7F007F'>android:name</span></span><span
  * style='color:black'>=</span><i><span style='color:#2A00FF'>&quot;<span
- * class=SpellE>v2.simpleUi.util.ErrorHandler</span>&quot;</span></i> <span
+ * class=SpellE>tools.ErrorHandler</span>&quot;</span></i> <span
  * class=SpellE><span style='color:#7F007F'>android:process</span></span><span
  * style='color:black'>=</span><i><span style='color:#2A00FF'>&quot;:<span
  * class=SpellE>myexeptionprocess</span>&quot;</span></i><o:p></o:p></span>
@@ -69,7 +69,7 @@ import android.widget.Button;
  * style='mso-tab-count: 1'> </span><span class=SpellE><span
  * style='color:#7F007F'>android:taskAffinity</span></span><span
  * style='color:black'>=</span><i><span style='color:#2A00FF'>&quot;<span
- * class=SpellE>v2.simpleUi.util.ErrorHandler</span>&quot;</span></i><span
+ * class=SpellE>tools.ErrorHandler</span>&quot;</span></i><span
  * style='color: teal'>&gt;</span><o:p></o:p></span>
  * </p>
  * 

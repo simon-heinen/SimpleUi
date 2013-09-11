@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import tools.ErrorHandler;
+import tools.IO;
+import tools.SimpleAsyncTask;
 import v1.Headline;
 import v1.InfoText;
 import v1.V1SimpleUI;
@@ -26,10 +29,7 @@ import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;
 import v2.simpleUi.uiDecoration.ExampleDecorator;
 import v2.simpleUi.util.DragAndDropListener;
-import v2.simpleUi.util.ErrorHandler;
-import v2.simpleUi.util.IO;
 import v2.simpleUi.util.ProgressScreen;
-import v2.simpleUi.util.SimpleAsyncTask;
 import v3.M_DateModifier;
 import v3.M_FilePickerButton;
 import v3.M_ImageView;
@@ -78,7 +78,7 @@ public class Main extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		v2.simpleUi.util.ErrorHandler.registerNewErrorHandler(this,
+		ErrorHandler.registerNewErrorHandler(this,
 				"errors/testErrorHandlerSimpleUiTests");
 		ErrorHandler.enableEmailReports("simon.heinen@gmail.com",
 				"Error in SimpleUi Test project");

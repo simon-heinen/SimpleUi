@@ -62,9 +62,9 @@
         <activity android:name="de.rwth.TestMapsV2Activity" >
         </activity>
         <activity
-            android:name="v2.simpleUi.util.ErrorHandler"
+            android:name="tools.ErrorHandler"
             android:process=":myexeptionprocess"
-            android:taskAffinity="v2.simpleUi.util.ErrorHandler" >
+            android:taskAffinity="tools.ErrorHandler" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 

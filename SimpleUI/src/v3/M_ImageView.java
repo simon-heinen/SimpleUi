@@ -13,13 +13,16 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 
 public class M_ImageView implements ModifierInterface {
 
 	private static final String LOG_TAG = "M_ImageView";
-	private ImageView mImageView;
+	private ImageView imageView;
 
 	private Uri bitmapUri;
 	private Bitmap bitmap;
@@ -27,6 +30,9 @@ public class M_ImageView implements ModifierInterface {
 	private Integer imageBorderColor = Color.parseColor("#F5F1DE");
 	private final int imageBorderSizeInPixel = 10;
 	private Bitmap oldBitmapToBeRecycled;
+	private TextView imageCaption;
+	private String caption;
+	private OnClickListener imageClickListener;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_ImageView() {
@@ -53,7 +59,7 @@ public class M_ImageView implements ModifierInterface {
 
 	@Override
 	public View getView(Context context) {
-		mImageView = new ImageView(context) {
+		imageView = new ImageView(context) {
 
 			@Override
 			protected void onAttachedToWindow() {
@@ -67,17 +73,47 @@ public class M_ImageView implements ModifierInterface {
 				setBitmap(null);
 			}
 		};
-
-		if (mImageView.getBackground() != null) {
+		if (imageClickListener != null) {
+			setImageClickListener(imageClickListener);
+		}
+		if (imageView.getBackground() != null) {
 			imageBorderColor = null;
 		}
 
 		LinearLayout linlay = new LinearLayout(context);
 		linlay.setGravity(Gravity.CENTER_HORIZONTAL);
+		linlay.setOrientation(LinearLayout.VERTICAL);
 		int p = DEFAULT_PADDING;
 		linlay.setPadding(p, p, p, p);
-		linlay.addView(mImageView);
+		linlay.addView(imageView);
+		imageCaption = new TextView(context);
+		imageCaption.setGravity(Gravity.CENTER_HORIZONTAL);
+		if (caption == null) {
+			imageCaption.setVisibility(View.GONE);
+		} else {
+			setImageCaption(caption);
+		}
+		linlay.addView(imageCaption);
 		return linlay;
+	}
+
+	public void setImageCaption(String newCaption) {
+		this.caption = newCaption;
+		myHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				if (imageCaption != null) {
+					if (caption != null) {
+						imageCaption.setText(caption);
+						imageCaption.setVisibility(View.VISIBLE);
+					} else {
+						imageCaption.setVisibility(View.GONE);
+					}
+				}
+			}
+		});
+
 	}
 
 	private void refreshImageView() {
@@ -101,21 +137,25 @@ public class M_ImageView implements ModifierInterface {
 			Log.i(LOG_TAG, "Loading new bitmap for " + bitmapUri);
 			setBitmap(IO.loadBitmapFromUri(bitmapUri));
 		}
-		if (mImageView != null) {
+		if (imageView != null) {
 			if (bitmap != null) {
 				if (imageBorderColor != null) {
-					mImageView.setBackgroundColor(imageBorderColor);
+					imageView.setBackgroundColor(imageBorderColor);
 				}
-				mImageView.setPadding(imageBorderSizeInPixel,
+				LayoutParams p = new LayoutParams(
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+				imageView.setLayoutParams(p);
+				imageView.setPadding(imageBorderSizeInPixel,
 						imageBorderSizeInPixel, imageBorderSizeInPixel,
 						imageBorderSizeInPixel);
-				mImageView.setImageBitmap(bitmap);
+				imageView.setImageBitmap(bitmap);
 			} else {
 				if (imageBorderColor != null) {
 					// else clear image border
-					mImageView.setBackgroundColor(Color.TRANSPARENT);
+					imageView.setBackgroundColor(Color.TRANSPARENT);
 				}
-				mImageView.setImageBitmap(null);
+				imageView.setImageBitmap(null);
 			}
 			if (oldBitmapToBeRecycled != null) {
 				if (!oldBitmapToBeRecycled.isRecycled()) {
@@ -124,6 +164,19 @@ public class M_ImageView implements ModifierInterface {
 				}
 				oldBitmapToBeRecycled = null;
 			}
+		}
+	}
+
+	public void setImageClickListener(OnClickListener l) {
+		imageClickListener = l;
+		if (imageView != null) {
+			myHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					imageView.setOnClickListener(imageClickListener);
+				}
+			});
 		}
 	}
 
