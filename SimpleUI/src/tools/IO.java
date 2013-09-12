@@ -257,6 +257,10 @@ public class IO {
 		ObjectInputStream inStream = new ObjectInputStream(gzipStream);
 		Object loadedObject = inStream.readObject();
 		inStream.close();
+		if (loadedObject == null) {
+			throw new ClassNotFoundException(
+					"Class found but loaded object was null");
+		}
 		return loadedObject;
 	}
 
