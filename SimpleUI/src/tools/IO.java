@@ -220,6 +220,9 @@ public class IO {
 
 	private static void saveSerializableToStream(Serializable objectToSave,
 			FileOutputStream foStream) throws IOException {
+		if (objectToSave == null) {
+			throw new IOException("objectToSave was null, will not save this");
+		}
 		GZIPOutputStream gzioStream = new GZIPOutputStream(foStream);
 		ObjectOutputStream outStream = new ObjectOutputStream(gzioStream);
 		outStream.writeObject(objectToSave);
