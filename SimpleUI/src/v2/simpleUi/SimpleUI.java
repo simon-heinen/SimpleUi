@@ -417,15 +417,20 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	}
 
 	public static void trackStart(Activity a, String screenName) {
-		EasyTracker t = EasyTracker.getInstance(a);
-		if (screenName != null) {
-			t.set(Fields.SCREEN_NAME, screenName);
-			MapBuilder map = MapBuilder.createAppView();
-			map.set(Fields.SCREEN_NAME, screenName);
-			t.send(map.build());
-			Log.d(LOG_TAG, "Analytics info sent: 'Showing " + screenName + "'");
+		try {
+			EasyTracker t = EasyTracker.getInstance(a);
+			if (screenName != null) {
+				t.set(Fields.SCREEN_NAME, screenName);
+				MapBuilder map = MapBuilder.createAppView();
+				map.set(Fields.SCREEN_NAME, screenName);
+				t.send(map.build());
+				Log.d(LOG_TAG, "Analytics info sent: 'Showing " + screenName
+						+ "'");
+			}
+			t.activityStart(a);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		t.activityStart(a);
 	}
 
 	public static void trackStop(Activity a) {
