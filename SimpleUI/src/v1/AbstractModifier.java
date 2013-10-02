@@ -16,7 +16,7 @@ public abstract class AbstractModifier implements ModifierInterface, HasTheme {
 
 	/* (non-Javadoc)
 	 * @see gui.simpleUI.v1.HasTheme#getTheme()
-	 */
+	 */ 
 	@Override
 	public Theme getTheme() {
 		return myTheme;
