@@ -40,6 +40,7 @@ public abstract class M_TextModifier implements ModifierInterface,
 	private OnClickListener myNotEditableInfo;
 	private String additionalInfoText;
 	private boolean inPasswordInputMode;
+	private boolean inMailInputMode;
 	private boolean autoSuggestionsEnabled = true;
 
 	public M_TextModifier() {
@@ -111,6 +112,8 @@ public abstract class M_TextModifier implements ModifierInterface,
 		};
 		if (inPasswordInputMode) {
 			setEditTextToPWMode();
+		} else if (inMailInputMode) {
+			setEditTextToEmailMode();
 		}
 		if (!autoSuggestionsEnabled) {
 			setAutoSuggestions(autoSuggestionsEnabled);
@@ -137,6 +140,11 @@ public abstract class M_TextModifier implements ModifierInterface,
 		}
 
 		return l;
+	}
+
+	public void setEditTextToEmailMode() {
+		editText.setInputType(InputType.TYPE_CLASS_TEXT
+				| InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 	}
 
 	public void setHorizontalScrollable(boolean horizontalScrollable) {
@@ -243,6 +251,23 @@ public abstract class M_TextModifier implements ModifierInterface,
 				public void run() {
 					if (inPasswordInputMode) {
 						setEditTextToPWMode();
+					} else {
+						editText.setTransformationMethod(null);
+						editText.setInputType(InputType.TYPE_CLASS_TEXT);
+					}
+				}
+			});
+		}
+	}
+
+	public void isMailInput(boolean mailInputMode) {
+		this.inMailInputMode = mailInputMode;
+		if (editText != null) {
+			myHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					if (inMailInputMode) {
+						setEditTextToEmailMode();
 					} else {
 						editText.setTransformationMethod(null);
 						editText.setInputType(InputType.TYPE_CLASS_TEXT);
