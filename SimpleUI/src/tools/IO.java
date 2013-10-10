@@ -94,6 +94,17 @@ public class IO {
 		return BitmapFactory.decodeFile(imagePath, bitmapOptions);
 	}
 
+	public static Bitmap loadBitmapFromJar(String path) {
+		try {
+			InputStream stream = Thread.currentThread().getContextClassLoader()
+					.getResource(path).openStream();
+			return BitmapFactory.decodeStream(stream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static Bitmap loadBitmapFromFile(File file) {
 		if (file == null) {
 			return null;
