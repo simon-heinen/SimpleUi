@@ -91,6 +91,10 @@ public abstract class M_GoogleMapsV2 implements ModifierInterface,
 	}
 
 	public LatLng toLatLng(Location location) {
+		if (location == null) {
+			Log.e(LOG_TAG, "location=null was passed to toLatLng");
+			return null;
+		}
 		return new LatLng(location.getLatitude(), location.getLongitude());
 	}
 
