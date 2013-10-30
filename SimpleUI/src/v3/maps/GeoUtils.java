@@ -1,8 +1,10 @@
 package v3.maps;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+import tools.IO;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +32,9 @@ import android.util.Log;
 public class GeoUtils {
 
 	private static final String LOG_TAG = "Geo Utils";
-	private Geocoder myGeoCoder;
-	private Context myContext;
+	private static final String POSITION_BACKUP_FILE = "simpleui_geoutils_posbackup";
+	private final Geocoder myGeoCoder;
+	private final Context myContext;
 
 	public GeoUtils(Context context) {
 		myContext = context;
@@ -210,7 +213,46 @@ public class GeoUtils {
 				bestLocation = currentLocation;
 			}
 		}
+		if (bestLocation == null) {
+			// if its still null try to load it from the internal storage
+			bestLocation = loadLocationFromBackupFile();
+		} else {
+			savePosToBackupFile(myContext, bestLocation);
+		}
 		return bestLocation;
+	}
+
+	public static void savePosToBackupFile(Context context, Location pos) {
+		try {
+			HashMap<String, Float> x = new HashMap<String, Float>();
+			x.put("latitude", (float) pos.getLatitude());
+			x.put("longitude", (float) pos.getLongitude());
+			x.put("accuracy", pos.getAccuracy());
+			x.put("time", (float) pos.getTime());
+			IO.saveSerializableToPrivateStorage(context, POSITION_BACKUP_FILE,
+					x);
+		} catch (Exception e) {
+			Log.e(LOG_TAG, "Position backup could not be saved:");
+			e.printStackTrace();
+		}
+	}
+
+	public Location loadLocationFromBackupFile() {
+		try {
+			HashMap<String, Float> x = (HashMap<String, Float>) IO
+					.loadSerializableFromPrivateStorage(myContext,
+							POSITION_BACKUP_FILE);
+			Location pos = new Location("lastStoredPos");
+			pos.setLatitude(x.get("latitude"));
+			pos.setLongitude(x.get("longitude"));
+			pos.setAccuracy(x.get("accuracy"));
+			pos.setTime((long) (float) x.get("time"));
+			return pos;
+		} catch (Exception e) {
+			Log.e(LOG_TAG, "Position backup could not be loaded:");
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private static void pokeGPSButton(Activity activity) {
