@@ -21,6 +21,7 @@ import v2.simpleUi.M_Double;
 import v2.simpleUi.M_EmailInput;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.M_Integer;
+import v2.simpleUi.M_LeftRight;
 import v2.simpleUi.M_PlusMinus;
 import v2.simpleUi.M_SpinnerWithCheckboxes;
 import v2.simpleUi.M_SpinnerWithCheckboxes.SpinnerItem;
@@ -46,6 +47,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +55,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.squareup.picasso.Picasso;
 
 public class Main extends Activity {
 
@@ -86,6 +89,8 @@ public class Main extends Activity {
 		// throwExceptionForErrorHandlerTesting();
 
 		M_Container c = new M_Container();
+
+		// addImageView(c);
 
 		addListWrapperTestUi(c);
 
@@ -337,6 +342,22 @@ public class Main extends Activity {
 
 		setContentView(c.getView(this));
 
+	}
+
+	public void addImageView(M_Container c) {
+		M_ImageView image = new M_ImageView();
+		Picasso p = Picasso.with(this);
+		p.setDebugging(true);
+		File f = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/Haus-Wiesenweg-Nacht_01.jpg");
+		System.out.println("file " + f + " exists=" + f.exists());
+		p.load(Uri.fromFile(f)).into(image);
+		p.load(Uri
+				.parse("http://www.fertighaus-keitel.de/uploads/tx_7thsensegallery/Haus-Wiesenweg-Nacht_01.jpg"))
+				.into(image);
+
+		// c.add(image);
+		c.add(new M_LeftRight(image, 1, new M_InfoText("<-image"), 1));
 	}
 
 	private void throwExceptionForErrorHandlerTesting() {

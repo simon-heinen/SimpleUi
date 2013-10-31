@@ -19,7 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-public class M_ImageView implements ModifierInterface {
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso.LoadedFrom;
+import com.squareup.picasso.Target;
+
+public class M_ImageView implements ModifierInterface, Target {
 
 	private static final String LOG_TAG = "M_ImageView";
 	private ImageView imageView;
@@ -38,10 +42,22 @@ public class M_ImageView implements ModifierInterface {
 	public M_ImageView() {
 	}
 
+	/**
+	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
+	 * 
+	 * @param uri
+	 */
+	@Deprecated
 	public M_ImageView(Uri uri) {
 		setBitmapUri(uri);
 	}
 
+	/**
+	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
+	 * 
+	 * @param imageFile
+	 */
+	@Deprecated
 	public M_ImageView(File imageFile) {
 		setBitmapUri(IO.toUri(imageFile));
 	}
@@ -53,6 +69,16 @@ public class M_ImageView implements ModifierInterface {
 		bitmap = b;
 	}
 
+	/**
+	 * Manually setting the bitmap object or uri is now deprecated, use the
+	 * {@link Picasso} class instead like this:
+	 * 
+	 * Picasso.with(context).load(Uri.parse("http://wikipedia.de/img/logo.png"))
+	 * .into(imageViewModifier);
+	 * 
+	 * @param bitmapUri
+	 */
+	@Deprecated
 	public void setBitmapUri(Uri bitmapUri) {
 		this.bitmapUri = bitmapUri;
 	}
@@ -79,8 +105,11 @@ public class M_ImageView implements ModifierInterface {
 		if (imageView.getBackground() != null) {
 			imageBorderColor = null;
 		}
-
 		LinearLayout linlay = new LinearLayout(context);
+		LayoutParams params = new LayoutParams(
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		linlay.setLayoutParams(params);
 		linlay.setGravity(Gravity.CENTER_HORIZONTAL);
 		linlay.setOrientation(LinearLayout.VERTICAL);
 		int p = DEFAULT_PADDING;
@@ -138,18 +167,19 @@ public class M_ImageView implements ModifierInterface {
 			setBitmap(IO.loadBitmapFromUri(bitmapUri));
 		}
 		if (imageView != null) {
-			if (bitmap != null) {
+			if (bitmap != null && !bitmap.isRecycled()) {
 				if (imageBorderColor != null) {
 					imageView.setBackgroundColor(imageBorderColor);
 				}
 				LayoutParams p = new LayoutParams(
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-				imageView.setLayoutParams(p);
+				imageView.setAdjustViewBounds(true);
 				imageView.setPadding(imageBorderSizeInPixel,
 						imageBorderSizeInPixel, imageBorderSizeInPixel,
 						imageBorderSizeInPixel);
 				imageView.setImageBitmap(bitmap);
+				imageView.setLayoutParams(p);
 			} else {
 				if (imageBorderColor != null) {
 					// else clear image border
@@ -157,13 +187,13 @@ public class M_ImageView implements ModifierInterface {
 				}
 				imageView.setImageBitmap(null);
 			}
-			if (oldBitmapToBeRecycled != null) {
-				if (!oldBitmapToBeRecycled.isRecycled()) {
-					oldBitmapToBeRecycled.recycle();
-					Log.i(LOG_TAG, "Last bitmap was recycled");
-				}
-				oldBitmapToBeRecycled = null;
+		}
+		if (oldBitmapToBeRecycled != null) {
+			if (!oldBitmapToBeRecycled.isRecycled()) {
+				oldBitmapToBeRecycled.recycle();
+				Log.i(LOG_TAG, "Last bitmap was recycled");
 			}
+			oldBitmapToBeRecycled = null;
 		}
 	}
 
@@ -186,12 +216,15 @@ public class M_ImageView implements ModifierInterface {
 	}
 
 	/**
+	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
+	 * 
 	 * @param bitmapUri
 	 * @param bitmap
 	 *            optional. the bitmap if it was already loaded from the image
 	 *            uri. reloading the bitmap from the imageUri must result in the
 	 *            same bitmap as this passed one!
 	 */
+	@Deprecated
 	public void setImage(Uri bitmapUri, Bitmap bitmap) {
 		setBitmapUri(bitmapUri);
 		setBitmap(bitmap);
@@ -204,4 +237,16 @@ public class M_ImageView implements ModifierInterface {
 		refreshImageView();
 	}
 
+	@Override
+	public void onBitmapFailed() {
+		Log.e(LOG_TAG,
+				"Could not load bitmap in this modifier " + this.getClass());
+	}
+
+	@Override
+	public void onBitmapLoaded(Bitmap b, LoadedFrom arg1) {
+		Log.d(LOG_TAG, "Image arived: " + b.getHeight() + "x" + b.getWidth());
+		setBitmap(b);
+		refreshImageView();
+	}
 }
