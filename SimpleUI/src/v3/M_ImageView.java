@@ -106,10 +106,10 @@ public class M_ImageView implements ModifierInterface, Target {
 			imageBorderColor = null;
 		}
 		LinearLayout linlay = new LinearLayout(context);
-		LayoutParams params = new LayoutParams(
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-		linlay.setLayoutParams(params);
+		// LayoutParams params = new LayoutParams(
+		// android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+		// android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		// linlay.setLayoutParams(params);
 		linlay.setGravity(Gravity.CENTER_HORIZONTAL);
 		linlay.setOrientation(LinearLayout.VERTICAL);
 		int p = DEFAULT_PADDING;

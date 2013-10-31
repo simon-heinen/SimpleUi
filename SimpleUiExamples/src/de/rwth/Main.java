@@ -90,7 +90,7 @@ public class Main extends Activity {
 
 		M_Container c = new M_Container();
 
-		// addImageView(c);
+		addImageView(c);
 
 		addListWrapperTestUi(c);
 
@@ -352,9 +352,7 @@ public class Main extends Activity {
 				.getAbsolutePath() + "/Haus-Wiesenweg-Nacht_01.jpg");
 		System.out.println("file " + f + " exists=" + f.exists());
 		p.load(Uri.fromFile(f)).into(image);
-		p.load(Uri
-				.parse("http://www.fertighaus-keitel.de/uploads/tx_7thsensegallery/Haus-Wiesenweg-Nacht_01.jpg"))
-				.into(image);
+		p.load(Uri.parse("http://wikipedia.de/img/logo.png")).into(image);
 
 		// c.add(image);
 		c.add(new M_LeftRight(image, 1, new M_InfoText("<-image"), 1));
