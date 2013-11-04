@@ -1,24 +1,36 @@
 package v3.maps;
 
 import v2.simpleUi.ActivityLifecycleListener;
+import v2.simpleUi.M_Button;
+import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_Container;
+import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;
 import v2.simpleUi.SimpleUI.OptionsMenuListener;
 import v2.simpleUi.SimpleUiApplication;
 import v3.simpleUi.SimpleUIInterface;
+import android.R;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public abstract class SimpleUIWithMaps extends FragmentActivity implements
 		SimpleUIInterface {
 
+	private static final String LOG_TAG = "SimpleUIWithMaps";
 	private View ViewToShow;
 	private ModifierInterface myModifier;
 
@@ -49,7 +61,9 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		SimpleUiApplication.setContext(this);
-		SimpleUI.onCreate(this, icicle);
+		if (playServicesInstalled()) {
+			SimpleUI.onCreate(this, icicle);
+		}
 	}
 
 	@Override
@@ -112,7 +126,53 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 	@Override
 	protected void onStart() {
 		SimpleUI.trackStart(this, SimpleUI.getTrackText(myModifier));
-		super.onStart();
+
+		try {
+			super.onStart();
+		} catch (NoClassDefFoundError e) {
+			// this should never happen, NoClassDefFoundError can't be catched
+			// TODO
+			e.printStackTrace();
+			showMapsNotInstalledError(this);
+		}
+	}
+
+	private boolean playServicesInstalled() {
+		int result = GooglePlayServicesUtil
+				.isGooglePlayServicesAvailable(getBaseContext());
+		if (result == ConnectionResult.SUCCESS) {
+			Log.d(LOG_TAG, "isGooglePlayServicesAvailable=true");
+			return true;
+		} else if (GooglePlayServicesUtil.isUserRecoverableError(result)) {
+			int requestCode = 1337; // TODO does it matter which code?
+			GooglePlayServicesUtil.getErrorDialog(result, this, requestCode)
+					.show();
+		} else {
+			showMapsNotInstalledError(this);
+		}
+		Log.e(LOG_TAG, "isGooglePlayServicesAvailable=false");
+		return false;
+	}
+
+	private void showMapsNotInstalledError(Context c) {
+		M_Container infos = new M_Container();
+		infos.add(new M_Caption("Setup"));
+		infos.add(new M_InfoText(R.drawable.ic_dialog_alert,
+				"Google Maps missing! This app needs Google Maps to run properly"));
+		infos.add(new M_Button("Install Google Maps from Play Store") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+
+				if (context instanceof Activity) {
+					Intent goToMarket = new Intent(Intent.ACTION_VIEW).setData(Uri
+							.parse("market://details?id=com.google.android.apps.maps"));
+					startActivity(goToMarket);
+					finish();
+				}
+			}
+		});
+		SimpleUI.showInfoDialog(c, "Ok", infos);
 	}
 
 	@Override

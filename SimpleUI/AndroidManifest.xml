@@ -4,12 +4,17 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" 
-        android:targetSdkVersion="15"/>
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
 
     <application
         android:icon="@drawable/icon"
         android:label="SimpleUI" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="4030500" />
+
         <activity
             android:name="v1.V1SimpleUI"
             android:theme="@android:style/Theme.Translucent" >
