@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import v2.simpleUi.SimpleUiApplication;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -34,6 +35,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+
+import com.squareup.picasso.Picasso;
 
 public class IO {
 
@@ -139,6 +142,17 @@ public class IO {
 	 * @return
 	 */
 	public static Bitmap loadBitmapFromURL(String url) {
+		return loadBitmapFromUrl(SimpleUiApplication.getContext(), url);
+	}
+
+	public static Bitmap loadBitmapFromUrl(Context c, String url) {
+		try {
+			if (c != null) {
+				return Picasso.with(c).load(url).get();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url)

@@ -237,7 +237,7 @@ public class GeoUtils {
 		}
 	}
 
-	public Location loadLocationFromBackupFile() {
+	private Location loadLocationFromBackupFile() {
 		try {
 			HashMap<String, Float> x = (HashMap<String, Float>) IO
 					.loadSerializableFromPrivateStorage(myContext,

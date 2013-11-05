@@ -157,16 +157,17 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 	private void showMapsNotInstalledError(Context c) {
 		M_Container infos = new M_Container();
 		infos.add(new M_Caption("Setup"));
-		infos.add(new M_InfoText(R.drawable.ic_dialog_alert,
-				"Google Maps missing! This app needs Google Maps to run properly"));
-		infos.add(new M_Button("Install Google Maps from Play Store") {
+		infos.add(new M_InfoText(
+				R.drawable.ic_dialog_alert,
+				"Google Play services missing! This app needs Google Play services to run properly"));
+		infos.add(new M_Button("Install Google Play services from Play Store") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 
 				if (context instanceof Activity) {
 					Intent goToMarket = new Intent(Intent.ACTION_VIEW).setData(Uri
-							.parse("market://details?id=com.google.android.apps.maps"));
+							.parse("market://details?id=com.google.android.gms"));
 					startActivity(goToMarket);
 					finish();
 				}

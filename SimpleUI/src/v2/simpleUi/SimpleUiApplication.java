@@ -39,7 +39,7 @@ public class SimpleUiApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		this.context = getApplicationContext();
+		SimpleUiApplication.context = getApplicationContext();
 	}
 
 	public static void setContext(Context context) {
@@ -52,6 +52,11 @@ public class SimpleUiApplication extends Application {
 	}
 
 	public static Context getContext() {
+		if (context == null) {
+			Log.w(LOG_TAG, "context was null, your application should "
+					+ "specify to extend the "
+					+ "SimpleUiApplication in the manifest.xml!");
+		}
 		return context;
 	}
 
