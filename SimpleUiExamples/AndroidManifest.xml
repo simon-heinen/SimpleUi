@@ -46,12 +46,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name="injectionTests.ButterknifeAndDaggerTestActivity" >
+        </activity>
+        
         <activity
             android:name="v2.simpleUi.SimpleUI"
             android:theme="@android:style/Theme.Translucent" >
         </activity>
 
-        <service android:name="v2.simpleUi.util.KeepProcessAliveService" >
+        <service android:name="tools.KeepProcessAliveService" >
         </service>
 
         <!-- get your key at https://code.google.com/apis/console -->

@@ -1,5 +1,7 @@
 package de.rwth;
 
+import injectionTests.ButterknifeAndDaggerTestActivity;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +91,16 @@ public class Main extends Activity {
 		// throwExceptionForErrorHandlerTesting();
 
 		M_Container c = new M_Container();
+
+		c.add(new M_Button("Show " + ButterknifeAndDaggerTestActivity.class
+				+ " activity") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				Main.this.startActivity(new Intent(Main.this,
+						ButterknifeAndDaggerTestActivity.class));
+			}
+		});
 
 		addImageView(c);
 
