@@ -50,6 +50,18 @@ public abstract class M_FilePickerButton extends M_Button implements
 		// on default do nothing
 	}
 
+	/**
+	 * The class where this modifier is created in has to impelemt
+	 * {@link ActivityLifecycleListener} and inform this
+	 * {@link M_FilePickerButton} when
+	 * {@link ActivityLifecycleListener#onActivityResult(Activity, int, int, Intent)}
+	 * is called, so it has to pass the event to it
+	 * 
+	 * @param a
+	 * @param filePath
+	 * @param file
+	 * @param data
+	 */
 	public abstract void onFilePathReceived(Activity a, String filePath,
 			File file, Intent data);
 
