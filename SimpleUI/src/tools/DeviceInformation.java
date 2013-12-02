@@ -2,13 +2,18 @@ package tools;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Point;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.os.Build;
 import android.os.Looper;
+import android.os.PowerManager;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.Display;
 
 public class DeviceInformation {
@@ -27,6 +32,27 @@ public class DeviceInformation {
 		NetworkInfo activeNetworkInfo = connectivityManager
 				.getActiveNetworkInfo();
 		return activeNetworkInfo != null;
+	}
+
+	public static boolean isPositioningViaWifiEnabled(Context context) {
+		ContentResolver cr = context.getContentResolver();
+		String enabledProviders = Settings.Secure.getString(cr,
+				Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+		if (!TextUtils.isEmpty(enabledProviders)) {
+			// not the fastest way to do that :)
+			String[] providersList = TextUtils.split(enabledProviders, ",");
+			for (String provider : providersList) {
+				if (LocationManager.NETWORK_PROVIDER.equals(provider)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static boolean isScreenOn(Context context) {
+		return ((PowerManager) context.getSystemService(Context.POWER_SERVICE))
+				.isScreenOn();
 	}
 
 	public static boolean isConnectedToWifi(Context c) {
