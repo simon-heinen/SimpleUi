@@ -624,16 +624,21 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				a.finish();
-				Intent i = new Intent(Intent.ACTION_MAIN);
-				PackageManager manager = a.getPackageManager();
-				i = manager.getLaunchIntentForPackage(context.getPackageName());
-				i.addCategory(Intent.CATEGORY_LAUNCHER);
-				int FLAG_ACTIVITY_CLEAR_TASK = 32768;
-				i.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
-						| Intent.FLAG_ACTIVITY_NEW_TASK
-						| FLAG_ACTIVITY_CLEAR_TASK);
-				a.startActivity(i);
+				try {
+					a.finish();
+					Intent i = new Intent(Intent.ACTION_MAIN);
+					PackageManager manager = a.getPackageManager();
+					i = manager.getLaunchIntentForPackage(context
+							.getPackageName());
+					i.addCategory(Intent.CATEGORY_LAUNCHER);
+					int FLAG_ACTIVITY_CLEAR_TASK = 32768;
+					i.setFlags(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY
+							| Intent.FLAG_ACTIVITY_NEW_TASK
+							| FLAG_ACTIVITY_CLEAR_TASK);
+					a.startActivity(i);
+				} catch (Exception e) {
+					Log.e(LOG_TAG, "" + e);
+				}
 				// if (DEBUG)
 				// Log.w(LOG_TAG, "Killing complete process");
 				// System.gc();
