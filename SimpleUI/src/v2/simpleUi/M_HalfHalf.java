@@ -41,6 +41,14 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 		return myRight;
 	}
 
+	public void setMyRight(ModifierInterface myRight) {
+		this.myRight = myRight;
+	}
+
+	public void setMyLeft(ModifierInterface myLeft) {
+		this.myLeft = myLeft;
+	}
+
 	public M_HalfHalf(ModifierInterface left, ModifierInterface right,
 			int minimumLineHeigthInDIP, boolean bothViewsSameHeigth) {
 		this(left, right);

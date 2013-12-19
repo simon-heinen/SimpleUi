@@ -70,6 +70,10 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 		int DRAG = 2;
 		int DRAG_END = 3;
 
+		/**
+		 * @param marker
+		 * @return true if the marker consumed the click event
+		 */
 		boolean onTab(Marker marker);
 
 		/**

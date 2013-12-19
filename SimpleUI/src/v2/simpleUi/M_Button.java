@@ -85,6 +85,21 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 		setButtonEnabledOrDisabled();
 	}
 
+	public void setText(String myText) {
+		this.myText = myText;
+		if (button != null) {
+			myHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					if (button != null) {
+						button.setText(M_Button.this.myText);
+					}
+				}
+			});
+		}
+	}
+
 	private void setButtonEnabledOrDisabled() {
 		if (button != null) {
 			myHandler.post(new Runnable() {
