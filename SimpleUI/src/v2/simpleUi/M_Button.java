@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 
@@ -17,6 +18,7 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	private Integer myIconId;
 	private Button button;
 	private boolean enabled = true;
+	private OnLongClickListener longClickListener;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_Button(String buttonText) {
@@ -32,6 +34,14 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	public String getText() {
 		return myText;
+	}
+
+	public void setLongClickListener(OnLongClickListener longClickListener) {
+		this.longClickListener = longClickListener;
+	}
+
+	public OnLongClickListener getLongClickListener() {
+		return longClickListener;
 	}
 
 	@Override
@@ -50,6 +60,9 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 				M_Button.this.onClick(context, button);
 			}
 		});
+		if (longClickListener != null) {
+			button.setOnLongClickListener(longClickListener);
+		}
 		if (myText != null) {
 			button.setText(myText);
 		}
