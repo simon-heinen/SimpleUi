@@ -11,8 +11,8 @@ import android.webkit.WebViewClient;
 
 public abstract class M_WebView implements ModifierInterface {
 
-	private boolean useDefaultZoomControls;
-	private boolean useTransparentBackground;
+	private final boolean useDefaultZoomControls;
+	private final boolean useTransparentBackground;
 
 	public M_WebView(boolean useDefaultZoomControls,
 			boolean useTransparentBackground) {
@@ -24,22 +24,26 @@ public abstract class M_WebView implements ModifierInterface {
 	public View getView(final Context context) {
 		WebView w = new WebView(context);
 		w.getSettings().setBuiltInZoomControls(useDefaultZoomControls);
-		if (useTransparentBackground)
+		w.getSettings().setSaveFormData(true);
+		if (useTransparentBackground) {
 			w.setBackgroundColor(0x00000000);
+		}
 		w.getSettings().setJavaScriptEnabled(true);
 
 		w.setWebChromeClient(new WebChromeClient() {
+			@Override
 			public void onProgressChanged(WebView view, int progress) {
 				onPageLoadProgress(progress * 100);
 			}
 		});
 
 		w.setWebViewClient(new WebViewClient() {
+			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				if (url != null && url.startsWith("market://")) {
 					try {
-						Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri
-								.parse(url));
+						Intent marketIntent = new Intent(Intent.ACTION_VIEW,
+								Uri.parse(url));
 						marketIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
 								| Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 						context.startActivity(marketIntent);
