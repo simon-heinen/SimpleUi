@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
@@ -223,11 +224,26 @@ public class IO {
 		return context.getResources().getDrawable(id);
 	}
 
+	public static void saveStringToExternalStorage(String filename,
+			String textToSave) throws IOException {
+
+		File file = new File(filename);
+		if (!file.exists()) {
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+		}
+		FileOutputStream foStream = new FileOutputStream(file);
+		OutputStreamWriter stringOut = new OutputStreamWriter(foStream);
+		stringOut.write(textToSave);
+		stringOut.close();
+		foStream.close();
+	}
+
 	/**
 	 * @param filename
 	 *            something like
 	 *            Environment.getExternalStorageDirectory().getAbsolutePath() +
-	 *            File.Separator +"test.txt"
+	 *            File.separator +"test.txt"
 	 * @param objectToSave
 	 * @throws IOException
 	 */
@@ -260,6 +276,8 @@ public class IO {
 		outStream.writeObject(objectToSave);
 		outStream.flush();
 		outStream.close();
+		gzioStream.close();
+		foStream.close();
 	}
 
 	/**
