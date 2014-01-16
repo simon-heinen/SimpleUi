@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 
 import v3.maps.SimpleGestureListener.SimpleTouchEventInterface;
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -157,19 +159,34 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 			return false;
 		}
 
+		public Marker add(LatLng pos, boolean moovable,
+				MarkerListener newWaveMarkerListener) {
+			return add(pos, defaultIconId, moovable, newWaveMarkerListener);
+		}
+
+		public Marker add(LatLng pos, Bitmap markerIcon, boolean moovable,
+				MarkerListener markerListener) {
+			BitmapDescriptor icon = BitmapDescriptorFactory
+					.fromBitmap(markerIcon);
+			return add(pos, moovable, markerListener, icon);
+		}
+
 		public Marker add(LatLng pos, int markerDrawableId, boolean moovable,
 				MarkerListener markerListener) {
+			BitmapDescriptor icon = BitmapDescriptorFactory
+					.fromResource(markerDrawableId);
+			return add(pos, moovable, markerListener, icon);
+		}
 
+		private Marker add(LatLng pos, boolean moovable,
+				MarkerListener markerListener, BitmapDescriptor icon) {
 			if (googleMap.listeners.containsValue(markerListener)) {
 				Log.e(LOG_TAG,
 						"Element with same listener was already in the set, will not be added");
 				return null;
 			}
-			MarkerOptions options = new MarkerOptions()
-					.position(pos)
-					.icon(BitmapDescriptorFactory
-							.fromResource(markerDrawableId))
-					.draggable(moovable);
+			MarkerOptions options = new MarkerOptions().position(pos)
+					.icon(icon).draggable(moovable);
 			if (googleMap.getMap() != null) {
 				Marker marker = googleMap.getMap().addMarker(options);
 				googleMap.listeners.put(marker, markerListener);
@@ -179,14 +196,8 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 			}
 			Log.w(LOG_TAG, "googleMap.getMap() was null");
 			return null;
-
 		}
 
-		public Marker add(LatLng pos, boolean moovable,
-				MarkerListener newWaveMarkerListener) {
-			return this
-					.add(pos, defaultIconId, moovable, newWaveMarkerListener);
-		}
 	}
 
 	private static final String LOG_TAG = "GoogleMapsV2View";
@@ -553,7 +564,7 @@ public class GoogleMapsV2View extends SupportMapFragment implements I_MapView,
 			return false;
 		}
 		Log.d(LOG_TAG, "Init default map settings");
-		googleMapsV2View.setSatellite(true);
+		googleMapsV2View.setSatellite(false);
 		googleMapsV2View.showUserLocation(true);
 		UiSettings mapUiSettings = googleMapsV2View.getMap().getUiSettings();
 		mapUiSettings.setZoomControlsEnabled(false);

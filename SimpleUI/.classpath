@@ -4,16 +4,17 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="lib" path="libs/google-play-services.jar"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalyticsServices.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/otto-1.3.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/volley.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/picasso-2.0.2.jar"/>
+	<classpathentry kind="lib" path="libs/otto-1.3.4.jar"/>
+	<classpathentry kind="lib" path="libs/volley.jar"/>
+	<classpathentry kind="lib" path="libs/picasso-2.0.2.jar"/>
 	<classpathentry kind="lib" path="libs/butterknife-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/dagger-1.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/javax.inject.jar"/>
+	<classpathentry kind="lib" path="libs/javax.inject.jar"/>
 	<classpathentry kind="lib" path="libs/dagger-compiler-1.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/javawriter-2.2.1.jar"/>
+	<classpathentry kind="lib" path="libs/javawriter-2.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

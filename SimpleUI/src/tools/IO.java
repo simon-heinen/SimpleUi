@@ -109,13 +109,14 @@ public class IO {
 	}
 
 	public static Bitmap loadBitmapFromFile(File file) {
-		if (file == null) {
+		if (file == null || !file.exists()) {
 			return null;
 		}
 		return loadBitmapFromFile(file.toString());
 	}
 
-	public static void saveImageToFile(String filePath, Bitmap b, int jpgQuality) {
+	public static boolean saveImageToFile(String filePath, Bitmap b,
+			int jpgQuality) {
 		try {
 			File f = new File(filePath);
 			if (!f.getParentFile().exists()) {
@@ -128,12 +129,15 @@ public class IO {
 			}
 			f.createNewFile();
 			FileOutputStream out = new FileOutputStream(f);
-			b.compress(Bitmap.CompressFormat.JPEG, jpgQuality, out);
+			b.compress(Bitmap.CompressFormat.PNG, jpgQuality, out);
+			out.close();
+			return f.exists();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	/**
@@ -149,6 +153,9 @@ public class IO {
 		try {
 			if (c != null) {
 				return Picasso.with(c).load(url).get();
+			} else {
+				Log.w(LOG_TAG, "Context in loadBitmapFromUrl() "
+						+ "was null, can't use Picasso");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

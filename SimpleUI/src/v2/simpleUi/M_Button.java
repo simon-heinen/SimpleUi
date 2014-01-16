@@ -3,6 +3,8 @@ package v2.simpleUi;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -16,6 +18,7 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	private String myText;
 	private UiDecorator myDecorator;
 	private Integer myIconId;
+	private Drawable myIcon;
 	private Button button;
 	private boolean enabled = true;
 	private OnLongClickListener longClickListener;
@@ -27,9 +30,12 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	public M_Button(Integer iconIdOnLeftSideOfText, String buttonText) {
 		this(buttonText);
-		if (iconIdOnLeftSideOfText != null) {
-			myIconId = iconIdOnLeftSideOfText;
-		}
+		myIconId = iconIdOnLeftSideOfText;
+	}
+
+	public M_Button(Drawable iconOnLeftSideOfText, String buttonText) {
+		this(buttonText);
+		myIcon = iconOnLeftSideOfText;
 	}
 
 	public String getText() {
@@ -48,9 +54,20 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	public View getView(final Context context) {
 
 		button = new Button(context);
+		Drawable drawable = null;
 		if (myIconId != null) {
-			button.setCompoundDrawablesWithIntrinsicBounds(context
-					.getResources().getDrawable(myIconId), null, null, null);
+			try {
+				drawable = context.getResources().getDrawable(myIconId);
+			} catch (NotFoundException e) {
+				e.printStackTrace();
+				drawable = myIcon;
+			}
+		} else if (myIcon != null) {
+			drawable = myIcon;
+		}
+		if (drawable != null) {
+			button.setCompoundDrawablesWithIntrinsicBounds(drawable, null,
+					null, null);
 		}
 		button.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.WRAP_CONTENT));
