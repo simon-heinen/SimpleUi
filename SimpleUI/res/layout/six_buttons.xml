@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="70dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/sb_button1"
+                android:layout_width="@dimen/default_button_width"
+                android:layout_height="@dimen/default_button_height"
+                android:layout_margin="@dimen/default_button_margin"
+                android:layout_weight="1"
+                android:background="#cb8940"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/default_button_leftpadding"
+                android:text="Button 1 aaaa aaaa" />
+
+            <Button
+                android:id="@+id/sb_button2"
+                android:layout_width="@dimen/default_button_width"
+                android:layout_height="@dimen/default_button_height"
+                android:layout_margin="@dimen/default_button_margin"
+                android:layout_weight="1"
+                android:background="#952036"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/default_button_leftpadding"
+                android:text="Button 2" />
+
+            <Button
+                android:id="@+id/sb_button3"
+                android:layout_width="@dimen/default_button_width"
+                android:layout_height="@dimen/default_button_height"
+                android:layout_margin="@dimen/default_button_margin"
+                android:layout_weight="1"
+                android:background="#b9bdc0"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/default_button_leftpadding"
+                android:text="Button 3 cccc" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/sb_button4"
+                android:layout_width="@dimen/default_button_width"
+                android:layout_height="@dimen/default_button_height"
+                android:layout_margin="@dimen/default_button_margin"
+                android:layout_weight="1"
+                android:background="#13428f"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/default_button_leftpadding"
+                android:text="Button 4" />
+
+            <Button
+                android:id="@+id/sb_button5"
+                android:layout_width="@dimen/default_button_width"
+                android:layout_height="@dimen/default_button_height"
+                android:layout_margin="@dimen/default_button_margin"
+                android:layout_weight="1"
+                android:background="#6c98c7"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/default_button_leftpadding"
+                android:text="Button 5" />
+
+            <Button
+                android:id="@+id/sb_button6"
+                android:layout_width="@dimen/default_button_width"
+                android:layout_height="@dimen/default_button_height"
+                android:layout_margin="@dimen/default_button_margin"
+                android:layout_weight="1"
+                android:background="#c96417"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/default_button_leftpadding"
+                android:text="Button 6" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

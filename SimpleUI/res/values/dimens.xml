@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="wrap_content">-2</integer>
+    <integer name="match_parent">-1</integer>
+
+    <dimen name="default_button_margin">2dp </dimen>
+    <dimen name="default_button_height">80dp </dimen>
+    <dimen name="default_button_leftpadding">7dp </dimen>
+    <dimen name="default_button_width"> @integer/match_parent</dimen>
+    <!--
+    <dimen name="default_button_height">@integer/match_parent </dimen>
+    <dimen name="default_button_width">@integer/match_parent </dimen>    -->
+
+</resources>
