@@ -116,19 +116,24 @@ public class IO {
 		return loadBitmapFromFile(file.toString());
 	}
 
+	/**
+	 * @param filePath
+	 *            e.g.
+	 *            Environment.getExternalStorageDirectory().getAbsolutePath() +
+	 *            File.separator +"test.jpg"
+	 * @param b
+	 * @param jpgQuality
+	 *            e.g. 90
+	 * @return
+	 */
 	public static boolean saveImageToFile(String filePath, Bitmap b,
 			int jpgQuality) {
+		if (b == null) {
+			Log.e(LOG_TAG, "saveImageToFile: Passed bitmap was null!");
+			return false;
+		}
 		try {
-			File f = new File(filePath);
-			if (!f.getParentFile().exists()) {
-				Log.i(LOG_TAG, "Trying to create dir "
-						+ f.getParentFile().getAbsolutePath());
-				if (!f.getParentFile().mkdirs()) {
-					Log.w(LOG_TAG, "Cannot create dir "
-							+ f.getParentFile().getAbsolutePath());
-				}
-			}
-			f.createNewFile();
+			File f = newFile(filePath);
 			FileOutputStream out = new FileOutputStream(f);
 			b.compress(Bitmap.CompressFormat.PNG, jpgQuality, out);
 			out.close();
@@ -139,6 +144,22 @@ public class IO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static File newFile(String filePath) throws IOException {
+		File f = new File(filePath);
+		if (!f.exists()) {
+			if (!f.getParentFile().exists()) {
+				Log.i(LOG_TAG, "Trying to create dir "
+						+ f.getParentFile().getAbsolutePath());
+				if (!f.getParentFile().mkdirs()) {
+					Log.w(LOG_TAG, "Cannot create dir "
+							+ f.getParentFile().getAbsolutePath());
+				}
+			}
+			f.createNewFile();
+		}
+		return f;
 	}
 
 	/**
@@ -227,11 +248,8 @@ public class IO {
 	public static void saveStringToExternalStorage(String filename,
 			String textToSave) throws IOException {
 
-		File file = new File(filename);
-		if (!file.exists()) {
-			file.getParentFile().mkdirs();
-			file.createNewFile();
-		}
+		File file = newFile(filename);
+
 		FileOutputStream foStream = new FileOutputStream(file);
 		OutputStreamWriter stringOut = new OutputStreamWriter(foStream);
 		stringOut.write(textToSave);
@@ -250,11 +268,7 @@ public class IO {
 	public static void saveSerializableToExternalStorage(String filename,
 			Serializable objectToSave) throws IOException {
 
-		File file = new File(filename);
-		if (!file.exists()) {
-			file.getParentFile().mkdirs();
-			file.createNewFile();
-		}
+		File file = newFile(filename);
 		FileOutputStream foStream = new FileOutputStream(file);
 		saveSerializableToStream(objectToSave, foStream);
 	}

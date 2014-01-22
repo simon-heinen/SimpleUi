@@ -71,7 +71,9 @@ public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
-				M_Checkbox.this.onCheckedChanged(context, e, isChecked);
+				if (!M_Checkbox.this.onCheckedChanged(context, e, isChecked)) {
+					e.setChecked(!isChecked);
+				}
 			}
 
 		});
@@ -91,8 +93,16 @@ public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 		return l;
 	}
 
-	public void onCheckedChanged(Context context, CheckBox e, boolean isChecked) {
+	/**
+	 * @param context
+	 * @param e
+	 * @param isChecked
+	 * @return true if its allowed to change the value
+	 */
+	public boolean onCheckedChanged(Context context, CheckBox e,
+			boolean isChecked) {
 		// on default do not react to this
+		return true;
 	}
 
 	public boolean isEditable() {
@@ -101,23 +111,25 @@ public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
-		if (e != null)
+		if (e != null) {
 			myHandler.post(new Runnable() {
 				@Override
 				public void run() {
 					e.setEnabled(isEditable());
 				}
 			});
+		}
 	}
 
 	public void setBoolValueOfViewIfPossible(final boolean newValue) {
-		if (e != null)
+		if (e != null) {
 			myHandler.post(new Runnable() {
 				@Override
 				public void run() {
 					e.setChecked(newValue);
 				}
 			});
+		}
 	}
 
 	@Override
@@ -134,8 +146,9 @@ public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 
 	@Override
 	public boolean save() {
-		if (!editable)
+		if (!editable) {
 			return true;
+		}
 		return save(e.isChecked());
 	}
 
