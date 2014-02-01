@@ -6,61 +6,68 @@
     android:layout_height="match_parent"
     android:background="@drawable/blue_radial_bg"
     android:columnCount="1" >
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp"
-        android:text="ARMRO"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dp" />
+    <!-- android:background="@drawable/ic_green_button" -->
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText2"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColorHint="#ffffff" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/password"
+        android:layout_alignParentLeft="true"
         android:ems="10"
         android:hint="Email"
         android:textColorHint="#ffffff" />
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textColorHint="#ffffff" />
-
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Login" >
-    </Button>
-    <!-- android:background="@drawable/ic_green_button" -->
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/password"
+        android:text="Login" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
+        android:layout_below="@+id/loginButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:layout_marginTop="21dp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/loginLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/email"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="25dp"
+        android:src="@drawable/blue_radial_bg" />
+
+    <TextView
+        android:id="@+id/logintitletext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/loginLogo"
+        android:layout_centerHorizontal="true"
+        android:text="ARMRO"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30dp" />
 
 </RelativeLayout>
