@@ -31,9 +31,10 @@ public abstract class M_FilePickerButton extends M_Button implements
 	@Override
 	public void onActivityResult(Activity a, int requestCode, int resultCode,
 			Intent data) {
-		KeepProcessAliveService.stopKeepAliveService();
-		if (resultCode == Activity.RESULT_OK) {
-			if (requestCode == SELECT_FILE_CODE) {
+		if (requestCode == SELECT_FILE_CODE) {
+			KeepProcessAliveService.stopKeepAliveService();
+			if (resultCode == Activity.RESULT_OK) {
+
 				String filePath = M_MakePhoto
 						.getPathFromImageFileSelectionIntent(a, data.getData());
 				File file = new File(filePath);
@@ -42,8 +43,8 @@ public abstract class M_FilePickerButton extends M_Button implements
 					return;
 				}
 			}
+			onNoFileSuccessfullySelected(a, data);
 		}
-		onNoFileSuccessfullySelected(a, data);
 	}
 
 	public void onNoFileSuccessfullySelected(Activity a, Intent data) {
