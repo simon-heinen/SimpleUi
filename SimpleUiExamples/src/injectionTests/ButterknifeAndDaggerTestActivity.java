@@ -2,12 +2,12 @@ package injectionTests;
 
 import javax.inject.Inject;
 
+import tools.ButterknifeHelper;
 import v2.simpleUi.SimpleUiApplication;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import butterknife.InjectView;
-import butterknife.Views;
 import dagger.ObjectGraph;
 import de.rwth.R;
 
@@ -40,13 +40,7 @@ public class ButterknifeAndDaggerTestActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.butterknife_test_ui);
-		// jakewharton.github.io/butterknife injections call:
-		Views.inject(this);
-		if (title == null) {
-			throw new RuntimeException(
-					"You forgot to do this: http://jakewharton.github.io/butterknife/ide-eclipse.html");
-		}
+		ButterknifeHelper.load(this, R.layout.butterknife_test_ui);
 		title.setText("Hallo");
 		secondTitle.setText("B");
 		text1.setText("aaaaaa");

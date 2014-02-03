@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -497,6 +498,32 @@ public class IO {
 			in.close();
 			out.close();
 		}
+	}
+
+	/**
+	 * @param relativePathInAssetsFolder
+	 *            something like "folderX/fileY.txt" if you have a folder in
+	 *            your assets folder folderX which contains a fileY.txt
+	 * @return a file object which does not behave normally, e.g. file.exists()
+	 *         will always return null! But {@link Picasso} e.g. still can
+	 *         handle the file correctly
+	 */
+	public static Uri loadFileFromAssets(String relativePathInAssetsFolder) {
+		if (!relativePathInAssetsFolder.startsWith("/")) {
+			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
+		}
+		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
+	}
+
+	public static FileReader loadFileReaderFromAssets(Context c,
+			String relativePathInAssetsFolder) {
+		try {
+			return new FileReader(c.getAssets()
+					.openFd(relativePathInAssetsFolder).getFileDescriptor());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static Bitmap loadBitmapFromAssetsFolder(Context context,

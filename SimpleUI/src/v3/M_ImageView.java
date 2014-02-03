@@ -83,6 +83,14 @@ public class M_ImageView implements ModifierInterface, Target {
 		this.bitmapUri = bitmapUri;
 	}
 
+	public void load(Context context, File file) {
+		Picasso.with(context).load(file).into(this);
+	}
+
+	public void load(Context context, Uri uri) {
+		Picasso.with(context).load(uri).into(this);
+	}
+
 	@Override
 	public View getView(Context context) {
 		imageView = new ImageView(context) {
@@ -168,7 +176,7 @@ public class M_ImageView implements ModifierInterface, Target {
 		}
 		if (imageView != null) {
 			if (bitmap != null && !bitmap.isRecycled()) {
-				if (imageBorderColor != null) {
+				if (imageBorderColor != null && !bitmap.hasAlpha()) {
 					imageView.setBackgroundColor(imageBorderColor);
 				}
 				LayoutParams p = new LayoutParams(
