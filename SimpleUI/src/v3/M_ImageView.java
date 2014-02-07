@@ -42,6 +42,10 @@ public class M_ImageView implements ModifierInterface, Target {
 	public M_ImageView() {
 	}
 
+	public M_ImageView(Context context, int drawableId) {
+		Picasso.with(context).load(drawableId).into(this);
+	}
+
 	/**
 	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
 	 * 

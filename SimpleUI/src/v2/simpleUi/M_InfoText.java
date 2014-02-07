@@ -20,10 +20,10 @@ import android.widget.TextView;
 
 public class M_InfoText implements ModifierInterface, UiDecoratable {
 
-	private static final int TEXT_WEIGHT = 10;
-	private static final int CAPTION_WEIGHT = 15;
+	private int TEXT_WEIGHT = 10;
+	private int CAPTION_WEIGHT = 15;
 	private String myCaptionText;
-	private String myText;
+	private final String myText;
 	private Bitmap myIcon;
 	private int myIconId;
 	private float myTextSize;
@@ -57,6 +57,21 @@ public class M_InfoText implements ModifierInterface, UiDecoratable {
 	public M_InfoText(String caption, String description) {
 		this(description);
 		myCaptionText = caption;
+	}
+
+	/**
+	 * @param caption
+	 * @param description
+	 * @param captionWeight
+	 *            less means more space for the caption
+	 * @param textWeight
+	 *            less means more space for the text
+	 */
+	public M_InfoText(String caption, String description, int captionWeight,
+			int textWeight) {
+		this(caption, description);
+		CAPTION_WEIGHT = captionWeight;
+		TEXT_WEIGHT = textWeight;
 	}
 
 	public void setContainsUrls(boolean containsUrls) {
@@ -95,20 +110,20 @@ public class M_InfoText implements ModifierInterface, UiDecoratable {
 		TextView captionView = null;
 		if (myCaptionText != null) {
 
-			LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+			LinearLayout.LayoutParams pCaption = new LinearLayout.LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
 					CAPTION_WEIGHT);
-			LinearLayout.LayoutParams p2 = new LinearLayout.LayoutParams(
+			LinearLayout.LayoutParams pText = new LinearLayout.LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
 					TEXT_WEIGHT);
 
 			captionView = new TextView(context);
-			captionView.setLayoutParams(p);
+			captionView.setLayoutParams(pCaption);
 			captionView.setText(myCaptionText);
 			captionView.setPadding(textPadding, textPadding, 0, textPadding);
 			container.addView(captionView);
 
-			textView.setLayoutParams(p2);
+			textView.setLayoutParams(pText);
 		}
 
 		textView.setPadding(textPadding, textPadding, textPadding, textPadding);
