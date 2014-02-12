@@ -18,13 +18,15 @@ package fragments;
 
 import java.util.ArrayList;
 
-import android.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+
+import com.bitstars.uitemplate.R;
+
 import draggableListView.Cheeses;
 import draggableListView.DynamicListView;
 import draggableListView.StableArrayAdapter;

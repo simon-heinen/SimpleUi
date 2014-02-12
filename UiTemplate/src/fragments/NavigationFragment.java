@@ -23,7 +23,7 @@ public class NavigationFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		mNavigationAdapter = new NavigationListAdapter(getActivity(),
-				R.menu.left_sidebar_menu);
+				R.menu.actionbar_menu);
 		setListAdapter(mNavigationAdapter);
 	}
 

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:icon="@drawable/ic_home" android:title="@string/action_home" android:id="@+id/home"></item>
     <item android:icon="@drawable/ic_settings" android:title="@string/action_settings" android:id="@+id/settings"></item>
-
+   
 </menu>

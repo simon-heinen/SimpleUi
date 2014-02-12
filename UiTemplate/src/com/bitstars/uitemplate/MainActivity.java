@@ -2,20 +2,16 @@ package com.bitstars.uitemplate;
 
 import java.util.Locale;
 
-import android.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
@@ -54,9 +50,9 @@ public class MainActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.actionbar_menu, menu);
 
-		MenuItem searchItem = menu.findItem(R.id.actionbar_search);
-		SearchView mSearchView = (SearchView) MenuItemCompat
-				.getActionView(searchItem);
+		// MenuItem searchItem = menu.findItem(R.id.actionbar_search);
+		// SearchView mSearchView = (SearchView) MenuItemCompat
+		// .getActionView(searchItem);
 		// TODO mSearchView
 
 		return true;
