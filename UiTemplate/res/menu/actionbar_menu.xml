@@ -2,7 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <item android:icon="@drawable/ic_home" android:title="@string/action_home" android:id="@+id/home"></item>
-    <item android:icon="@drawable/ic_settings" android:title="@string/action_settings" android:id="@+id/settings"></item>
+    <item
+        android:id="@+id/home"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="@string/action_home"
+        android:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/settings"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="@string/action_settings"
+        android:showAsAction="ifRoom">
+    </item>
 
 </menu>
