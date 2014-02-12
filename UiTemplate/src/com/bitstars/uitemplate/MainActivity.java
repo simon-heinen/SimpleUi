@@ -1,16 +1,11 @@
 package com.bitstars.uitemplate;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import fragments.FragmentDraggableListViewTests;
-import fragments.MainPage;
+import fragments.DraggableListViewTestFragment;
+import fragments.MainFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -21,8 +16,8 @@ public class MainActivity extends FragmentActivity {
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
 		SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
-		pagerAdapter.addPage("Test", new MainPage());
-		pagerAdapter.addPage("Test2", new FragmentDraggableListViewTests());
+		pagerAdapter.addPage("Test", new MainFragment());
+		pagerAdapter.addPage("Test2", new DraggableListViewTestFragment());
 		mViewPager.setAdapter(pagerAdapter);
 	}
 
@@ -38,33 +33,6 @@ public class MainActivity extends FragmentActivity {
 		// mSearchView...
 
 		return true;
-	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
-					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return rootView;
-		}
 	}
 
 }

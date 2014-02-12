@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bitstars.uitemplate.R;
 
-public class NavigationListAdapter extends BaseAdapter {
+public class MenuBaseAdapter extends BaseAdapter {
 
 	private final Context mContext;
 	private final LayoutInflater mInflater;
@@ -23,7 +23,7 @@ public class NavigationListAdapter extends BaseAdapter {
 	private final int mMenuRes;
 	private final Menu mMenu;
 
-	public NavigationListAdapter(Context context, int menuRes) {
+	public MenuBaseAdapter(Context context, int menuRes) {
 		super();
 		mContext = context;
 		mInflater = LayoutInflater.from(context);

@@ -16,13 +16,13 @@ import com.bitstars.uitemplate.R;
  */
 public class NavigationFragment extends ListFragment {
 
-	private NavigationListAdapter mNavigationAdapter;
+	private MenuBaseAdapter mNavigationAdapter;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		mNavigationAdapter = new NavigationListAdapter(getActivity(),
+		mNavigationAdapter = new MenuBaseAdapter(getActivity(),
 				R.menu.actionbar_menu);
 		setListAdapter(mNavigationAdapter);
 	}
