@@ -22,7 +22,38 @@ public abstract class M_WebView implements ModifierInterface {
 
 	@Override
 	public View getView(final Context context) {
-		WebView w = new WebView(context);
+		WebView w = new WebView(context) {
+			private boolean is_gone = false;
+
+			@Override
+			public void onWindowVisibilityChanged(int visibility) {
+				super.onWindowVisibilityChanged(visibility);
+				try {
+					if (visibility == View.GONE) {
+						WebView.class.getMethod("onPause").invoke(this);
+						this.pauseTimers();
+						this.is_gone = true;
+					} else if (visibility == View.VISIBLE) {
+						WebView.class.getMethod("onResume").invoke(this);
+						this.resumeTimers();
+						this.is_gone = false;
+					}
+				} catch (Exception e) {
+				}
+			}
+
+			@Override
+			public void onDetachedFromWindow() {
+				super.onDetachedFromWindow();
+				if (this.is_gone) {
+					try {
+						this.destroy();
+					} catch (Exception e) {
+					}
+				}
+			}
+
+		};
 		w.getSettings().setBuiltInZoomControls(useDefaultZoomControls);
 		w.getSettings().setSaveFormData(true);
 		if (useTransparentBackground) {
