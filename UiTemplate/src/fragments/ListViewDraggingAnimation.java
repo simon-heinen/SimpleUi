@@ -56,7 +56,7 @@ public class ListViewDraggingAnimation extends Fragment {
 			StableArrayAdapter adapter = new StableArrayAdapter(getActivity(),
 					R.layout.listitem_view, mCheeseList);
 			DynamicListView listView = (DynamicListView) activity_list_view
-					.findViewById(R.layout.listitem_view);
+					.findViewById(R.id.dynamic_listview);
 			listView.setCheeseList(mCheeseList);
 			listView.setAdapter(adapter);
 			listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);

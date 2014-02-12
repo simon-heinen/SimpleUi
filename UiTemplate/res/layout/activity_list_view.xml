@@ -21,7 +21,7 @@
     tools:context=".ListViewAnimations" >
 
         <draggableListView.DynamicListView
-            android:id="@+id/listview"
+            android:id="@+id/dynamic_listview"
             android:background="#0000"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
