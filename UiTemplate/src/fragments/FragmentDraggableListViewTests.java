@@ -17,9 +17,15 @@
 package fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import tools.SimpleBaseAdapter;
+import tools.SimpleBaseAdapter.HasItsOwnView;
+import v2.simpleUi.M_InfoText;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +33,8 @@ import android.widget.AbsListView;
 
 import com.bitstars.uitemplate.R;
 
-import draggableListView.Cheeses;
 import draggableListView.DynamicListView;
-import draggableListView.StableArrayAdapter;
+import draggableListView.DynamicListView.ListModificationListener;
 
 /**
  * This application creates a listview where the ordering of the data set can be
@@ -39,7 +44,9 @@ import draggableListView.StableArrayAdapter;
  * around by tracking and following the movement of the user's finger. When the
  * item is released, it animates to its new position within the listview.
  */
-public class ListViewDraggingAnimation extends Fragment {
+public class FragmentDraggableListViewTests extends Fragment {
+
+	protected static final String LOG_TAG = "FragmentDraggableListViewTests";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,24 +55,48 @@ public class ListViewDraggingAnimation extends Fragment {
 			View activity_list_view = inflater.inflate(
 					R.layout.activity_list_view, container, false);
 
-			ArrayList<String> mCheeseList = new ArrayList<String>();
-			for (int i = 0; i < Cheeses.sCheeseStrings.length; ++i) {
-				mCheeseList.add(Cheeses.sCheeseStrings[i]);
-			}
-
-			StableArrayAdapter adapter = new StableArrayAdapter(getActivity(),
-					R.layout.listitem_view, mCheeseList);
+			ArrayList<HasItsOwnView> listToDisplay = new ArrayList<HasItsOwnView>();
+			addItem(listToDisplay, "A");
+			addItem(listToDisplay, "B");
+			addItem(listToDisplay, "C");
+			SimpleBaseAdapter adapter = new SimpleBaseAdapter(getActivity(),
+					listToDisplay);
 			DynamicListView listView = (DynamicListView) activity_list_view
 					.findViewById(R.id.dynamic_listview);
-			listView.setCheeseList(mCheeseList);
+			listView.setModelModificationListener(new ListModificationListener(
+					listToDisplay));
 			listView.setAdapter(adapter);
 			listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 			return activity_list_view;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+	private void addItem(ArrayList<HasItsOwnView> listToDisplay,
+			final String str) {
+		listToDisplay.add(new HasItsOwnView() {
+
+			@Override
+			public boolean onItemLongClick(View itemView, int posInList) {
+				Log.e(LOG_TAG, "onItemLongClick posInList=" + posInList);
+				return false;
+			}
+
+			@Override
+			public void onItemClick(View itemView, int posInList) {
+				Log.e(LOG_TAG, "onItemClick posInList=" + posInList);
+			}
+
+			@Override
+			public View getView(Context context, View convertView,
+					ViewGroup parent, SimpleBaseAdapter simpleBaseAdapter,
+					List<? extends HasItsOwnView> containerList,
+					int positionInList) {
+				return new M_InfoText(str).getView(context);
+			}
+		});
 	}
 
 }

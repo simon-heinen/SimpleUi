@@ -1,5 +1,6 @@
 package tools;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -56,7 +57,7 @@ public class SimpleBaseAdapter extends BaseAdapter {
 	}
 
 	private static final int UPDATE_SPEED = 1000;
-	private List<? extends HasItsOwnView> myList;
+	private final List<? extends HasItsOwnView> myList;
 	private int oldSize;
 	private boolean keepUpdaterRunning = true;
 
@@ -74,8 +75,9 @@ public class SimpleBaseAdapter extends BaseAdapter {
 	public SimpleBaseAdapter(final Activity activity,
 			List<? extends HasItsOwnView> listToDisplay) {
 		myList = listToDisplay;
-		if (activity != null)
+		if (activity != null) {
 			createAutoUpdaterForTheListAdapter(activity);
+		}
 	}
 
 	/**
@@ -121,10 +123,28 @@ public class SimpleBaseAdapter extends BaseAdapter {
 		return myList.get(position);
 	}
 
+	HashMap<HasItsOwnView, Integer> mIdMap = new HashMap<HasItsOwnView, Integer>();
+
 	@Override
 	public long getItemId(int position) {
 		refreshCount(myList.size());
-		return position;
+		if (position < 0 || position >= mIdMap.size()) {
+			return -1;
+		}
+		Object item = getItem(position);
+		return mIdMap.get(item);
+	}
+
+	private void updateIdMap(List<? extends HasItsOwnView> objects) {
+		mIdMap.clear();
+		for (int i = 0; i < objects.size(); ++i) {
+			mIdMap.put(objects.get(i), i);
+		}
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
 	}
 
 	@Override
@@ -146,6 +166,7 @@ public class SimpleBaseAdapter extends BaseAdapter {
 		if (oldSize != currentSize) {
 			int result = oldSize;
 			oldSize = currentSize;
+			updateIdMap(myList);
 			notifyDataSetChanged();
 			return result;
 		}

@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import fragments.ListViewDraggingAnimation;
+import fragments.FragmentDraggableListViewTests;
 import fragments.MainPage;
 
 public class MainActivity extends FragmentActivity {
@@ -22,7 +22,7 @@ public class MainActivity extends FragmentActivity {
 		SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
 		pagerAdapter.addPage("Test", new MainPage());
-		pagerAdapter.addPage("Test2", new ListViewDraggingAnimation());
+		pagerAdapter.addPage("Test2", new FragmentDraggableListViewTests());
 		mViewPager.setAdapter(pagerAdapter);
 	}
 

@@ -30,6 +30,11 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
 	public StableArrayAdapter(Context context, int textViewResourceId,
 			List<String> objects) {
 		super(context, textViewResourceId, objects);
+		updateIdMap(objects);
+	}
+
+	private void updateIdMap(List<String> objects) {
+		mIdMap.clear();
 		for (int i = 0; i < objects.size(); ++i) {
 			mIdMap.put(objects.get(i), i);
 		}

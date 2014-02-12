@@ -16,7 +16,7 @@
 
 package draggableListView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -39,6 +39,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
@@ -69,8 +70,6 @@ public class DynamicListView extends ListView {
 	private final int MOVE_DURATION = 150;
 	private final int LINE_THICKNESS = 15;
 
-	public ArrayList<String> mCheeseList;
-
 	private int mLastEventY = -1;
 
 	private int mDownY = -1;
@@ -96,6 +95,44 @@ public class DynamicListView extends ListView {
 
 	private boolean mIsWaitingForScrollFinish = false;
 	private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
+
+	ModelModificationListener modelModificationListener;
+
+	public interface ModelModificationListener {
+		/**
+		 * this is called by the view when the model has to be updated and the 2
+		 * elements in the list have to be swapped. this is called very often
+		 * while the user moves an element
+		 * 
+		 * @param indexOfOriginalItem
+		 * @param indexOfDraggedItem
+		 * @return true if the model allows swapping these two items
+		 */
+		boolean swapElementsInModel(int indexOfOriginalItem,
+				int indexOfDraggedItem);
+	}
+
+	public static class ListModificationListener implements
+			ModelModificationListener {
+		private final List myList;
+
+		public ListModificationListener(List list) {
+			myList = list;
+		}
+
+		@Override
+		public boolean swapElementsInModel(int indexOne, int indexTwo) {
+			Object temp = myList.get(indexOne);
+			myList.set(indexOne, myList.get(indexTwo));
+			myList.set(indexTwo, temp);
+			return true;
+		}
+	}
+
+	public void setModelModificationListener(
+			ModelModificationListener modelModificationListener) {
+		this.modelModificationListener = modelModificationListener;
+	}
 
 	public DynamicListView(Context context) {
 		super(context);
@@ -204,7 +241,7 @@ public class DynamicListView extends ListView {
 	 */
 	private void updateNeighborViewsForID(long itemID) {
 		int position = getPositionForID(itemID);
-		StableArrayAdapter adapter = ((StableArrayAdapter) getAdapter());
+		ListAdapter adapter = (getAdapter());
 		mAboveItemId = adapter.getItemId(position - 1);
 		mBelowItemId = adapter.getItemId(position + 1);
 	}
@@ -212,7 +249,7 @@ public class DynamicListView extends ListView {
 	/** Retrieves the view in the list corresponding to itemID */
 	public View getViewForID(long itemID) {
 		int firstVisiblePosition = getFirstVisiblePosition();
-		StableArrayAdapter adapter = ((StableArrayAdapter) getAdapter());
+		ListAdapter adapter = (getAdapter());
 		for (int i = 0; i < getChildCount(); i++) {
 			View v = getChildAt(i);
 			int position = firstVisiblePosition + i;
@@ -339,8 +376,10 @@ public class DynamicListView extends ListView {
 				return;
 			}
 
-			swapElements(mCheeseList, originalItem,
-					getPositionForView(switchView));
+			if (!modelModificationListener.swapElementsInModel(originalItem,
+					getPositionForView(switchView))) {
+				return;
+			}
 
 			((BaseAdapter) getAdapter()).notifyDataSetChanged();
 
@@ -382,12 +421,6 @@ public class DynamicListView extends ListView {
 				}
 			});
 		}
-	}
-
-	private void swapElements(ArrayList arrayList, int indexOne, int indexTwo) {
-		Object temp = arrayList.get(indexOne);
-		arrayList.set(indexOne, arrayList.get(indexTwo));
-		arrayList.set(indexTwo, temp);
 	}
 
 	/**
@@ -519,10 +552,6 @@ public class DynamicListView extends ListView {
 		}
 
 		return false;
-	}
-
-	public void setCheeseList(ArrayList<String> cheeseList) {
-		mCheeseList = cheeseList;
 	}
 
 	/**
