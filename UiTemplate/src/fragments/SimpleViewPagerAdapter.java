@@ -1,4 +1,4 @@
-package com.bitstars.uitemplate;
+package fragments;
 
 import java.util.ArrayList;
 
@@ -6,12 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SimpleViewPagerAdapter extends FragmentPagerAdapter {
 
 	private final ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 	private final ArrayList<String> fragmentNames = new ArrayList<String>();
 
-	public SectionsPagerAdapter(FragmentManager fm) {
+	public SimpleViewPagerAdapter(FragmentManager fm) {
 		super(fm);
 	}
 

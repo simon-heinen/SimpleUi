@@ -7,26 +7,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bitstars.uitemplate.R;
+public abstract class MenuBaseAdapter extends BaseAdapter {
 
-public class MenuBaseAdapter extends BaseAdapter {
-
-	private final Context mContext;
-	private final LayoutInflater mInflater;
+	protected final LayoutInflater inflater;
 	private final MenuInflater mMenuInflater;
 	private final int mMenuRes;
 	private final Menu mMenu;
 
 	public MenuBaseAdapter(Context context, int menuRes) {
 		super();
-		mContext = context;
-		mInflater = LayoutInflater.from(context);
+		inflater = LayoutInflater.from(context);
 		mMenuInflater = new MenuInflater(context);
 		mMenuRes = menuRes;
 		mMenu = newMenuInstance(context);
@@ -55,27 +47,6 @@ public class MenuBaseAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.item_navigation, null);
-
-			holder = new ViewHolder();
-			holder.setIcon((ImageView) convertView.findViewById(R.id.icon));
-			holder.setTitle((TextView) convertView.findViewById(R.id.title));
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-
-		MenuItem item = getItem(position);
-		holder.getIcon().setImageDrawable(item.getIcon());
-		holder.getTitle().setText(item.getTitle());
-
-		return convertView;
-	}
-
-	@Override
 	public MenuItem getItem(int position) {
 		return mMenu.getItem(position);
 	}
@@ -90,24 +61,4 @@ public class MenuBaseAdapter extends BaseAdapter {
 		return mMenu.size();
 	}
 
-	private class ViewHolder {
-		private TextView mTitle;
-		private ImageView mIcon;
-
-		private ImageView getIcon() {
-			return mIcon;
-		}
-
-		private void setIcon(ImageView mIcon) {
-			this.mIcon = mIcon;
-		}
-
-		private TextView getTitle() {
-			return mTitle;
-		}
-
-		private void setTitle(TextView mTitle) {
-			this.mTitle = mTitle;
-		}
-	}
 }

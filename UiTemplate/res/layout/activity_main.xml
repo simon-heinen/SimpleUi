@@ -30,28 +30,26 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start" >
 
         <fragment
             android:id="@+id/navigation"
-            android:name="fragments.NavigationFragment"
+            android:name="com.bitstars.uitemplate.DefaultLeftNavbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </fragment>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/right_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="end" >
 
         <fragment
             android:id="@+id/contactList"
-            android:name="fragments.NavigationFragment"
+            android:name="com.bitstars.uitemplate.DefaultRightNavbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </fragment>
