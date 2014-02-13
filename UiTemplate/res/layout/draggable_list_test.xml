@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ListViewAnimations" >
+
+        <v3.customViews.DraggableListView
+            android:id="@+id/dynamic_listview"
+            android:background="#0000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+</RelativeLayout>

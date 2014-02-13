@@ -1,4 +1,4 @@
-package draggableListView;
+package v3.customViews;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ import android.widget.ListView;
  * When the hover cell is either above or below the bounds of the listview, this
  * listview also scrolls on its own so as to reveal additional content.
  */
-public class DynamicListView extends ListView {
+public class DraggableListView extends ListView {
 
 	private final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 15;
 	private final int MOVE_DURATION = 150;
@@ -118,17 +118,17 @@ public class DynamicListView extends ListView {
 		this.modelModificationListener = modelModificationListener;
 	}
 
-	public DynamicListView(Context context) {
+	public DraggableListView(Context context) {
 		super(context);
 		init(context);
 	}
 
-	public DynamicListView(Context context, AttributeSet attrs, int defStyle) {
+	public DraggableListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
 	}
 
-	public DynamicListView(Context context, AttributeSet attrs) {
+	public DraggableListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}

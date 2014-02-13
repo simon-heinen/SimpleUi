@@ -1,24 +1,27 @@
 package com.bitstars.uitemplate;
 
+import adapters.SimpleViewPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import fragments.DraggableListViewTestFragment;
+import fragments.DefaultLeftNavbar;
+import fragments.ExampleDraggableListViewFragment;
 import fragments.MainFragment;
-import fragments.SimpleViewPagerAdapter;
 
 public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.main_activity);
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
 		SimpleViewPagerAdapter pagerAdapter = new SimpleViewPagerAdapter(
 				getSupportFragmentManager());
-		pagerAdapter.addPage("Test", new MainFragment());
-		pagerAdapter.addPage("Test2", new DraggableListViewTestFragment());
+		pagerAdapter.addPage("MainFragment", new MainFragment());
+		pagerAdapter.addPage("ExampleDraggableListViewFragment",
+				new ExampleDraggableListViewFragment());
+		pagerAdapter.addPage("DefaultLeftNavbar", new DefaultLeftNavbar());
 		mViewPager.setAdapter(pagerAdapter);
 	}
 

@@ -19,9 +19,11 @@ package fragments;
 import java.util.ArrayList;
 import java.util.List;
 
-import tools.SimpleBaseAdapter;
-import tools.SimpleBaseAdapter.HasItsOwnView;
 import v2.simpleUi.M_InfoText;
+import v3.customViews.DraggableListView;
+import v3.customViews.DraggableListView.ListModificationListener;
+import adapters.SimpleBaseAdapter;
+import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,9 +35,6 @@ import android.widget.AbsListView;
 
 import com.bitstars.uitemplate.R;
 
-import draggableListView.DynamicListView;
-import draggableListView.DynamicListView.ListModificationListener;
-
 /**
  * This application creates a listview where the ordering of the data set can be
  * modified in response to user touch events.
@@ -44,7 +43,7 @@ import draggableListView.DynamicListView.ListModificationListener;
  * around by tracking and following the movement of the user's finger. When the
  * item is released, it animates to its new position within the listview.
  */
-public class DraggableListViewTestFragment extends Fragment {
+public class ExampleDraggableListViewFragment extends Fragment {
 
 	protected static final String LOG_TAG = "FragmentDraggableListViewTests";
 
@@ -53,7 +52,7 @@ public class DraggableListViewTestFragment extends Fragment {
 			Bundle savedInstanceState) {
 		try {
 			View activity_list_view = inflater.inflate(
-					R.layout.activity_list_view, container, false);
+					R.layout.draggable_list_test, container, false);
 
 			ArrayList<HasItsOwnView> listToDisplay = new ArrayList<HasItsOwnView>();
 			addItem(listToDisplay, "A1");
@@ -82,7 +81,7 @@ public class DraggableListViewTestFragment extends Fragment {
 			addItem(listToDisplay, "C8");
 			SimpleBaseAdapter adapter = new SimpleBaseAdapter(getActivity(),
 					listToDisplay);
-			DynamicListView listView = (DynamicListView) activity_list_view
+			DraggableListView listView = (DraggableListView) activity_list_view
 					.findViewById(R.id.dynamic_listview);
 			listView.setModelModificationListener(new ListModificationListener(
 					listToDisplay));

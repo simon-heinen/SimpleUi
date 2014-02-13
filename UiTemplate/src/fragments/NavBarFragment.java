@@ -1,5 +1,6 @@
 package fragments;
 
+import adapters.SimpleMenuAdapter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.MenuItem;
@@ -35,7 +36,7 @@ public abstract class NavBarFragment extends ListFragment {
 	 * @param item
 	 *            the type depends on the adapter you passed in
 	 *            {@link NavBarFragment#newListAdapter()}. E.g. if you passed a
-	 *            {@link MenuBaseAdapter} it will be a {@link MenuItem}
+	 *            {@link SimpleMenuAdapter} it will be a {@link MenuItem}
 	 */
 	public abstract void onMenuEntryClicked(Object item);
 

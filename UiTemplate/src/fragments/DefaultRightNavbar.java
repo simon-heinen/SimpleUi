@@ -1,4 +1,10 @@
-package com.bitstars.uitemplate;
+package fragments;
+
+import com.bitstars.uitemplate.DefaultSimpleMenuAdapter;
+import com.bitstars.uitemplate.R;
+import com.bitstars.uitemplate.R.id;
+import com.bitstars.uitemplate.R.layout;
+import com.bitstars.uitemplate.R.menu;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,14 +14,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import fragments.NavBarFragment;
 
-public class DefaultLeftNavbar extends NavBarFragment {
+public class DefaultRightNavbar extends NavBarFragment {
 	private static final String LOG_TAG = "DefaultLeftNavbar";
 
 	@Override
-	public DefaultMenuAdapter newListAdapter() {
-		return new DefaultMenuAdapter(getActivity(), R.menu.default_left_navbar);
+	public DefaultSimpleMenuAdapter newListAdapter() {
+		return new DefaultSimpleMenuAdapter(getActivity(),
+				R.menu.default_right_navbar);
 	}
 
 	@Override
@@ -29,7 +35,7 @@ public class DefaultLeftNavbar extends NavBarFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_navigation, null);
+		View v = inflater.inflate(R.layout.default_navbar, null);
 		Button b = (Button) v.findViewById(R.id.navbar_button);
 		b.setOnClickListener(new OnClickListener() {
 

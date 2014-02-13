@@ -1,4 +1,4 @@
-package fragments;
+package adapters;
 
 import java.lang.reflect.Constructor;
 
@@ -9,14 +9,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.BaseAdapter;
 
-public abstract class MenuBaseAdapter extends BaseAdapter {
+public abstract class SimpleMenuAdapter extends BaseAdapter {
 
 	protected final LayoutInflater inflater;
 	private final MenuInflater mMenuInflater;
 	private final int mMenuRes;
 	private final Menu mMenu;
 
-	public MenuBaseAdapter(Context context, int menuRes) {
+	public SimpleMenuAdapter(Context context, int menuRes) {
 		super();
 		inflater = LayoutInflater.from(context);
 		mMenuInflater = new MenuInflater(context);

@@ -3,8 +3,8 @@ package v2.simpleUi;
 import java.util.List;
 
 import tools.ImageTransform;
-import tools.SimpleBaseAdapter;
-import tools.SimpleBaseAdapter.HasItsOwnView;
+import adapters.SimpleBaseAdapter;
+import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
 import android.content.Context;
 import android.view.MotionEvent;

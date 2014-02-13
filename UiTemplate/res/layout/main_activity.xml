@@ -36,7 +36,7 @@
 
         <fragment
             android:id="@+id/navigation"
-            android:name="com.bitstars.uitemplate.DefaultLeftNavbar"
+            android:name="fragments.DefaultLeftNavbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </fragment>
@@ -49,7 +49,7 @@
 
         <fragment
             android:id="@+id/contactList"
-            android:name="com.bitstars.uitemplate.DefaultRightNavbar"
+            android:name="fragments.DefaultRightNavbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </fragment>

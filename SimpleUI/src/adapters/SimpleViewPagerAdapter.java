@@ -1,4 +1,4 @@
-package fragments;
+package adapters;
 
 import java.util.ArrayList;
 
