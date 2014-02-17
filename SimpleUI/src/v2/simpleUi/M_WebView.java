@@ -3,6 +3,7 @@ package v2.simpleUi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
@@ -11,6 +12,7 @@ import android.webkit.WebViewClient;
 
 public abstract class M_WebView implements ModifierInterface {
 
+	protected static final String LOG_TAG = "M_WebView";
 	private final boolean useDefaultZoomControls;
 	private final boolean useTransparentBackground;
 
@@ -22,7 +24,7 @@ public abstract class M_WebView implements ModifierInterface {
 
 	@Override
 	public View getView(final Context context) {
-		WebView w = new WebView(context) {
+		final WebView w = new WebView(context) {
 			private boolean is_gone = false;
 
 			@Override
@@ -83,12 +85,32 @@ public abstract class M_WebView implements ModifierInterface {
 					}
 				}
 				view.loadUrl(url);
-				return dontLoadUrlInWebview(url); // then it is not handled by
-													// default action
+				// then it is not handled by the default action:
+				return dontLoadUrlInWebview(url);
 			}
 
 			@Override
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				super.onReceivedError(view, errorCode, description, failingUrl);
+				Log.e(LOG_TAG, "Error " + errorCode + ":" + description
+						+ " while loading page " + failingUrl);
+				if (onErrorInHtmlResponse(view, errorCode, failingUrl)) {
+					hideWebView = true;
+				}
+			}
+
+			private boolean hideWebView = false;
+
+			@Override
 			public void onPageFinished(WebView view, String url) {
+				Log.i(LOG_TAG, "Finished loading " + url);
+				if (hideWebView) {
+					view.setVisibility(View.GONE);
+				} else {
+					w.setVisibility(View.VISIBLE);
+				}
+				hideWebView = false;
 				CookieSyncManager.getInstance().sync();
 				view.loadUrl("javascript:window.HTMLOUT.processHTML("
 						+ "document.getElementsByTagName("
@@ -105,6 +127,18 @@ public abstract class M_WebView implements ModifierInterface {
 		w.clearView();
 		w.loadUrl(getUrlToDisplay());
 		return w;
+	}
+
+	/**
+	 * @param view
+	 * @param errorCode
+	 * @param description
+	 * @param failingUrl
+	 * @return true to not show the web view when an error occurs
+	 */
+	public boolean onErrorInHtmlResponse(WebView view, int errorCode,
+			String failingUrl) {
+		return false;
 	}
 
 	protected abstract void onPageLoaded(String html);

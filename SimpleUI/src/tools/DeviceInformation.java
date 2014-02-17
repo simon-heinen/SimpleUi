@@ -71,6 +71,10 @@ public class DeviceInformation {
 		return Looper.getMainLooper().getThread() == Thread.currentThread();
 	}
 
+	/**
+	 * @param a
+	 * @return the size with size.x=width and size.y=height
+	 */
 	@SuppressLint("NewApi")
 	public static Point getScreenSize(Activity a) {
 		Point size = new Point();

@@ -99,13 +99,19 @@ public class IO {
 		return BitmapFactory.decodeFile(imagePath, bitmapOptions);
 	}
 
-	public static Bitmap loadBitmapFromJar(String path) {
+	public static Bitmap loadBitmapFromJar(Context context, String path) {
 		try {
 			InputStream stream = Thread.currentThread().getContextClassLoader()
 					.getResource(path).openStream();
 			return BitmapFactory.decodeStream(stream);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(LOG_TAG, "Can't load bitmap from jar with path=" + path);
+
+			try {
+				return loadBitmapFromAssetsFolder(context, path);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 		return null;
 	}
