@@ -44,6 +44,26 @@ public class GeoLocation {
 				g.longitude);
 	}
 
+	/**
+	 * In DroidAR all coordinates have to be decimal degrees. Use this method if
+	 * you have to convert to decimal degrees.
+	 * 
+	 * Example usage: <br>
+	 * 16° 19' 28,29" to 16,324525°
+	 * 
+	 * @param degree
+	 *            16
+	 * @param minutes
+	 *            19
+	 * @param seconds
+	 *            28,29
+	 * @return 16,324525°
+	 */
+	public static double convertDegreesMinutesSecondsToDecimalDegrees(
+			double degree, double minutes, double seconds) {
+		return degree + ((minutes + (seconds / 60)) / 60) / 60;
+	}
+
 	// see
 	// http://stackoverflow.com/questions/7386286/how-to-generate-random-lat-lng-inside-an-area-given-the-center-and-the-radius
 	// for more info on how this works
