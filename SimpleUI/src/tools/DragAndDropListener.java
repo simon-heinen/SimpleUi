@@ -1,6 +1,5 @@
-package v2.simpleUi.util;
+package tools;
 
-import tools.IO;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;

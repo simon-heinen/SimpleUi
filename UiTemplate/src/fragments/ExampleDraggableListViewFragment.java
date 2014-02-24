@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import v2.simpleUi.M_InfoText;
-import v3.customViews.DraggableListView;
-import v3.customViews.DraggableListView.ListModificationListener;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.content.Context;
@@ -34,6 +32,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import com.bitstars.uitemplate.R;
+
+import customViews.DraggableListView;
+import customViews.DraggableListView.ListModificationListener;
 
 /**
  * This application creates a listview where the ordering of the data set can be
