@@ -1,5 +1,7 @@
 package v3.maps;
 
+import tools.AnalyticsHelper;
+import tools.SimpleUiApplication;
 import v2.simpleUi.ActivityLifecycleListener;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
@@ -8,7 +10,6 @@ import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;
 import v2.simpleUi.SimpleUI.OptionsMenuListener;
-import v2.simpleUi.SimpleUiApplication;
 import v3.simpleUi.SimpleUIInterface;
 import android.R;
 import android.app.Activity;
@@ -125,7 +126,7 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 
 	@Override
 	protected void onStart() {
-		SimpleUI.trackStart(this, SimpleUI.getTrackText(myModifier));
+		AnalyticsHelper.trackStart(this, SimpleUI.getTrackText(myModifier));
 
 		try {
 			super.onStart();
@@ -178,7 +179,7 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 
 	@Override
 	protected void onStop() {
-		SimpleUI.trackStop(this);
+		AnalyticsHelper.trackStop(this);
 		super.onStop();
 	}
 

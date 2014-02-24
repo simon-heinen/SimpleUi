@@ -3,7 +3,7 @@ package injectionTests;
 import javax.inject.Inject;
 
 import tools.ButterknifeHelper;
-import v2.simpleUi.SimpleUiApplication;
+import tools.DaggerHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -46,11 +46,9 @@ public class ButterknifeAndDaggerTestActivity extends Activity {
 		text1.setText("aaaaaa");
 
 		// call this one time at the beginning of your main activity:
-		((SimpleUiApplication) getApplication())
-				.getObjectGraph(new DaggerInjector());
+		DaggerHelper.getObjectGraph(new DaggerInjector());
 
-		ObjectGraph o = ((SimpleUiApplication) getApplication())
-				.getObjectGraph();
+		ObjectGraph o = DaggerHelper.getObjectGraph();
 		o.inject(this);
 
 		text2.setText("dagger(should not be A)=" + injectedByDagger.getMyText());

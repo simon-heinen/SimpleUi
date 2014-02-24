@@ -1,6 +1,5 @@
 package tools;
 
-import v2.simpleUi.SimpleUiApplication;
 import android.content.Context;
 
 public class tex {
