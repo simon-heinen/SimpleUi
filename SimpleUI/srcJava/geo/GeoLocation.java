@@ -1,30 +1,40 @@
 package geo;
 
+import java.util.ArrayList;
+
 import math.Vec;
 import util.Log;
 import ch.hsr.geohash.GeoHash;
+import ch.hsr.geohash.WGS84Point;
+import ch.hsr.geohash.util.VincentyGeodesy;
 
 public class GeoLocation {
 
-	public GeoLocation() {
-		latitude = 0;
-		longitude = 0;
-	}
+	private static final String LOG_TAG = "GeoLocation";
 
-	public GeoLocation(double latitude, double longitude) {
-		this.latitude = latitude;
-		this.longitude = longitude;
-	}
+	private static GeoLocation zeroPos;
 
-	private double latitude;
 	private double longitude;
+	private double latitude;
+	private double altitude;
+	private Vec myVec;
 
-	public double getLatitude() {
-		return latitude;
+	/**
+	 * Generates Location with height = 0
+	 * 
+	 * @param long Longitude
+	 * @param long Latitude
+	 * 
+	 */
+	public GeoLocation(double lat, double longi) {
+		longitude = longi;
+		latitude = lat;
+		altitude = 0;
 	}
 
-	public double getLongitude() {
-		return longitude;
+	public GeoLocation(double lat, double longi, double altitude) {
+		this(lat, longi);
+		this.altitude = altitude;
 	}
 
 	public void setLatitude(double latitude) {
@@ -35,13 +45,118 @@ public class GeoLocation {
 		this.longitude = longitude;
 	}
 
+	public void setAltitude(double altitude) {
+		this.altitude = altitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
 	public String calculateGeoHash(int nrOfBits) {
 		return calculateGeoHash(this.latitude, this.longitude, nrOfBits);
 	}
 
 	public double getDistanceTo(GeoLocation g) {
-		return getDistanceTo(this.latitude, this.longitude, g.latitude,
-				g.longitude);
+		return getDistanceTo(this.toVec(), g.toVec());
+	}
+
+	/**
+	 * WORKING approach of calculating bounding box with given Location and
+	 * radius
+	 * 
+	 * @param center
+	 * @param radiusInMeters
+	 * @return ArrayList with 2 location (max and min coordinates)
+	 */
+	public static ArrayList<GeoLocation> getBBox(GeoLocation center,
+			int radiusInMeters) {
+		WGS84Point point = new WGS84Point(center.getLatitude(),
+				center.getLongitude());
+		WGS84Point point1 = VincentyGeodesy.moveInDirection(point, 135,
+				radiusInMeters);
+		WGS84Point point2 = VincentyGeodesy.moveInDirection(point, 315,
+				radiusInMeters);
+
+		WGS84Point min, max;
+		if (point1.getLatitude() > point2.getLatitude()) {
+			if (point1.getLongitude() > point2.getLongitude()) {
+				max = point1;
+				min = point2;
+			} else {
+				max = new WGS84Point(point1.getLatitude(),
+						point2.getLongitude());
+				min = new WGS84Point(point2.getLatitude(),
+						point1.getLongitude());
+			}
+		} else {
+			if (point1.getLongitude() > point2.getLongitude()) {
+				max = new WGS84Point(point2.getLatitude(),
+						point1.getLongitude());
+				min = new WGS84Point(point1.getLatitude(),
+						point2.getLongitude());
+			} else {
+				max = point2;
+				min = point1;
+			}
+		}
+		GeoLocation minimal = new GeoLocation(min.getLatitude(),
+				min.getLongitude());
+		GeoLocation maximal = new GeoLocation(max.getLatitude(),
+				max.getLongitude());
+		ArrayList<GeoLocation> temp = new ArrayList<GeoLocation>();
+		temp.add(minimal);
+		temp.add(maximal);
+		return temp;
+
+	}
+
+	/**
+	 * @return north in meters (X AXIS)
+	 */
+	public float getX() {
+		return toVec().x;
+	}
+
+	/**
+	 * @return east in meters (Z AXIS)
+	 */
+	public float getZ() {
+		return toVec().z;
+	}
+
+	/**
+	 * @return vec.x=north in meters (X AXIS), vec.z=east in meters (Z AXIS)
+	 */
+	public Vec toVec() {
+		calcVecIfNeeded();
+		return myVec;
+	}
+
+	private void calcVecIfNeeded() {
+		if (myVec == null) {
+			if (zeroPos == null) {
+				// The first GeoLocation which uses the virtual pos concept
+				// defines the zeroPos
+				zeroPos = this.copy();
+			}
+			float[] result = new float[3];
+			CoordRemap.calcVirtualPos(result, latitude, longitude,
+					zeroPos.getLatitude(), zeroPos.getLongitude());
+			myVec = new Vec(result[2], 0, result[0]);
+		}
+	}
+
+	private GeoLocation copy() {
+		return new GeoLocation(latitude, longitude, altitude);
+	}
+
+	public GeoLocation newLocationFromVirtualCoords(float x, float z) {
+		return null;
 	}
 
 	/**
@@ -72,19 +187,32 @@ public class GeoLocation {
 	// http://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates
 	public static GeoLocation createRandomLocation(GeoLocation center,
 			float radius) {
-		Vec v = Vec.getNewRandomPosInXYPlane(new Vec(), 0, radius);
-		Vec randomGpsPos = GeoLocation.toGPSPosition(v, center.latitude,
-				center.longitude);
-		return new GeoLocation(randomGpsPos.y, randomGpsPos.x);
+		Vec virtPos = Vec.getNewRandomPosInXZPlane(new Vec(), 0, radius);
+		virtPos.add(center.toVec());
+		return GeoLocation.newGeoLocationFromRelativePos(virtPos.z, virtPos.x);
 	}
 
-	public static Vec toVirtualPos(double userLatitude, double userLongitude,
-			double zeroLatitude, double zeroLongitude) {
-		Vec position = new Vec();
-		position.x = (float) ((userLongitude - zeroLongitude) * 111319.4917 * Math
-				.cos(zeroLatitude * 0.0174532925));
-		position.y = (float) ((userLatitude - zeroLatitude) * 111133.3333);
-		return position;
+	public static void setZeroPos(GeoLocation zeroPos) {
+		if (GeoLocation.zeroPos == null) {
+			GeoLocation.zeroPos = zeroPos;
+		} else {
+			Log.e(LOG_TAG, "Zero pos already set, will not accept new one");
+		}
+	}
+
+	private static GeoLocation newGeoLocationFromRelativePos(float z, float x) {
+		if (zeroPos == null) {
+			Log.e(LOG_TAG, "Cant calc virtual pos, no zero pos set yet!");
+			return null;
+		}
+		float[] result = new float[2];
+		CoordRemap.calcGPSPos(result, x, z, zeroPos.getLatitude(),
+				zeroPos.getLongitude());
+		return new GeoLocation(result[0], result[1]);
+	}
+
+	public static double getDistanceTo(GeoLocation a, GeoLocation b) {
+		return getDistanceTo(a.toVec(), b.toVec());
 	}
 
 	/**
@@ -93,7 +221,8 @@ public class GeoLocation {
 	 * @param zeroAltitude
 	 * @return a Vector with x=Longitude, y=Latitude
 	 */
-	public static Vec toGPSPosition(Vec virtualPosition, double zeroLatitude,
+	@Deprecated
+	private static Vec toGPSPosition2(Vec virtualPosition, double zeroLatitude,
 			double zeroLongitude) {
 		if (virtualPosition != null) {
 			/*
@@ -103,15 +232,19 @@ public class GeoLocation {
 			Vec result = new Vec();
 			result.x = (float) (virtualPosition.x
 					/ (111319.889f * Math.cos(zeroLatitude * 0.0174532925f)) + zeroLongitude);
-			result.y = (float) (virtualPosition.y / 111133.3333f + zeroLatitude);
-			result.z = (virtualPosition.z);
+			result.z = (float) (virtualPosition.z / 111133.3333f + zeroLatitude);
+			result.y = (virtualPosition.y);
 			return result;
 		}
 		return null;
 	}
 
-	// copied from c# GetDistanceTo
+	private static double getDistanceTo(Vec a, Vec b) {
+		return Vec.sub(a, b).getLength();
+	}
+
 	/**
+	 * instead use {@link GeoLocation#getDistanceTo(GeoLocation, GeoLocation)}
 	 * 
 	 * @param lat1
 	 * @param lon1
@@ -121,8 +254,10 @@ public class GeoLocation {
 	 * @throws Exception
 	 *             when latitude or longitude is not a number
 	 */
+	@Deprecated
 	public static double getDistanceTo(double lat1, double lon1, double lat2,
 			double lon2) {
+		// copied from c# GetDistanceTo
 		if (Double.isNaN(lat1) || Double.isNaN(lon1) || Double.isNaN(lat2)
 				|| Double.isNaN(lon2)) {
 			Log.w("GeoLocation.java.getDistanceTo received NaN values error");
@@ -159,13 +294,10 @@ public class GeoLocation {
 	}
 
 	public double getNorthClockwiseAngleOf(GeoLocation b) {
-
-		Vec v = toVirtualPos(b.latitude, b.longitude, latitude, longitude);
-
-		// System.out.println(v.x);
-		// System.out.println(v.y);
-
-		return (90 + 360 - Vec.getRotationAroundZAxis(v.x, v.y)) % 360;
+		float[] result = new float[3];
+		CoordRemap.calcVirtualPos(result, b.latitude, b.longitude, latitude,
+				longitude);
+		return (90 + 360 - Vec.getRotationAroundZAxis(result[2], result[0])) % 360;
 	}
 
 }

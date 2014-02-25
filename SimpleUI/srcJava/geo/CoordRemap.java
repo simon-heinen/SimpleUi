@@ -3,13 +3,8 @@ package geo;
 import util.Log;
 
 /**
- * 
  * Utility class to perform a remapping of GPS coordinates to the internal
  * coordinate system.
- * 
- * @author Philipp Fonteyn
- * @version 1.0 - 30. May 2013
- * @created 30. May 2013
  */
 public class CoordRemap {
 
@@ -41,7 +36,7 @@ public class CoordRemap {
 	 * Remaps GPS coordinates to a (x,y,z) coordinate system.<br>
 	 * 
 	 * @param result
-	 *            - Array the coordinates are written to.<br>
+	 *            - Array of length 3 the coordinates are written to.<br>
 	 *            <code>result[0]</code> = north in meters (X AXIS).<br>
 	 *            <code>result[2]</code> = east in meters (Z AXIS).
 	 * @param latitude
@@ -81,14 +76,22 @@ public class CoordRemap {
 
 	}
 
-	public static void calcGPSPos(float[] result, double x, double y,
+	/**
+	 * @param result
+	 *            0=Latitude, 1=Longitude
+	 * @param x
+	 *            north direction distance = lat
+	 * @param z
+	 *            east direction distance = lng
+	 */
+	public static void calcGPSPos(float[] result, double x, double z,
 			double zeroLat, double zeroLng) {
 		if (result.length != 2) {
 			Log.e(LOG_TAG,
 					"Length of passed result array did not have the correct length 2");
 			Thread.dumpStack();
 		}
-		result[1] = (float) (y
+		result[1] = (float) (z
 				/ (111319.889f * Math.cos(zeroLat * 0.0174532925f)) + zeroLng);
 		result[0] = (float) (x / 111133.3333f + zeroLat);
 	}
