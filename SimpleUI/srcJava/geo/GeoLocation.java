@@ -187,9 +187,14 @@ public class GeoLocation {
 	// http://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates
 	public static GeoLocation createRandomLocation(GeoLocation center,
 			float radius) {
-		Vec virtPos = Vec.getNewRandomPosInXZPlane(new Vec(), 0, radius);
-		virtPos.add(center.toVec());
-		return GeoLocation.newGeoLocationFromRelativePos(virtPos.z, virtPos.x);
+		Vec virtPos = Vec.getNewRandomPosInXYPlane(new Vec(), 0, radius);
+		virtPos.x += center.getX();
+		virtPos.y += center.getZ();
+		return GeoLocation.newGeoLocationFromRelativePos(virtPos.y, virtPos.x);
+	}
+
+	public static GeoLocation getZeroPos() {
+		return zeroPos;
 	}
 
 	public static void setZeroPos(GeoLocation zeroPos) {
@@ -200,7 +205,7 @@ public class GeoLocation {
 		}
 	}
 
-	private static GeoLocation newGeoLocationFromRelativePos(float z, float x) {
+	public static GeoLocation newGeoLocationFromRelativePos(float x, float z) {
 		if (zeroPos == null) {
 			Log.e(LOG_TAG, "Cant calc virtual pos, no zero pos set yet!");
 			return null;
@@ -213,30 +218,6 @@ public class GeoLocation {
 
 	public static double getDistanceTo(GeoLocation a, GeoLocation b) {
 		return getDistanceTo(a.toVec(), b.toVec());
-	}
-
-	/**
-	 * @param zeroLatitude
-	 * @param zeroLongitude
-	 * @param zeroAltitude
-	 * @return a Vector with x=Longitude, y=Latitude
-	 */
-	@Deprecated
-	private static Vec toGPSPosition2(Vec virtualPosition, double zeroLatitude,
-			double zeroLongitude) {
-		if (virtualPosition != null) {
-			/*
-			 * same formula as in calcVirtualPos() but resolved for latitude and
-			 * longitude:
-			 */
-			Vec result = new Vec();
-			result.x = (float) (virtualPosition.x
-					/ (111319.889f * Math.cos(zeroLatitude * 0.0174532925f)) + zeroLongitude);
-			result.z = (float) (virtualPosition.z / 111133.3333f + zeroLatitude);
-			result.y = (virtualPosition.y);
-			return result;
-		}
-		return null;
 	}
 
 	private static double getDistanceTo(Vec a, Vec b) {
@@ -280,7 +261,7 @@ public class GeoLocation {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "GeoLocation: " + latitude + "," + longitude;
+		return "(" + latitude + "," + longitude + ")";
 	}
 
 	public static String calculateGeoHash(double lat, double lon, int nrOfBits) {

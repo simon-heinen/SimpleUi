@@ -587,7 +587,7 @@ public class Vec {
 	 *            to the center
 	 * @return A random vector with the same z value
 	 */
-	public static Vec getNewRandomPosInXZPlane(Vec center, float minDistance,
+	public static Vec getNewRandomPosInXYPlane(Vec center, float minDistance,
 			float maxDistance) {
 
 		if (center == null) {
@@ -599,8 +599,8 @@ public class Vec {
 		Vec rndPos = new Vec(rndDistance, 0, 0);
 		rndPos.rotateAroundZAxis(Math.random() * 359);
 		rndPos.x += center.x;
-		rndPos.z += center.z;
-		rndPos.y = 0;
+		rndPos.y += center.y;
+		rndPos.z = 0;
 		return rndPos;
 	}
 

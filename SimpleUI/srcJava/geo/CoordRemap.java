@@ -13,24 +13,24 @@ public class CoordRemap {
 	/**
 	 * Conversion of angles in degress to radians.
 	 */
-	protected static final double DEG2RAD = Math.PI / 180;
+	protected static final float DEG2RAD = (float) (Math.PI) / 180f;
 
 	// Constants:
 
 	/**
 	 * earth circumfence at equator is 40075017
 	 */
-	protected static final double equator = 40075017;
+	protected static final float equator = 40075017f;
 	/**
 	 * earth circumfence through poles is 40008000
 	 */
-	protected static final double poles = 40008000;
+	protected static final float poles = 40008000f;
 
 	/**
 	 * Meters per degree.
 	 */
-	protected static final double lng2rad = equator / 360;
-	protected static final double lat2rad = poles / 360;
+	protected static final float lng2rad = equator / 360f;
+	protected static final float lat2rad = poles / 360f;
 
 	/**
 	 * Remaps GPS coordinates to a (x,y,z) coordinate system.<br>
