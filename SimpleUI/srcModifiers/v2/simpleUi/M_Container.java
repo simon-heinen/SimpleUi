@@ -2,6 +2,7 @@ package v2.simpleUi;
 
 import java.util.ArrayList;
 
+import tools.SimpleUiApplication;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import v2.simpleUi.util.BGUtils;
@@ -71,6 +72,9 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 	}
 
 	public Context getContext() {
+		if (context == null) {
+			context = SimpleUiApplication.getContext();
+		}
 		return context;
 	}
 

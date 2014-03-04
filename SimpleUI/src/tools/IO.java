@@ -61,6 +61,13 @@ public class IO {
 		}
 	}
 
+	/**
+	 * use {@link IO#convertStreamToString(InputStream)} instead
+	 * 
+	 * @param stream
+	 * @return
+	 */
+	@Deprecated
 	public static String convertInputStreamToString(InputStream stream) {
 		if (stream == null) {
 			return null;
@@ -83,6 +90,34 @@ public class IO {
 			Log.e(LOG_TAG, "Could not convert input stream to string");
 		}
 		return null;
+	}
+
+	public static String convertStreamToString(InputStream is)
+			throws IOException {
+		if (is == null) {
+			Log.e(LOG_TAG, "Passed input stream was null");
+			return null;
+		}
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
+				"UTF-8"));
+		reader.mark(1);
+		if (reader.read() != 0xFEFF) {
+			reader.reset();
+		}
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			sb.append(line).append("\n");
+		}
+		return sb.toString();
+	}
+
+	public static String loadStringFromFile(File file) throws IOException {
+		FileInputStream fin = new FileInputStream(file);
+		String ret = convertStreamToString(fin);
+		// Make sure you close all streams.
+		fin.close();
+		return ret;
 	}
 
 	/**
