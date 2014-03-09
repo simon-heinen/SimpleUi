@@ -29,7 +29,7 @@ public class EventBus {
 
 	/**
 	 * a listener needs an public event method with an {@link Subscribe}
-	 * annotation on it and as a parameter the event PoJo to listen to. The rest
+	 * annotation on it and as a parameter the event Pojo to listen to. The rest
 	 * is handled by the event system
 	 * 
 	 * @param listener

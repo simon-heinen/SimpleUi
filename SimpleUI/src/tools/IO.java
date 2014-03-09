@@ -9,19 +9,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,7 +32,11 @@ import android.view.ViewGroup.LayoutParams;
 
 import com.squareup.picasso.Picasso;
 
-public class IO {
+/**
+ * Android specific extensions to default {@link util.IOHelper} class
+ * 
+ */
+public class IO extends util.IOHelper {
 
 	private static final String LOG_TAG = "IO";
 
@@ -90,34 +87,6 @@ public class IO {
 			Log.e(LOG_TAG, "Could not convert input stream to string");
 		}
 		return null;
-	}
-
-	public static String convertStreamToString(InputStream is)
-			throws IOException {
-		if (is == null) {
-			Log.e(LOG_TAG, "Passed input stream was null");
-			return null;
-		}
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-				"UTF-8"));
-		reader.mark(1);
-		if (reader.read() != 0xFEFF) {
-			reader.reset();
-		}
-		StringBuilder sb = new StringBuilder();
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			sb.append(line).append("\n");
-		}
-		return sb.toString();
-	}
-
-	public static String loadStringFromFile(File file) throws IOException {
-		FileInputStream fin = new FileInputStream(file);
-		String ret = convertStreamToString(fin);
-		// Make sure you close all streams.
-		fin.close();
-		return ret;
 	}
 
 	/**
@@ -185,22 +154,6 @@ public class IO {
 			e.printStackTrace();
 		}
 		return false;
-	}
-
-	public static File newFile(String filePath) throws IOException {
-		File f = new File(filePath);
-		if (!f.exists()) {
-			if (!f.getParentFile().exists()) {
-				Log.i(LOG_TAG, "Trying to create dir "
-						+ f.getParentFile().getAbsolutePath());
-				if (!f.getParentFile().mkdirs()) {
-					Log.w(LOG_TAG, "Cannot create dir "
-							+ f.getParentFile().getAbsolutePath());
-				}
-			}
-			f.createNewFile();
-		}
-		return f;
 	}
 
 	/**
@@ -298,22 +251,6 @@ public class IO {
 		foStream.close();
 	}
 
-	/**
-	 * @param filename
-	 *            something like
-	 *            Environment.getExternalStorageDirectory().getAbsolutePath() +
-	 *            File.separator +"test.txt"
-	 * @param objectToSave
-	 * @throws IOException
-	 */
-	public static void saveSerializableToExternalStorage(String filename,
-			Serializable objectToSave) throws IOException {
-
-		File file = newFile(filename);
-		FileOutputStream foStream = new FileOutputStream(file);
-		saveSerializableToStream(objectToSave, foStream);
-	}
-
 	public static void saveSerializableToPrivateStorage(Context context,
 			String filename, Serializable objectToSave) throws IOException {
 		FileOutputStream fileOut = context.openFileOutput(filename,
@@ -321,55 +258,11 @@ public class IO {
 		saveSerializableToStream(objectToSave, fileOut);
 	}
 
-	private static void saveSerializableToStream(Serializable objectToSave,
-			FileOutputStream foStream) throws IOException {
-		if (objectToSave == null) {
-			throw new IOException("objectToSave was null, will not save this");
-		}
-		GZIPOutputStream gzioStream = new GZIPOutputStream(foStream);
-		ObjectOutputStream outStream = new ObjectOutputStream(gzioStream);
-		outStream.writeObject(objectToSave);
-		outStream.flush();
-		outStream.close();
-		gzioStream.close();
-		foStream.close();
-	}
-
-	/**
-	 * @param filename
-	 *            something like "/sdcard/test.txt"
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 * @throws OptionalDataException
-	 * @throws StreamCorruptedException
-	 */
-	public static Object loadSerializableFromExternalStorage(String filename)
-			throws StreamCorruptedException, OptionalDataException,
-			IOException, ClassNotFoundException {
-		FileInputStream fiStream = new FileInputStream(filename);
-		return loadSerializableFromStream(fiStream);
-	}
-
 	public static Object loadSerializableFromPrivateStorage(Context context,
 			String filename) throws StreamCorruptedException,
 			OptionalDataException, IOException, ClassNotFoundException {
 		FileInputStream fiStream = context.openFileInput(filename);
 		return loadSerializableFromStream(fiStream);
-	}
-
-	private static Object loadSerializableFromStream(FileInputStream fiStream)
-			throws IOException, StreamCorruptedException,
-			OptionalDataException, ClassNotFoundException {
-		GZIPInputStream gzipStream = new GZIPInputStream(fiStream);
-		ObjectInputStream inStream = new ObjectInputStream(gzipStream);
-		Object loadedObject = inStream.readObject();
-		inStream.close();
-		if (loadedObject == null) {
-			throw new ClassNotFoundException(
-					"Class found but loaded object was null");
-		}
-		return loadedObject;
 	}
 
 	public static class Settings {
@@ -456,91 +349,6 @@ public class IO {
 	}
 
 	/**
-	 * @param newDirectory
-	 * @return false if the folder already existed or could not be created
-	 */
-	public static boolean createFolder(String newDirectory) {
-		return new File(newDirectory).mkdirs();
-	}
-
-	public static boolean copy(String sourceName, String targetName) {
-		File source = new File(sourceName);
-		File dest = new File(targetName);
-		try {
-			copy(source, dest);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-
-	public static List<File> getFilesInPath(String path) {
-		File f = new File(path);
-		return Arrays.asList(f.listFiles());
-	}
-
-	/**
-	 * @param oldPath
-	 *            e.g. /myFolder/test.txt
-	 * @param newName
-	 *            e.g. oldTest.txt
-	 * @return
-	 */
-	public static boolean renameFile(String oldPath, String newName) {
-		File source = new File(Environment.getExternalStorageDirectory(),
-				oldPath);
-		File dest = new File(source.getParent(), newName);
-		return source.renameTo(dest);
-	}
-
-	/**
-	 * http://stackoverflow.com/questions/5715104/copy-files-from-a-folder-of-sd
-	 * -card-into-another-folder-of-sd-card
-	 * 
-	 * If targetLocation does not exist, it will be created.
-	 * 
-	 * @param sourceLocation
-	 * @param targetLocation
-	 * @throws IOException
-	 */
-	public static void copy(File sourceLocation, File targetLocation)
-			throws IOException {
-
-		if (sourceLocation.isDirectory()) {
-			if (!targetLocation.exists() && !targetLocation.mkdirs()) {
-				throw new IOException("Cannot create dir "
-						+ targetLocation.getAbsolutePath());
-			}
-
-			String[] children = sourceLocation.list();
-			for (int i = 0; i < children.length; i++) {
-				copy(new File(sourceLocation, children[i]), new File(
-						targetLocation, children[i]));
-			}
-		} else {
-			// make sure the directory we plan to store the recording in exists
-			File directory = targetLocation.getParentFile();
-			if (directory != null && !directory.exists() && !directory.mkdirs()) {
-				throw new IOException("Cannot create dir "
-						+ directory.getAbsolutePath());
-			}
-
-			InputStream in = new FileInputStream(sourceLocation);
-			OutputStream out = new FileOutputStream(targetLocation);
-
-			// Copy the bits from instream to outstream
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			in.close();
-			out.close();
-		}
-	}
-
-	/**
 	 * @param relativePathInAssetsFolder
 	 *            something like "folderX/fileY.txt" if you have a folder in
 	 *            your assets folder folderX which contains a fileY.txt
@@ -553,6 +361,23 @@ public class IO {
 			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
 		}
 		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
+	}
+
+	/**
+	 * @Deprecated till android dependency fixed
+	 * 
+	 * @param oldPath
+	 *            e.g. /myFolder/test.txt
+	 * @param newName
+	 *            e.g. oldTest.txt
+	 * @return
+	 */
+	@Deprecated
+	public static boolean renameFile(String oldPath, String newName) {
+		File source = new File(Environment.getExternalStorageDirectory(),
+				oldPath);
+		File dest = new File(source.getParent(), newName);
+		return source.renameTo(dest);
 	}
 
 	public static FileReader loadFileReaderFromAssets(Context c,
