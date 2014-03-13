@@ -281,4 +281,8 @@ public class GeoLocation {
 		return (90 + 360 - Vec.getRotationAroundZAxis(result[2], result[0])) % 360;
 	}
 
+	public double getAltitude() {
+		return altitude;
+	}
+
 }
