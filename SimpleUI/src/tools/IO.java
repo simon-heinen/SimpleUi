@@ -214,13 +214,13 @@ public class IO extends util.IOHelper {
 			// wrap the bitmap:
 			Canvas c = new Canvas(b);
 			// set the view size to the mesured values:
-			v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+			v.layout(0, 0, v.getWidth(), v.getHeight());
 			// and draw the view onto the bitmap contained in the canvas:
 			v.draw(c);
 			return b;
 		} else {
-			Bitmap b = Bitmap.createBitmap(v.getMeasuredWidth(),
-					v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+			Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+					Bitmap.Config.ARGB_8888);
 			Canvas c = new Canvas(b);
 			v.draw(c);
 			return b;

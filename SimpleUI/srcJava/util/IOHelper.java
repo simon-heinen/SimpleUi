@@ -109,7 +109,10 @@ public class IOHelper {
 	}
 
 	public static File newFile(String filePath) throws IOException {
-		File f = new File(filePath);
+		return newFile(new File(filePath));
+	}
+
+	public static File newFile(File f) throws IOException {
 		if (!f.exists()) {
 			if (!f.getParentFile().exists()) {
 				Log.i(LOG_TAG, "Trying to create dir "

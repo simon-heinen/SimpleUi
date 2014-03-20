@@ -64,6 +64,7 @@ public class ProxyFactory {
 			InvocationHandler {
 
 		private static final String LOG_TAG = "ProxyMethodCallHandler";
+		public static final boolean EXTENDED_LOGGING = false;
 		private String baseUrl;
 		private Class<?> proxiedClass;
 
@@ -118,9 +119,10 @@ public class ProxyFactory {
 			methodPath = replaceReservedChars(methodPath);
 			for (int i = 0; i < params.length; i++) {
 				if (params[i] == null) {
-					Log.w(LOG_TAG, "" + method + " - Parameter " + i
-							+ " was null!");
-					// Thread.dumpStack();
+					if (EXTENDED_LOGGING) {
+						Log.w(LOG_TAG, "" + method + " - Parameter " + i
+								+ " was null!");
+					}
 				}
 
 				String valueToSet = getStringForParamValue(params[i]);
@@ -142,8 +144,12 @@ public class ProxyFactory {
 							if (valueToSet != null) {
 								addQuerryParam(queryAnn, defAnn, valueToSet);
 							} else {
-								Log.i(LOG_TAG, queryAnn.value() + " was null, "
-										+ "will not be added to query params");
+								if (EXTENDED_LOGGING) {
+									Log.i(LOG_TAG,
+											queryAnn.value()
+													+ " was null, "
+													+ "will not be added to query params");
+								}
 							}
 						} else {
 							FormParam formAnn = getAnnotation(FormParam.class,
@@ -224,9 +230,12 @@ public class ProxyFactory {
 		private String analyseBaseUrlForPossibleErrors(String baseUrl) {
 			try {
 				URL url = new URL(baseUrl);
-				Log.d(LOG_TAG, "analysing url=" + url);
-				Log.d(LOG_TAG, "  > host=" + url.getHost());
-				Log.d(LOG_TAG, "  > protocol=" + url.getProtocol());
+
+				if (EXTENDED_LOGGING) {
+					Log.d(LOG_TAG, "analysing url=" + url);
+					Log.d(LOG_TAG, "  > host=" + url.getHost());
+					Log.d(LOG_TAG, "  > protocol=" + url.getProtocol());
+				}
 				if (baseUrl.endsWith("/")) {
 					return baseUrl.substring(0, baseUrl.length() - 1);
 				}
@@ -368,16 +377,19 @@ public class ProxyFactory {
 			 * not be the right place to allow only Strings as parameters
 			 */
 			if (param instanceof Iterable) {
-				Log.i(LOG_TAG,
-						"Will generate list representation for "
-								+ param.getClass() + "-parameter");
+				if (EXTENDED_LOGGING) {
+					Log.i(LOG_TAG, "Will generate list representation for "
+							+ param.getClass() + "-parameter");
+				}
 				String result = "";
 				for (Object o : (Iterable) param) {
 					if (o != null) {
 						result += makeWebSaveString(o.toString()) + ",";
 					}
 				}
-				Log.d(LOG_TAG, "   > generated list-string: " + result);
+				if (EXTENDED_LOGGING) {
+					Log.d(LOG_TAG, "   > generated list-string: " + result);
+				}
 				return result.substring(0, result.length() - 1);
 			}
 			if (param == null) {
