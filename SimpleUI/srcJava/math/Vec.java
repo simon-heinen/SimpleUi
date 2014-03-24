@@ -1,5 +1,7 @@
 package math;
 
+import java.io.Serializable;
+
 import util.Log;
 
 /**
@@ -8,7 +10,7 @@ import util.Log;
  * @author Spobo
  * 
  */
-public class Vec {
+public class Vec implements Serializable {
 
 	private static final float SMALLEST_DISTANCE = 0.0001f;
 	private static final String LOG_TAG = "Vec";
@@ -24,7 +26,6 @@ public class Vec {
 	 *            value on blue axis (sky direction=altitude=height)
 	 */
 	public float x, y, z = 0;
-	private float[] myArray;
 
 	/**
 	 * @param x
@@ -141,6 +142,55 @@ public class Vec {
 		y = sin * x + cos * y;
 		x = x2;
 		return this;
+	}
+
+	/**
+	 * @param r0
+	 *            the reference circle radius agains which the second will be
+	 *            compared
+	 * @param r1
+	 * @param d
+	 * @return the percentage (from 0 to 1) how much the second circle overlaps
+	 *         with the first one (e.g. r0=2, r1=1, d=0 will result in 0.25)
+	 */
+	public static double getCircleIntersectionAreaInPercent(double r0,
+			double r1, double d) {
+		double r = getCircleIntersectionArea(r0, r1, d);
+		return r / (Math.PI * r0 * r0);
+	}
+
+	public static double getCircleIntersectionArea(double r0, double r1,
+			double d) {
+		double rr0 = r0 * r0;
+		double rr1 = r1 * r1;
+
+		// Circles do not overlap
+		if (d > r1 + r0) {
+			return 0;
+		}
+
+		// Circle1 is completely inside circle0
+		else if (d <= Math.abs(r0 - r1) && r0 >= r1) {
+			// Return area of circle1
+			return Math.PI * rr1;
+		}
+
+		// Circle0 is completely inside circle1
+		else if (d <= Math.abs(r0 - r1) && r0 < r1) {
+			// Return area of circle0
+			return Math.PI * rr0;
+		}
+
+		// Circles partially overlap
+		else {
+			double phi = (Math.acos((rr0 + (d * d) - rr1) / (2 * r0 * d))) * 2;
+			double theta = (Math.acos((rr1 + (d * d) - rr0) / (2 * r1 * d))) * 2;
+			double area1 = 0.5 * theta * rr1 - 0.5 * rr1 * Math.sin(theta);
+			double area2 = 0.5 * phi * rr0 - 0.5 * rr0 * Math.sin(phi);
+
+			// Return area of intersection
+			return area1 + area2;
+		}
 	}
 
 	/**
@@ -636,28 +686,6 @@ public class Vec {
 		ret.y = (uVec.z * vVec.x) - (uVec.x * vVec.z);
 		ret.z = (uVec.x * vVec.y) - (uVec.y * vVec.x);
 		return ret;
-	}
-
-	public float[] getArrayVersion() {
-		if (myArray == null) {
-			myArray = new float[4];
-			/*
-			 * set the last of the 4 values to 1 on default. This is important
-			 * for light-positioning eg, there it is used as a flag to indicate
-			 * that the light should be a positional light source. See the
-			 * LightSource class and
-			 * http://fly.cc.fer.hr/~unreal/theredbook/chapter06.html for more
-			 * details
-			 * 
-			 * TODO so is this the right place to do this?
-			 */
-			myArray[3] = 1;
-		}
-		myArray[0] = x;
-		myArray[1] = y;
-		myArray[2] = z;
-
-		return myArray;
 	}
 
 	public float scalarMult(Vec b) {

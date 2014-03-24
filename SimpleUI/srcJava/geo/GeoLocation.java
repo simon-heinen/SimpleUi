@@ -1,5 +1,6 @@
 package geo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import math.Vec;
@@ -8,7 +9,7 @@ import ch.hsr.geohash.GeoHash;
 import ch.hsr.geohash.WGS84Point;
 import ch.hsr.geohash.util.VincentyGeodesy;
 
-public class GeoLocation {
+public class GeoLocation implements Serializable {
 
 	private static final String LOG_TAG = "GeoLocation";
 
