@@ -31,7 +31,7 @@ public class Log {
 		if (DEBUG_ENABLED) {
 
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + "\t\t W > " + warning);
+				// System.out.println(LOG_TAG + "\t\t W > " + warning);
 			} else {
 				logHistory.add(newLogEntry("w", LOG_TAG, warning));
 			}
@@ -46,7 +46,7 @@ public class Log {
 	public static void e(String LOG_TAG, String error) {
 		if (DEBUG_ENABLED) {
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + SPACER + error);
+				// System.out.println(LOG_TAG + SPACER + error);
 			} else {
 				logHistory.add(newLogEntry("e", LOG_TAG, error));
 			}
@@ -57,7 +57,7 @@ public class Log {
 	public static void i(String LOG_TAG, String info) {
 		if (DEBUG_ENABLED) {
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + "\t\t I > " + info);
+				// System.out.println(LOG_TAG + "\t\t I > " + info);
 			} else {
 				logHistory.add(newLogEntry("i", LOG_TAG, info));
 			}
@@ -95,8 +95,8 @@ public class Log {
 		if (DEBUG_ENABLED) {
 			String errorStack = getFirstElementsOfStackTrace(e, 20, "\n");
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + SPACER + errorInfoText + ": "
-						+ errorStack);
+				// System.out.println(LOG_TAG + SPACER + errorInfoText + ": "
+				// + errorStack);
 				e.printStackTrace();
 			} else {
 				logHistory.add(newLogEntry("w", LOG_TAG, errorInfoText + ": "
