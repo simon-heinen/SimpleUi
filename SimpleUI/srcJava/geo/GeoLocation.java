@@ -18,7 +18,8 @@ public class GeoLocation implements Serializable {
 	private double longitude;
 	private double latitude;
 	private double altitude;
-	private Vec myVec;
+
+	transient private Vec myVec;
 
 	/**
 	 * Generates Location with height = 0
@@ -40,10 +41,12 @@ public class GeoLocation implements Serializable {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+		myVec = null;
 	}
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+		myVec = null;
 	}
 
 	public void setAltitude(double altitude) {
@@ -62,8 +65,8 @@ public class GeoLocation implements Serializable {
 		return calculateGeoHash(this.latitude, this.longitude, nrOfBits);
 	}
 
-	public double getDistanceTo(GeoLocation g) {
-		return getDistanceTo(this.toVec(), g.toVec());
+	public double getDistanceTo(GeoLocation b) {
+		return getDistanceTo(this.toVec(), b.toVec());
 	}
 
 	/**
@@ -156,10 +159,6 @@ public class GeoLocation implements Serializable {
 		return new GeoLocation(latitude, longitude, altitude);
 	}
 
-	public GeoLocation newLocationFromVirtualCoords(float x, float z) {
-		return null;
-	}
-
 	/**
 	 * In DroidAR all coordinates have to be decimal degrees. Use this method if
 	 * you have to convert to decimal degrees.
@@ -222,7 +221,8 @@ public class GeoLocation implements Serializable {
 	}
 
 	private static double getDistanceTo(Vec a, Vec b) {
-		return Vec.sub(a, b).getLength();
+		Vec l = Vec.sub(a, b);
+		return l.getLength();
 	}
 
 	/**
@@ -261,7 +261,10 @@ public class GeoLocation implements Serializable {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+		if (altitude != 0) {
+			return "(" + latitude + "," + longitude + ") with height="
+					+ altitude;
+		}
 		return "(" + latitude + "," + longitude + ")";
 	}
 
