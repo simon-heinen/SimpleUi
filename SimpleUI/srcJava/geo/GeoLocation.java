@@ -146,7 +146,7 @@ public class GeoLocation implements Serializable {
 			if (zeroPos == null) {
 				// The first GeoLocation which uses the virtual pos concept
 				// defines the zeroPos
-				zeroPos = this.copy();
+				setZeroPos(this.copy());
 			}
 			float[] result = new float[3];
 			CoordRemap.calcVirtualPos(result, latitude, longitude,
