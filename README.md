@@ -25,6 +25,14 @@ The SimpleUI component is a user interface generator based on the model view con
 
 ***
 
+# Using SimpleUI in other Java projects
+We moved all Android unrelated classes to a separate source folder: srcJava
+
+You need to include the jsr311-api-1.1.1.jar in your Java project as well
+
+
+***
+
  ![13](https://lh3.googleusercontent.com/-McqXOnZT8Ps/Uda8FJA-frI/AAAAAAAAXEU/sc8kyxsE9T0/w1082-h709-no/13.png)
 
 (Figure 1)  UI generation with SimpleUI
