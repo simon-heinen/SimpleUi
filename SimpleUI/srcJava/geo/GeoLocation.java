@@ -179,18 +179,18 @@ public class GeoLocation implements Serializable {
 		return degree + ((minutes + (seconds / 60)) / 60) / 60;
 	}
 
-	// see
-	// http://stackoverflow.com/questions/7386286/how-to-generate-random-lat-lng-inside-an-area-given-the-center-and-the-radius
-	// for more info on how this works
-	// Only accurate for radius < 100000m
-	// TODO: Fix this:
-	// http://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates
 	public static GeoLocation createRandomLocation(GeoLocation center,
-			float radius) {
-		Vec virtPos = Vec.getNewRandomPosInXYPlane(new Vec(), 0, radius);
+			float minDistanceInMeters, float maxDistanceInMeters) {
+		Vec virtPos = Vec.getNewRandomPosInXYPlane(new Vec(),
+				minDistanceInMeters, maxDistanceInMeters);
 		virtPos.x += center.getX();
 		virtPos.y += center.getZ();
 		return GeoLocation.newGeoLocationFromRelativePos(virtPos.y, virtPos.x);
+	}
+
+	public static GeoLocation createRandomLocation(GeoLocation center,
+			float maxDistanceInMeters) {
+		return createRandomLocation(center, 0, maxDistanceInMeters);
 	}
 
 	public static GeoLocation getZeroPos() {
@@ -205,15 +205,23 @@ public class GeoLocation implements Serializable {
 		}
 	}
 
-	public static GeoLocation newGeoLocationFromRelativePos(float x, float z) {
+	public static GeoLocation newGeoLocationFromRelativePos(float z, float x) {
+
+		// see
+		// http://stackoverflow.com/questions/7386286/how-to-generate-random-lat-lng-inside-an-area-given-the-center-and-the-radius
+		// for more info on how this works
+		// Only accurate for radius < 100000m
+		// TODO: Fix this:
+		// http://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates
+
 		if (zeroPos == null) {
 			Log.e(LOG_TAG, "Cant calc virtual pos, no zero pos set yet!");
 			return null;
 		}
-		float[] result = new float[2];
-		CoordRemap.calcGPSPos(result, x, z, zeroPos.getLatitude(),
+		float[] longiAndLati = new float[2];
+		CoordRemap.calcGPSPos(longiAndLati, z, x, zeroPos.getLatitude(),
 				zeroPos.getLongitude());
-		return new GeoLocation(result[0], result[1]);
+		return new GeoLocation(longiAndLati[0], longiAndLati[1]);
 	}
 
 	public static double getDistanceTo(GeoLocation a, GeoLocation b) {
