@@ -205,6 +205,10 @@ public class GeoLocation implements Serializable {
 		}
 	}
 
+	public static GeoLocation toGeoLocation(Vec relativePos) {
+		return newGeoLocationFromRelativePos(relativePos.z, relativePos.x);
+	}
+
 	public static GeoLocation newGeoLocationFromRelativePos(float z, float x) {
 
 		// see
