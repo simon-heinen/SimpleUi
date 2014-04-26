@@ -138,7 +138,7 @@ public class GeoLocation implements Serializable {
 	 */
 	public Vec toVec() {
 		calcVecIfNeeded();
-		return myVec;
+		return myVec.copy();
 	}
 
 	private void calcVecIfNeeded() {
