@@ -76,6 +76,16 @@ public class M_InfoText implements ModifierInterface, UiDecoratable {
 
 	public void setContainsUrls(boolean containsUrls) {
 		this.containsUrls = containsUrls;
+		if (textView != null && containsUrls) {
+			myHandler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					textView.setAutoLinkMask(Linkify.ALL);
+					textView.setText(textView.getText());
+				}
+			});
+		}
 	}
 
 	@Override
@@ -103,10 +113,10 @@ public class M_InfoText implements ModifierInterface, UiDecoratable {
 		}
 
 		textView = new TextView(context);
-		textView.setText(myText);
 		if (containsUrls) {
 			textView.setAutoLinkMask(Linkify.ALL);
 		}
+		textView.setText(myText);
 		TextView captionView = null;
 		if (myCaptionText != null) {
 

@@ -91,7 +91,10 @@ public class Main extends Activity {
 		// throwExceptionForErrorHandlerTesting();
 
 		M_Container c = new M_Container();
-
+		M_InfoText info = new M_InfoText(
+				"Bitte auf http://www.google.de/ klicken.de!");
+		info.setContainsUrls(true);
+		c.add(info);
 		c.add(new M_Button("Show " + ButterknifeAndDaggerTestActivity.class
 				+ " activity") {
 

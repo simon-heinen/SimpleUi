@@ -26,7 +26,7 @@
         android:required="true" />
 
     <application
-        android:name="v2.simpleUi.SimpleUiApplication"
+        android:name="tools.SimpleUiApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
