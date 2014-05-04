@@ -6,7 +6,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -18,6 +20,15 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 	private UiDecorator myDecorator;
 	private TextView nameText;
 	private LinearLayout container;
+	private final boolean clickable;
+
+	public M_ProgressBar() {
+		this(false);
+	}
+
+	public M_ProgressBar(boolean clickable) {
+		this.clickable = clickable;
+	}
 
 	public void hide() {
 		if (container != null) {
@@ -50,7 +61,20 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 				android.R.attr.progressBarStyleHorizontal);
 		progressBar.setLayoutParams(p2);
 		progressBar.setProgress(loadInitValue());
-		progressBar.setMax(loadMaxValue());
+		final int maxValue = loadMaxValue();
+		progressBar.setMax(maxValue);
+
+		if (clickable) {
+			progressBar.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					updateValue((int) (event.getX() / v.getWidth() * maxValue),
+							null);
+					return false;
+				}
+			});
+		}
 
 		container.addView(progressBar);
 		container.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING,
@@ -83,7 +107,7 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 
 	public abstract String getVarName();
 
-	private Handler mHandler = new Handler(Looper.getMainLooper());
+	private final Handler mHandler = new Handler(Looper.getMainLooper());
 
 	public void updateValue(final int newProgressValue, final String updatedText) {
 		// do it from the UI thread:

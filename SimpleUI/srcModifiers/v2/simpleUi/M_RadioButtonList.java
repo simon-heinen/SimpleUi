@@ -25,7 +25,15 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 
 	private RadioGroup group;
 	private boolean editable = true;
-	private Handler myHandler = new Handler(Looper.getMainLooper());
+	private final Handler myHandler = new Handler(Looper.getMainLooper());
+	private Integer idOfSelectedItem;
+
+	public M_RadioButtonList() {
+	}
+
+	public M_RadioButtonList(int idOfSelectedItem) {
+		this.idOfSelectedItem = idOfSelectedItem;
+	}
 
 	@Override
 	public View getView(final Context context) {
@@ -35,6 +43,9 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 			final SelectableItem item = list.get(i);
 			RadioButton b = new RadioButton(context);
 			b.setId(item.getId());
+			if (idOfSelectedItem != null) {
+				b.setChecked(idOfSelectedItem.equals(item.getId()));
+			}
 			b.setText(item.getText());
 			b.setOnClickListener(new OnClickListener() {
 
