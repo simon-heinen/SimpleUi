@@ -100,6 +100,7 @@ public class Log {
 			} else {
 				logHistory.add(newLogEntry("w", LOG_TAG, errorInfoText + ": "
 						+ errorStack));
+				Logger.getLogger(LOG_TAG).severe(errorInfoText);
 				Logger.getLogger(LOG_TAG).severe(errorStack);
 			}
 
@@ -138,7 +139,7 @@ public class Log {
 	}
 
 	public static void e(Exception e, String errorInfoText) {
-		e(getLogTag(), e);
+		e(getLogTag(), e, errorInfoText);
 	}
 
 	public static void i(String info) {
