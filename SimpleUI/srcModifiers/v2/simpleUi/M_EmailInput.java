@@ -114,11 +114,13 @@ public abstract class M_EmailInput implements ModifierInterface, UiDecoratable {
 
 		boolean looksLikeEmail = EMAIL_ADDRESS_PATTERN.matcher(email).matches();
 		boolean isInWhiteList = true;
-		if (providerWhiteList != null)
+		if (providerWhiteList != null) {
 			isInWhiteList = isInProviderList(email, providerWhiteList);
+		}
 		boolean isInBlackList = false;
-		if (providerBlackList != null)
+		if (providerBlackList != null) {
 			isInBlackList = isInProviderList(email, providerBlackList);
+		}
 		return looksLikeEmail && isInWhiteList && (!isInBlackList);
 	}
 
@@ -140,12 +142,22 @@ public abstract class M_EmailInput implements ModifierInterface, UiDecoratable {
 	@Override
 	public boolean save() {
 		String email = editText.getText().toString();
-		if (emailIsOk(email))
+		if (emailIsOk(email)) {
 			return save(email);
-		else
+		} else {
 			return false;
+		}
 	}
 
+	/**
+	 * use use {@link MailAndroidIntentLogic#sendMail(..)} instead instead
+	 * 
+	 * @param c
+	 * @param emailAddress
+	 * @param myMailSubject
+	 * @param mailText
+	 */
+	@Deprecated
 	public static void sendMail(Context c, String emailAddress,
 			String myMailSubject, String mailText) {
 		final Intent emailIntent = new Intent(

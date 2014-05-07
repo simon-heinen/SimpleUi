@@ -69,8 +69,8 @@ import android.widget.Button;
  * style='mso-tab-count: 1'> </span><span class=SpellE><span
  * style='color:#7F007F'>android:taskAffinity</span></span><span
  * style='color:black'>=</span><i><span style='color:#2A00FF'>&quot;<span
- * class=SpellE>tools.ErrorHandler</span>&quot;</span></i><span
- * style='color: teal'>&gt;</span><o:p></o:p></span>
+ * class=SpellE>tools.ErrorHandler</span>&quot;</span></i><span style='color:
+ * teal'>&gt;</span><o:p></o:p></span>
  * </p>
  * 
  * <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height: normal;mso-layout-grid-align:none;text-autospace:none'>
@@ -514,6 +514,13 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		return c.getView(a);
 	}
 
+	/**
+	 * use {@link MailAndroidIntentLogic#sendMail(..)} instead
+	 * 
+	 * @param context
+	 * @param emailText
+	 */
+	@Deprecated
 	private static void sendMail(Context context, String emailText) {
 		// need to "send multiple" to get more than one attachment
 		Intent emailIntent = new Intent(
