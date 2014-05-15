@@ -206,7 +206,6 @@ public class M_ImageView implements ModifierInterface, Target {
 					// else clear image border
 					imageView.setBackgroundColor(Color.TRANSPARENT);
 				}
-				Thread.dumpStack();
 				imageView.setImageBitmap(null);
 			}
 		} else {
