@@ -67,7 +67,7 @@ public class M_ImageView implements ModifierInterface, Target {
 	}
 
 	private void setBitmap(Bitmap b) {
-		if (bitmap != null && !bitmap.isRecycled()) {
+		if (b != bitmap && bitmap != null && !bitmap.isRecycled()) {
 			oldBitmapToBeRecycled = bitmap;
 		}
 		bitmap = b;
@@ -88,10 +88,12 @@ public class M_ImageView implements ModifierInterface, Target {
 	}
 
 	public void load(Context context, File file) {
+		setBitmapUri(IO.toUri(file));
 		Picasso.with(context).load(file).into(this);
 	}
 
 	public void load(Context context, Uri uri) {
+		setBitmapUri(uri);
 		Picasso.with(context).load(uri).into(this);
 	}
 
@@ -175,7 +177,9 @@ public class M_ImageView implements ModifierInterface, Target {
 
 	private void refreshImageViewFromUiThread() {
 		if (bitmapUri != null && (bitmap == null || bitmap.isRecycled())) {
-			Log.i(LOG_TAG, "Loading new bitmap for " + bitmapUri);
+			Log.i(LOG_TAG,
+					"refreshImageViewFromUiThread: Loading new bitmap for "
+							+ bitmapUri);
 			setBitmap(IO.loadBitmapFromUri(bitmapUri));
 		}
 		if (imageView != null) {
@@ -191,19 +195,29 @@ public class M_ImageView implements ModifierInterface, Target {
 						imageBorderSizeInPixel, imageBorderSizeInPixel,
 						imageBorderSizeInPixel);
 				imageView.setImageBitmap(bitmap);
+				Log.i(LOG_TAG,
+						"refreshImageViewFromUiThread: imageView has new bitmap="
+								+ bitmap);
 				imageView.setLayoutParams(p);
 			} else {
+				Log.i(LOG_TAG, "refreshImageViewFromUiThread: bitmap=" + bitmap
+						+ " was recycled");
 				if (imageBorderColor != null) {
 					// else clear image border
 					imageView.setBackgroundColor(Color.TRANSPARENT);
 				}
+				Thread.dumpStack();
 				imageView.setImageBitmap(null);
 			}
+		} else {
+			Log.i(LOG_TAG,
+					"refreshImageViewFromUiThread: imageView null, can't set bitmap");
 		}
-		if (oldBitmapToBeRecycled != null) {
+		if (oldBitmapToBeRecycled != null && bitmap != oldBitmapToBeRecycled) {
 			if (!oldBitmapToBeRecycled.isRecycled()) {
 				oldBitmapToBeRecycled.recycle();
-				Log.i(LOG_TAG, "Last bitmap was recycled");
+				Log.i(LOG_TAG,
+						"refreshImageViewFromUiThread: Last bitmap was recycled");
 			}
 			oldBitmapToBeRecycled = null;
 		}
@@ -257,7 +271,8 @@ public class M_ImageView implements ModifierInterface, Target {
 
 	@Override
 	public void onBitmapLoaded(Bitmap b, LoadedFrom arg1) {
-		Log.d(LOG_TAG, "Image arived: " + b.getHeight() + "x" + b.getWidth());
+		Log.d(LOG_TAG, "Image loaded from " + arg1 + ": " + b.getHeight() + "x"
+				+ b.getWidth());
 		setBitmap(b);
 		refreshImageView();
 	}

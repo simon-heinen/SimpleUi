@@ -64,7 +64,7 @@ public class ProxyFactory {
 			InvocationHandler {
 
 		private static final String LOG_TAG = "ProxyMethodCallHandler";
-		public static final boolean EXTENDED_LOGGING = false;
+		public static boolean EXTENDED_LOGGING = false;
 		private String baseUrl;
 		private Class<?> proxiedClass;
 
