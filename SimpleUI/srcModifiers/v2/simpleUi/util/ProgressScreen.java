@@ -38,13 +38,13 @@ public abstract class ProgressScreen implements ModifierInterface,
 	public static final int DEFAULT_SPEED = 700;
 
 	private ArrayList<Integer> mImageIds;
-	private int mIterateSpeedInMs;
+	private final int mIterateSpeedInMs;
 	/**
 	 * Set is as early as possible to true and as late as possible to false!
 	 */
 	private volatile boolean mKeepRunning;
 	private Activity mActivityToClose;
-	private String mText;
+	private final String mText;
 	private int currentImageNr;
 	private ImageView mImageView;
 	private M_Caption mCaption;
@@ -74,6 +74,14 @@ public abstract class ProgressScreen implements ModifierInterface,
 			Log.w(LOG_TAG,
 					"Progress screen was already running, no need to start it");
 		}
+	}
+
+	/**
+	 * call {@link ProgressScreen#finish()}
+	 */
+	@Deprecated
+	public void stop() {
+		finish();
 	}
 
 	public synchronized void finish() {
