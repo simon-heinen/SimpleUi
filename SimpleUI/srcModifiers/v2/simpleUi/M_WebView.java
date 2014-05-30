@@ -15,6 +15,7 @@ public abstract class M_WebView implements ModifierInterface {
 	protected static final String LOG_TAG = "M_WebView";
 	private final boolean useDefaultZoomControls;
 	private final boolean useTransparentBackground;
+	private WebView webView;
 
 	public M_WebView(boolean useDefaultZoomControls,
 			boolean useTransparentBackground) {
@@ -24,7 +25,7 @@ public abstract class M_WebView implements ModifierInterface {
 
 	@Override
 	public View getView(final Context context) {
-		final WebView w = new WebView(context) {
+		webView = new WebView(context) {
 			private boolean is_gone = false;
 
 			@Override
@@ -56,21 +57,21 @@ public abstract class M_WebView implements ModifierInterface {
 			}
 
 		};
-		w.getSettings().setBuiltInZoomControls(useDefaultZoomControls);
-		w.getSettings().setSaveFormData(true);
+		webView.getSettings().setBuiltInZoomControls(useDefaultZoomControls);
+		webView.getSettings().setSaveFormData(true);
 		if (useTransparentBackground) {
-			w.setBackgroundColor(0x00000000);
+			webView.setBackgroundColor(0x00000000);
 		}
-		w.getSettings().setJavaScriptEnabled(true);
+		webView.getSettings().setJavaScriptEnabled(true);
 
-		w.setWebChromeClient(new WebChromeClient() {
+		webView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public void onProgressChanged(WebView view, int progress) {
 				onPageLoadProgress(progress * 100);
 			}
 		});
 
-		w.setWebViewClient(new WebViewClient() {
+		webView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				if (url != null && url.startsWith("market://")) {
@@ -108,7 +109,7 @@ public abstract class M_WebView implements ModifierInterface {
 				if (hideWebView) {
 					view.setVisibility(View.GONE);
 				} else {
-					w.setVisibility(View.VISIBLE);
+					webView.setVisibility(View.VISIBLE);
 				}
 				hideWebView = false;
 				CookieSyncManager.getInstance().sync();
@@ -118,15 +119,15 @@ public abstract class M_WebView implements ModifierInterface {
 			}
 		});
 
-		w.addJavascriptInterface(new Object() {
+		webView.addJavascriptInterface(new Object() {
 			@SuppressWarnings("unused")
 			public void processHTML(String html) {
 				onPageLoaded(html);
 			}
 		}, "HTMLOUT");
-		w.clearView();
-		w.loadUrl(getUrlToDisplay());
-		return w;
+		webView.clearView();
+		webView.loadUrl(getUrlToDisplay());
+		return webView;
 	}
 
 	/**

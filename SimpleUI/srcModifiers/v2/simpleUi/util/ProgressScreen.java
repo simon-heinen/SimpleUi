@@ -15,6 +15,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -129,6 +130,9 @@ public abstract class ProgressScreen implements ModifierInterface,
 		}
 
 		LinearLayout mostOuterBox = new LinearLayout(context);
+		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT);
+		mostOuterBox.setLayoutParams(params);
 		LinearLayout l = mostOuterBox;
 		l.setGravity(Gravity.CENTER);
 		l.setBackgroundColor(OUTER_BACKGROUND_DIMMING_COLOR);
