@@ -9,6 +9,8 @@ public abstract class ClassFinder {
 		void runTestsFor(T c);
 
 		void onError(Exception e);
+
+		void onFinished();
 	}
 
 	private static final String LOG_TAG = "ClassFinder";
@@ -40,10 +42,13 @@ public abstract class ClassFinder {
 						result.onError(e);
 					} catch (IllegalAccessException e) {
 						result.onError(e);
+					} catch (Exception e) {
+						result.onError(e);
 					}
 				}
 			}
 		}
+		result.onFinished();
 	}
 
 }
