@@ -1,6 +1,9 @@
 package util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -172,4 +175,49 @@ public class Log {
 		return "(" + w + ")" + LOG_TAG + " _:_ " + warning;
 	}
 
+	private static String lastName;
+	private static Long lastStamp;
+	private static Map<String, List<Long>> statistics = new HashMap();
+
+	public static Map<String, List<Long>> getStatistics() {
+		return statistics;
+	}
+
+	/**
+	 * m for measure (or monitor), will print out a time how long it took since
+	 * the last measure event, useful for loops etc.
+	 * 
+	 * @param LOG_TAG
+	 * @param eventName
+	 *            a name which should always be the same
+	 * @param eventDescr
+	 */
+	public static void m(String LOG_TAG, String eventName, String eventDescr) {
+		Long stamp = System.currentTimeMillis();
+
+		if (lastName != null) {
+
+			long dt = stamp - lastStamp;
+
+			String t = dt + "ms";
+			if (dt > 1000) {
+				t = ((dt / 1000)) + "s";
+			}
+
+			Log.i(LOG_TAG + " (" + lastName + "->" + t + "->" + eventName + ")",
+					eventDescr);
+
+			String key = lastName + " -> " + eventName;
+			List<Long> l = statistics.get(key);
+			if (l == null) {
+				l = new ArrayList();
+				statistics.put(key, l);
+			}
+			l.add(dt);
+		}
+
+		lastName = eventName;
+		lastStamp = stamp;
+
+	}
 }
