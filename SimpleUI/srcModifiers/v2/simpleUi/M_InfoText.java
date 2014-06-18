@@ -23,7 +23,7 @@ public class M_InfoText implements ModifierInterface, UiDecoratable {
 	private int TEXT_WEIGHT = 10;
 	private int CAPTION_WEIGHT = 15;
 	private String myCaptionText;
-	private final String myText;
+	private String myText;
 	private Bitmap myIcon;
 	private int myIconId;
 	private float myTextSize;
@@ -193,9 +193,18 @@ public class M_InfoText implements ModifierInterface, UiDecoratable {
 
 				@Override
 				public void run() {
+					myText = text;
 					textView.setText(text);
 				}
 			});
 		}
 	}
+
+	public String getText() {
+		if (textView != null) {
+			return (String) textView.getText();
+		}
+		return myText;
+	}
+
 }
