@@ -1,13 +1,14 @@
 package tools;
 
+import java.util.concurrent.Executors;
+
 import android.os.AsyncTask;
 
 /**
  * The system will never execute 2 {@link SimpleAsyncTask}s at once!! Do not use
- * this class for loops (e.g. for continous animations). It should only be used
- * for single tasks which will do something and end afterwards.
- * 
- * @author Spobo
+ * this class for loops (e.g. for continous animations) use {@link Executors}
+ * there. It should only be used for single tasks which will do something and
+ * end afterwards.
  * 
  */
 public abstract class SimpleAsyncTask extends

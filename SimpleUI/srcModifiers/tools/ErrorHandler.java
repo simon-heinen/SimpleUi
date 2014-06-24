@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
@@ -19,13 +17,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -378,7 +371,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	private static void setErrorContentView(final Activity a,
 			String myErrorText, String[] errorFilePaths) {
 		View v = loadModifier(a, myErrorText, myDeveloperMailAdress,
-				addDebugInfosToErrorMessage(a), errorFilePaths);
+				DeviceInformation.getInfosAboutDevice(a), errorFilePaths);
 		a.setContentView(v);
 	}
 
@@ -561,57 +554,6 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 			}
 		}
 		context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-	}
-
-	private static String addDebugInfosToErrorMessage(Activity a) {
-
-		String s = "";
-
-		try {
-			PackageInfo pInfo = a.getPackageManager().getPackageInfo(
-					a.getPackageName(), PackageManager.GET_META_DATA);
-			s += "\n APP Package Name: " + a.getPackageName();
-			s += "\n APP Version Name: " + pInfo.versionName;
-			s += "\n APP Version Code: " + pInfo.versionCode;
-			s += "\n";
-		} catch (NameNotFoundException e) {
-		}
-
-		s += "\n OS Version: " + System.getProperty("os.version") + " ("
-				+ android.os.Build.VERSION.INCREMENTAL + ")";
-		s += "\n OS API Level: " + android.os.Build.VERSION.SDK;
-		s += "\n Device: " + android.os.Build.DEVICE;
-		s += "\n Model (and Product): " + android.os.Build.MODEL + " ("
-				+ android.os.Build.PRODUCT + ")";
-		// TODO add application version!
-
-		// more from
-		// http://developer.android.com/reference/android/os/Build.html :
-		s += "\n Manufacturer: " + android.os.Build.MANUFACTURER;
-		s += "\n Other TAGS: " + android.os.Build.TAGS;
-
-		s += "\n screenWidth: "
-				+ a.getWindow().getWindowManager().getDefaultDisplay()
-						.getWidth();
-		s += "\n screenHeigth: "
-				+ a.getWindow().getWindowManager().getDefaultDisplay()
-						.getHeight();
-		s += "\n Keyboard available: "
-				+ (a.getResources().getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS);
-
-		s += "\n Trackball available: "
-				+ (a.getResources().getConfiguration().navigation == Configuration.NAVIGATION_TRACKBALL);
-		s += "\n SD Card state: " + Environment.getExternalStorageState();
-
-		Properties p = System.getProperties();
-		Enumeration keys = p.keys();
-		String key = "";
-		while (keys.hasMoreElements()) {
-			key = (String) keys.nextElement();
-			s += "\n > " + key + " = " + (String) p.get(key);
-		}
-
-		return s;
 	}
 
 	@Override

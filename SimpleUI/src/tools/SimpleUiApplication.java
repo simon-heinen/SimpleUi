@@ -18,11 +18,6 @@ import android.util.Log;
  * ((SimpleUiApplication) a.getApplication()).getTransfairList().put( newKey,
  * itemToDisplay);
  * 
- * 
- * 
- * 
- * @author Simon Heinen
- * 
  */
 public class SimpleUiApplication extends Application {
 	private static final String LOG_TAG = "SimpleUiApplication";
