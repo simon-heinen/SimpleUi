@@ -18,7 +18,6 @@ import android.util.Log;
  * < service android:name="v2.simpleUi.util.KeepProcessAliveService" >
  * </service>
  * 
- * 
  * @author Simon Heinen
  * 
  */

@@ -155,7 +155,7 @@ public class GeoLocation implements Serializable {
 		}
 	}
 
-	private GeoLocation copy() {
+	public GeoLocation copy() {
 		return new GeoLocation(latitude, longitude, altitude);
 	}
 
