@@ -3,7 +3,7 @@ package v4;
 import android.app.Activity;
 import android.view.View;
 
-public interface ModifierInterfaceV2 {
+public interface ModifierV2<T extends ModifierV2> {
 
 	/**
 	 * generates the android UI for the modifier
@@ -13,7 +13,7 @@ public interface ModifierInterfaceV2 {
 	 *            the parent or null if no parent exists
 	 * @return
 	 */
-	View getView(Activity activity, ModifierInterfaceV2 parent);
+	View getView(Activity activity, T parent);
 
 	/**
 	 * @param activity
@@ -23,7 +23,7 @@ public interface ModifierInterfaceV2 {
 
 	/**
 	 * @param activity
-	 * @return true
+	 * @return true if cancel is allowed
 	 */
 	boolean cancel(Activity activity);
 
