@@ -38,7 +38,7 @@ public class Meta {
 	}
 
 	public boolean validate(Object o) {
-		return validateUpdateObject(o, cloneViaGson(o));
+		return validateUpdateObject(o, o);
 	}
 
 	/**

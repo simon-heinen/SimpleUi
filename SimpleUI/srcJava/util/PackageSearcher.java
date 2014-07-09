@@ -36,12 +36,13 @@ public class PackageSearcher {
 		try {
 			List<Class> classList = PackageSearcher.getClasses(packageName);
 			if (classList == null || classList.size() == 0) {
-				throw new Exception("The package " + packageName
-						+ "was empty or did not exist");
+				throw new Exception("The package '" + packageName
+						+ "' was empty or did not exist");
 			}
 			result.addAll(classList);
-			for (Class c : classList)
+			for (Class c : classList) {
 				result.addAll(getAllSubclasses(c));
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -54,8 +55,9 @@ public class PackageSearcher {
 	private static List<Class> getAllSubclasses(Class c) {
 		List<Class> result = new ArrayList<Class>();
 		List<Class> classList = Arrays.asList(c.getDeclaredClasses());
-		for (Class innerClass : classList)
+		for (Class innerClass : classList) {
 			result.addAll(getAllSubclasses(innerClass));
+		}
 		return classList;
 	}
 

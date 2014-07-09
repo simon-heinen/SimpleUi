@@ -40,14 +40,14 @@ public class MetaTests {
 		assertTrue(meta.validate(a));
 
 		ExampleClass newA = meta.cloneViaGson(a);
-		String validMail = "secondMail@d.com";
-		newA.email = validMail;
+		String secondValidMail = "secondMail@d.com";
+		newA.email = secondValidMail;
 
 		// simulate a change in the object:
 		assertTrue(meta.updateObject(a, newA));
 
 		// test if the valid changes were applied to obj A:
-		assertTrue(a.email.equals(validMail));
+		assertTrue(a.email.equals(secondValidMail));
 
 		ExampleClass invalidA = meta.cloneViaGson(a);
 		invalidA.id = 3l; // changing the id later on is not allowed
@@ -62,6 +62,14 @@ public class MetaTests {
 		// print out a and invalidA as json:
 		meta.toString("a", a);
 		meta.toString("invalidA", invalidA);
+
+		ExampleClass b = new ExampleClass();
+		b.id = 2l;
+		b.myField1 = "YESs";
+		b.email = "firstmail@com";
+
+		// test if all fields in object A are valid:
+		assertFalse(meta.validate(b));
 
 	}
 
