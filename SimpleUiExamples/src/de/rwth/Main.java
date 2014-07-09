@@ -91,10 +91,20 @@ public class Main extends Activity {
 		// throwExceptionForErrorHandlerTesting();
 
 		M_Container c = new M_Container();
+
+		c.add(new M_Button("Meta Test Demo") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				SimpleUI.showInfoDialog(context, "Close", new MetaTestDemo());
+			}
+		});
+
 		M_InfoText info = new M_InfoText(
 				"Bitte auf http://www.google.de/ klicken.de!");
 		info.setContainsUrls(true);
 		c.add(info);
+
 		c.add(new M_Button("Show " + ButterknifeAndDaggerTestActivity.class
 				+ " activity") {
 
