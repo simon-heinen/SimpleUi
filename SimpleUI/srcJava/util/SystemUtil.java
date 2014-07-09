@@ -1,17 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package util;
 
-/**
- * 
- * @author Spobo
- */
 public class SystemUtil {
 
+	private static Boolean isAndroid;
+
 	public static boolean isAndroid() {
-		return System.getProperties().get("java.vm.name").equals("Dalvik");
+		if (isAndroid == null) {
+			isAndroid = System.getProperties().get("java.vm.name")
+					.equals("Dalvik");
+		}
+		return isAndroid;
 	}
 
 }
