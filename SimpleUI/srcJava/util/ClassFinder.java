@@ -16,6 +16,17 @@ public abstract class ClassFinder {
 
 	private static final String LOG_TAG = "ClassFinder";
 
+	/**
+	 * @param obj
+	 *            will use the
+	 * @param searchedClassType
+	 * @param result
+	 */
+	public static <T> void runInSamePackageAs(Class c,
+			Class<T> searchedClassType, ResultListener<T> result) {
+		runInPackage(c.getPackage().getName(), searchedClassType, result);
+	}
+
 	public static <T> void runInPackage(String packageName,
 			Class<T> searchedClassType, ResultListener<T> result) {
 		try {
