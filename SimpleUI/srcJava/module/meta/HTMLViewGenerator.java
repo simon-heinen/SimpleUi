@@ -149,118 +149,118 @@ public class HTMLViewGenerator {
 			case '"':
 				sb.append("&quot;");
 				break;
-			case 'à':
+			case 'Ã ':
 				sb.append("&agrave;");
 				break;
-			case 'À':
+			case 'Ã€':
 				sb.append("&Agrave;");
 				break;
-			case 'â':
+			case 'Ã¢':
 				sb.append("&acirc;");
 				break;
-			case 'Â':
+			case 'Ã‚':
 				sb.append("&Acirc;");
 				break;
-			case 'ä':
+			case 'Ã¤':
 				sb.append("&auml;");
 				break;
-			case 'Ä':
+			case 'Ã„':
 				sb.append("&Auml;");
 				break;
-			case 'å':
+			case 'Ã¥':
 				sb.append("&aring;");
 				break;
-			case 'Å':
+			case 'Ã…':
 				sb.append("&Aring;");
 				break;
-			case 'æ':
+			case 'Ã¦':
 				sb.append("&aelig;");
 				break;
-			case 'Æ':
+			case 'Ã†':
 				sb.append("&AElig;");
 				break;
-			case 'ç':
+			case 'Ã§':
 				sb.append("&ccedil;");
 				break;
-			case 'Ç':
+			case 'Ã‡':
 				sb.append("&Ccedil;");
 				break;
-			case 'é':
+			case 'Ã©':
 				sb.append("&eacute;");
 				break;
-			case 'É':
+			case 'Ã‰':
 				sb.append("&Eacute;");
 				break;
-			case 'è':
+			case 'Ã¨':
 				sb.append("&egrave;");
 				break;
-			case 'È':
+			case 'Ãˆ':
 				sb.append("&Egrave;");
 				break;
-			case 'ê':
+			case 'Ãª':
 				sb.append("&ecirc;");
 				break;
-			case 'Ê':
+			case 'ÃŠ':
 				sb.append("&Ecirc;");
 				break;
-			case 'ë':
+			case 'Ã«':
 				sb.append("&euml;");
 				break;
-			case 'Ë':
+			case 'Ã‹':
 				sb.append("&Euml;");
 				break;
-			case 'ï':
+			case 'Ã¯':
 				sb.append("&iuml;");
 				break;
-			case 'Ï':
+			case 'Ã':
 				sb.append("&Iuml;");
 				break;
-			case 'ô':
+			case 'Ã´':
 				sb.append("&ocirc;");
 				break;
-			case 'Ô':
+			case 'Ã”':
 				sb.append("&Ocirc;");
 				break;
-			case 'ö':
+			case 'Ã¶':
 				sb.append("&ouml;");
 				break;
-			case 'Ö':
+			case 'Ã–':
 				sb.append("&Ouml;");
 				break;
-			case 'ø':
+			case 'Ã¸':
 				sb.append("&oslash;");
 				break;
-			case 'Ø':
+			case 'Ã˜':
 				sb.append("&Oslash;");
 				break;
-			case 'ß':
+			case 'ÃŸ':
 				sb.append("&szlig;");
 				break;
-			case 'ù':
+			case 'Ã¹':
 				sb.append("&ugrave;");
 				break;
-			case 'Ù':
+			case 'Ã™':
 				sb.append("&Ugrave;");
 				break;
-			case 'û':
+			case 'Ã»':
 				sb.append("&ucirc;");
 				break;
-			case 'Û':
+			case 'Ã›':
 				sb.append("&Ucirc;");
 				break;
-			case 'ü':
+			case 'Ã¼':
 				sb.append("&uuml;");
 				break;
-			case 'Ü':
+			case 'Ãœ':
 				sb.append("&Uuml;");
 				break;
-			case '®':
+			case 'Â®':
 				sb.append("&reg;");
 				break;
-			case '©':
+			case 'Â©':
 				sb.append("&copy;");
 				break;
-			case '€':
+			case 'â‚¬':
 				sb.append("&euro;");
 				break;
 			// be carefull with this one (non-breaking whitee space)
