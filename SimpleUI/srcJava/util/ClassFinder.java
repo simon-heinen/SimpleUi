@@ -1,5 +1,6 @@
 package util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
@@ -14,6 +15,17 @@ public abstract class ClassFinder {
 	}
 
 	private static final String LOG_TAG = "ClassFinder";
+
+	/**
+	 * @param obj
+	 *            will use the
+	 * @param searchedClassType
+	 * @param result
+	 */
+	public static <T> void runInSamePackageAs(Class c,
+			Class<T> searchedClassType, ResultListener<T> result) {
+		runInPackage(c.getPackage().getName(), searchedClassType, result);
+	}
 
 	public static <T> void runInPackage(String packageName,
 			Class<T> searchedClassType, ResultListener<T> result) {
@@ -41,7 +53,7 @@ public abstract class ClassFinder {
 								+ " because default empty constructor missing");
 						result.onError(e);
 					} catch (IllegalAccessException e) {
-						result.onError(e);
+						createInstanceFromPrivateConstructor(c, result);
 					} catch (Exception e) {
 						result.onError(e);
 					}
@@ -49,6 +61,19 @@ public abstract class ClassFinder {
 			}
 		}
 		result.onFinished();
+	}
+
+	private static <T> void createInstanceFromPrivateConstructor(Class c,
+			ResultListener<T> result) {
+		Log.i(LOG_TAG, "Class " + c + " did not have a public default "
+				+ "constructor, will use the private one");
+		try {
+			Constructor<T> ccc = ((Class<T>) c).getDeclaredConstructor();
+			ccc.setAccessible(true);
+			result.runTestsFor(ccc.newInstance());
+		} catch (Exception e2) {
+			result.onError(e2);
+		}
 	}
 
 }
