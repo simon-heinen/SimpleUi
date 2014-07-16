@@ -3,6 +3,8 @@ SimpleUi
 
 SimpleUI is a small library to generate out of the box usable and good looking UIs for Android. It follows the model view controller principle and you create a controller which can generate a working connected view for your model. It is possible to specify the appearance of the views but normally this is not necessary. The framework is designed to create usable UIs in a very fast and intuitive way using the advantages of auto completion and anonymous classes. 
 
+Whenever there is something important new I will probably post it here: andrdev.blogspot.de
+
 ##Screencast tutorials
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
