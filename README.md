@@ -67,6 +67,7 @@ Snippet 1 shows a basic example of a created controller which can interact with 
 ***
 
 ![6](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
+
 (Snippet 1)	The code for the controller
 
          
