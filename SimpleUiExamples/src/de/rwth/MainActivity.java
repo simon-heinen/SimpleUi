@@ -59,7 +59,7 @@ import android.widget.Toast;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.squareup.picasso.Picasso;
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 
 	protected static final String LOG_TAG = "Main";
 	private static String text;
@@ -92,6 +92,14 @@ public class Main extends Activity {
 
 		M_Container c = new M_Container();
 
+		c.add(new M_Button("Simple Start Example") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				SimpleUI.showUi(context, new StartExampleUi());
+			}
+		});
+
 		c.add(new M_Button("Meta Test Demo") {
 
 			@Override
@@ -110,7 +118,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				Main.this.startActivity(new Intent(Main.this,
+				MainActivity.this.startActivity(new Intent(MainActivity.this,
 						ButterknifeAndDaggerTestActivity.class));
 			}
 		});
@@ -277,22 +285,22 @@ public class Main extends Activity {
 
 				m.assignNewDecorator(new ExampleDecorator());
 
-				SimpleUI.showInfoDialog(Main.this, "Save", m);
+				SimpleUI.showInfoDialog(MainActivity.this, "Save", m);
 			}
 		});
 		c.add(new M_Button("V2 Example") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				Main.this
-						.startActivity(new Intent(Main.this, V2ExampleUI.class));
+				MainActivity.this.startActivity(new Intent(MainActivity.this,
+						V2ExampleUI.class));
 			}
 		});
 		c.add(new M_Button("SimpleUi survey generated with simpleUi") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				Main.this.startActivity(new Intent(Main.this,
+				MainActivity.this.startActivity(new Intent(MainActivity.this,
 						ExampleSurveyActivity.class));
 			}
 		});
@@ -326,7 +334,7 @@ public class Main extends Activity {
 
 					}
 				};
-				V1SimpleUI.showInfoScreen(Main.this, i, null);
+				V1SimpleUI.showInfoScreen(MainActivity.this, i, null);
 			}
 		});
 
@@ -334,7 +342,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showUi(Main.this, new SimpleUiTestbed());
+				SimpleUI.showUi(MainActivity.this, new SimpleUiTestbed());
 			}
 		});
 
@@ -352,7 +360,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				Main.this.startActivity(new Intent(Main.this,
+				MainActivity.this.startActivity(new Intent(MainActivity.this,
 						JsonDemoMain.class));
 			}
 		});
@@ -361,7 +369,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				Main.this.finish();
+				MainActivity.this.finish();
 			}
 		});
 
@@ -449,7 +457,8 @@ public class Main extends Activity {
 								.show();
 					}
 				});
-				SimpleUI.showCancelOkDialog(Main.this, "Cancel", "Ok", c2);
+				SimpleUI.showCancelOkDialog(MainActivity.this, "Cancel", "Ok",
+						c2);
 
 			}
 		});
@@ -506,7 +515,8 @@ public class Main extends Activity {
 
 				c2.add(new M_ImageView(uri));
 
-				SimpleUI.showCancelOkDialog(Main.this, "Cancel", "Save", c2);
+				SimpleUI.showCancelOkDialog(MainActivity.this, "Cancel",
+						"Save", c2);
 
 			}
 		});
@@ -732,7 +742,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUIWithMaps.showUi(Main.this,
+				SimpleUIWithMaps.showUi(MainActivity.this,
 						new GoogleMapV2TestContainer(),
 						TestMapsV2Activity.class);
 			}
@@ -741,7 +751,7 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUIWithMaps.showUi(Main.this,
+				SimpleUIWithMaps.showUi(MainActivity.this,
 						new GoogleMapV2PosOnMapTests(),
 						TestMapsV2Activity.class);
 			}

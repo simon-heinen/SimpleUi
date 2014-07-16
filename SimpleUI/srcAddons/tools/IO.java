@@ -102,6 +102,22 @@ public class IO extends util.IOHelper {
 		return BitmapFactory.decodeFile(imagePath, bitmapOptions);
 	}
 
+	/**
+	 * The Eclipse UI editor cant preview ressources loaded from the assets
+	 * folder so a dummy bitmap is used instead
+	 * 
+	 * @param context
+	 * @param id
+	 * @return
+	 */
+	public static Bitmap loadBitmapFromIdInCustomView(View v, int id) {
+		if (v.isInEditMode() || id == 0) {
+			return ImageTransform.createDummyBitmap();
+		} else {
+			return IO.loadBitmapFromId(v.getContext(), id);
+		}
+	}
+
 	public static Bitmap loadBitmapFromJar(Context context, String path) {
 		try {
 			InputStream stream = Thread.currentThread().getContextClassLoader()

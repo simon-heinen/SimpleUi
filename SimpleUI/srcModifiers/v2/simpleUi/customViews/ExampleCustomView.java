@@ -1,5 +1,6 @@
 package v2.simpleUi.customViews;
 
+import tools.IO;
 import tools.ImageTransform;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -44,7 +45,7 @@ public class ExampleCustomView extends View {
 	public ExampleCustomView(Context context, int iconid) {
 		super(context);
 		init((int) ImageTransform.dipToPixels(this, DEFAULT_MAX_WIDTH_IN_DIP),
-				ImageTransform.loadBitmapFromIdInCustomView(this, iconid));
+				IO.loadBitmapFromIdInCustomView(this, iconid));
 	}
 
 	@Deprecated
@@ -92,18 +93,20 @@ public class ExampleCustomView extends View {
 		myMaxWidth = maxWidth;
 		setSize(maxWidth, icon);
 
-		if (isInEditMode())
+		if (isInEditMode()) {
 			loadDemoValues();
+		}
 		setIcon(icon);
 	}
 
 	public void setSize(int newWidth, Bitmap icon) {
 		myWidth = newWidth;
-		if (myWidth > myMaxWidth)
+		if (myWidth > myMaxWidth) {
 			myWidth = myMaxWidth;
+		}
 		if (icon != null) {
 			myHeight = (int) ((float) (icon.getHeight())
-					/ (float) (icon.getWidth()) * (float) (myWidth));
+					/ (float) (icon.getWidth()) * (myWidth));
 		} else {
 			myHeight = myWidth;
 		}

@@ -39,7 +39,7 @@
         </activity>
         <activity android:name="ExampleSurveyActivity" >
         </activity>
-        <activity android:name="Main" >
+        <activity android:name="MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,6 +6,7 @@
 	<classpathentry kind="src" path="srcOtherAddons"/>
 	<classpathentry kind="src" path="srcJava"/>
 	<classpathentry kind="src" path="srcJavaEE"/>
+	<classpathentry kind="src" path="srcAddons"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>

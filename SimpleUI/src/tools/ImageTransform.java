@@ -153,22 +153,6 @@ public class ImageTransform {
 	}
 
 	/**
-	 * The Eclipse UI editor cant preview ressources loaded from the assets
-	 * folder so a dummy bitmap is used instead
-	 * 
-	 * @param context
-	 * @param id
-	 * @return
-	 */
-	public static Bitmap loadBitmapFromIdInCustomView(View v, int id) {
-		if (v.isInEditMode() || id == 0) {
-			return createDummyBitmap();
-		} else {
-			return IO.loadBitmapFromId(v.getContext(), id);
-		}
-	}
-
-	/**
 	 * Use this method instead of
 	 * {@link Canvas#drawCircle(float, float, float, Paint)} or the Eclipse UI
 	 * Editor preview will be incorrect

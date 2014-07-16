@@ -1,24 +1,29 @@
 package tools.tooltips;
 
-import android.annotation.TargetApi;
 import android.graphics.Color;
-import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TooltipControl {
 
-	private final RelativeLayout targetContainer;
+	private static final String LOG_TAG = "TooltipControl";
+	private final ViewGroup targetContainer;
 	private final RelativeLayout overlayContainer;
 	private int bubblePadding = 40;
 	private int bubbleCornerRadiusInPixel = 20;
 	private Integer bubbleColor = Color.WHITE;
 	private int overlayColor = Color.argb(100, 0, 0, 0);
 
-	public TooltipControl(RelativeLayout targetContainer) {
+	private int bubbleOffset;
+	private final Handler mHandler = new Handler(Looper.getMainLooper());
+
+	public TooltipControl(ViewGroup targetContainer) {
 		this.targetContainer = targetContainer;
 		this.overlayContainer = new RelativeLayout(targetContainer.getContext());
 	}
@@ -48,7 +53,7 @@ public class TooltipControl {
 
 		final HighlightDrawable drawable = new HighlightDrawable(
 				targetContainer, overlayColor);
-		overlayContainer.setBackground(drawable);
+		overlayContainer.setBackgroundDrawable(drawable);
 		drawable.setHighlightArea(viewToHighlight);
 		return drawable;
 	}
@@ -57,18 +62,16 @@ public class TooltipControl {
 	 * @param targetView
 	 * @param viewToAdd
 	 * @param centerOntopView
-	 * @param backgrundBubbleColor
-	 *            see {@link TooltipControl#setBubbleColor(Integer)}
 	 */
-	public void setViewCenteredTo(View targetView, View viewToAdd,
-			boolean centerOntopView, Integer backgrundBubbleColor) {
-		setBubbleColor(backgrundBubbleColor);
-		setViewCenteredTo(targetView, viewToAdd, false, true, centerOntopView);
+	public void setOverlayViewCenteredTo(View targetView, View viewToAdd,
+			boolean centerOntopView) {
+		setOverlayViewCenteredTo(targetView, viewToAdd, false, true,
+				centerOntopView);
 	}
 
 	public void setViewCenteredTo(final View targetView, final View viewToAdd,
 			final boolean belowTargetView, boolean centerOntopView) {
-		setViewCenteredTo(targetView, viewToAdd, belowTargetView, false,
+		setOverlayViewCenteredTo(targetView, viewToAdd, belowTargetView, false,
 				centerOntopView);
 	}
 
@@ -82,12 +85,17 @@ public class TooltipControl {
 	 *            if true the overlaid view will be not below the target view
 	 *            but ontop instead (useful for large views like images e.g.
 	 */
-	private void setViewCenteredTo(final View targetView, final View viewToAdd,
-			final boolean belowTargetView, final boolean autoCalcTopOrBelow,
-			final boolean centerOntopView) {
-		overlayContainer.removeAllViews();
-		overlayContainer.addView(viewToAdd);
+	private void setOverlayViewCenteredTo(final View targetView,
+			final View viewToAdd, final boolean belowTargetView,
+			final boolean autoCalcTopOrBelow, final boolean centerOntopView) {
+		removeBubble();
 
+		if (targetView == null) {
+			Log.e(LOG_TAG, "passed target view to add tooltip to was null!");
+			return;
+		}
+
+		overlayContainer.addView(viewToAdd);
 		viewToAdd.setPadding(bubblePadding, bubblePadding, bubblePadding,
 				bubblePadding);
 		viewToAdd.addOnLayoutChangeListener(new OnLayoutChangeListener() {
@@ -95,9 +103,25 @@ public class TooltipControl {
 			@Override
 			public void onLayoutChange(View v, int l, int to, int r, int b,
 					int ol, int ot, int or, int ob) {
+				viewToAdd.removeOnLayoutChangeListener(this);
+				overlayContainer.setAlpha(0f);
 				addOverlayContainer();
 				calcViewPos(targetView, viewToAdd, belowTargetView,
 						autoCalcTopOrBelow, centerOntopView);
+
+				final float oldtrans = viewToAdd.getTranslationY();
+				viewToAdd.setTranslationY(600);
+
+				mHandler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						overlayContainer.animate().setDuration(300).alpha(1f)
+								.start();
+						viewToAdd.animate().setDuration(300)
+								.translationY(oldtrans).start();
+					}
+				}, 100);
+
 			}
 		});
 	}
@@ -116,10 +140,12 @@ public class TooltipControl {
 			// arrow must be on the center
 			if (leftPosX < 0) {
 				leftPosX = 0;
+
 				// arrow must be on the left top side
 				arrowAlignment = 1;
 			} else if (leftPosX > targetContainer.getWidth() - v.getWidth()) {
 				leftPosX = targetContainer.getWidth() - v.getWidth();
+
 				// arrow must be on the right top side
 				arrowAlignment = 2;
 			}
@@ -138,15 +164,17 @@ public class TooltipControl {
 		}
 		int distanceFromCenter = 0;
 		if (belowTargetView) {
-			distanceFromCenter = targetView.getHeight();
+			distanceFromCenter += targetView.getHeight();
 			if (centerOntopView) {
 				distanceFromCenter *= 0.6f;
 			}
+			distanceFromCenter += bubbleOffset;
 		} else {
-			distanceFromCenter = -v.getHeight();
+			distanceFromCenter += -v.getHeight();
 			if (centerOntopView) {
 				distanceFromCenter += targetView.getHeight() * 0.4f;
 			}
+			distanceFromCenter -= bubbleOffset;
 		}
 		topPosY += distanceFromCenter;
 		v.setX(leftPosX);
@@ -156,6 +184,15 @@ public class TooltipControl {
 			v.setBackground(new ChatBubbleDrawable(arrowAlignment, arrowOnTop,
 					bubbleColor, bubblePadding, bubbleCornerRadiusInPixel));
 		}
+	}
+
+	/**
+	 * @param bubbleOffsetInPixels
+	 *            to place the overlay view not directly ontop of the target
+	 *            view but instead a little below or above use this one
+	 */
+	public void setBubbleOffset(int bubbleOffsetInPixels) {
+		this.bubbleOffset = bubbleOffsetInPixels;
 	}
 
 	private boolean valuesUnchanged(
@@ -204,7 +241,12 @@ public class TooltipControl {
 	}
 
 	public void removeOverlay() {
+		removeBubble();
+		overlayContainer.setBackgroundDrawable(null);
+	}
+
+	private void removeBubble() {
+		// TODO add fade out animation
 		overlayContainer.removeAllViews();
-		overlayContainer.setBackground(null);
 	}
 }
