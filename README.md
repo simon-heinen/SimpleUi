@@ -3,6 +3,8 @@ SimpleUi
 
 SimpleUI is a small library to generate out of the box usable and good looking UIs for Android. It follows the model view controller principle and you create a controller which can generate a working connected view for your model. It is possible to specify the appearance of the views but normally this is not necessary. The framework is designed to create usable UIs in a very fast and intuitive way using the advantages of auto completion and anonymous classes. 
 
+Whenever there is something important new I will probably post it here: http://andrdev.blogspot.com/
+
 ##Screencast tutorials
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
@@ -22,6 +24,15 @@ alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 
 #Details
 The SimpleUI component is a user interface generator based on the model view controller pattern. It was created for fast prototyping and to generate dynamic views based on the presented content. It is built in a modular way to allow including single independent components into an existing architecture, but it can also be used as a complete replacement for the activity system in Android. 
+
+### Structure of the SimpleUi project
+
+- src: Contains Android classes which do not have dependencies to any other library
+- srcJava: Contains pure Java classes to be used not only in Android but also Java projects
+- srcJavaEE: Contains JavaEE related sources like a JaxRS Proxy
+- srcAddons: Contains Android classes which relate to another library like Otto, Picasso, Butterknife etc.
+- srcOtherAddons: Optional Android classes for some less frequntly needed libraries
+
 
 ***
 
