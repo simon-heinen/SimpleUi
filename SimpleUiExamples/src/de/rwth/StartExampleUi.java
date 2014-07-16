@@ -55,6 +55,8 @@ public class StartExampleUi extends M_Container {
 				box.save();
 			}
 		});
+
+		// the following is now already done in the main activity:
 		// // To display the generated UI the SimpleUI class can be used:
 		// SimpleUI.showUi(context, box);
 		// // or you generate the UI for this box controller:
