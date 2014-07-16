@@ -66,12 +66,12 @@ Snippet 1 shows a basic example of a created controller which can interact with 
  
 ***
 
-![6](https://lh4.googleusercontent.com/-i1tZs0b3OOw/Uda8GWz5dqI/AAAAAAAAXEg/adIJyAeGbkc/w486-h367-no/6.png)
+![6](https://lh5.googleusercontent.com/-DQKukfshyU8/U8ZE-uwAVKI/AAAAAAAAm0M/NVniMzUsLj8/s2048/2014-07-16%25252011_24_58-Clipboard01%252520-%252520IrfanView%252520%252528Zoom_%252520531%252520x%252520945%252529.png)
 
 (Snippet 1)	The code for the controller
 
          
-![15](https://lh4.googleusercontent.com/-nCqauKTm7-E/Uda8FAZ736I/AAAAAAAAXEM/CDfomidAD9Y/w276-h235-no/15.png)
+![15](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
 
 (Figure 3)	The generated view
 
