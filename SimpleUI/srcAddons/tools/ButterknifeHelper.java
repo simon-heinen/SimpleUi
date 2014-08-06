@@ -27,7 +27,7 @@ public class ButterknifeHelper {
 					+ "specific settings'");
 			Log.e(LOG_TAG, "! Select 'Factory Path' -> "
 					+ "Check \"Enable project specific settings\" "
-					+ "-> click \"Add JARs…\" -> Navigate to the "
+					+ "-> click \"Add JARs\" -> Navigate to the "
 					+ "project's libs/ folder and select "
 					+ "the Butter Knife jar -> Click Ok");
 			throw new RuntimeException("Butterknife could not "
