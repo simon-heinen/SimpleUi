@@ -32,8 +32,6 @@ public abstract class ClassFinder {
 		try {
 			List<Class> l = PackageSearcher
 					.getAllClassesAndInnerClassesIn(packageName);
-			// System.out.println("Running test for " + l.size() +
-			// " classes in " + packageName);
 			runForFoundClasses(l, searchedClassType, result);
 		} catch (Exception e) {
 			result.onError(e);
