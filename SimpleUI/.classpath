@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="srcAddons"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="lib" path="libs/google-play-services.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalyticsServices.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/otto-1.3.4.jar"/>
@@ -22,7 +21,8 @@
 	<classpathentry exported="true" kind="lib" path="libs/javawriter-2.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/jsr311-api-1.1.1.jar"/>
-	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="libs/json-20140107.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gson-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/json-20140107.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

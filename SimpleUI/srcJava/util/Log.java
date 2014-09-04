@@ -105,6 +105,7 @@ public class Log {
 						+ errorStack));
 				Logger.getLogger(LOG_TAG).severe(errorInfoText);
 				Logger.getLogger(LOG_TAG).severe(errorStack);
+				Logger.getLogger(LOG_TAG).severe("" + e);
 			}
 
 		}
