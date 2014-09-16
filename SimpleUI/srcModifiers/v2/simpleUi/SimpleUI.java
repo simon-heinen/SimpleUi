@@ -4,8 +4,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-import tools.AnalyticsHelper;
+import tools.AnalyticsHelperNoOp;
 import tools.ErrorHandler;
+import tools.IAnalyticsHelper;
 import tools.SimpleUiApplication;
 import v3.simpleUi.SimpleUIInterface;
 import android.R;
@@ -101,6 +102,8 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	private static boolean DEBUG = true;
 	private static SimpleUiApplication application;
 
+	public static IAnalyticsHelper IAnalyticsHelper = initIAnalyticsHelper();
+
 	private View myViewToShow;
 	private ModifierInterface myModifier;
 
@@ -132,6 +135,19 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 		return showUi(context, itemsToDisplay);
 	}
 
+	private static tools.IAnalyticsHelper initIAnalyticsHelper() {
+		try {
+			Class aClass = SimpleUI.class.getClassLoader().loadClass(
+					"tools.AnalyticsHelper");
+			Log.i(LOG_TAG, "Found tools.AnalyticsHelper and "
+					+ "will create instance now");
+			return (tools.IAnalyticsHelper) aClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new AnalyticsHelperNoOp();
+	}
+
 	public static boolean showCancelOkDialog(Context context,
 			String cancelText, String okText, final M_Container itemsToDisplay) {
 		addCancelOkButtons(itemsToDisplay, cancelText, okText);
@@ -146,11 +162,11 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				if (targetContainer.save() && context instanceof Activity) {
-					AnalyticsHelper.track(context, "okSucc", "OkPress "
+					IAnalyticsHelper.track(context, "okSucc", "OkPress "
 							+ getTrackText(targetContainer));
 					((Activity) context).finish();
 				} else {
-					AnalyticsHelper.track(context, "okError", "OkPress "
+					IAnalyticsHelper.track(context, "okError", "OkPress "
 							+ getTrackText(targetContainer));
 				}
 			}
@@ -188,7 +204,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 					public void onCancel(Context context,
 							M_Container targetContainer) {
 						if (context instanceof Activity) {
-							AnalyticsHelper.track(context, "cancelPress",
+							IAnalyticsHelper.track(context, "cancelPress",
 									"Cancelled "
 											+ getTrackText(targetContainer));
 							((Activity) context).finish();
@@ -201,12 +217,12 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 
 						if (targetContainer.save()
 								&& context instanceof Activity) {
-							AnalyticsHelper.track(context, "saveSucc",
+							IAnalyticsHelper.track(context, "saveSucc",
 									"SavePress "
 											+ getTrackText(targetContainer));
 							((Activity) context).finish();
 						} else {
-							AnalyticsHelper.track(context, "saveError",
+							IAnalyticsHelper.track(context, "saveError",
 									"SavePress "
 											+ getTrackText(targetContainer));
 						}
@@ -352,7 +368,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 		}
 
 		if (myModifier != null) {
-			AnalyticsHelper.trackStart(this, getTrackText(myModifier));
+			IAnalyticsHelper.trackStart(this, getTrackText(myModifier));
 		}
 	}
 
@@ -375,7 +391,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 			m.onStop(this);
 		}
 		super.onStop();
-		AnalyticsHelper.trackStop(this);
+		IAnalyticsHelper.trackStop(this);
 	}
 
 	/**
