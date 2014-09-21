@@ -136,24 +136,42 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		return h.getView(context);
 	}
 
-	private ModifierInterface createAddButton(Context context) {
+	/** This method is used to create an "Add" Button by
+	 * {@link #getView(Context)}. The default implementation returns a
+	 * {@link M_Button} which, on click, queries
+	 * {@link #getNewItemInstance(Context, int)} for a new object and adds it to
+	 * the list.<br>
+	 * <br>
+	 * Subclasses can (must don't have to) override it. Implementations can
+	 * call the method {@link #addItemToWrapperList(Context, Object)}, e.g. when
+	 * they create
+	 * a button that opens a list with objects to choose from.
+	 * @param context
+	 * @return A {@link M_Button} that adds a new
+	 *         {@link #getNewItemInstance(Context, int)}. */
+	protected ModifierInterface createAddButton(Context context) {
 		return new M_Button(addItemButtonText) {
-
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-
 				T item = getNewItemInstance(context, items.size());
-				if (item != null) {
-					WrapperItem<T> iw = new WrapperItem<T>(item);
-					iw.isNewItem = true;
-					items.add(iw);
-					refreshListContent(context);
-				} else {
-					Log.w(LOG_TAG, "New item instance was null");
-				}
+				addItemToWrapperList(context, item);
 			}
-
 		};
+	}
+
+	/** Can be called by overriding implementations of
+	 * {@link #createAddButton(Context)}.
+	 * @param context
+	 * @param item */
+	protected final void addItemToWrapperList(Context context, T item) {
+		if (item != null) {
+			WrapperItem<T> iw = new WrapperItem<T>(item);
+			iw.isNewItem = true;
+			items.add(iw);
+			refreshListContent(context);
+		} else {
+			Log.w(LOG_TAG, "New item instance was null");
+		}
 	}
 
 	protected void refreshListContent(Context context) {
@@ -195,7 +213,7 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		return true;
 	}
 
-	/**
+	/** return a modifier for the passed item and also implement the save action
 	 * return a modifier for the passed item and also implement the save action
 	 * as usual. the save action will only be executed when the complete list is
 	 * saved
