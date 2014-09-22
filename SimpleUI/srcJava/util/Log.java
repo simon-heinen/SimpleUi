@@ -101,7 +101,7 @@ public class Log {
 						+ errorStack);
 				e.printStackTrace();
 			} else {
-				logHistory.add(newLogEntry("w", LOG_TAG, errorInfoText + ": "
+				logHistory.add(newLogEntry("e", LOG_TAG, errorInfoText + ": "
 						+ errorStack));
 				Logger.getLogger(LOG_TAG).severe(errorInfoText);
 				Logger.getLogger(LOG_TAG).severe(errorStack);
@@ -172,8 +172,8 @@ public class Log {
 		return result + "]";
 	}
 
-	private static String newLogEntry(String w, String LOG_TAG, String warning) {
-		return "(" + w + ")" + LOG_TAG + " _:_ " + warning;
+	private static String newLogEntry(String lvl, String LOG_TAG, String warning) {
+		return "(" + lvl + ")" + LOG_TAG + " _:_ " + warning;
 	}
 
 	private static String lastName;
