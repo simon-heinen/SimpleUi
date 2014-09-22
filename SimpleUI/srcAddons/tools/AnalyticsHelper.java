@@ -8,12 +8,21 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
-public class AnalyticsHelper {
+public class AnalyticsHelper implements IAnalyticsHelper {
 	private static final String LOG_TAG = "AnalyticsHelper";
 
 	public static final String TRACK_DEFAULT_CATEGORY = "defEvents";
 
-	public static void trackStart(Activity a, String screenName) {
+	public AnalyticsHelper() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tools.AAA#trackStart(android.app.Activity, java.lang.String)
+	 */
+	@Override
+	public void trackStart(Activity a, String screenName) {
 		try {
 			EasyTracker t = EasyTracker.getInstance(a);
 			if (screenName != null) {
@@ -30,39 +39,36 @@ public class AnalyticsHelper {
 		}
 	}
 
-	public static void trackStop(Activity a) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tools.AAA#trackStop(android.app.Activity)
+	 */
+	@Override
+	public void trackStop(Activity a) {
 		EasyTracker.getInstance(a).activityStop(a);
 	}
 
-	/**
-	 * see {@link AnalyticsHelper#track(Context, String, String, String, Long)}
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param c
-	 * @param action
-	 * @param label
+	 * @see tools.AAA#track(android.content.Context, java.lang.String,
+	 * java.lang.String)
 	 */
-	public static void track(Context c, String action, String label) {
+	@Override
+	public void track(Context c, String action, String label) {
 		track(c, TRACK_DEFAULT_CATEGORY, action, label, null);
 	}
 
-	/**
-	 * https://developers.google.com/analytics/devguides/collection/android/v3/
-	 * events
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param c
-	 * @param category
-	 *            the category of the event (you can use the placeholder
-	 *            {@link AnalyticsHelper#TRACK_DEFAULT_CATEGORY} or define your
-	 *            own one
-	 * @param action
-	 *            the action like "coinsCollectedIngame"
-	 * @param label
-	 *            the label like "User collected coins"
-	 * @param value
-	 *            e.g. the amount of coins the user collected
+	 * @see tools.AAA#track(android.content.Context, java.lang.String,
+	 * java.lang.String, java.lang.String, java.lang.Long)
 	 */
-	public static void track(Context c, String category, String action,
-			String label, Long value) {
+	@Override
+	public void track(Context c, String category, String action, String label,
+			Long value) {
 		if (c != null) {
 			EasyTracker.getInstance(c).send(
 					MapBuilder.createEvent(category, action, label, value)
