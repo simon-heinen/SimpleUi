@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -78,6 +80,20 @@ public class SimpleBaseAdapter extends BaseAdapter {
 		if (activity != null) {
 			createAutoUpdaterForTheListAdapter(activity);
 		}
+	}
+
+	public OnItemClickListener newOnClickListener() {
+		return new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> myAdapter, View itemView,
+					int posInList, long mylng) {
+				if (myList != null) {
+					((HasItsOwnView) myList.get(posInList)).onItemClick(
+							itemView, posInList);
+				}
+			}
+		};
 	}
 
 	/**
