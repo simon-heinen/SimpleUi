@@ -247,9 +247,11 @@ public class SimpleRatingBar extends TextView {
 		{
 			Bitmap oldReference = b;
 			b = ImageTransform.makeSquare(b);
-			if (b != oldReference)
-				if (!isInEditMode())
+			if (b != oldReference) {
+				if (!isInEditMode()) {
 					oldReference.recycle();
+				}
+			}
 		}
 		// {
 		// Bitmap oldReference = b;
@@ -365,10 +367,11 @@ public class SimpleRatingBar extends TextView {
 	}
 
 	private void updateBars() {
-		if (itemRatingBars == null)
+		if (itemRatingBars == null) {
 			itemRatingBars = new ArrayList<Bitmap>();
-		else
+		} else {
 			itemRatingBars.clear();
+		}
 
 		for (int i = 0; i < items.size(); i++) {
 			itemRatingBars.add(createLineBitmap(items.get(i)));
@@ -384,27 +387,32 @@ public class SimpleRatingBar extends TextView {
 
 		Bitmap oldReference = spamIcon;
 		spamIcon = resizeImageAndAddMargin(spamIcon);
-		if (!isInEditMode())
+		if (!isInEditMode()) {
 			oldReference.recycle();
+		}
 		oldReference = clearIcon;
 		clearIcon = resizeImageAndAddMargin(clearIcon);
-		if (!isInEditMode())
+		if (!isInEditMode()) {
 			oldReference.recycle();
+		}
 		oldReference = badIcon;
 		badIcon = resizeImageAndAddMargin(badIcon);
-		if (!isInEditMode())
+		if (!isInEditMode()) {
 			oldReference.recycle();
+		}
 		oldReference = goodIcon;
 		goodIcon = resizeImageAndAddMargin(goodIcon);
-		if (!isInEditMode())
+		if (!isInEditMode()) {
 			oldReference.recycle();
+		}
 	}
 
 	private Bitmap resizeImageAndAddMargin(Bitmap b) {
 		Bitmap oldReference = b;
 		b = ImageTransform.resizeBitmap(b, y1Size, y1Size);
-		if (!isInEditMode())
+		if (!isInEditMode()) {
 			oldReference.recycle();
+		}
 		return b;
 	}
 
@@ -517,8 +525,9 @@ public class SimpleRatingBar extends TextView {
 		if (nr >= 0 && nr < items.size()) {
 			RatingItem i = items.get(nr);
 			int rating = (int) (100 * (x - 2 * x1Size) / (xWidth - 2 * x1Size));
-			if (rating > 100)
+			if (rating > 100) {
 				rating = 100;
+			}
 
 			if (i.getRatingInPercent() != rating) {
 				i.onRatingSend(rating);
@@ -527,13 +536,15 @@ public class SimpleRatingBar extends TextView {
 		}
 	}
 
-	private GestureDetector buttonGestureDetector = new GestureDetector(
+	private final GestureDetector buttonGestureDetector = new GestureDetector(
 			new GestureDetector.SimpleOnGestureListener() {
 
+				@Override
 				public boolean onDown(MotionEvent e) {
 					return true;
 				};
 
+				@Override
 				public boolean onSingleTapUp(MotionEvent e) {
 					sendClichEvent(e.getX(), e.getY());
 					return true;
