@@ -9,20 +9,20 @@
 	<classpathentry kind="src" path="srcAddons"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry exported="true" kind="lib" path="libs/google-play-services.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalyticsServices.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/otto-1.3.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/volley.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/picasso-2.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/butterknife-3.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/dagger-1.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/javax.inject.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/dagger-compiler-1.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/javawriter-2.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/jsr311-api-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gson-2.2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/json-20140107.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="libsMore/acra-4.5.0.jar"/>
+	<classpathentry kind="lib" path="libsMore/butterknife-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libsMore/dagger-1.1.0.jar"/>
+	<classpathentry kind="lib" path="libsMore/dagger-compiler-1.1.0.jar"/>
+	<classpathentry kind="lib" path="libsMore/GraphView-3.1.1.jar"/>
+	<classpathentry kind="lib" path="libsMore/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="libsMore/javawriter-2.2.1.jar"/>
+	<classpathentry kind="lib" path="libsMore/javax.inject.jar"/>
+	<classpathentry kind="lib" path="libsMore/json-20140107.jar"/>
+	<classpathentry kind="lib" path="libsMore/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libsMore/libGoogleAnalyticsServices.jar"/>
+	<classpathentry kind="lib" path="libsMore/otto-1.3.4.jar"/>
+	<classpathentry kind="lib" path="libsMore/retrofit-1.4.1.jar"/>
+	<classpathentry kind="lib" path="libsMore/volley.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

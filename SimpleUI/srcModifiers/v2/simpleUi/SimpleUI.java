@@ -137,14 +137,21 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 
 	private static tools.IAnalyticsHelper initIAnalyticsHelper() {
 		try {
-			Class aClass = SimpleUI.class.getClassLoader().loadClass(
-					"tools.AnalyticsHelper");
+			ClassLoader classLoader = SimpleUI.class.getClassLoader();
+
+			// check if google analytics jar included:
+			classLoader
+					.loadClass("com.google.analytics.tracking.android.EasyTracker");
+			Class analyticsHelperClass = classLoader
+					.loadClass("tools.AnalyticsHelper");
 			Log.i(LOG_TAG, "Found tools.AnalyticsHelper and "
 					+ "will create instance now");
-			return (tools.IAnalyticsHelper) aClass.newInstance();
+			return (tools.IAnalyticsHelper) analyticsHelperClass.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
+		Log.i(LOG_TAG, "Google Analytics not supported in this "
+				+ "application, injecting AnalyticsHelperNoOp");
 		return new AnalyticsHelperNoOp();
 	}
 
