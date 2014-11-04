@@ -6,70 +6,104 @@ import java.util.List;
 
 public abstract class ClassFinder {
 
-	public interface ResultListener<T> {
-		void runTestsFor(T c);
-
+	/**
+	 * Either a {@link ResultListener} or a {@link ClassResultListener}.
+	 */
+	private abstract interface GeneralResultListener<T> {
 		void onError(Exception e);
 
 		void onFinished();
 	}
 
-	private static final String LOG_TAG = "ClassFinder";
+	/**
+	 * Implement this interface if you want the {@link ClassFinder} to try to
+	 * instantiate found classes for you (via Reflections, empty constructor
+	 * needed).
+	 */
+	public interface ResultListener<T> extends GeneralResultListener<T> {
+		void runTestsFor(T c);
+	}
+
+	/**
+	 * Implement this interface if you want to process found classes as
+	 * {@link Class} objects.
+	 */
+	public interface ClassResultListener<T> extends GeneralResultListener<T> {
+		void runTestsFor(Class<? extends T> clazz);
+	}
+
+	private static final String LOG_TAG = ClassFinder.class.getSimpleName();
 
 	/**
 	 * @param obj
 	 *            will use the
 	 * @param searchedClassType
 	 * @param result
+	 *            either a {@link ResultListener} or a
+	 *            {@link ClassResultListener}.
 	 */
-	public static <T> void runInSamePackageAs(Class c,
-			Class<T> searchedClassType, ResultListener<T> result) {
+	public static <T> void runInSamePackageAs(final Class c,
+			final Class<T> searchedClassType,
+			final GeneralResultListener<T> result) {
 		runInPackage(c.getPackage().getName(), searchedClassType, result);
 	}
 
-	public static <T> void runInPackage(String packageName,
-			Class<T> searchedClassType, ResultListener<T> result) {
+	public static <T> void runInPackage(final String packageName,
+			final Class<T> searchedClassType,
+			final GeneralResultListener<T> result) {
 		try {
-			List<Class> l = PackageSearcher
+			final List<Class> l = PackageSearcher
 					.getAllClassesAndInnerClassesIn(packageName);
 			runForFoundClasses(l, searchedClassType, result);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			result.onError(e);
 		}
 	}
 
-	private static <T> void runForFoundClasses(List<Class> list,
-			Class<T> searchedClassType, ResultListener<T> result) {
-		for (Class c : list) {
+	private static <T> void runForFoundClasses(final List<Class> list,
+			final Class<T> searchedClassType,
+			final GeneralResultListener<T> resultListener) {
+		for (final Class c : list) {
 			if (!Modifier.isAbstract(c.getModifiers())
 					&& !Modifier.isInterface(c.getModifiers())) {
 				if (searchedClassType.isAssignableFrom(c)) {
-					try {
-						result.runTestsFor(((Class<T>) c).newInstance());
-					} catch (InstantiationException e) {
-						Log.e(LOG_TAG, "Skipping " + c
-								+ " because default empty constructor missing");
-						result.onError(e);
-					} catch (IllegalAccessException e) {
-						createInstanceFromPrivateConstructor(c, result);
-					} catch (Exception e) {
-						result.onError(e);
+					if (resultListener instanceof ClassResultListener){
+						((ClassResultListener)resultListener).runTestsFor(c);
+					} else if (resultListener instanceof ResultListener) {
+						try {
+							((ResultListener) resultListener)
+							.runTestsFor(((Class<T>) c).newInstance());
+						} catch (final InstantiationException e) {
+							Log.e(LOG_TAG,
+									"Skipping "
+											+ c
+											+ " because default empty constructor missing");
+							resultListener.onError(e);
+						} catch (final IllegalAccessException e) {
+							createInstanceFromPrivateConstructor(c,
+									(ResultListener) resultListener);
+						} catch (final Exception e) {
+							resultListener.onError(e);
+						}
+					} else {
+						throw new RuntimeException(
+								"Unknown Result Listener type");
 					}
 				}
 			}
 		}
-		result.onFinished();
+		resultListener.onFinished();
 	}
 
-	private static <T> void createInstanceFromPrivateConstructor(Class c,
-			ResultListener<T> result) {
+	private static <T> void createInstanceFromPrivateConstructor(final Class c,
+			final ResultListener<T> result) {
 		Log.i(LOG_TAG, "Class " + c + " did not have a public default "
 				+ "constructor, will use the private one");
 		try {
-			Constructor<T> ccc = ((Class<T>) c).getDeclaredConstructor();
+			final Constructor<T> ccc = ((Class<T>) c).getDeclaredConstructor();
 			ccc.setAccessible(true);
 			result.runTestsFor(ccc.newInstance());
-		} catch (Exception e2) {
+		} catch (final Exception e2) {
 			result.onError(e2);
 		}
 	}
