@@ -19,6 +19,7 @@ import android.util.Log;
  * itemToDisplay);
  * 
  */
+// TODO change "extends Application" to "extends MultiDexApplication"
 public class SimpleUiApplication extends Application {
 	private static final String LOG_TAG = "SimpleUiApplication";
 	private HashMap<String, Object> transferList;

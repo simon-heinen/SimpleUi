@@ -97,9 +97,48 @@ public class IO extends util.IOHelper {
 	 * @return
 	 */
 	public static Bitmap loadBitmapFromFile(String imagePath) {
-		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-		return BitmapFactory.decodeFile(imagePath, bitmapOptions);
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inPreferredConfig = Bitmap.Config.RGB_565;
+		return BitmapFactory.decodeFile(imagePath, o);
+	}
+
+	/**
+	 * see {@link IO#loadBitmapFromFile(String)}
+	 * 
+	 * @param imagePath
+	 * @param maxWidth
+	 * @param maxHeight
+	 * @return
+	 */
+	public static Bitmap loadBitmapFromFile(String imagePath, int maxWidth,
+			int maxHeight) {
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imagePath, o);
+		o.inSampleSize = calculateInSampleSize(o, maxWidth, maxHeight);
+		o.inPreferredConfig = Bitmap.Config.RGB_565;
+		o.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFile(imagePath, o);
+	}
+
+	private static int calculateInSampleSize(BitmapFactory.Options options,
+			int reqWidth, int reqHeight) {
+		// Raw height and width of image
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+		if (height > reqHeight || width > reqWidth) {
+			final int halfHeight = height / 2;
+			final int halfWidth = width / 2;
+			// Calculate the largest inSampleSize value that is a power of 2 and
+			// keeps both
+			// height and width larger than the requested height and width.
+			while ((halfHeight / inSampleSize) > reqHeight
+					&& (halfWidth / inSampleSize) > reqWidth) {
+				inSampleSize *= 2;
+			}
+		}
+		return inSampleSize;
 	}
 
 	/**
