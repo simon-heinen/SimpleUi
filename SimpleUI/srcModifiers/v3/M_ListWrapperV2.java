@@ -184,20 +184,23 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 
 		// first request to remove the marked elements
 		int pos = 0;
-		do {
-			WrapperItem<T> iw = items.get(pos);
-			if (iw.removeRequest && !iw.isNewItem) {
-				if (!onRemoveRequest(iw.item)) {
-					return false;
-				}
 
-			}
-			if (iw.removeRequest) {
-				items.remove(pos);
-			} else {
-				pos++;
-			}
-		} while (pos < items.size());
+		if (items.size() > 0) { // Else OutOfBoundsException
+			do {
+				WrapperItem<T> iw = items.get(pos);
+				if (iw.removeRequest && !iw.isNewItem) {
+					if (!onRemoveRequest(iw.item)) {
+						return false;
+					}
+
+				}
+				if (iw.removeRequest) {
+					items.remove(pos);
+				} else {
+					pos++;
+				}
+			} while (pos < items.size());
+		}
 		// then save all remaining items and inform on all new items
 		for (WrapperItem<T> iw : items) {
 			if (iw.removeRequest) {
