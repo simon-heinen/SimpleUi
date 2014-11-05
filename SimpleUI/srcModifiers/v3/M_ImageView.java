@@ -201,7 +201,7 @@ public class M_ImageView implements ModifierInterface, Target {
 				imageView.setLayoutParams(p);
 			} else {
 				Log.i(LOG_TAG, "refreshImageViewFromUiThread: bitmap=" + bitmap
-						+ " was recycled");
+						+ " was recycled (or null)");
 				if (imageBorderColor != null) {
 					// else clear image border
 					imageView.setBackgroundColor(Color.TRANSPARENT);
@@ -264,8 +264,8 @@ public class M_ImageView implements ModifierInterface, Target {
 
 	@Override
 	public void onBitmapFailed() {
-		Log.e(LOG_TAG,
-				"Could not load bitmap in this modifier " + this.getClass());
+		Log.e(LOG_TAG, "Picasso could not load bitmap in this " + "modifier "
+				+ this.getClass());
 	}
 
 	@Override

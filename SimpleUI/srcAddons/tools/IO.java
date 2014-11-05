@@ -404,21 +404,6 @@ public class IO extends util.IOHelper {
 	}
 
 	/**
-	 * @param relativePathInAssetsFolder
-	 *            something like "folderX/fileY.txt" if you have a folder in
-	 *            your assets folder folderX which contains a fileY.txt
-	 * @return a file object which does not behave normally, e.g. file.exists()
-	 *         will always return null! But {@link Picasso} e.g. still can
-	 *         handle the file correctly
-	 */
-	public static Uri loadFileFromAssets(String relativePathInAssetsFolder) {
-		if (!relativePathInAssetsFolder.startsWith("/")) {
-			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
-		}
-		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
-	}
-
-	/**
 	 * @Deprecated till android dependency fixed
 	 * 
 	 * @param oldPath
@@ -446,6 +431,16 @@ public class IO extends util.IOHelper {
 		return null;
 	}
 
+	/**
+	 * Deprecated, better use {@link Picasso} in combination with
+	 * {@link IO#loadFileFromAssets(String)}
+	 * 
+	 * @param context
+	 * @param fileName
+	 *            e.g. "x/a.jpg" if the image is located at "assets/x/a.jpg"
+	 * @return
+	 */
+	@Deprecated
 	public static Bitmap loadBitmapFromAssetsFolder(Context context,
 			String fileName) {
 		try {
@@ -460,6 +455,33 @@ public class IO extends util.IOHelper {
 					+ " from assets folder!");
 		}
 		return null;
+	}
+
+	/**
+	 * @param relativePathInAssetsFolder
+	 *            something like "folderX/fileY.txt" if you have a folder in
+	 *            your assets folder folderX which contains a fileY.txt
+	 * @return a file object which does not behave normally, e.g. file.exists()
+	 *         will always return null! But {@link Picasso} e.g. still can
+	 *         handle the file correctly
+	 */
+	public static Uri loadFileFromAssets(String relativePathInAssetsFolder) {
+		if (relativePathInAssetsFolder.startsWith("assets")
+				|| relativePathInAssetsFolder.startsWith("/assets")) {
+			Log.i(LOG_TAG, "Found string assets in file path='"
+					+ relativePathInAssetsFolder + "', will clean the string");
+			relativePathInAssetsFolder = relativePathInAssetsFolder
+					.replaceFirst("assets", "");
+			while (relativePathInAssetsFolder.startsWith("/")) {
+				relativePathInAssetsFolder = relativePathInAssetsFolder
+						.replaceFirst("/", "");
+			}
+		}
+
+		if (!relativePathInAssetsFolder.startsWith("/")) {
+			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
+		}
+		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
 	}
 
 	public static Uri toUri(File file) {
