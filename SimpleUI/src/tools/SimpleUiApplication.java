@@ -75,6 +75,11 @@ public class SimpleUiApplication extends Application {
 	 */
 	public String addToTransferList(Object object) {
 		String newKey = new Date().toString() + object.toString();
+		Object oldObject = getTransferList().remove(newKey);
+		if (oldObject != null) {
+			Log.w(LOG_TAG, "Old object with same key >" + newKey
+					+ "< was deleted: " + oldObject);
+		}
 		getTransferList().put(newKey, object);
 		return newKey;
 	}
