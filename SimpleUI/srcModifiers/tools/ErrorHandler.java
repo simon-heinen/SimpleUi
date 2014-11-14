@@ -508,7 +508,9 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 	}
 
 	/**
-	 * use {@link MailAndroidIntentLogic#sendMail(..)} instead
+	 * use
+	 * {@link IntentHelper#sendMailIntent(Context, String, String, String[], java.util.List)}
+	 * instead
 	 * 
 	 * @param context
 	 * @param emailText
