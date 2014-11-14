@@ -93,16 +93,19 @@ public class MainActivity extends Activity {
 
 		M_Container c = new M_Container();
 
-		c.add(new M_Button("Share to google + ") {
+		final File fileToShare = new File(
+				Environment.getExternalStorageDirectory(), "img.jpg");
+		if (fileToShare.exists()) {
+			c.add(new M_Button("Share testimage img.jpg to Google+ ") {
 
-			@Override
-			public void onClick(Context context, Button arg1) {
-				File fileToShare = new File(Environment
-						.getExternalStorageDirectory(), "img.jpg");
-				Intent i = IntentHelper.newSendIntent(fileToShare, "", "", "");
-				IntentHelper.launchGooglePlus(MainActivity.this, i);
-			}
-		});
+				@Override
+				public void onClick(Context context, Button arg1) {
+					Intent i = IntentHelper.newSendImageIntent(fileToShare, "",
+							"", "");
+					IntentHelper.launchGooglePlus(MainActivity.this, i);
+				}
+			});
+		}
 
 		c.add(new M_Button("Simple Start Example") {
 
