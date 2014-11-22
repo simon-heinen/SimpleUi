@@ -1,4 +1,4 @@
-package de.rwth;
+package com.googlecode.simpleui;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,11 +25,11 @@ public class ListWrapperTests {
 		container.add(new M_InfoText("Antwortenliste"));
 		M_ListWrapperV2<String> m = M_ListWrapperV2
 				.newStringCollectionModifier(getAnswers,
-						"Neue Antwort hinzufügen");
+						"Neue Antwort hinzufï¿½gen");
 		container.add(m);
 		container.add(new M_InfoText("Fragen"));
 		container.add(newQuestionCollectionModifier(getQuestions,
-				getCorrectAnswerNrs, "Neue Frage hinzufügen", m));
+				getCorrectAnswerNrs, "Neue Frage hinzufï¿½gen", m));
 
 	}
 
@@ -103,7 +103,7 @@ public class ListWrapperTests {
 
 					@Override
 					public CharSequence getTitleForSpinnerBox() {
-						return "Antwort auswählen";
+						return "Antwort auswï¿½hlen";
 					}
 
 					@Override

@@ -1,4 +1,4 @@
-package de.rwth;
+package com.googlecode.simpleui;
 
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.rwth"
+    package="com.googlecode.simpleui"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="3"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="21" />
 
     <!-- add the following permission entry and uses-permission entries for the google maps v2 -->
     <permission
@@ -63,7 +63,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
 
-        <activity android:name="de.rwth.TestMapsV2Activity" >
+        <activity android:name="com.googlecode.simpleui.TestMapsV2Activity" >
         </activity>
         <activity
             android:name="tools.ErrorHandler"

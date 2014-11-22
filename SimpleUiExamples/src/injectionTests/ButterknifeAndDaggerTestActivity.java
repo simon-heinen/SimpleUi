@@ -8,8 +8,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import butterknife.InjectView;
+
+import com.googlecode.simpleui.R;
+
 import dagger.ObjectGraph;
-import de.rwth.R;
 
 /**
  * see http://jakewharton.github.io/butterknife/ for details
@@ -34,7 +36,7 @@ public class ButterknifeAndDaggerTestActivity extends Activity {
 	@InjectView(R.id.text1)
 	TextView text1;
 
-	@InjectView(de.rwth.R.id.text2)
+	@InjectView(R.id.text2)
 	TextView text2;
 
 	@Override

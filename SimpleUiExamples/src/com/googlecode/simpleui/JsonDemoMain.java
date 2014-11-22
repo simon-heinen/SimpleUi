@@ -1,4 +1,4 @@
-package de.rwth;
+package com.googlecode.simpleui;
 
 import java.io.BufferedReader;
 import java.io.IOException;

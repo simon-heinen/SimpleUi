@@ -1,4 +1,4 @@
-package de.rwth;
+package com.googlecode.simpleui;
 
 import v3.maps.SimpleUIWithMaps;
 
