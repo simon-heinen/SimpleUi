@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="srcSimpleUi"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/SimpleUI/libs/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="/SimpleUI/libs/json-20140107.jar"/>
+	<classpathentry kind="lib" path="/SimpleUI/libsMore/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/SimpleUI/libsMore/json-20140107.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

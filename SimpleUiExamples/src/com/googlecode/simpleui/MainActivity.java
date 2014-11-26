@@ -93,6 +93,15 @@ public class MainActivity extends Activity {
 
 		M_Container c = new M_Container();
 
+		c.add(new M_Button("Material UI demo") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				SimpleUI.showCancelOkDialog(MainActivity.this, "Cancel", "Ok",
+						new V2MaterialUiTests());
+			}
+		});
+
 		final File fileToShare = new File(
 				Environment.getExternalStorageDirectory(), "img.jpg");
 		if (fileToShare.exists()) {

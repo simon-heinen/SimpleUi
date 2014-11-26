@@ -3,6 +3,7 @@ package v2.simpleUi;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import tools.AnalyticsHelperNoOp;
 import tools.ErrorHandler;
@@ -79,7 +80,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 		boolean onPrepareOptionsMenu(Activity a, Menu menu);
 
 		/**
-		 * See {@link Activity#onPrepareOptionsMenu(Menu)}
+		 * See {@link Activity#onOptionsItemSelected(MenuItem)}
 		 * 
 		 * @param simpleUI
 		 * @param item
@@ -130,7 +131,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	 * @return
 	 */
 	public static boolean showInfoDialog(Context context,
-			String closeButtonText, final M_Container itemsToDisplay) {
+			String closeButtonText, final M_Collection itemsToDisplay) {
 		addOkButton(itemsToDisplay, closeButtonText);
 		return showUi(context, itemsToDisplay);
 	}
@@ -156,7 +157,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	}
 
 	public static boolean showCancelOkDialog(Context context,
-			String cancelText, String okText, final M_Container itemsToDisplay) {
+			String cancelText, String okText, final M_Collection itemsToDisplay) {
 		addCancelOkButtons(itemsToDisplay, cancelText, okText);
 		return showUi(context, itemsToDisplay);
 	}
@@ -180,18 +181,26 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 		};
 	}
 
-	public static void addOkButton(final M_Container targetContainer,
+	public static void addOkButton(final M_Collection targetContainer,
 			String okButtonText) {
 		if (targetContainer == null) {
 			return;
 		}
-		if (targetContainer.getLastElement() instanceof M_Button) {
-			M_Button b = (M_Button) targetContainer.getLastElement();
+		ModifierInterface lastElement = getLastElement(targetContainer);
+		if (lastElement instanceof M_Button) {
+			M_Button b = (M_Button) lastElement;
 			if (b.getText().equals(okButtonText)) {
 				return;
 			}
 		}
 		targetContainer.add(newOkButton(okButtonText, targetContainer));
+	}
+
+	private static ModifierInterface getLastElement(List<ModifierInterface> list) {
+		if (list.size() == 0) {
+			return null;
+		}
+		return list.get(list.size() - 1);
 	}
 
 	/**
@@ -202,14 +211,14 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	 * @param cancelText
 	 * @param okText
 	 */
-	public static void addCancelOkButtons(final M_Container targetContainer,
+	public static void addCancelOkButtons(final M_Collection targetContainer,
 			String cancelText, String okText) {
 		addCancelOkButtons(targetContainer, cancelText, okText,
 				new CancelOkListener() {
 
 					@Override
 					public void onCancel(Context context,
-							M_Container targetContainer) {
+							M_Collection targetContainer) {
 						if (context instanceof Activity) {
 							IAnalyticsHelper.track(context, "cancelPress",
 									"Cancelled "
@@ -220,7 +229,7 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 
 					@Override
 					public void onOk(Context context,
-							M_Container targetContainer) {
+							M_Collection targetContainer) {
 
 						if (targetContainer.save()
 								&& context instanceof Activity) {
@@ -239,18 +248,19 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	}
 
 	public interface CancelOkListener {
-		void onCancel(Context context, M_Container targetContainer);
+		void onCancel(Context context, M_Collection targetContainer);
 
-		void onOk(Context context, M_Container targetContainer);
+		void onOk(Context context, M_Collection targetContainer);
 	}
 
-	public static void addCancelOkButtons(final M_Container targetContainer,
+	public static void addCancelOkButtons(final M_Collection targetContainer,
 			String cancelText, String okText, final CancelOkListener l) {
 		if (targetContainer == null) {
 			return;
 		}
-		if (targetContainer.getLastElement() instanceof M_HalfHalf) {
-			M_HalfHalf b = (M_HalfHalf) targetContainer.getLastElement();
+		ModifierInterface lastElement = getLastElement(targetContainer);
+		if (lastElement instanceof M_HalfHalf) {
+			M_HalfHalf b = (M_HalfHalf) lastElement;
 			if (b.getMyLeft() instanceof M_Button
 					&& b.getMyRight() instanceof M_Button) {
 				if (((M_Button) b.getMyLeft()).getText().equals(cancelText)
@@ -499,7 +509,11 @@ public class SimpleUI extends Activity implements SimpleUIInterface {
 	}
 
 	public static void onCreate(Activity a, Bundle savedInstanceState) {
-		a.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		try {
+			a.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (DEBUG) {
 			Log.i(LOG_TAG, "onCreate" + " by " + a);
 		}
