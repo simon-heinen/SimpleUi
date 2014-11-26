@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="libsMore/otto-1.3.4.jar"/>
 	<classpathentry kind="lib" path="libsMore/retrofit-1.4.1.jar"/>
 	<classpathentry kind="lib" path="libsMore/volley.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
