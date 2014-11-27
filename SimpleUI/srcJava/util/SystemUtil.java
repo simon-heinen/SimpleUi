@@ -27,8 +27,29 @@ public class SystemUtil {
 
 	public static boolean isAndroid() {
 		if (isAndroid == null) {
-			isAndroid = System.getProperties().get("java.vm.name")
-					.equals("Dalvik");
+			try {
+				String v = "" + System.getProperties().get("java.vendor");
+				isAndroid = v.contains("Android");
+				if (isAndroid) {
+					return isAndroid;
+				}
+			} catch (Exception e) {
+			}
+			try {
+				String v = "" + System.getProperties().get("java.vm.vendor");
+				isAndroid = v.contains("Android");
+				if (isAndroid) {
+					return isAndroid;
+				}
+			} catch (Exception e1) {
+			}
+			try {
+				isAndroid = System.getProperties().get("java.vm.name")
+						.equals("Dalvik");
+			} catch (Exception e2) {
+				Log.e("Could not detect if running on Android!");
+				isAndroid = false;
+			}
 		}
 		return isAndroid;
 	}
