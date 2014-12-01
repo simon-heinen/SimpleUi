@@ -1,7 +1,5 @@
 package v2.simpleUi;
 
-import java.util.ArrayList;
-
 import v2.simpleUi.customViews.ExpandableLinearLayout;
 import v2.simpleUi.customViews.ExpandableLinearLayout.OnExpandListener;
 import v2.simpleUi.uiDecoration.UiDecoratable;
@@ -26,8 +24,7 @@ import android.widget.LinearLayout;
  * @author Spobo
  * 
  */
-public class M_Container2 extends ArrayList<ModifierInterface> implements
-		ModifierInterface, UiDecoratable {
+public class M_Container2 extends M_Collection implements UiDecoratable {
 
 	private static final float CAPTION_SIZE = 1.1f;
 	protected static final String LOG_TAG = "M_Container2";

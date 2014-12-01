@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.googlecode.simpleui"
+    package="com.googlecode.simpleui.library"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="21" />
 
-    <application
-        android:icon="@drawable/icon"
-        android:label="SimpleUI" >
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="4030500" />
+    <application android:name="tools.SimpleUiApplication" >
 
-        <activity
-            android:name="v1.V1SimpleUI"
-            android:theme="@android:style/Theme.Translucent" >
-        </activity>
+        <!-- Activty templates to copy to you app manifest file -->
+
         <activity
             android:name="v2.simpleUi.SimpleUI"
             android:theme="@android:style/Theme.Translucent" />
-    </application>
-    <application>
     </application>
 
 </manifest>

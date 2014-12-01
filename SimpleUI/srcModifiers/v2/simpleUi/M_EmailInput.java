@@ -3,6 +3,7 @@ package v2.simpleUi;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import tools.IntentHelper;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import android.content.Context;
@@ -25,8 +26,9 @@ import android.widget.TextView;
  * "@gmail.com" in there <br>
  * <br>
  * 
- * Use {@link M_EmailInput#sendMail(Context, String, String, String)} to send
- * mails from your application via the mail application
+ * Use
+ * {@link IntentHelper#sendMailIntent(Context, String, String, String[], java.util.List)}
+ * to send mails from your application via the mail application
  * 
  * @author Simon Heinen
  * 
@@ -150,7 +152,9 @@ public abstract class M_EmailInput implements ModifierInterface, UiDecoratable {
 	}
 
 	/**
-	 * use use {@link MailAndroidIntentLogic#sendMail(..)} instead instead
+	 * use
+	 * {@link IntentHelper#sendMailIntent(Context, String, String, String[], java.util.List)}
+	 * instead
 	 * 
 	 * @param c
 	 * @param emailAddress

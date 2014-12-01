@@ -1,4 +1,4 @@
-package de.rwth;
+package com.googlecode.simpleui;
 
 import module.meta.MetaAttr;
 import module.meta.MetaValidator;

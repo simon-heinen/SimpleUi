@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
- <!-- Android style -->
+
+    <color name="colorAccent">#CCCC00</color>
+    <color name="colorPrimary">#00CC00</color>
+    <color name="colorPrimaryDark">#00AA00</color>
+
+    <!-- Android style -->
     <color name="android_green">#A4C639</color>
 
     <!-- Windows 8 style -->
@@ -191,4 +196,5 @@
 
     <color name="YellowGreen">#9ACD32</color>
     <!-- z -->
+
 </resources>

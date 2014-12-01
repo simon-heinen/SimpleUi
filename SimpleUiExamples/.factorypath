@@ -1,8 +1,8 @@
 <factorypath>
     <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libs/butterknife-3.0.1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libs/javawriter-2.2.1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libs/dagger-1.1.0.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libs/javax.inject.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libs/dagger-compiler-1.1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libsMore/butterknife-3.0.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libsMore/dagger-1.1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libsMore/dagger-compiler-1.1.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libsMore/javawriter-2.2.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/SimpleUI/libsMore/javax.inject.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry combineaccessrules="false" kind="src" path="/SimpleUI"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
@@ -10,5 +11,11 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/dagger-1.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/dagger-compiler-1.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/javax.inject.jar"/>
+	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/butterknife-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/libGoogleAnalyticsServices.jar"/>
+	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/gson-2.2.4.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

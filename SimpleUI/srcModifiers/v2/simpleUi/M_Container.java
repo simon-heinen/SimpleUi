@@ -1,7 +1,5 @@
 package v2.simpleUi;
 
-import java.util.ArrayList;
-
 import tools.SimpleUiApplication;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
@@ -13,8 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-public class M_Container extends ArrayList<ModifierInterface> implements
-		ModifierInterface, UiDecoratable {
+public class M_Container extends M_Collection implements UiDecoratable {
 
 	private static final int MOST_OUTER_PADDING = 13;
 	private static final int OUTER_BACKGROUND_DIMMING_COLOR = android.graphics.Color
@@ -95,18 +92,6 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 		}
 	}
 
-	protected void createViewsForAllModifiers(Context target,
-			LinearLayout containerForAllItems) {
-		for (ModifierInterface m : this) {
-			if (m != null) {
-				View v = m.getView(target);
-				if (v != null) {
-					containerForAllItems.addView(v);
-				}
-			}
-		}
-	}
-
 	@Override
 	public String toString() {
 		if (!isEmpty()) {
@@ -153,13 +138,6 @@ public class M_Container extends ArrayList<ModifierInterface> implements
 			}
 		}
 		return result;
-	}
-
-	public ModifierInterface getLastElement() {
-		if (size() == 0) {
-			return null;
-		}
-		return get(size() - 1);
 	}
 
 }

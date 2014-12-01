@@ -2,7 +2,7 @@ package v2.simpleUi;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 /**
  * This is a first example implementation with a fixed number of 2 items in each
@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 public class M_Dashboard extends M_Container {
 	@Override
 	protected void createViewsForAllModifiers(Context target,
-			LinearLayout containerForAllItems) {
+			ViewGroup containerForAllItems) {
 		boolean sizeIsMod2 = this.size() % 2 == 0;
 		int size = sizeIsMod2 ? this.size() : this.size() - 1;
 		for (int i = 0; i < size; i += 2) {
@@ -30,7 +30,7 @@ public class M_Dashboard extends M_Container {
 
 	private View get2ItemViewFor(ModifierInterface left,
 			ModifierInterface right, Context context) {
-		M_HalfHalf line = new M_HalfHalf(left, right, 70,true);
+		M_HalfHalf line = new M_HalfHalf(left, right, 70, true);
 		return line.getView(context);
 	}
 }

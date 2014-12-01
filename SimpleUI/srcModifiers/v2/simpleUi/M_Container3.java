@@ -1,7 +1,5 @@
 package v2.simpleUi;
 
-import java.util.ArrayList;
-
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import android.content.Context;
@@ -13,14 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-/**
- * A collapsible container
- * 
- * @author Spobo
- * 
- */
-public class M_Container3 extends ArrayList<ModifierInterface> implements
-		ModifierInterface, UiDecoratable {
+public class M_Container3 extends M_Collection implements UiDecoratable {
 
 	private static final float CAPTION_SIZE = 1.1f;
 	protected static final String LOG_TAG = "M_Container2";

@@ -1,36 +1,40 @@
-package de.rwth;
+package com.googlecode.simpleui;
 
 import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.M_SeperatorLine;
-import v3.maps.M_GoogleMapsMarkLocation;
-import android.util.Log;
+import v3.maps.GoogleMapsV2View;
+import v3.maps.M_GoogleMapsV2;
+import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
-public class GoogleMapV2PosOnMapTests extends M_Container {
+public class GoogleMapV2TestContainer extends M_Container {
 
-	protected static final String LOG_TAG = "GoogleMapV2PosOnMapTests";
-
-	public GoogleMapV2PosOnMapTests() {
+	public GoogleMapV2TestContainer() {
 		add(M_SeperatorLine.newDefaultOne());
-		add(new M_GoogleMapsMarkLocation(R.drawable.good) {
+		add(new M_GoogleMapsV2() {
 
 			@Override
 			public int getMapHeigthInDip() {
-				return 200;
+				return 400;
 			}
 
 			@Override
-			public boolean save(LatLng geoPoint) {
-				Log.i(LOG_TAG, "Selected pos: " + geoPoint);
-				return true;
+			public void onMapViewIsReadyForTheFirstTime(
+					GoogleMapsV2View googleMapsV2View,
+					FragmentActivity activity, GoogleMap map) {
+				GoogleMapsV2View.initDefaultBehavior(googleMapsV2View);
 			}
 
 			@Override
-			public boolean onNoPositionOnMapMarked() {
-				return false;
+			public void onNewAreaOnMapIsShown(LatLng topLeft,
+					LatLng bottomRight, int zoomLevel) {
+				// TODO Auto-generated method stub
+				super.onNewAreaOnMapIsShown(topLeft, bottomRight, zoomLevel);
 			}
+
 		});
 		add(M_SeperatorLine.newDefaultOne());
 		add(new M_InfoText("Blabla"));
