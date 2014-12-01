@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -53,7 +54,16 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 			public void onClick(View v) {
 				M_IconButtonWithText.this.onClick(context, imageButton);
 			}
+		}); 
+		
+		imageButton.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				return M_IconButtonWithText.this.onLongClick(context, imageButton);
+			}
 		});
+		
 		imageButton.setImageResource(myIconId);
 		l.addView(imageButton);
 
@@ -95,6 +105,10 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 	}
 
 	public abstract void onClick(Context context, ImageView clickedButton);
+	
+	public boolean onLongClick(Context context, ImageView clickedButton){
+		return false;
+	};
 
 	public void setIconId(int iconId) {
 		myIconId = iconId;
