@@ -496,18 +496,27 @@ public class IO extends util.IOHelper {
 	 * 
 	 * @param c
 	 * @param targetFolder
-	 *            e.g. {@link Environment#getExternalStorageDirectory()}. As a
-	 *            security feature this folder has to exist! use
-	 *            {@link File#mkdirs()}
+	 *            e.g. {@link Environment#getExternalStorageDirectory()}
 	 * @throws Exception
 	 */
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public static boolean copyAssets(Context c, File targetFolder)
-			throws Exception {
+	public static boolean copyAssets(AssetManager assetManager,
+			File targetFolder) throws Exception {
 		Log.i(LOG_TAG, "Copying files from assets to folder " + targetFolder);
-		return copyAssets(c.getAssets(), "", targetFolder);
+		return copyAssets(assetManager, "", targetFolder);
 	}
 
+	/**
+	 * The files will be copied at the location targetFolder+path so if you
+	 * enter path="abc" and targetfolder="sdcard" the files will be located in
+	 * "sdcard/abc"
+	 * 
+	 * @param assetManager
+	 * @param path
+	 * @param targetFolder
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean copyAssets(AssetManager assetManager, String path,
 			File targetFolder) throws Exception {
 		Log.i(LOG_TAG, "Copying " + path + " to " + targetFolder);
@@ -517,7 +526,7 @@ public class IO extends util.IOHelper {
 		} else { // its a folder:
 			if (path.startsWith("images") || path.startsWith("sounds")
 					|| path.startsWith("webkit")) {
-				Log.i(LOG_TAG, "Skipping " + path);
+				Log.i(LOG_TAG, "  > Skipping " + path);
 				return false;
 			}
 			File targetDir = new File(targetFolder, path);

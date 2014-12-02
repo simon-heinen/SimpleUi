@@ -101,7 +101,7 @@ public class MainActivity extends Activity {
 					File targetFolder = new File(Environment
 							.getExternalStorageDirectory(), "TestAssets");
 					targetFolder.mkdirs();
-					IO.copyAssets(context, targetFolder);
+					IO.copyAssets(context.getAssets(), targetFolder);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
