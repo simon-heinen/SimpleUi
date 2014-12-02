@@ -1,10 +1,8 @@
-package com.googlecode.simpleui;
+package v3;
 
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_InfoText;
-import v3.M_Container4;
-import v3.M_Toolbar;
 import v3.MenuItemList;
 import v3.MenuItemList.MItem;
 import android.R;

@@ -14,7 +14,7 @@
 
         <activity
             android:name="v2.simpleUi.SimpleUI"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@style/LTheme" />
     </application>
 
 </manifest>

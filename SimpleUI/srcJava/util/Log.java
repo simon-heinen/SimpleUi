@@ -221,4 +221,8 @@ public class Log {
 		lastStamp = stamp;
 
 	}
+
+	public static void e(String LOG_TAG, String errorMessage, Exception e) {
+		e(LOG_TAG, e, errorMessage);
+	}
 }

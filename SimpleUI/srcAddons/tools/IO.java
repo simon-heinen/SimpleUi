@@ -10,23 +10,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OptionalDataException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import util.Log;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.AssetManager;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -399,8 +403,8 @@ public class IO extends util.IOHelper {
 		}
 	}
 
-	public static String getSDCardDirectory() {
-		return Environment.getExternalStorageDirectory().toString();
+	public static File getSDCardDirectory() {
+		return Environment.getExternalStorageDirectory();
 	}
 
 	/**
@@ -482,6 +486,64 @@ public class IO extends util.IOHelper {
 			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
 		}
 		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
+	}
+
+	/**
+	 * 
+	 * Info: prior to Android 2.3, any compressed asset file with an
+	 * uncompressed size of over 1 MB cannot be read from the APK. So this
+	 * should only be used if the device has android 2.3 or later running!
+	 * 
+	 * @param c
+	 * @param targetFolder
+	 *            e.g. {@link Environment#getExternalStorageDirectory()}. As a
+	 *            security feature this folder has to exist! use
+	 *            {@link File#mkdirs()}
+	 * @throws Exception
+	 */
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	public static boolean copyAssets(Context c, File targetFolder)
+			throws Exception {
+		Log.i(LOG_TAG, "Copying files from assets to folder " + targetFolder);
+		return copyAssets(c.getAssets(), "", targetFolder);
+	}
+
+	public static boolean copyAssets(AssetManager assetManager, String path,
+			File targetFolder) throws Exception {
+		Log.i(LOG_TAG, "Copying " + path + " to " + targetFolder);
+		String sources[] = assetManager.list(path);
+		if (sources.length == 0) { // its not a folder, so its a file:
+			copyAssetFileToFolder(assetManager, path, targetFolder);
+		} else { // its a folder:
+			if (path.startsWith("images") || path.startsWith("sounds")
+					|| path.startsWith("webkit")) {
+				Log.i(LOG_TAG, "Skipping " + path);
+				return false;
+			}
+			File targetDir = new File(targetFolder, path);
+			targetDir.mkdirs();
+			for (String source : sources) {
+				String fullSourcePath = path.equals("") ? source : (path
+						+ File.separator + source);
+				copyAssets(assetManager, fullSourcePath, targetFolder);
+			}
+		}
+		return true;
+	}
+
+	private static void copyAssetFileToFolder(AssetManager assetManager,
+			String fullAssetPath, File targetBasePath) throws IOException {
+		InputStream in = assetManager.open(fullAssetPath);
+		OutputStream out = new FileOutputStream(new File(targetBasePath,
+				fullAssetPath));
+		byte[] buffer = new byte[16 * 1024];
+		int read;
+		while ((read = in.read(buffer)) != -1) {
+			out.write(buffer, 0, read);
+		}
+		in.close();
+		out.flush();
+		out.close();
 	}
 
 	public static Uri toUri(File file) {

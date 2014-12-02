@@ -93,12 +93,18 @@ public class MainActivity extends Activity {
 
 		M_Container c = new M_Container();
 
-		c.add(new M_Button("Material UI demo") {
+		c.add(new M_Button("Copy assets") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showCancelOkDialog(MainActivity.this, "Cancel", "Ok",
-						new V2MaterialUiTests());
+				try {
+					File targetFolder = new File(Environment
+							.getExternalStorageDirectory(), "TestAssets");
+					targetFolder.mkdirs();
+					IO.copyAssets(context, targetFolder);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 

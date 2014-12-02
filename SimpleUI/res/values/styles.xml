@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- 
+    
+    <style name="LTheme" parent="@android:style/Theme.Translucent" />
+    
+<!-- TODO:
     <style name="LTheme" parent="AppTheme.Base" />
     
     <style name="AppTheme.Base" parent="Theme.AppCompat">
