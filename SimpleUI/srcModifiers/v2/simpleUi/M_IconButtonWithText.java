@@ -34,8 +34,9 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 
 		LinearLayout l = new LinearLayout(context);
 
-		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.WRAP_CONTENT);
+		LayoutParams params = new LayoutParams(
+				android.view.ViewGroup.LayoutParams.FILL_PARENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		l.setOrientation(LinearLayout.VERTICAL);
 		l.setLayoutParams(params);
@@ -43,8 +44,9 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 		// l.setGravity(Gravity.CENTER_HORIZONTAL);
 
 		imageButton = new ImageView(context);
-		LayoutParams imparams = new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.WRAP_CONTENT);
+		LayoutParams imparams = new LayoutParams(
+				android.view.ViewGroup.LayoutParams.FILL_PARENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		int p = 3;
 		imparams.setMargins(p, p, p, p);
 		imageButton.setLayoutParams(imparams);
@@ -54,16 +56,17 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 			public void onClick(View v) {
 				M_IconButtonWithText.this.onClick(context, imageButton);
 			}
-		}); 
-		
+		});
+
 		imageButton.setOnLongClickListener(new OnLongClickListener() {
-			
+
 			@Override
 			public boolean onLongClick(View v) {
-				return M_IconButtonWithText.this.onLongClick(context, imageButton);
+				return M_IconButtonWithText.this.onLongClick(context,
+						imageButton);
 			}
 		});
-		
+
 		imageButton.setImageResource(myIconId);
 		l.addView(imageButton);
 
@@ -105,8 +108,8 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 	}
 
 	public abstract void onClick(Context context, ImageView clickedButton);
-	
-	public boolean onLongClick(Context context, ImageView clickedButton){
+
+	public boolean onLongClick(Context context, ImageView clickedButton) {
 		return false;
 	};
 

@@ -20,7 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -358,13 +358,12 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	public static String getPathFromImageFileSelectionIntent(Activity a, Uri uri) {
 		Log.i(LOG_TAG, "Loading image from storage path uri: " + uri);
-		String[] projection = { MediaStore.Images.Media.DATA };
+		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = a.managedQuery(uri, projection, null, null, null);
 		if (cursor != null) {
 			// HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
 			// THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-			int columnIndex = cursor
-					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			int columnIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
 			cursor.moveToFirst();
 			return cursor.getString(columnIndex);
 		} else {
@@ -375,7 +374,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	@Deprecated
 	private String getFilePathFromGalleryIntent(Activity a, Uri uri) {
 		try {
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+			String[] filePathColumn = { MediaColumns.DATA };
 			Cursor cursor = a.getContentResolver().query(uri, filePathColumn,
 					null, null, null);
 			cursor.moveToFirst();

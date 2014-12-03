@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -39,9 +40,9 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 	private List<SelectableItem> list;
 	private int selectedItem = -1;
 
-	private int layoutWeightSelect = 1;
-	private int layoutWeightTextInput = 2;
-	private int layoutWeightDelete = 1;
+	private final int layoutWeightSelect = 1;
+	private final int layoutWeightTextInput = 2;
+	private final int layoutWeightDelete = 1;
 
 	private List<Integer> itemsToRemove;
 
@@ -95,8 +96,8 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 		}
 		iconView.setBackgroundColor(Color.TRANSPARENT);
 		buttonBox.addView(iconView, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, layoutWeightSelect));
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+				layoutWeightSelect));
 		final EditText textInput = new EditText(context);
 		textInput.setEnabled(true);
 		textInput.setFocusable(true);
@@ -107,8 +108,8 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 			textInput.setText("");
 		}
 		buttonBox.addView(textInput, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, layoutWeightTextInput));
+				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
+				layoutWeightTextInput));
 		ImageButton deleteButton = new ImageButton(context);
 		deleteButton.setImageResource(android.R.drawable.ic_delete);
 		deleteButton.setBackgroundColor(Color.TRANSPARENT);
@@ -138,8 +139,8 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 			}
 		});
 		buttonBox.addView(deleteButton, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, layoutWeightDelete));
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+				layoutWeightDelete));
 
 		return buttonBox;
 	}

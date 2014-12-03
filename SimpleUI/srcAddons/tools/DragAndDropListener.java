@@ -94,8 +94,9 @@ public abstract class DragAndDropListener implements OnTouchListener {
 	private android.widget.RelativeLayout.LayoutParams getDragDropContainerParams(
 			Context context) {
 		if (params == null) {
-			params = new LayoutParams(LayoutParams.WRAP_CONTENT,
-					LayoutParams.WRAP_CONTENT);
+			params = new LayoutParams(
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 		return params;
 	}

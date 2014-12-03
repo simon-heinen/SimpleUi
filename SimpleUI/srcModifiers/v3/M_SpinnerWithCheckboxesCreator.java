@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -46,9 +47,9 @@ public abstract class M_SpinnerWithCheckboxesCreator implements
 
 	private List<SpinnerItem> list;
 
-	private int layoutWeightSelect = 1;
-	private int layoutWeightTextInput = 2;
-	private int layoutWeightDelete = 1;
+	private final int layoutWeightSelect = 1;
+	private final int layoutWeightTextInput = 2;
+	private final int layoutWeightDelete = 1;
 
 	private List<Integer> itemsToRemove;
 	private List<Integer> itemsToSelect;
@@ -58,8 +59,7 @@ public abstract class M_SpinnerWithCheckboxesCreator implements
 	public View getView(final Context context) {
 		listView = new LinearLayout(context);
 		listView.setLayoutParams(new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 		listView.setOrientation(LinearLayout.VERTICAL);
 		list = getItemList();
 		itemsToRemove = new ArrayList<Integer>();
@@ -106,8 +106,8 @@ public abstract class M_SpinnerWithCheckboxesCreator implements
 		}
 		iconView.setBackgroundColor(Color.TRANSPARENT);
 		buttonBox.addView(iconView, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, layoutWeightSelect));
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+				layoutWeightSelect));
 		final EditText textInput = new EditText(context);
 		textInput.setEnabled(true);
 		textInput.setFocusable(true);
@@ -115,8 +115,8 @@ public abstract class M_SpinnerWithCheckboxesCreator implements
 			textInput.setText(item.getText());
 		}
 		buttonBox.addView(textInput, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, layoutWeightTextInput));
+				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
+				layoutWeightTextInput));
 		ImageButton deleteButton = new ImageButton(context);
 		deleteButton.setImageResource(android.R.drawable.ic_delete);
 		deleteButton.setBackgroundColor(Color.TRANSPARENT);
@@ -149,8 +149,8 @@ public abstract class M_SpinnerWithCheckboxesCreator implements
 			}
 		});
 		buttonBox.addView(deleteButton, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, layoutWeightDelete));
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
+				layoutWeightDelete));
 
 		return buttonBox;
 	}

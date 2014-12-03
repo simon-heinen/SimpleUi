@@ -35,7 +35,8 @@ public class ExpandableLinearLayout extends LinearLayout {
 		super(context);
 
 		LayoutParams layParams = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1);
+				android.view.ViewGroup.LayoutParams.FILL_PARENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1);
 
 		setLayoutParams(layParams);
 		setPadding(MOST_OUTER_PADDING, MOST_OUTER_PADDING, MOST_OUTER_PADDING,
