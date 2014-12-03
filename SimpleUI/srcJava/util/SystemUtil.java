@@ -1,7 +1,11 @@
 package util;
 
+import java.util.Enumeration;
+import java.util.Properties;
+
 public class SystemUtil {
 
+	private static final String LOG_TAG = SystemUtil.class.getSimpleName();
 	private static Boolean isAndroid;
 	private static Boolean isGlass;
 
@@ -25,30 +29,48 @@ public class SystemUtil {
 		return false;
 	}
 
+	public static void main(String[] args) {
+		System.out.println("isAndroid=" + isAndroid());
+	}
+
 	public static boolean isAndroid() {
 		if (isAndroid == null) {
 			try {
-				String v = "" + System.getProperties().get("java.vendor");
-				isAndroid = v.contains("Android");
+				isAndroid = System.getProperties().get("java.vendor")
+						.toString().toLowerCase().contains("android");
 				if (isAndroid) {
 					return isAndroid;
 				}
 			} catch (Exception e) {
 			}
 			try {
-				String v = "" + System.getProperties().get("java.vm.vendor");
-				isAndroid = v.contains("Android");
+				isAndroid = System.getProperties().get("java.vm.vendor")
+						.toString().toLowerCase().contains("android");
 				if (isAndroid) {
 					return isAndroid;
 				}
 			} catch (Exception e1) {
-			}
-			try {
-				isAndroid = System.getProperties().get("java.vm.name")
-						.equals("Dalvik");
-			} catch (Exception e2) {
-				Log.e("Could not detect if running on Android!");
-				isAndroid = false;
+				try {
+					isAndroid = System.getProperties().get("java.vm.name")
+							.toString().toLowerCase().equals("dalvik");
+				} catch (Exception e2) {
+					try {
+						Properties p = System.getProperties();
+						Enumeration keys = p.keys();
+						while (keys.hasMoreElements()) {
+							String key = (String) keys.nextElement();
+							String value = (String) p.get(key);
+							System.out.println("  > " + key + "=" + value);
+							if (value.toLowerCase().contains("android")) {
+								isAndroid = true;
+								return isAndroid;
+							}
+						}
+					} catch (Exception e3) {
+						Log.e("Could not detect if running on Android!");
+						isAndroid = false;
+					}
+				}
 			}
 		}
 		return isAndroid;
