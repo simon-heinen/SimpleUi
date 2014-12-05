@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -117,6 +118,30 @@ public class IntentHelper {
 		if (intent.resolveActivity(a.getPackageManager()) != null) {
 			a.startActivity(intent);
 		}
+	}
+
+	public static boolean openPdfFile(Activity a, Uri pathToPdf) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setDataAndType(pathToPdf, "application/pdf");
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		try {
+			a.startActivity(intent);
+			return true;
+		} catch (ActivityNotFoundException e) {
+		}
+		return false;
+	}
+
+	public static boolean openVideoFile(Activity a, Uri pathToVideo) {
+		Intent intent = new Intent(Intent.ACTION_VIEW, pathToVideo);
+		intent.setDataAndType(pathToVideo, "video/*");
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		try {
+			a.startActivity(intent);
+			return true;
+		} catch (ActivityNotFoundException e) {
+		}
+		return false;
 	}
 
 	public static void installApp(Activity a, String strPackageName) {

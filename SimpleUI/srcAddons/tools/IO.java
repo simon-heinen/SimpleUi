@@ -336,6 +336,11 @@ public class IO extends util.IOHelper {
 		private Editor e;
 		private int mode = Context.MODE_PRIVATE;
 
+		public Settings(Context target) {
+			context = target;
+			mySettingsName = "settings";
+		}
+
 		public Settings(Context target, String settingsFileName) {
 			context = target;
 			mySettingsName = settingsFileName;
@@ -378,28 +383,28 @@ public class IO extends util.IOHelper {
 					key, defaultValue);
 		}
 
-		public void storeString(String key, String value) {
+		public boolean storeString(String key, String value) {
 			if (e == null) {
 				e = context.getSharedPreferences(mySettingsName, mode).edit();
 			}
 			e.putString(key, value);
-			e.commit();
+			return e.commit();
 		}
 
-		public void storeBool(String key, boolean value) {
+		public boolean storeBool(String key, boolean value) {
 			if (e == null) {
 				e = context.getSharedPreferences(mySettingsName, mode).edit();
 			}
 			e.putBoolean(key, value);
-			e.commit();
+			return e.commit();
 		}
 
-		public void storeInt(String key, int value) {
+		public boolean storeInt(String key, int value) {
 			if (e == null) {
 				e = context.getSharedPreferences(mySettingsName, mode).edit();
 			}
 			e.putInt(key, value);
-			e.commit();
+			return e.commit();
 		}
 	}
 
