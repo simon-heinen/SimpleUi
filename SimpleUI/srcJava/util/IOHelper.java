@@ -174,8 +174,11 @@ public class IOHelper {
 	}
 
 	public static List<File> getFilesInPath(String path) {
-		File f = new File(path);
-		return Arrays.asList(f.listFiles());
+		return getFilesInPath(new File(path));
+	}
+
+	public static List<File> getFilesInPath(File directory) {
+		return Arrays.asList(directory.listFiles());
 	}
 
 	protected static void saveSerializableToStream(Serializable objectToSave,

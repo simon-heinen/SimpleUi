@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -45,7 +44,7 @@ public class IntentHelper {
 	 * @param hour
 	 * @param minutes
 	 */
-	public static void createAlarm(Activity a, String message, int hour,
+	public static void createAlarm(Context a, String message, int hour,
 			int minutes) {
 		Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
 				.putExtra(AlarmClock.EXTRA_MESSAGE, message)
@@ -63,7 +62,7 @@ public class IntentHelper {
 	 * @param message
 	 * @param seconds
 	 */
-	public static void startTimer(Activity a, String message, int seconds) {
+	public static void startTimer(Context a, String message, int seconds) {
 		Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
 				.putExtra(AlarmClock.EXTRA_MESSAGE, message)
 				.putExtra(AlarmClock.EXTRA_LENGTH, seconds)
@@ -74,7 +73,7 @@ public class IntentHelper {
 	}
 
 	@SuppressLint("NewApi")
-	public static void addCalenderEvent(Activity a, String title,
+	public static void addCalenderEvent(Context a, String title,
 			String location, Calendar begin, Calendar end) {
 		Intent intent = new Intent(Intent.ACTION_INSERT)
 				.setData(Events.CONTENT_URI).putExtra(Events.TITLE, title)
@@ -112,7 +111,7 @@ public class IntentHelper {
 	 *            1st%20%26%20Pike%2C%20Seattle. Spaces in the string can be
 	 *            encoded with %20 or replaced with the plus sign (+).
 	 */
-	public static void showMapApp(Activity a, Uri geoLocation) {
+	public static void showMapApp(Context a, Uri geoLocation) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(geoLocation);
 		if (intent.resolveActivity(a.getPackageManager()) != null) {
@@ -120,7 +119,19 @@ public class IntentHelper {
 		}
 	}
 
-	public static boolean openPdfFile(Activity a, Uri pathToPdf) {
+	public static boolean openFile(Context a, Uri pathToFile) {
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(pathToFile);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		try {
+			a.startActivity(intent);
+			return true;
+		} catch (ActivityNotFoundException e) {
+		}
+		return false;
+	}
+
+	public static boolean openPdfFile(Context a, Uri pathToPdf) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setDataAndType(pathToPdf, "application/pdf");
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -132,7 +143,7 @@ public class IntentHelper {
 		return false;
 	}
 
-	public static boolean openVideoFile(Activity a, Uri pathToVideo) {
+	public static boolean openVideoFile(Context a, Uri pathToVideo) {
 		Intent intent = new Intent(Intent.ACTION_VIEW, pathToVideo);
 		intent.setDataAndType(pathToVideo, "video/*");
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -144,19 +155,19 @@ public class IntentHelper {
 		return false;
 	}
 
-	public static void installApp(Activity a, String strPackageName) {
+	public static void installApp(Context a, String strPackageName) {
 		Uri installUri = Uri.fromParts("package", strPackageName, null);
 		Intent it = new Intent(Intent.ACTION_PACKAGE_ADDED, installUri);
 		a.startActivity(it);
 	}
 
-	public static void uninstallApp(Activity a, String strPackageName) {
+	public static void uninstallApp(Context a, String strPackageName) {
 		Uri uri = Uri.fromParts("package", strPackageName, null);
 		Intent it = new Intent(Intent.ACTION_DELETE, uri);
 		a.startActivity(it);
 	}
 
-	public static void showAppDetails(Activity a, String strPackageName) {
+	public static void showAppDetails(Context a, String strPackageName) {
 		Uri uri = Uri.parse("market://details?id=" + strPackageName);
 		Intent it = new Intent(Intent.ACTION_VIEW, uri);
 		a.startActivity(it);
@@ -174,21 +185,17 @@ public class IntentHelper {
 		return share;
 	}
 
-	public static void testname(Activity a, Intent targetIntent)
-			throws Exception {
-	}
-
-	public static void launchFacebook(Activity a, Intent targetIntent) {
+	public static void launchFacebook(Context a, Intent targetIntent) {
 		defineAppToLaunch(a, targetIntent, "facebook");
 		a.startActivity(Intent.createChooser(targetIntent, ""));
 	}
 
-	public static void launchGooglePlus(Activity a, Intent targetIntent) {
+	public static void launchGooglePlus(Context a, Intent targetIntent) {
 		defineAppToLaunch(a, targetIntent, "google", "plus");
 		a.startActivity(Intent.createChooser(targetIntent, ""));
 	}
 
-	public static void launchGoogleMail(Activity a, Intent targetIntent) {
+	public static void launchGoogleMail(Context a, Intent targetIntent) {
 		defineAppToLaunch(a, targetIntent, "google", "gm");
 		a.startActivity(Intent.createChooser(targetIntent, ""));
 	}
