@@ -37,6 +37,8 @@ public class M_ImageView implements ModifierInterface, Target {
 	private TextView imageCaption;
 	private String caption;
 	private OnClickListener imageClickListener;
+	private Integer maxHeightInPixel = null;
+	private Integer maxWidthInPixel = null;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_ImageView() {
@@ -54,6 +56,14 @@ public class M_ImageView implements ModifierInterface, Target {
 	@Deprecated
 	public M_ImageView(Uri uri) {
 		setBitmapUri(uri);
+	}
+
+	public void setMaxHeightInPixel(Integer maxHeightInPixel) {
+		this.maxHeightInPixel = maxHeightInPixel;
+	}
+
+	public void setMaxWidthInPixel(Integer maxWidthInPixel) {
+		this.maxWidthInPixel = maxWidthInPixel;
 	}
 
 	/**
@@ -191,6 +201,12 @@ public class M_ImageView implements ModifierInterface, Target {
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
 						android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 				imageView.setAdjustViewBounds(true);
+				if (maxHeightInPixel != null) {
+					imageView.setMaxHeight(maxHeightInPixel);
+				}
+				if (maxWidthInPixel != null) {
+					imageView.setMaxWidth(maxWidthInPixel);
+				}
 				imageView.setPadding(imageBorderSizeInPixel,
 						imageBorderSizeInPixel, imageBorderSizeInPixel,
 						imageBorderSizeInPixel);
