@@ -49,6 +49,16 @@ public class M_ImageView implements ModifierInterface, Target {
 	}
 
 	/**
+	 * @param context
+	 * @param imagePath
+	 *            use {@link IO#toUri(File)} if you have a file instead of an
+	 *            uri
+	 */
+	public M_ImageView(Context context, Uri imagePath) {
+		Picasso.with(context).load(imagePath).into(this);
+	}
+
+	/**
 	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
 	 * 
 	 * @param uri
