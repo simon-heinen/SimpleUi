@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import util.Log;
+import v2.simpleUi.util.ProgressScreen;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.squareup.picasso.Picasso;
+import commands.CommandInUiThread;
 
 /**
  * Android specific extensions to default {@link util.IOHelper} class
@@ -491,6 +493,69 @@ public class IO extends util.IOHelper {
 			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
 		}
 		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
+	}
+
+	public interface AssetCopyCallback {
+		void onAssetCopyingDone(Context c, File targetFolder);
+	}
+
+	/**
+	 * @param c
+	 * @param sourceAssetsFolder
+	 * @param targetFolder
+	 * @param replaceExistingTargetFolder
+	 *            if true, the existing folder will be deleted, this can be
+	 *            usefull if the content of the assets folder changed
+	 * @param callback
+	 */
+	public static void copyAssetsWithCallback(Context c,
+			String sourceAssetsFolder, File targetFolder,
+			boolean replaceExistingTargetFolder,
+			final AssetCopyCallback callback) {
+		if (replaceExistingTargetFolder && targetFolder.exists()) {
+			if (!deleteFolder(targetFolder)) {
+				Log.e(LOG_TAG, "Could not delete " + targetFolder);
+			}
+		}
+		if (!targetFolder.exists()) {
+			copyFilesFromAssetsToSdCard(c, sourceAssetsFolder, targetFolder,
+					callback);
+		} else {
+			callback.onAssetCopyingDone(c, targetFolder);
+		}
+	}
+
+	public static void copyFilesFromAssetsToSdCard(final Context c,
+			final String sourceAssetsFolder, final File targetFolder,
+			final AssetCopyCallback callback) {
+		final ProgressScreen p = new ProgressScreen() {
+
+			@Override
+			public boolean onAbortRequest() {
+				return false;
+			}
+		};
+		p.start(c);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					if (IO.copyAssets(c.getAssets(), sourceAssetsFolder,
+							Environment.getExternalStorageDirectory())) {
+						new CommandInUiThread() {
+
+							@Override
+							public void executeInUiThread() {
+								callback.onAssetCopyingDone(c, targetFolder);
+							}
+						}.execute();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				p.finish();
+			}
+		}).start();
 	}
 
 	/**

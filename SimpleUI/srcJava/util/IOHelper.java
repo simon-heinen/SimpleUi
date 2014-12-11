@@ -87,6 +87,21 @@ public class IOHelper {
 		return new File(newDirectory).mkdirs();
 	}
 
+	public static boolean deleteFolder(File folderToDelete) {
+		if (folderToDelete.isDirectory()) {
+			String[] children = folderToDelete.list();
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteFolder(new File(folderToDelete,
+						children[i]));
+				if (!success) {
+					return false;
+				}
+			}
+		}
+		return folderToDelete.delete(); // The directory is empty now and can be
+										// deleted.
+	}
+
 	/**
 	 * @param filename
 	 *            something like
