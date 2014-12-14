@@ -4,7 +4,7 @@
     <color name="colorAccent">#CCCC00</color>
     <color name="colorPrimary">#00CC00</color>
     <color name="colorPrimaryDark">#00AA00</color>
-
+    
     <!-- Android style -->
     <color name="android_green">#A4C639</color>
 
@@ -23,12 +23,14 @@
     <!-- Common -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="red">#FF0000</color>
-    <color name="green">#008000</color>
-    <color name="blue">#0000FF</color>
-    <color name="yellow">#FFFF00</color>
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+    <color name="blue">#3F51B5</color>
+    <color name="yellow">#FFEB3B</color>
     <color name="teal">#008080</color>
-    <color name="Orange">#FFA500</color>
+    <color name="Orange">#FF9800</color>
+    <color name="Grey">#9E9E9E</color>
+    
     <!-- Generic -->
     <!-- Generic Dark -->
     <color name="DarkTurquoise">#00CED1</color>
@@ -81,7 +83,7 @@
     <!-- b -->
     <color name="Beige">#F5F5DC</color>
     <color name="BurlyWood">#DEB887</color>
-    <color name="Brown">#A52A2A</color>
+    <color name="Brown">#795548</color>
     <color name="BlueViolet">#8A2BE2</color>
     <color name="aqua">#00FFFF</color>
     <color name="Bisque">#FFE4C4</color>
@@ -95,7 +97,9 @@
     <color name="CadetBlue">#5F9EA0</color>
     <color name="Chartreuse">#7FFF00</color>
     <!-- d -->
+    <color name="DeepOrange">#FF5722</color>
     <color name="DeepPink">#FF1493</color>
+    <color name="DeepPurple">#673AB7</color>
     <color name="DeepSkyBlue">#00BFFF</color>
     <color name="DimGray">#696969</color>
     <color name="DodgerBlue">#1E90FF</color>
@@ -136,7 +140,7 @@
     <color name="Moccasin">#FFE4B5</color>
     <color name="Maroon">#800000</color>
     <color name="MintCream">#F5FFFA</color>
-    <color name="Magenta">#FF00FF</color>
+    <color name="Magenta">#3F51B5</color>
     <color name="MidnightBlue">#191970</color>
     <color name="MistyRose">#FFE4E1</color>
     <!-- n -->
