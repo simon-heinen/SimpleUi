@@ -31,15 +31,15 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		mostOuterBox.setGravity(Gravity.CENTER);
 		mostOuterBox.setBackgroundColor(OUTER_BACKGROUND_DIMMING_COLOR);
 
-		// TODO eine M_CardView erstellen und diese hier verwenden statt es
-		// alles manuell zu implementieren?
-		M_CardView mcard = new M_CardView();
-		CardView card = mcard.getView(context);
+		LinearLayout outerContainer = new LinearLayout(context);
+		LinearLayout listItemContainer = new LinearLayout(context);
+		CardView card = M_CardView.newCardView(context, outerContainer,
+				listItemContainer);
 		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
-		createViewsForAllModifiers(context, mcard.listItemContainer,
+		createViewsForAllModifiers(context, listItemContainer,
 				firstEntryIsToolbar);
 		if (firstEntryIsToolbar) {
-			mcard.outerContainer.addView(get(0).getView(context), 0);
+			outerContainer.addView(get(0).getView(context), 0);
 		}
 		mostOuterBox.addView(card);
 		return mostOuterBox;

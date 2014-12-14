@@ -2,6 +2,7 @@ package com.googlecode.simpleui;
 
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
+import v2.simpleUi.M_CardView;
 import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.M_Toolbar;
@@ -27,37 +28,26 @@ public class V2MaterialUiTests extends M_Container {
 		setMenuItemList(menuItemList);
 
 		add(new M_Toolbar("Material UI demo"));
-		add(new M_InfoText("Aaaaa"));
-		add(new M_InfoText("Bbbbb"));
-		add(new M_InfoText(R.drawable.ic_dialog_alert, "Ccccc"));
-		add(new M_Caption("Aaaa"));
-		add(new M_Button("Click") {
+
+		add(newTestCard());
+		add(newTestCard());
+		add(newTestCard());
+
+	}
+
+	private M_CardView newTestCard() {
+		M_CardView c = new M_CardView();
+		c.add(new M_InfoText("Aaaaa"));
+		c.add(new M_InfoText("Bbbbb"));
+		c.add(new M_InfoText(R.drawable.ic_dialog_alert, "Ccccc"));
+		c.add(new M_Caption("Aaaa"));
+		c.add(new M_Button("Click") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 			}
 		});
-		add(new M_InfoText("Aaaaa"));
-		add(new M_InfoText("Bbbbb"));
-		add(new M_InfoText(R.drawable.ic_dialog_alert, "Ccccc"));
-		add(new M_Caption("Aaaa"));
-		add(new M_Button("Click") {
-
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-			}
-		});
-		add(new M_InfoText("Aaaaa"));
-		add(new M_InfoText("Bbbbb"));
-		add(new M_InfoText(R.drawable.ic_dialog_alert, "Ccccc"));
-		add(new M_Caption("Aaaa"));
-		add(new M_Button("Click") {
-
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-			}
-		});
-
+		return c;
 	}
 
 }
