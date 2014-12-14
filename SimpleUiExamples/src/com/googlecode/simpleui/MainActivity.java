@@ -93,6 +93,19 @@ public class MainActivity extends Activity {
 
 		M_Container c = new M_Container();
 
+		c.add(new M_Button("Material Ui tests") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				try {
+					SimpleUI.showInfoDialog(context, "Close",
+							new V2MaterialUiTests());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
 		c.add(new M_Button("Copy assets") {
 
 			@Override
