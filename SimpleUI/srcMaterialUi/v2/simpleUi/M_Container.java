@@ -13,9 +13,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 public class M_Container extends M_Collection implements OptionsMenuListener {
 
@@ -35,31 +33,14 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 		// TODO eine M_CardView erstellen und diese hier verwenden statt es
 		// alles manuell zu implementieren?
-		CardView card = new CardView(context);
-
-		card.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
-		int shaddowSize = 20;
-		card.setMaxCardElevation(shaddowSize);
-		card.setCardElevation(shaddowSize);
-
-		// container for header, list of items and footer:
-		LinearLayout cardLin = new LinearLayout(context);
-		cardLin.setOrientation(LinearLayout.VERTICAL);
-
-		ScrollView scrollContainer = new ScrollView(context);
-
-		LinearLayout l = new LinearLayout(context);
-		l.setOrientation(LinearLayout.VERTICAL);
+		M_CardView mcard = new M_CardView();
+		CardView card = mcard.getView(context);
 		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
-		createViewsForAllModifiers(context, l, firstEntryIsToolbar);
-
-		scrollContainer.addView(l);
+		createViewsForAllModifiers(context, mcard.listItemContainer,
+				firstEntryIsToolbar);
 		if (firstEntryIsToolbar) {
-			cardLin.addView(get(0).getView(context));
+			mcard.outerContainer.addView(get(0).getView(context), 0);
 		}
-		cardLin.addView(scrollContainer);
-		card.addView(cardLin);
 		mostOuterBox.addView(card);
 		return mostOuterBox;
 	}
