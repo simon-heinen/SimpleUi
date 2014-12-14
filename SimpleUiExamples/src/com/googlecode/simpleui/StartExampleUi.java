@@ -6,6 +6,7 @@ import v2.simpleUi.M_Checkbox;
 import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
 import android.R;
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Button;
 import android.widget.Toast;
@@ -52,7 +53,16 @@ public class StartExampleUi extends M_Container {
 			@Override
 			public void onClick(Context c, Button b) {
 				// trigger the update of the model (will call all save methods):
-				box.save();
+				if (box.save()) {
+					// every modifier accepted the save request
+					if (c instanceof Activity) {
+						// close the window showing this container:
+						((Activity) c).finish();
+					}
+				} else {
+					// at least one modifier did not accept the save request (in
+					// this example it must have been the M_Checkbox)
+				}
 			}
 		});
 
