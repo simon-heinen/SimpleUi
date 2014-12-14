@@ -41,7 +41,7 @@ public class MenuItemList extends ArrayList<MItem> implements
 			this.iconId = iconId;
 		}
 
-		public abstract void onClick();
+		public abstract void onClick(Activity activity);
 	}
 
 	private Menu menu;
@@ -81,7 +81,7 @@ public class MenuItemList extends ArrayList<MItem> implements
 	public boolean onOptionsItemSelected(Activity a, MenuItem item) {
 		MItem e = map.get(item);
 		if (e != null) {
-			e.onClick();
+			e.onClick(a);
 			return true;
 		}
 		return false;
