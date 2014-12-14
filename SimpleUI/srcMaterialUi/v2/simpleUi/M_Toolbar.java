@@ -1,5 +1,6 @@
 package v2.simpleUi;
 
+import util.Log;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import com.googlecode.simpleui.library.R;
 
 public class M_Toolbar implements ModifierInterface {
 
+	private static final String LOG_TAG = M_Toolbar.class.getSimpleName();
 	private final String title;
 
 	public M_Toolbar(String title) {
@@ -22,6 +24,8 @@ public class M_Toolbar implements ModifierInterface {
 		t.setBackgroundColor(context.getResources().getColor(
 				R.color.colorPrimaryDark));
 		if (context instanceof ActionBarActivity) {
+			Log.i(LOG_TAG,
+					"Context was an ActionBarActivity, so registering as action bar");
 			((ActionBarActivity) context).setSupportActionBar(t);
 		}
 		return t;

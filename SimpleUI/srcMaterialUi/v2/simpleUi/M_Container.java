@@ -7,6 +7,7 @@ import v2.simpleUi.uiDecoration.ExampleDecorator;
 import v3.MenuItemList;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,20 +19,27 @@ import android.widget.ScrollView;
 
 public class M_Container extends M_Collection implements OptionsMenuListener {
 
-	private static final String LOG_TAG = null;
+	private static final String LOG_TAG = M_Container.class.getSimpleName();
+	private static final int OUTER_BACKGROUND_DIMMING_COLOR = Color.argb(200,
+			255, 255, 255);
+
+	private Context context;
+	MenuItemList menuItemList;
 
 	@Override
 	public View getView(Context context) {
 
 		LinearLayout mostOuterBox = new LinearLayout(context);
 		mostOuterBox.setGravity(Gravity.CENTER);
-		// mostOuterBox.setBackgroundColor(Color.RED);
+		mostOuterBox.setBackgroundColor(OUTER_BACKGROUND_DIMMING_COLOR);
 
+		// TODO eine M_CardView erstellen und diese hier verwenden statt es
+		// alles manuell zu implementieren?
 		CardView card = new CardView(context);
 
 		card.setLayoutParams(new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
-		int shaddowSize = 35;
+		int shaddowSize = 20;
 		card.setMaxCardElevation(shaddowSize);
 		card.setCardElevation(shaddowSize);
 
@@ -67,15 +75,13 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		return result;
 	}
 
-	MenuItemList menuItemList;
-	private Context context;
-
 	public void setMenuItemList(MenuItemList menuItemList) {
 		this.menuItemList = menuItemList;
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Activity a, Menu menu) {
+		Log.i(LOG_TAG, "onCreateOptionsMenu menuItemList=" + menuItemList);
 		if (menuItemList != null) {
 			return menuItemList.onCreateOptionsMenu(a, menu);
 		}
@@ -84,6 +90,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Activity a, Menu menu) {
+		Log.i(LOG_TAG, "onPrepareOptionsMenu menuItemList=" + menuItemList);
 		if (menuItemList != null) {
 			return menuItemList.onPrepareOptionsMenu(a, menu);
 		}
@@ -92,6 +99,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	@Override
 	public boolean onOptionsItemSelected(Activity a, MenuItem item) {
+		Log.i(LOG_TAG, "onOptionsItemSelected menuItemList=" + menuItemList);
 		if (menuItemList != null) {
 			return menuItemList.onOptionsItemSelected(a, item);
 		}
@@ -112,6 +120,6 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	@Deprecated
 	public void assignNewDecorator(ExampleDecorator exampleDecorator) {
-		Log.e(LOG_TAG, "Decorators are no longer supported");
+		Log.e(LOG_TAG, "assignNewDecorator: Decorators are no longer supported");
 	}
 }

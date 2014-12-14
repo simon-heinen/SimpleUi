@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -54,7 +55,7 @@ import android.widget.Button;
  * @author Simon Heinen
  * 
  */
-public class SimpleUI extends Activity implements SimpleUIInterface {
+public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 
 	public interface OptionsMenuListener {
 

@@ -50,15 +50,17 @@ public class MenuItemList extends ArrayList<MItem> implements
 	@Override
 	public boolean onCreateOptionsMenu(Activity a, Menu m) {
 		menu = m;
-		generateMenu();
-		return size() > 0;
+		if (size() > 0) {
+			return generateMenu();
+		}
+		return false;
 	}
 
-	private void generateMenu() {
+	private boolean generateMenu() {
 		if (menu == null) {
 			Log.w(LOG_TAG, "Won't generate menu, menu not yet set");
+			return false;
 		}
-		clear();
 		map.clear();
 		for (MItem e : this) {
 			MenuItem item = menu
@@ -72,6 +74,7 @@ public class MenuItemList extends ArrayList<MItem> implements
 			e.item = item;
 			map.put(item, e);
 		}
+		return true;
 	}
 
 	@Override

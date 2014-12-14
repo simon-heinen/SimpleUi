@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+     <!-- Basic material colors -->
     <color name="colorAccent">#CCCC00</color>
     <color name="colorPrimary">#00CC00</color>
     <color name="colorPrimaryDark">#00AA00</color>
     
+     <!-- additional material colors -->
+    <color name="colorControlNormal">#000000</color>
+    <color name="colorControlActivated">#000000</color>
+    <color name="colorControlHighlight">#000000</color>
+    <color name="colorButtonNormal">#000000</color>
+    <color name="colorSwitchThumbNormal">#000000</color>
+    <color name="colorEdgeEffect">#000000</color>
+    <color name="statusBarColor">#000000</color>
+    <color name="navigationBarColor">#000000</color>
+
     <!-- Android style -->
     <color name="android_green">#A4C639</color>
 
@@ -30,7 +41,7 @@
     <color name="teal">#008080</color>
     <color name="Orange">#FF9800</color>
     <color name="Grey">#9E9E9E</color>
-    
+
     <!-- Generic -->
     <!-- Generic Dark -->
     <color name="DarkTurquoise">#00CED1</color>
