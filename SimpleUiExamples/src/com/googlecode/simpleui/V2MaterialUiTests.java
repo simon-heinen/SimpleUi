@@ -2,16 +2,16 @@ package com.googlecode.simpleui;
 
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
+import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
-import v3.M_Container4;
-import v3.M_Toolbar;
+import v2.simpleUi.M_Toolbar;
 import v3.MenuItemList;
 import v3.MenuItemList.MItem;
 import android.R;
 import android.content.Context;
 import android.widget.Button;
 
-public class V2MaterialUiTests extends M_Container4 {
+public class V2MaterialUiTests extends M_Container {
 
 	public V2MaterialUiTests() {
 

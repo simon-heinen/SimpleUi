@@ -1,6 +1,5 @@
-package v3;
+package v2.simpleUi;
 
-import v2.simpleUi.ModifierInterface;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;

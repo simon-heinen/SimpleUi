@@ -1,8 +1,10 @@
-package v3;
+package v2.simpleUi;
 
-import v2.simpleUi.M_Collection;
-import v2.simpleUi.ModifierInterface;
+import tools.SimpleUiApplication;
+import util.Log;
 import v2.simpleUi.SimpleUI.OptionsMenuListener;
+import v2.simpleUi.uiDecoration.ExampleDecorator;
+import v3.MenuItemList;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -14,7 +16,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-public class M_Container4 extends M_Collection implements OptionsMenuListener {
+public class M_Container extends M_Collection implements OptionsMenuListener {
+
+	private static final String LOG_TAG = null;
 
 	@Override
 	public View getView(Context context) {
@@ -64,6 +68,7 @@ public class M_Container4 extends M_Collection implements OptionsMenuListener {
 	}
 
 	MenuItemList menuItemList;
+	private Context context;
 
 	public void setMenuItemList(MenuItemList menuItemList) {
 		this.menuItemList = menuItemList;
@@ -96,5 +101,17 @@ public class M_Container4 extends M_Collection implements OptionsMenuListener {
 	@Override
 	public void onOptionsMenuClosed(Activity a, Menu menu) {
 		menuItemList.onOptionsMenuClosed(a, menu);
+	}
+
+	public Context getContext() {
+		if (context == null) {
+			context = SimpleUiApplication.getContext();
+		}
+		return context;
+	}
+
+	@Deprecated
+	public void assignNewDecorator(ExampleDecorator exampleDecorator) {
+		Log.e(LOG_TAG, "Decorators are no longer supported");
 	}
 }

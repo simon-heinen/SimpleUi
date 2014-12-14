@@ -11,7 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-public class M_Container extends M_Collection implements UiDecoratable {
+public class M_Container1 extends M_Collection implements UiDecoratable {
 
 	private static final int MOST_OUTER_PADDING = 13;
 	private static final int OUTER_BACKGROUND_DIMMING_COLOR = android.graphics.Color
