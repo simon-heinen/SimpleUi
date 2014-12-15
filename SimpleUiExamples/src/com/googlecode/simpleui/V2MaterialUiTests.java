@@ -5,7 +5,9 @@ import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_CardView;
 import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
+import v2.simpleUi.M_SeperatorLine;
 import v2.simpleUi.M_Toolbar;
+import v2.simpleUi.util.ColorUtils;
 import v3.MenuItemList;
 import v3.MenuItemList.MItem;
 import android.R;
@@ -35,6 +37,11 @@ public class V2MaterialUiTests extends M_Container {
 	private M_CardView newTestCard(final String cardName) {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("Card " + cardName));
+
+		int color = ColorUtils.randomColor();
+		c.add(M_SeperatorLine.newDefaultOne(color));
+		c.setBackgroundColor(ColorUtils.getComplementaryColor(color));
+
 		String text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
 		c.add(new M_InfoText(text));
 		c.add(new M_Button("Click me") {

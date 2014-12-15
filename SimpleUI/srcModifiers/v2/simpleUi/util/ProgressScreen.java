@@ -31,7 +31,7 @@ public abstract class ProgressScreen implements ModifierInterface,
 		ActivityLifecycleListener {
 
 	protected static final String LOG_TAG = "ProgressScreen";
-	private static final BGUtils BACKGROUND = BGUtils
+	private static final ColorUtils BACKGROUND = ColorUtils
 			.newBackRadialBackgroundWithTransparency(160, 230);
 	private static final int MOST_OUTER_PADDING = 17;
 	private static final int OUTER_BACKGROUND_DIMMING_COLOR = android.graphics.Color
@@ -145,7 +145,7 @@ public abstract class ProgressScreen implements ModifierInterface,
 		p = 2 * MOST_OUTER_PADDING;
 		l.setPadding(p, (int) (p * 1.5f), p, p);
 		mostOuterBox.addView(innerBox);
-		BACKGROUND.applyTo(innerBox);
+		BACKGROUND.applyBackgroundTo(innerBox);
 
 		getProgressUi(context, innerBox);
 		return mostOuterBox;

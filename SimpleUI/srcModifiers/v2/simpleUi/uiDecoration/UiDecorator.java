@@ -2,7 +2,7 @@ package v2.simpleUi.uiDecoration;
 
 import v2.simpleUi.M_Button;
 import v2.simpleUi.ModifierInterface;
-import v2.simpleUi.util.BGUtils;
+import v2.simpleUi.util.ColorUtils;
 import v2.simpleUi.util.TextUtils;
 import android.content.Context;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * For simple decoration use the util classes like {@link BGUtils} and
+ * For simple decoration use the util classes like {@link ColorUtils} and
  * {@link TextUtils}
  * 
  * @author Simon Heinen

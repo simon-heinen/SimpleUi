@@ -1,6 +1,6 @@
 package v2.simpleUi.uiDecoration;
 
-import v2.simpleUi.util.BGUtils;
+import v2.simpleUi.util.ColorUtils;
 import v2.simpleUi.util.TextUtils;
 import android.content.Context;
 import android.util.Log;
@@ -14,7 +14,7 @@ import android.widget.TextView;
  * This class can be used if not every decorate method should be implemented and
  * only specific elements should be decorated
  * 
- * use {@link BGUtils} and {@link TextUtils} to decorade the views in the
+ * use {@link ColorUtils} and {@link TextUtils} to decorade the views in the
  * {@link DefaultUiDecorator#decorate(Context, View, int, int)} methods.
  * 
  * @author Simon Heinen

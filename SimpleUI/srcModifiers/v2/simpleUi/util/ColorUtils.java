@@ -5,8 +5,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.View;
 
-public class BGUtils {
+public class ColorUtils extends Color {
 
+	private static final String LOG_TAG = ColorUtils.class.getSimpleName();
 	/**
 	 * Try Orientation.TL_BR or Orientation.TOP_BOTTOM and so on
 	 */
@@ -15,8 +16,8 @@ public class BGUtils {
 	 * is final because the colors in the theme can be changed but not the
 	 * ColorTheme itself
 	 */
-	private float[] cornerRadii;
-	private int[] colorsInGradient;
+	private final float[] cornerRadii;
+	private final int[] colorsInGradient;
 	private Float gradientRadius;
 
 	/**
@@ -121,7 +122,7 @@ public class BGUtils {
 		return colorArray;
 	}
 
-	public void applyTo(View v) {
+	public void applyBackgroundTo(View v) {
 		if (colorsInGradient != null && cornerRadii != null) {
 
 			if (gradientOrientation == null) {
@@ -137,6 +138,11 @@ public class BGUtils {
 			s.setCornerRadii(cornerRadii);
 			v.setBackgroundDrawable(s);
 		}
+	}
+
+	public static int randomColor() {
+		return Color.rgb((int) (Math.random() * 255f),
+				(int) (Math.random() * 255f), (int) (Math.random() * 255f));
 	}
 
 	/**
@@ -161,46 +167,89 @@ public class BGUtils {
 		return a;
 	}
 
+	/**
+	 * 
+	 * uses the HSP color model ( http://alienryderflex.com/hsp.html ).
+	 * 
+	 * @param color
+	 * @return range from 0 (for black) to 255 (for white)
+	 */
+	public static float getColorBrightness(int color) {
+		float R = Color.red(color);
+		float G = Color.green(color);
+		float B = Color.blue(color);
+		return 0.299f * R + 0.587f * G + 0.114f * B;
+	}
+
+	public static int getComplementaryColor(int colorToInvert) {
+		float[] hsv = new float[3];
+		Color.RGBToHSV(Color.red(colorToInvert), Color.green(colorToInvert),
+				Color.blue(colorToInvert), hsv);
+		hsv[0] = (hsv[0] + 180) % 360;
+		return Color.HSVToColor(hsv);
+	}
+
+	/**
+	 * will calculate a color with the same color hue just a darker/lighter
+	 * version of it
+	 * 
+	 * @param color
+	 * @return
+	 */
+	public static int getContrastVersionForColor(int color) {
+		float[] hsv = new float[3];
+		Color.RGBToHSV(Color.red(color), Color.green(color), Color.blue(color),
+				hsv);
+		if (hsv[2] < 0.5) {
+			hsv[2] = 0.7f;
+		} else {
+			hsv[2] = 0.3f;
+		}
+		hsv[1] = hsv[1] * 0.2f;
+		return Color.HSVToColor(hsv);
+	}
+
 	public static float[] genCornerArray(int cornerSize) {
 		return genCornerArray(cornerSize, cornerSize, cornerSize, cornerSize);
 	}
 
-	public static BGUtils newBackRadialBackgroundWithTransparency(int size,
+	public static ColorUtils newBackRadialBackgroundWithTransparency(int size,
 			int alpha) {
-		return new BGUtils(size, BGUtils.createBlackGradient2(),
-				BGUtils.genCornerArray(17));
+		return new ColorUtils(size, ColorUtils.createBlackGradient2(),
+				ColorUtils.genCornerArray(17));
 	}
 
-	public static BGUtils newGrayBackgroundTransparent() {
-		return new BGUtils(Orientation.BL_TR,
-				BGUtils.createBlackGradient1(150), BGUtils.genCornerArray(15));
+	public static ColorUtils newGrayBackgroundTransparent() {
+		return new ColorUtils(Orientation.BL_TR,
+				ColorUtils.createBlackGradient1(150),
+				ColorUtils.genCornerArray(15));
 	}
 
-	public static BGUtils newGrayBackground() {
-		return new BGUtils(Orientation.BL_TR, BGUtils.createGrayGradient1(),
-				BGUtils.genCornerArray(15));
+	public static ColorUtils newGrayBackground() {
+		return new ColorUtils(Orientation.BL_TR,
+				ColorUtils.createGrayGradient1(), ColorUtils.genCornerArray(15));
 	}
 
-	public static BGUtils newRedBackground() {
-		return new BGUtils(Orientation.BL_TR, BGUtils.createRedGradient(),
-				BGUtils.genCornerArray(10));
+	public static ColorUtils newRedBackground() {
+		return new ColorUtils(Orientation.BL_TR,
+				ColorUtils.createRedGradient(), ColorUtils.genCornerArray(10));
 	}
 
-	public static BGUtils newGreenBackground() {
-		return new BGUtils(Orientation.BL_TR, BGUtils.createGreenGradient(),
-				BGUtils.genCornerArray(10));
+	public static ColorUtils newGreenBackground() {
+		return new ColorUtils(Orientation.BL_TR,
+				ColorUtils.createGreenGradient(), ColorUtils.genCornerArray(10));
 	}
 
 	/**
 	 * @param o
 	 *            use the {@link Orientation} class
 	 * @param colorsInGradient
-	 *            see {@link BGUtils#createGrayGradient1()} for implementation
-	 *            details
+	 *            see {@link ColorUtils#createGrayGradient1()} for
+	 *            implementation details
 	 * @param cornerRadii
-	 *            use {@link BGUtils#genCornerArray(int)}
+	 *            use {@link ColorUtils#genCornerArray(int)}
 	 */
-	public BGUtils(float gradientRadius, int[] colorsInGradient,
+	public ColorUtils(float gradientRadius, int[] colorsInGradient,
 			float[] cornerRadii) {
 		this.colorsInGradient = colorsInGradient;
 		this.cornerRadii = cornerRadii;
@@ -211,12 +260,12 @@ public class BGUtils {
 	 * @param o
 	 *            use the {@link Orientation} class
 	 * @param colorsInGradient
-	 *            see {@link BGUtils#createGrayGradient1()} for implementation
-	 *            details
+	 *            see {@link ColorUtils#createGrayGradient1()} for
+	 *            implementation details
 	 * @param cornerRadii
-	 *            use {@link BGUtils#genCornerArray(int)}
+	 *            use {@link ColorUtils#genCornerArray(int)}
 	 */
-	public BGUtils(Orientation o, int[] colorsInGradient, float[] cornerRadii) {
+	public ColorUtils(Orientation o, int[] colorsInGradient, float[] cornerRadii) {
 		this.gradientOrientation = o;
 		this.colorsInGradient = colorsInGradient;
 		this.cornerRadii = cornerRadii;

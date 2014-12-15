@@ -1,6 +1,6 @@
 package v2.simpleUi.uiDecoration;
 
-import v2.simpleUi.util.BGUtils;
+import v2.simpleUi.util.ColorUtils;
 import v2.simpleUi.util.TextUtils;
 import android.content.Context;
 import android.view.View;
@@ -19,7 +19,7 @@ public class ExampleDecorator extends DefaultUiDecorator {
 
 	private TextUtils myWhiteDeco;
 	private TextUtils myBlackDeco;
-	private BGUtils myBackgroundBox;
+	private ColorUtils myBackgroundBox;
 
 	public ExampleDecorator() {
 		super(true);
@@ -29,14 +29,14 @@ public class ExampleDecorator extends DefaultUiDecorator {
 	public boolean decorate(Context context, View targetView, int level,
 			int type) {
 		if (type == UiDecorator.TYPE_CONTAINER && level > 2) {
-			getBackgroundBox().applyTo(targetView);
+			getBackgroundBox().applyBackgroundTo(targetView);
 		}
 		return true;
 	}
 
-	private BGUtils getBackgroundBox() {
+	private ColorUtils getBackgroundBox() {
 		if (myBackgroundBox == null)
-			myBackgroundBox = BGUtils.newGreenBackground();
+			myBackgroundBox = ColorUtils.newGreenBackground();
 		return myBackgroundBox;
 	}
 

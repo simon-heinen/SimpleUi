@@ -3,7 +3,7 @@ package v2.simpleUi;
 import tools.SimpleUiApplication;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
-import v2.simpleUi.util.BGUtils;
+import v2.simpleUi.util.ColorUtils;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -16,7 +16,7 @@ public class M_Container1 extends M_Collection implements UiDecoratable {
 	private static final int MOST_OUTER_PADDING = 13;
 	private static final int OUTER_BACKGROUND_DIMMING_COLOR = android.graphics.Color
 			.argb(200, 0, 0, 0);
-	private static final BGUtils BACKGROUND = BGUtils.newGrayBackground();
+	private static final ColorUtils BACKGROUND = ColorUtils.newGrayBackground();
 	private static final String LOG_TAG = "M_Container";
 	private UiDecorator myDecorator;
 	private Context context;
@@ -88,7 +88,7 @@ public class M_Container1 extends M_Collection implements UiDecoratable {
 		// String colorToUse = t.getString(custom_text_offset);
 
 		if (scrollContainer.getBackground() == null) {
-			BACKGROUND.applyTo(scrollContainer);
+			BACKGROUND.applyBackgroundTo(scrollContainer);
 		}
 	}
 
