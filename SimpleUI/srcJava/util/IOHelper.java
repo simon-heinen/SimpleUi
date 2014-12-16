@@ -51,6 +51,46 @@ public class IOHelper {
 		return true;
 	}
 
+	/**
+	 * searched for files in a specified directory based on their names, will
+	 * also accept partial names and return such files (e.g. if a file is named
+	 * "abc.jpg" the file will also be found if "abc" is passed as a file name.
+	 * The first file which will be found will be returned
+	 * 
+	 * @param baseDir
+	 * @param fileName
+	 * @param searchInSubdirectories
+	 * @return a file (not a directory) or null if no file could be found
+	 */
+	public static File findFileIn(File baseDir, String fileName,
+			boolean searchInSubdirectories) {
+		List<File> files = getFilesInPath(baseDir);
+		if (files == null || files.isEmpty()) {
+			return null;
+		}
+		for (File file : files) {
+			if (file.getName().equals(fileName) && !file.isDirectory()) {
+				return file;
+			}
+		}
+		for (File file : files) {
+			if (file.getName().contains(fileName) && !file.isDirectory()) {
+				return file;
+			}
+		}
+		if (searchInSubdirectories) {
+			for (File file : files) {
+				if (file.isDirectory()) {
+					File f = findFileIn(file, fileName, searchInSubdirectories);
+					if (f != null) {
+						return f;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	public static String convertStreamToString(InputStream is)
 			throws IOException {
 		if (is == null) {
