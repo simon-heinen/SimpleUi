@@ -93,6 +93,10 @@ public class MainActivity extends Activity {
 
 		M_Container c = new M_Container();
 
+		c.add(M_ListWrapperV3Tests.newButtonForM_ListWrapperV3Grid());
+
+		c.add(M_ListWrapperV3Tests.newButtonForM_ListWrapperV3Tests());
+
 		c.add(new M_Button("Material Ui tests") {
 
 			@Override
