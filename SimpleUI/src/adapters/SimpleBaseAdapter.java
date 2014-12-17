@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -92,6 +93,21 @@ public class SimpleBaseAdapter extends BaseAdapter {
 					((HasItsOwnView) myList.get(posInList)).onItemClick(
 							itemView, posInList);
 				}
+			}
+		};
+	}
+
+	public OnItemLongClickListener newOnLongClickListener() {
+		return new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> myAdapter,
+					View itemView, int posInList, long mylng) {
+				if (myList != null) {
+					return ((HasItsOwnView) myList.get(posInList))
+							.onItemLongClick(itemView, posInList);
+				}
+				return false;
 			}
 		};
 	}

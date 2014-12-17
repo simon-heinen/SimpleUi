@@ -25,26 +25,21 @@ import customViews.DraggableListView.ModelModificationListener;
  * 
  * TODO:
  * 
- * - add swipe to delete flag to DraggableListView
+ * - add swipe to delete flag to DraggableListView, use existing library for
+ * that
  * 
  * - add itemCreate logic to add new elements
  * 
- * - fix bugs that view is not switched to invisible by SimpleBaseAdapter or
+ * - fix bugs that view is not switched to visible by SimpleBaseAdapter or
  * DraggableListView when moved around
  * 
- * - forward on click events to list items
- * 
- * - how to handle onLongClick? can it be handled?
- * 
- * Description
- * 
- * ListView which has add, move and remove functionalities
+ * Description: ListView which has add, move and remove functionalities
  *
  * @param <T>
  */
 @Deprecated
-public abstract class M_ListWrapperV3Editable<T extends HasItsOwnView> implements
-		ModifierInterface {
+public abstract class M_ListWrapperV3Editable<T extends HasItsOwnView>
+		implements ModifierInterface {
 
 	/**
 	 * if the listview is child of a scrollview the height has to be calculated
@@ -52,7 +47,8 @@ public abstract class M_ListWrapperV3Editable<T extends HasItsOwnView> implement
 	 * will be MAX_HEIGHT_PERCENTAGE_IN_CONTAINER * screenheight
 	 */
 	private static final float MAX_HEIGHT_PERCENTAGE_IN_CONTAINER = 0.75f;
-	private static final String LOG_TAG = M_ListWrapperV3Editable.class.getSimpleName();
+	private static final String LOG_TAG = M_ListWrapperV3Editable.class
+			.getSimpleName();
 	private final String textForAddButton;
 	private final List<T> targetCollection;
 	private List<T> copyOfTargetCollection;
@@ -68,8 +64,8 @@ public abstract class M_ListWrapperV3Editable<T extends HasItsOwnView> implement
 	 *            be modified when the {@link ModifierInterface#save()} method
 	 *            is called
 	 */
-	public M_ListWrapperV3Editable(List<T> targetCollection, String textForAddButton,
-			boolean instantModelUpdates) {
+	public M_ListWrapperV3Editable(List<T> targetCollection,
+			String textForAddButton, boolean instantModelUpdates) {
 		this.targetCollection = targetCollection;
 		this.textForAddButton = textForAddButton;
 		this.instantModelUpdates = instantModelUpdates;
@@ -84,8 +80,9 @@ public abstract class M_ListWrapperV3Editable<T extends HasItsOwnView> implement
 	 *            be modified when the {@link ModifierInterface#save()} method
 	 *            is called
 	 */
-	public M_ListWrapperV3Editable(List<T> targetCollection, String textForAddButton,
-			boolean instantModelUpdates, int listViewHeight) {
+	public M_ListWrapperV3Editable(List<T> targetCollection,
+			String textForAddButton, boolean instantModelUpdates,
+			int listViewHeight) {
 		this.targetCollection = targetCollection;
 		this.textForAddButton = textForAddButton;
 		this.instantModelUpdates = instantModelUpdates;
@@ -164,6 +161,7 @@ public abstract class M_ListWrapperV3Editable<T extends HasItsOwnView> implement
 		}
 		l.setAdapter(b);
 		l.setOnItemClickListener(b.newOnClickListener());
+		l.setOnItemLongClickListener(b.newOnLongClickListener());
 		l.setOnTouchListener(new OnTouchListener() {
 
 			@Override
