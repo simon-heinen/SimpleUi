@@ -103,6 +103,7 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 			}
 
 		});
+		// hack to fix https://github.com/Comcast/FreeFlow/pull/73/files :
 		container.setChoiceMode(FreeFlowContainer.CHOICE_MODE_SINGLE);
 		container.setChoiceMode(FreeFlowContainer.CHOICE_MODE_NONE);
 		container.setOnItemLongClickListener(new OnItemLongClickListener() {
