@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/loginLogo"
         android:layout_centerHorizontal="true"
-        android:text="ARMRO"
+        android:text="Login"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30dp" />
 

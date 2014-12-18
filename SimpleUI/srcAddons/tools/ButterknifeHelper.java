@@ -1,7 +1,9 @@
 package tools;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import butterknife.Views;
 
 public class ButterknifeHelper {
@@ -33,5 +35,24 @@ public class ButterknifeHelper {
 			throw new RuntimeException("Butterknife could not "
 					+ "find injection class '" + className + "'");
 		}
+	}
+
+	/**
+	 * @param context
+	 * @param id
+	 * @return
+	 */
+	public static int getViewIdViaIdAsString(Context context, String id) {
+		return context.getResources().getIdentifier(id, "id",
+				context.getPackageName());
+	}
+
+	public static View injectFieldsInListItem(Context context, Object listItem,
+			View convertView, int listItemLayoutId) {
+		if (convertView == null) {
+			convertView = View.inflate(context, listItemLayoutId, null);
+		}
+		Views.inject(listItem, convertView);
+		return convertView;
 	}
 }
