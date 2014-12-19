@@ -1,6 +1,8 @@
 package v3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import tools.DeviceInformation;
@@ -12,6 +14,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
@@ -93,7 +96,8 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		SimpleBaseAdapter b = new SimpleBaseAdapter(null,
 				copyOfTargetCollection);
 
-		SwipeListView l = new SwipeListView(context, backViewId, frontViewId) {
+		final SwipeListView l = new SwipeListView(context, backViewId,
+				frontViewId) {
 
 			@Override
 			protected void onSizeChanged(int w, int requestedViewHeight,
@@ -146,9 +150,19 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 				return copyOfTargetCollection.get(position).onItemLongClick(
 						frontView, position);
 			}
+
+			@Override
+			public void onDismiss(int[] reverseSortedPositions) {
+				for (int i : reverseSortedPositions) {
+					Log.i(LOG_TAG, "itemIdsToDelete=" + i);
+					copyOfTargetCollection.remove(i);
+				}
+				((BaseAdapter) l.getAdapter()).notifyDataSetChanged();
+			}
+
 		});
 		l.setSwipeOpenOnLongPress(false);
-		l.setSwipeActionLeft(SwipeListView.SWIPE_ACTION_CHOICE);
+		l.setSwipeActionLeft(SwipeListView.SWIPE_ACTION_DISMISS);
 		l.setSwipeActionRight(SwipeListView.SWIPE_ACTION_REVEAL);
 		if (listViewHeight != null) {
 			l.setLayoutParams(new LinearLayout.LayoutParams(

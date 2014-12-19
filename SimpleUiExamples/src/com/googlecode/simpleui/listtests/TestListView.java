@@ -54,14 +54,14 @@ public class TestListView implements HasItsOwnView {
 
 	@Override
 	public void onItemClick(View itemView, int posInList) {
-		String text = "Clicked on " + t.getText();
+		String text = "Item clicked: " + t.getText();
 		System.out.println(text);
 		Toast.makeText(itemView.getContext(), text, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	public boolean onItemLongClick(View itemView, int posInList) {
-		String text = "Longclicked on " + t.getText();
+		String text = "Item clicked long: " + t.getText();
 		System.out.println(text);
 		Toast.makeText(itemView.getContext(), text, Toast.LENGTH_LONG).show();
 		return true;
