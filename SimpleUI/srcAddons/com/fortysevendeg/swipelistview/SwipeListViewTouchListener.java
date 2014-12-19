@@ -632,7 +632,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                                 swipeListView.onOpened(position, swapRight);
                                 openedRight.set(position, swapRight);
                             } else {
-                                swipeListView.onClosed(position, openedRight.get(position));
+								onClosed(view, position);
                             }
                         }
                         resetCell();
@@ -640,6 +640,14 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                 });
     }
 
+	private void onClosed(final View view, final int position) {
+		View p = (view.getParent() instanceof View) ? (View) view.getParent()
+				: null;
+		if (p != null && p.findViewById(swipeBackView) != null) {
+			p.findViewById(swipeBackView).setVisibility(View.INVISIBLE);
+		}
+		swipeListView.onClosed(position, openedRight.get(position));
+	}
     private void resetCell() {
         if (downPosition != ListView.INVALID_POSITION) {
             if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_CHOICE) {
@@ -911,6 +919,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                             swipeCurrentAction = SwipeListView.SWIPE_ACTION_CHOICE;
                         } else {
                             swipeCurrentAction = SwipeListView.SWIPE_ACTION_REVEAL;
+                            backView.setVisibility(View.VISIBLE);
                         }
                         swipeListView.onStartOpen(downPosition, swipeCurrentAction, swipingRight);
                     }

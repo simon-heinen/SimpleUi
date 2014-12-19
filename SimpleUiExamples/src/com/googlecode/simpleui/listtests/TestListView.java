@@ -3,7 +3,6 @@ package com.googlecode.simpleui.listtests;
 import java.util.List;
 
 import tools.ButterknifeHelper;
-import util.Log;
 import v2.simpleUi.util.ColorUtils;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
@@ -49,7 +48,7 @@ public class TestListView implements HasItsOwnView {
 			List<? extends HasItsOwnView> containerList, int positionInList) {
 		convertView = ButterknifeHelper.injectFieldsInListItem(context, this,
 				convertView, R.layout.swipe_list_item);
-		Log.d(LOG_TAG, "convertView=" + convertView);
+		// set values for item:
 		t.setText(name);
 		t.setBackgroundColor(ColorUtils.randomColor());
 		b.setText("Button for " + name);
@@ -61,7 +60,6 @@ public class TestListView implements HasItsOwnView {
 						.show();
 			}
 		});
-		b.setBackgroundColor(ColorUtils.randomColor());
 		return convertView;
 	}
 }

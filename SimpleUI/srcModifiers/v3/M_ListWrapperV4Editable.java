@@ -11,12 +11,11 @@ import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
+import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
 import com.fortysevendeg.swipelistview.SwipeListView;
 
 /**
@@ -43,9 +42,9 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	private final boolean instantModelUpdates;
 	private Integer listViewHeight = null;
 
-	private final int frontViewId;
-
 	private final int backViewId;
+
+	private final int frontViewId;
 
 	/**
 	 * @param targetCollection
@@ -62,8 +61,8 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		this.targetCollection = targetCollection;
 		this.textForAddButton = textForAddButton;
 		this.instantModelUpdates = instantModelUpdates;
-		this.frontViewId = frontViewId;
 		this.backViewId = backViewId;
+		this.frontViewId = frontViewId;
 	}
 
 	/**
@@ -94,7 +93,7 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		SimpleBaseAdapter b = new SimpleBaseAdapter(null,
 				copyOfTargetCollection);
 
-		SwipeListView l = new SwipeListView(context, frontViewId, backViewId) {
+		SwipeListView l = new SwipeListView(context, backViewId, frontViewId) {
 
 			@Override
 			protected void onSizeChanged(int w, int requestedViewHeight,
@@ -135,7 +134,22 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 			}
 
 		};
+		l.setSwipeListViewListener(new BaseSwipeListViewListener() {
+			@Override
+			public void onStartOpen(int position, int action, boolean right) {
+				// TODO
 
+			}
+
+			@Override
+			public void onClosed(int position, boolean fromRight) {
+				// TODO Auto-generated method stub
+				super.onClosed(position, fromRight);
+			}
+		});
+		l.setSwipeOpenOnLongPress(false);
+		l.setSwipeActionLeft(SwipeListView.SWIPE_ACTION_CHOICE);
+		l.setSwipeActionRight(SwipeListView.SWIPE_ACTION_REVEAL);
 		if (listViewHeight != null) {
 			l.setLayoutParams(new LinearLayout.LayoutParams(
 					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
@@ -144,14 +158,6 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		l.setAdapter(b);
 		l.setOnItemClickListener(b.newOnClickListener());
 		l.setOnItemLongClickListener(b.newOnLongClickListener());
-		l.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-		});
 
 		return l;
 	}

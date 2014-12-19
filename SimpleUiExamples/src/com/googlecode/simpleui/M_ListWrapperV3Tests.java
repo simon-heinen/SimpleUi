@@ -127,8 +127,7 @@ public class M_ListWrapperV3Tests {
 
 				boolean instantModelUpdates = false;
 				ModifierInterface m = new M_ListWrapperV4Editable<HasItsOwnView>(
-						l, "+Add+", instantModelUpdates,
-						R.id.swype_list_item_back, R.id.swype_list_item_front) {
+						l, "+Add+", instantModelUpdates, R.id.front, R.id.back) {
 
 					@Override
 					public HasItsOwnView getNewItemInstance(Context arg0,
