@@ -1,4 +1,4 @@
-package com.googlecode.simpleui;
+package com.googlecode.simpleui.listtests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.googlecode.simpleui.listtests.TestListView;
+import com.googlecode.simpleui.R;
+import com.googlecode.simpleui.R.id;
 
 public class M_ListWrapperV3Tests {
 

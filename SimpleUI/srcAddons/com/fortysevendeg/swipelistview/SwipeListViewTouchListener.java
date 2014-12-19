@@ -142,7 +142,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         frontView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                swipeListView.onClickFrontView(downPosition);
+				swipeListView.onClickFrontView(v, downPosition);
             }
         });
 
@@ -154,7 +154,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         openAnimate(childPosition);
                     }
                 } else {
-                    swapChoiceState(childPosition);
+					swipeListView.onLongClickFrontView(v, downPosition);
                 }
                 return false;
             }
@@ -929,7 +929,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                             (MotionEventCompat.getActionIndex(motionEvent) << MotionEventCompat.ACTION_POINTER_INDEX_SHIFT));
                     swipeListView.onTouchEvent(cancelEvent);
                     if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_CHOICE) {
-                        backView.setVisibility(View.GONE);
+					backView.setVisibility(View.INVISIBLE);
                     }
                 }
 
@@ -976,7 +976,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             swipingRight = !swipingRight;
             swipeCurrentAction = swipeActionRight;
             if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_CHOICE) {
-                backView.setVisibility(View.GONE);
+				backView.setVisibility(View.INVISIBLE);
             } else {
                 backView.setVisibility(View.VISIBLE);
             }
@@ -988,7 +988,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             swipingRight = !swipingRight;
             swipeCurrentAction = swipeActionLeft;
             if (swipeCurrentAction == SwipeListView.SWIPE_ACTION_CHOICE) {
-                backView.setVisibility(View.GONE);
+				backView.setVisibility(View.INVISIBLE);
             } else {
                 backView.setVisibility(View.VISIBLE);
             }

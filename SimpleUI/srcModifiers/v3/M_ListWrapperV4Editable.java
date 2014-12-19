@@ -136,15 +136,15 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		};
 		l.setSwipeListViewListener(new BaseSwipeListViewListener() {
 			@Override
-			public void onStartOpen(int position, int action, boolean right) {
-				// TODO
-
+			public void onClickFrontView(View frontView, int position) {
+				copyOfTargetCollection.get(position).onItemClick(frontView,
+						position);
 			}
 
 			@Override
-			public void onClosed(int position, boolean fromRight) {
-				// TODO Auto-generated method stub
-				super.onClosed(position, fromRight);
+			public void onLongClickFrontView(View frontView, int position) {
+				copyOfTargetCollection.get(position).onItemLongClick(frontView,
+						position);
 			}
 		});
 		l.setSwipeOpenOnLongPress(false);
@@ -157,7 +157,7 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		}
 		l.setAdapter(b);
 		l.setOnItemClickListener(b.newOnClickListener());
-		l.setOnItemLongClickListener(b.newOnLongClickListener());
+		// l.setOnItemLongClickListener(b.newOnLongClickListener());
 
 		return l;
 	}
