@@ -22,6 +22,7 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	private Button button;
 	private boolean enabled = true;
 	private OnLongClickListener longClickListener;
+	private OnClickListener clickListener;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_Button(String buttonText) {
@@ -44,6 +45,14 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	public void setLongClickListener(OnLongClickListener longClickListener) {
 		this.longClickListener = longClickListener;
+		if (button != null)
+			button.setOnLongClickListener(longClickListener);
+	}
+
+	public void setClickListener(OnClickListener clickListener) {
+		this.clickListener = clickListener;
+		if (button != null)
+			button.setOnClickListener(clickListener);
 	}
 
 	public OnLongClickListener getLongClickListener() {
@@ -71,12 +80,15 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 		}
 		button.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.WRAP_CONTENT));
-		button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				M_Button.this.onClick(context, button);
-			}
-		});
+		if (clickListener == null) {
+			clickListener = new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					M_Button.this.onClick(context, (Button) v);
+				}
+			};
+		}
+		button.setOnClickListener(clickListener);
 		if (longClickListener != null) {
 			button.setOnLongClickListener(longClickListener);
 		}

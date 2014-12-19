@@ -12,6 +12,7 @@ import tools.ErrorHandler;
 import tools.IO;
 import tools.IntentHelper;
 import tools.SimpleAsyncTask;
+import tools.ToastV2;
 import v1.Headline;
 import v1.InfoText;
 import v1.V1SimpleUI;
@@ -53,6 +54,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -99,6 +101,21 @@ public class MainActivity extends Activity {
 		c.add(M_ListWrapperV3Tests.newButtonForM_ListWrapperV3Grid());
 
 		c.add(M_ListWrapperV3Tests.newButtonForM_ListWrapperV3Tests());
+
+		c.add(new M_Button("Show Info") {
+
+			@Override
+			public void onClick(Context context, Button b) {
+				ToastV2.showUndoToast(context, "Item deleted", "Undo",
+						new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								System.out.println("Undo clicked");
+							}
+						});
+			}
+		});
 
 		c.add(new M_Button("Material Ui tests") {
 

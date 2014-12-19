@@ -21,7 +21,7 @@ public class M_CardView extends M_Collection {
 		// container for header, list of items and footer:
 		LinearLayout outerContainer = new LinearLayout(context);
 		LinearLayout listItemContainer = new LinearLayout(context);
-		card = newCardView(context, outerContainer, listItemContainer);
+		card = newCardViewWithContainers(context, outerContainer, listItemContainer);
 		if (backgroundColor != null) {
 			card.setCardBackgroundColor(backgroundColor);
 		}
@@ -37,21 +37,24 @@ public class M_CardView extends M_Collection {
 		return card;
 	}
 
-	public static CardView newCardView(Context context,
+	public static CardView newCardViewWithContainers(Context context,
 			LinearLayout outerContainer, LinearLayout listItemContainer) {
-		CardView card = new CardView(context);
-		card.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
-		int shaddowSize = 20;
-		card.setMaxCardElevation(shaddowSize);
-		card.setCardElevation(shaddowSize);
+		CardView card = newCardView(context, 20);
 		outerContainer.setOrientation(LinearLayout.VERTICAL);
 		ScrollView scrollContainer = new ScrollView(context);
 		listItemContainer.setOrientation(LinearLayout.VERTICAL);
 		scrollContainer.addView(listItemContainer);
 		outerContainer.addView(scrollContainer);
 		card.addView(outerContainer);
+		return card;
+	}
 
+	public static CardView newCardView(Context context, int shaddowSize) {
+		CardView card = new CardView(context);
+		card.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
+		card.setMaxCardElevation(shaddowSize);
+		card.setCardElevation(shaddowSize);
 		try {
 			TypedArray array = context.getTheme().obtainStyledAttributes(
 					new int[] { android.R.attr.colorBackground });
@@ -59,7 +62,6 @@ public class M_CardView extends M_Collection {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return card;
 	}
 
