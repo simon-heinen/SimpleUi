@@ -32,7 +32,8 @@ public class BaseSwipeListViewListener implements SwipeListViewListener {
 	}
 
 	@Override
-	public void onLongClickFrontView(View frontView, int position) {
+	public boolean onLongClickFrontView(View frontView, int position) {
+		return false;
 	}
 
     @Override

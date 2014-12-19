@@ -415,10 +415,12 @@ public class SwipeListView extends ListView {
         }
     }
 
-    protected void onLongClickFrontView(View frontView, int position) {
+	protected boolean onLongClickFrontView(View frontView, int position) {
         if (swipeListViewListener != null && position != ListView.INVALID_POSITION) {
-			swipeListViewListener.onLongClickFrontView(frontView, position);
+			return swipeListViewListener.onLongClickFrontView(frontView,
+					position);
         }
+		return false;
     }
     
     /**

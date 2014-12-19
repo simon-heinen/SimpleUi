@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.googlecode.simpleui.R;
-import com.googlecode.simpleui.R.id;
 
 public class M_ListWrapperV3Tests {
 

@@ -142,9 +142,9 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 			}
 
 			@Override
-			public void onLongClickFrontView(View frontView, int position) {
-				copyOfTargetCollection.get(position).onItemLongClick(frontView,
-						position);
+			public boolean onLongClickFrontView(View frontView, int position) {
+				return copyOfTargetCollection.get(position).onItemLongClick(
+						frontView, position);
 			}
 		});
 		l.setSwipeOpenOnLongPress(false);

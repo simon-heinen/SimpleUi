@@ -23,7 +23,7 @@ public class ButterknifeHelper {
 			Log.e(LOG_TAG, "! Butterknife could not find injection classes "
 					+ "(see http://jakewharton.github.io/"
 					+ "butterknife/ide-eclipse.html )");
-			Log.e(LOG_TAG, "! Right click on project -> "
+			Log.e(LOG_TAG, "! Eclipse users: Right click on project -> "
 					+ "Head to Java Compiler -> Annotation "
 					+ "Processing -> CHECK 'Enable project "
 					+ "specific settings'");
@@ -49,8 +49,9 @@ public class ButterknifeHelper {
 
 	public static View injectFieldsInListItem(Context context, Object listItem,
 			View convertView, int listItemLayoutId) {
-		if (convertView == null) {
+		if (convertView == null || convertView.getId() != listItemLayoutId) {
 			convertView = View.inflate(context, listItemLayoutId, null);
+			convertView.setId(listItemLayoutId);
 		}
 		Views.inject(listItem, convertView);
 		return convertView;

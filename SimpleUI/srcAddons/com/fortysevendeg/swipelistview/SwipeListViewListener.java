@@ -80,7 +80,7 @@ public interface SwipeListViewListener {
 	 * @param position
 	 *            of the view in the list
 	 */
-	void onLongClickFrontView(View frontView, int position);
+	boolean onLongClickFrontView(View frontView, int position);
     
     /**
      * Called when user clicks on the back view

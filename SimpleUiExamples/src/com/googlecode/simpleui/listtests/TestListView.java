@@ -32,17 +32,6 @@ public class TestListView implements HasItsOwnView {
 	}
 
 	@Override
-	public boolean onItemLongClick(View itemView, int posInList) {
-		System.out.println("onItemLongClick: " + name);
-		return true;
-	}
-
-	@Override
-	public void onItemClick(View itemView, int posInList) {
-		System.out.println("onItemClick: " + name);
-	}
-
-	@Override
 	public View getView(final Context context, View convertView,
 			ViewGroup parent, SimpleBaseAdapter simpleBaseAdapter,
 			List<? extends HasItsOwnView> containerList, int positionInList) {
@@ -62,4 +51,20 @@ public class TestListView implements HasItsOwnView {
 		});
 		return convertView;
 	}
+
+	@Override
+	public void onItemClick(View itemView, int posInList) {
+		String text = "Clicked on " + t.getText();
+		System.out.println(text);
+		Toast.makeText(itemView.getContext(), text, Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public boolean onItemLongClick(View itemView, int posInList) {
+		String text = "Longclicked on " + t.getText();
+		System.out.println(text);
+		Toast.makeText(itemView.getContext(), text, Toast.LENGTH_LONG).show();
+		return true;
+	}
+
 }

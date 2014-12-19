@@ -154,7 +154,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         openAnimate(childPosition);
                     }
                 } else {
-					swipeListView.onLongClickFrontView(v, downPosition);
+					return swipeListView.onLongClickFrontView(v, downPosition);
                 }
                 return false;
             }
