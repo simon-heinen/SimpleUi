@@ -53,6 +53,11 @@ public class TestListView implements HasItsOwnView {
 	}
 
 	@Override
+	public String toString() {
+		return name;
+	}
+
+	@Override
 	public void onItemClick(View itemView, int posInList) {
 		String text = "Item clicked: " + t.getText();
 		System.out.println(text);

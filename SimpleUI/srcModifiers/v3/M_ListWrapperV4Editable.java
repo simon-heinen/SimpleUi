@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import tools.DeviceInformation;
+import tools.ToastV2;
 import util.Log;
 import v2.simpleUi.ModifierInterface;
 import adapters.SimpleBaseAdapter;
@@ -14,6 +15,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -86,7 +88,7 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	}
 
 	@Override
-	public View getView(Context context) {
+	public View getView(final Context context) {
 
 		if (instantModelUpdates) {
 			copyOfTargetCollection = targetCollection;
@@ -154,10 +156,38 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 			@Override
 			public void onDismiss(int[] reverseSortedPositions) {
 				for (int i : reverseSortedPositions) {
+					final int itemPosToDelete = i;
 					Log.i(LOG_TAG, "itemIdsToDelete=" + i);
-					copyOfTargetCollection.remove(i);
+					final T deletedItem = copyOfTargetCollection.remove(i);
+					String infoText = "Deleted entry nr. " + itemPosToDelete;
+					if (hasImplementedToString(deletedItem))
+						infoText = "Deleted " + deletedItem;
+					ToastV2.showUndoToast(context, infoText, "Undo",
+							new OnClickListener() {
+
+								@Override
+								public void onClick(View v) {
+									copyOfTargetCollection.add(itemPosToDelete,
+											deletedItem);
+									refreshUi(l);
+								}
+							});
 				}
-				((BaseAdapter) l.getAdapter()).notifyDataSetChanged();
+				refreshUi(l);
+			}
+
+			private boolean hasImplementedToString(Object o) {
+				try {
+					return (o.getClass().getMethod("toString")
+							.getDeclaringClass() != Object.class);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return false;
+			}
+
+			private void refreshUi(final SwipeListView listView) {
+				((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
 			}
 
 		});

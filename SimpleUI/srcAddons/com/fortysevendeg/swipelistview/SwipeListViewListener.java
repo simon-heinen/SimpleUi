@@ -129,6 +129,4 @@ public interface SwipeListViewListener {
      */
     void onLastListItem();
 
-
-
 }
