@@ -122,48 +122,37 @@ public class M_ListWrapperV3Tests {
 
 		return new M_Button("M_ListWrapperV4Editable tests") {
 
+			private M_ListWrapperV4Editable<HasItsOwnView> listModifier;
+
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 
 				boolean instantModelUpdates = false;
 				View a = new M_InfoText("Top").getView(context);
-				View b = new M_Button("Sticky") {
+				View b = new M_Button("Add no element at beginning") {
 
 					@Override
 					public void onClick(Context arg0, Button arg1) {
 						System.out.println("Top Clicked");
+						listModifier.addListElement(0, newElement2(n));
 					}
 				}.getView(context);
 
-				ModifierInterface m = new M_ListWrapperV4Editable<HasItsOwnView>(
-						l, "+Add+", instantModelUpdates, R.id.front, R.id.back,
-						a, b) {
-
-					@Override
-					public HasItsOwnView getNewItemInstance(Context arg0,
-							int arg1) {
-						return newElement2(n);
-					}
-
-					@Override
-					public boolean onAddRequest(HasItsOwnView arg0) {
-						// TODO Auto-generated method stub
-						return false;
-					}
+				listModifier = new M_ListWrapperV4Editable<HasItsOwnView>(l,
+						instantModelUpdates, R.id.front, R.id.back, a, b) {
 
 					@Override
 					public boolean onRemoveRequest(HasItsOwnView arg0) {
-						// TODO Auto-generated method stub
-						return false;
+						return true; // always allow delete in this demo
 					}
 
 				};
 
 				if (testWithoutContainer) {
-					SimpleUI.showUi(context, m);
+					SimpleUI.showUi(context, listModifier);
 				} else {
 					M_Container1 c = new M_Container1();
-					c.add(m);
+					c.add(listModifier);
 					for (int j = 0; j < 20; j++) {
 						c.add(new M_InfoText("" + j));
 					}

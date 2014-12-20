@@ -1,16 +1,13 @@
 package v3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import tools.DeviceInformation;
+import tools.StickyListHeader;
 import tools.ToastV2;
 import util.Log;
-import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;
-import v2.simpleUi.util.ColorUtils;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
@@ -20,13 +17,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
-import com.fortysevendeg.swipelistview.StickyListHeader;
 import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.fortysevendeg.swipelistview.SwipeListViewWithHeader;
@@ -49,7 +43,6 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	 */
 	private static final float MAX_HEIGHT_PERCENTAGE_IN_CONTAINER = 0.75f;
 
-	private final String textForAddButton;
 	private final List<T> targetCollection;
 	private List<T> copyOfTargetCollection;
 	private final boolean instantModelUpdates;
@@ -63,6 +56,8 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 
 	private View stickyFloatingBox;
 
+	private SimpleBaseAdapter adapter;
+
 	/**
 	 * @param targetCollection
 	 * @param textForAddButton
@@ -73,11 +68,9 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	 *            is called
 	 */
 	public M_ListWrapperV4Editable(List<T> targetCollection,
-			String textForAddButton, boolean instantModelUpdates,
-			int frontViewId, int backViewId, View headerContent,
-			View stickyFloatingBox) {
+			boolean instantModelUpdates, int frontViewId, int backViewId,
+			View headerContent, View stickyFloatingBox) {
 		this.targetCollection = targetCollection;
-		this.textForAddButton = textForAddButton;
 		this.instantModelUpdates = instantModelUpdates;
 		this.backViewId = backViewId;
 		this.frontViewId = frontViewId;
@@ -95,11 +88,10 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	 *            is called
 	 */
 	public M_ListWrapperV4Editable(List<T> targetCollection,
-			String textForAddButton, boolean instantModelUpdates,
-			int frontViewId, int backViewId, int listViewHeight,
-			View headerContent, View stickyFloatingBox) {
-		this(targetCollection, textForAddButton, instantModelUpdates,
-				frontViewId, backViewId, headerContent, stickyFloatingBox);
+			boolean instantModelUpdates, int frontViewId, int backViewId,
+			int listViewHeight, View headerContent, View stickyFloatingBox) {
+		this(targetCollection, instantModelUpdates, frontViewId, backViewId,
+				headerContent, stickyFloatingBox);
 		this.listViewHeight = listViewHeight;
 	}
 
@@ -111,8 +103,7 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		} else {
 			copyOfTargetCollection = new ArrayList<T>(targetCollection);
 		}
-		final SimpleBaseAdapter adapter = new SimpleBaseAdapter(null,
-				copyOfTargetCollection);
+		adapter = new SimpleBaseAdapter(null, copyOfTargetCollection);
 
 		final SwipeListViewWithHeader listView = new SwipeListViewWithHeader(
 				context, backViewId, frontViewId) {
@@ -180,21 +171,30 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 					Log.i(LOG_TAG, "itemIdsToDelete=" + itemPosToDelete);
 					final T deletedItem = copyOfTargetCollection
 							.remove(itemPosToDelete);
-					String infoText = "Deleted entry nr. " + itemPosToDelete;
-					if (hasImplementedToString(deletedItem))
-						infoText = "Deleted " + deletedItem;
-					ToastV2.showUndoToast(context, infoText, "Undo",
-							new OnClickListener() {
-
-								@Override
-								public void onClick(View v) {
-									copyOfTargetCollection.add(itemPosToDelete,
-											deletedItem);
-									notifyAdapterThatDataChanged();
-								}
-							});
+					if (onRemoveRequest(deletedItem)) {
+						deleteItemFromModel(context, deletedItem,
+								itemPosToDelete);
+					}
 				}
 				notifyAdapterThatDataChanged();
+			}
+
+			private void deleteItemFromModel(final Context context,
+					final T deletedItem, final int itemPosToDelete) {
+				String infoText = "Deleted entry nr. " + itemPosToDelete;
+				if (hasImplementedToString(deletedItem)) {
+					infoText = "Deleted " + deletedItem;
+				}
+				ToastV2.showUndoToast(context, infoText, "Undo",
+						new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								copyOfTargetCollection.add(itemPosToDelete,
+										deletedItem);
+								notifyAdapterThatDataChanged();
+							}
+						});
 			}
 
 			private boolean hasImplementedToString(Object o) {
@@ -241,8 +241,7 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		LinearLayout headerContainer = new LinearLayout(context);
 		headerContainer.setOrientation(LinearLayout.VERTICAL);
 		headerContainer.setLayoutParams(new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
 		final View placeHolderBelowFloatingBox = newPlaceHolderFor(context,
 				stickyFloatingBox);
@@ -287,8 +286,18 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	private LinearLayout newInvisibleContainer(Context context, int height) {
 		LinearLayout block = new LinearLayout(context);
 		block.setLayoutParams(new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, height));
+				LayoutParams.MATCH_PARENT, height));
 		return block;
+	}
+
+	public boolean addListElement(Integer location, T newElement) {
+		if (location != null) {
+			copyOfTargetCollection.add(location, newElement);
+		} else {
+			copyOfTargetCollection.add(newElement);
+		}
+		adapter.notifyDataSetChanged();
+		return true;
 	}
 
 	@Override
@@ -312,15 +321,6 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	}
 
 	/**
-	 * @param c
-	 * @param nrForNewItem
-	 *            can be used for initializing the object e.g. if the type is
-	 *            String you could return "Item Nr. "+posOfNewItemInList
-	 * @return a new initialized instance of the object
-	 */
-	public abstract T getNewItemInstance(Context c, int nrForNewItem);
-
-	/**
 	 * will be called before the modifier for the item could save its content
 	 * 
 	 * @param item
@@ -328,14 +328,5 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	 *         reapear
 	 */
 	public abstract boolean onRemoveRequest(T item);
-
-	/**
-	 * will be executed after the modifier for the new item saved its content so
-	 * just add it to your collection when this event appears
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public abstract boolean onAddRequest(T item);
 
 }

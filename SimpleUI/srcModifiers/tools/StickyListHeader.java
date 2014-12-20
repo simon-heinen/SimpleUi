@@ -1,4 +1,4 @@
-package com.fortysevendeg.swipelistview;
+package tools;
 
 import android.annotation.TargetApi;
 import android.os.Build;
