@@ -10,12 +10,13 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener {
+public class StickyListHeader implements OnScrollListener,
+		OnGlobalLayoutListener {
 	private static final int STATE_ONSCREEN = 0;
 	private static final int STATE_OFFSCREEN = 1;
 	private static final int STATE_RETURNING = 2;
@@ -28,13 +29,30 @@ public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener 
 	private int mCachedVerticalScrollRange;
 	private int mQuickReturnHeight;
 
-	public AnimatedHeader(AbsListView targetList, View quickReturnView,
+	/**
+	 * After you created the {@link StickyListHeader} you need to attach it to
+	 * the {@link ListView} as a {@link OnScrollListener} and as an
+	 * {@link OnGlobalLayoutListener}. Then you use
+	 * {@link ListView#addHeaderView(View)} to add the placeholder (add it
+	 * wrapped in a container so that you can add another view like an image or
+	 * caption above the placeholder). The quickReturnView itself has to be
+	 * added to a {@link FrameLayout} which also contains the {@link ListView},
+	 * so it is not part of the {@link ListView} itself (and thats why the
+	 * placeholder is needed)
+	 * 
+	 * @param targetList
+	 *            the listview where the sticky header should be applied to
+	 * @param quickReturnView
+	 *            the content shown in the sticky header
+	 * @param placeHolderInHeaderForQuickReturnView
+	 *            has to have the same height as the quickReturnView
+	 */
+	public StickyListHeader(AbsListView targetList, View quickReturnView,
 			View placeHolderInHeaderForQuickReturnView) {
 		this.mListView = targetList;
 		this.mQuickReturnView = quickReturnView;
 		this.mPlaceHolderInHeaderForQuickReturnView = placeHolderInHeaderForQuickReturnView;
 	}
-
 
 	@Override
 	public void onGlobalLayout() {
@@ -178,7 +196,6 @@ public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener 
 		}
 
 	}
-
 
 	private int mItemOffsetY[];
 	private boolean scrollIsComputed = false;

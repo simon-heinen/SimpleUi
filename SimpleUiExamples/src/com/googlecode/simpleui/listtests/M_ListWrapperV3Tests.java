@@ -126,8 +126,18 @@ public class M_ListWrapperV3Tests {
 			public void onClick(Context context, Button clickedButton) {
 
 				boolean instantModelUpdates = false;
+				View a = new M_InfoText("Top").getView(context);
+				View b = new M_Button("Sticky") {
+
+					@Override
+					public void onClick(Context arg0, Button arg1) {
+						System.out.println("Top Clicked");
+					}
+				}.getView(context);
+
 				ModifierInterface m = new M_ListWrapperV4Editable<HasItsOwnView>(
-						l, "+Add+", instantModelUpdates, R.id.front, R.id.back) {
+						l, "+Add+", instantModelUpdates, R.id.front, R.id.back,
+						a, b) {
 
 					@Override
 					public HasItsOwnView getNewItemInstance(Context arg0,

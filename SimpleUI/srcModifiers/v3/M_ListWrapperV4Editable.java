@@ -19,13 +19,14 @@ import android.graphics.Point;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
-import com.fortysevendeg.swipelistview.AnimatedHeader;
+import com.fortysevendeg.swipelistview.StickyListHeader;
 import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.fortysevendeg.swipelistview.SwipeListViewWithHeader;
@@ -58,6 +59,10 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 
 	private final int frontViewId;
 
+	private View headerContent;
+
+	private View stickyFloatingBox;
+
 	/**
 	 * @param targetCollection
 	 * @param textForAddButton
@@ -69,12 +74,15 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	 */
 	public M_ListWrapperV4Editable(List<T> targetCollection,
 			String textForAddButton, boolean instantModelUpdates,
-			int frontViewId, int backViewId) {
+			int frontViewId, int backViewId, View headerContent,
+			View stickyFloatingBox) {
 		this.targetCollection = targetCollection;
 		this.textForAddButton = textForAddButton;
 		this.instantModelUpdates = instantModelUpdates;
 		this.backViewId = backViewId;
 		this.frontViewId = frontViewId;
+		this.headerContent = headerContent;
+		this.stickyFloatingBox = stickyFloatingBox;
 	}
 
 	/**
@@ -88,9 +96,10 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 	 */
 	public M_ListWrapperV4Editable(List<T> targetCollection,
 			String textForAddButton, boolean instantModelUpdates,
-			int frontViewId, int backViewId, int listViewHeight) {
+			int frontViewId, int backViewId, int listViewHeight,
+			View headerContent, View stickyFloatingBox) {
 		this(targetCollection, textForAddButton, instantModelUpdates,
-				frontViewId, backViewId);
+				frontViewId, backViewId, headerContent, stickyFloatingBox);
 		this.listViewHeight = listViewHeight;
 	}
 
@@ -136,7 +145,7 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 
 			private int getHeightApproximationForListView() {
 				ListAdapter mAdapter = getAdapter();
-				if (mAdapter.getCount() == 0) {
+				if (mAdapter == null || mAdapter.getCount() == 0) {
 					return 0;
 				}
 				View mView = mAdapter.getView(0, null, this);
@@ -213,48 +222,69 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 			listView.setLayoutParams(p2);
 		}
 		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(adapter.newOnClickListener());
-		// l.setOnItemLongClickListener(b.newOnLongClickListener());
 
+		// TODO pass headerCOntent as parameter instead of hardcoding it here:
+
+		FrameLayout wrapper = new FrameLayout(context);
+		wrapper.addView(listView);
+		if (headerContent != null && stickyFloatingBox != null) {
+			attachStickyHeader(context, listView, headerContent,
+					stickyFloatingBox);
+			wrapper.addView(stickyFloatingBox);
+		}
+		return wrapper;
+	}
+
+	private void attachStickyHeader(final Context context,
+			final SwipeListViewWithHeader listView, View headerContent,
+			final View stickyFloatingBox) {
 		LinearLayout headerContainer = new LinearLayout(context);
 		headerContainer.setOrientation(LinearLayout.VERTICAL);
 		headerContainer.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT));
-		headerContainer.setBackgroundColor(ColorUtils.RED);
 
-		FrameLayout wrapper = new FrameLayout(context);
-		wrapper.addView(listView);
-		
-		// TODO pass headerCOntent as parameter instead of hardcoding it here:
-		LinearLayout headerContent = newBox(context, 400);
-
+		final View placeHolderBelowFloatingBox = newPlaceHolderFor(context,
+				stickyFloatingBox);
 		headerContainer.addView(headerContent);
-
-		/*
-		 * TODO calc height of sticky floating box and placeHolder dynamically
-		 * and not hardcoded,
-		 */
-		int heightOfStickyHeader = 150;
-		View placeHolderBelowFloatingBox = newBox(context, heightOfStickyHeader);
-		LinearLayout stickyFloatingBox = newBox(context, heightOfStickyHeader);
-		stickyFloatingBox.setBackgroundColor(ColorUtils.randomColor());
-
 		headerContainer.addView(placeHolderBelowFloatingBox);
 
-		AnimatedHeader animatedHeader = new AnimatedHeader(listView,
+		StickyListHeader animatedHeader = new StickyListHeader(listView,
 				stickyFloatingBox, placeHolderBelowFloatingBox);
 		listView.addHeaderView(headerContainer);
 		listView.getViewTreeObserver()
 				.addOnGlobalLayoutListener(animatedHeader);
 		listView.getTouchListener().setOnScrollListener(animatedHeader);
-
-
-		wrapper.addView(stickyFloatingBox);
-		return wrapper;
 	}
 
-	private LinearLayout newBox(Context context, int height) {
+	/**
+	 * generates a transparent placeholder which will have the same hight as the
+	 * targetView
+	 * 
+	 * @param context
+	 * @param targetView
+	 * @return
+	 */
+	private View newPlaceHolderFor(final Context context, final View targetView) {
+		final View placeHolderBelowFloatingBox = newInvisibleContainer(context,
+				targetView.getLayoutParams().height + 1); // init rnd height
+		targetView.getViewTreeObserver().addOnGlobalLayoutListener(
+				new OnGlobalLayoutListener() {
+					// use the same height as soon as it is known:
+					@Override
+					public void onGlobalLayout() {
+						LayoutParams p = placeHolderBelowFloatingBox
+								.getLayoutParams();
+						p.height = targetView.getHeight();
+						placeHolderBelowFloatingBox.setLayoutParams(p);
+						targetView.getViewTreeObserver()
+								.removeGlobalOnLayoutListener(this);
+					}
+				});
+		return placeHolderBelowFloatingBox;
+	}
+
+	private LinearLayout newInvisibleContainer(Context context, int height) {
 		LinearLayout block = new LinearLayout(context);
 		block.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, height));
