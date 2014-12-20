@@ -29,7 +29,7 @@ public class M_ListWrapperV3Tests {
 
 	protected static final String LOG_TAG = M_ListWrapperV3Tests.class
 			.getSimpleName();
-	private static boolean testWithoutContainer = true;
+	private static boolean testWithoutContainer = false;
 
 	public static M_Button newButtonForM_ListWrapperV3Grid() {
 

@@ -151,14 +151,15 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		listView.setSwipeListViewListener(new BaseSwipeListViewListener() {
 			@Override
 			public void onClickFrontView(View frontView, int position) {
-				copyOfTargetCollection.get(position).onItemClick(frontView,
-						position);
+				int pos = position - listView.getHeaderViewsCount();
+				copyOfTargetCollection.get(pos).onItemClick(frontView, pos);
 			}
 
 			@Override
 			public boolean onLongClickFrontView(View frontView, int position) {
-				return copyOfTargetCollection.get(position).onItemLongClick(
-						frontView, position);
+				int pos = position - listView.getHeaderViewsCount();
+				return copyOfTargetCollection.get(pos).onItemLongClick(
+						frontView, pos);
 			}
 
 			@Override
@@ -222,8 +223,12 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 				LinearLayout.LayoutParams.WRAP_CONTENT));
 		headerContainer.setBackgroundColor(ColorUtils.RED);
 
+		FrameLayout wrapper = new FrameLayout(context);
+		wrapper.addView(listView);
+		
 		// TODO pass headerCOntent as parameter instead of hardcoding it here:
-		LinearLayout headerContent = newBox(context, 200);
+		LinearLayout headerContent = newBox(context, 400);
+
 		headerContainer.addView(headerContent);
 
 		/*
@@ -237,11 +242,14 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 
 		headerContainer.addView(placeHolderBelowFloatingBox);
 
-		new AnimatedHeader(listView).addHeaderView(stickyFloatingBox,
-				headerContainer, placeHolderBelowFloatingBox);
+		AnimatedHeader animatedHeader = new AnimatedHeader(listView,
+				stickyFloatingBox, placeHolderBelowFloatingBox);
+		listView.addHeaderView(headerContainer);
+		listView.getViewTreeObserver()
+				.addOnGlobalLayoutListener(animatedHeader);
+		listView.getTouchListener().setOnScrollListener(animatedHeader);
 
-		FrameLayout wrapper = new FrameLayout(context);
-		wrapper.addView(listView);
+
 		wrapper.addView(stickyFloatingBox);
 		return wrapper;
 	}

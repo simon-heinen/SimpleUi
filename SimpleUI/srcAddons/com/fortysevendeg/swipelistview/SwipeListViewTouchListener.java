@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 import com.nineoldandroids.animation.Animator;
@@ -670,15 +671,10 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         paused = !enabled;
     }
 
-	public interface OnScrollListener {
-		public void onScroll(AbsListView view, int firstVisibleItem,
-				int visibleItemCount, int totalItemCount);
-	}
-
-	private OnScrollListener onScrollListener;
+	private OnScrollListener additionalOnScrollListener;
 
 	public void setOnScrollListener(OnScrollListener onScrollListener) {
-		this.onScrollListener = onScrollListener;
+		this.additionalOnScrollListener = onScrollListener;
 	}
 
     /**
@@ -716,8 +712,8 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				if (onScrollListener != null)
-					onScrollListener.onScroll(view, firstVisibleItem,
+				if (additionalOnScrollListener != null)
+					additionalOnScrollListener.onScroll(view, firstVisibleItem,
 							visibleItemCount, totalItemCount);
 				if (isFirstItem) {
                     boolean onSecondItemList = firstVisibleItem == 1;
@@ -768,7 +764,8 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (!isSwipeEnabled()) {
+		swipeListView.getParent().requestDisallowInterceptTouchEvent(true);
+		if (!isSwipeEnabled()) {
             return false;
         }
 

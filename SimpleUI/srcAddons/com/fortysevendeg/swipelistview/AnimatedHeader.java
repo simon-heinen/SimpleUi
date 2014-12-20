@@ -4,13 +4,15 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.View.MeasureSpec;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListView;
 
-import com.fortysevendeg.swipelistview.SwipeListViewTouchListener.OnScrollListener;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener {
@@ -19,31 +21,26 @@ public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener 
 	private static final int STATE_RETURNING = 2;
 	private static final int STATE_EXPANDED = 3;
 
-	private SwipeListViewWithHeader mListView;
+	private AbsListView mListView;
 	private View mQuickReturnView;
 	private View mPlaceHolderInHeaderForQuickReturnView;
 
 	private int mCachedVerticalScrollRange;
 	private int mQuickReturnHeight;
 
-	public AnimatedHeader(SwipeListViewWithHeader targetList) {
-		this.mListView = targetList;
-	}
-
-	public void addHeaderView(View quickReturnView, View headerContainer,
+	public AnimatedHeader(AbsListView targetList, View quickReturnView,
 			View placeHolderInHeaderForQuickReturnView) {
+		this.mListView = targetList;
 		this.mQuickReturnView = quickReturnView;
 		this.mPlaceHolderInHeaderForQuickReturnView = placeHolderInHeaderForQuickReturnView;
-		mListView.addHeaderView(headerContainer);
-		mListView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		mListView.getTouchListener().setOnScrollListener(this);
 	}
+
 
 	@Override
 	public void onGlobalLayout() {
 		mQuickReturnHeight = mQuickReturnView.getHeight();
-		mListView.computeScrollY();
-		mCachedVerticalScrollRange = mListView.getListHeight();
+		computeScrollY(mListView);
+		mCachedVerticalScrollRange = mListViewHeight;
 	}
 
 	private int mState = STATE_ONSCREEN;
@@ -60,8 +57,8 @@ public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener 
 		mScrollY = 0;
 		int translationY = 0;
 
-		if (mListView.scrollYIsComputed()) {
-			mScrollY = mListView.getComputedScrollY();
+		if (scrollIsComputed) {
+			mScrollY = getComputedScrollY(mListView);
 		}
 
 		rawY = mPlaceHolderInHeaderForQuickReturnView.getTop()
@@ -180,6 +177,41 @@ public class AnimatedHeader implements OnScrollListener, OnGlobalLayoutListener 
 			mQuickReturnView.setTranslationY(translationY);
 		}
 
+	}
+
+
+	private int mItemOffsetY[];
+	private boolean scrollIsComputed = false;
+	private int mListViewHeight;
+
+	public void computeScrollY(AbsListView listView) {
+		mItemOffsetY = new int[listView.getAdapter().getCount()];
+		mListViewHeight = calcHeightPlusOffsets(listView, mItemOffsetY);
+		scrollIsComputed = true;
+	}
+
+	private static int calcHeightPlusOffsets(AbsListView listView,
+			int[] itemOffsetList) {
+		int mHeight = 0;
+		int mItemCount = listView.getAdapter().getCount();
+		for (int i = 0; i < mItemCount; ++i) {
+			View view = listView.getAdapter().getView(i, null, listView);
+			view.measure(
+					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+			itemOffsetList[i] = mHeight;
+			mHeight += view.getMeasuredHeight();
+		}
+		return mHeight;
+	}
+
+	public int getComputedScrollY(AbsListView l) {
+		return mItemOffsetY[l.getFirstVisiblePosition()]
+				- l.getChildAt(0).getTop();
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView paramAbsListView, int paramInt) {
 	}
 
 }
