@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -758,6 +759,10 @@ public class SwipeListView extends ListView {
 		}
 
 		return super.onInterceptTouchEvent(ev);
+	}
+
+	public SwipeListViewTouchListener getTouchListener() {
+		return touchListener;
 	}
 
 	/**

@@ -670,6 +670,17 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         paused = !enabled;
     }
 
+	public interface OnScrollListener {
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount);
+	}
+
+	private OnScrollListener onScrollListener;
+
+	public void setOnScrollListener(OnScrollListener onScrollListener) {
+		this.onScrollListener = onScrollListener;
+	}
+
     /**
      * Return ScrollListener for ListView
      *
@@ -705,7 +716,10 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (isFirstItem) {
+				if (onScrollListener != null)
+					onScrollListener.onScroll(view, firstVisibleItem,
+							visibleItemCount, totalItemCount);
+				if (isFirstItem) {
                     boolean onSecondItemList = firstVisibleItem == 1;
                     if (onSecondItemList) {
                         isFirstItem = false;
@@ -1090,7 +1104,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
             public void run() {
                 removePendingDismisses(originalHeight);
             }
-        }, animationTime + 100);
+		}, animationTime + 10);
     }
 
     /**

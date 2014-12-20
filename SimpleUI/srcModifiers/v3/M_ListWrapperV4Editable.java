@@ -8,7 +8,9 @@ import java.util.List;
 import tools.DeviceInformation;
 import tools.ToastV2;
 import util.Log;
+import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;
+import v2.simpleUi.util.ColorUtils;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
@@ -16,12 +18,17 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
+import com.fortysevendeg.swipelistview.AnimatedHeader;
 import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
 import com.fortysevendeg.swipelistview.SwipeListView;
+import com.fortysevendeg.swipelistview.SwipeListViewWithHeader;
 
 /**
  * not yet usable, use {@link M_ListWrapperV2}
@@ -95,11 +102,11 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		} else {
 			copyOfTargetCollection = new ArrayList<T>(targetCollection);
 		}
-		SimpleBaseAdapter b = new SimpleBaseAdapter(null,
+		final SimpleBaseAdapter adapter = new SimpleBaseAdapter(null,
 				copyOfTargetCollection);
 
-		final SwipeListView l = new SwipeListView(context, backViewId,
-				frontViewId) {
+		final SwipeListViewWithHeader listView = new SwipeListViewWithHeader(
+				context, backViewId, frontViewId) {
 
 			@Override
 			protected void onSizeChanged(int w, int requestedViewHeight,
@@ -140,7 +147,8 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 			}
 
 		};
-		l.setSwipeListViewListener(new BaseSwipeListViewListener() {
+
+		listView.setSwipeListViewListener(new BaseSwipeListViewListener() {
 			@Override
 			public void onClickFrontView(View frontView, int position) {
 				copyOfTargetCollection.get(position).onItemClick(frontView,
@@ -155,10 +163,13 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 
 			@Override
 			public void onDismiss(int[] reverseSortedPositions) {
+
 				for (int i : reverseSortedPositions) {
-					final int itemPosToDelete = i;
-					Log.i(LOG_TAG, "itemIdsToDelete=" + i);
-					final T deletedItem = copyOfTargetCollection.remove(i);
+					final int itemPosToDelete = i
+							- listView.getHeaderViewsCount();
+					Log.i(LOG_TAG, "itemIdsToDelete=" + itemPosToDelete);
+					final T deletedItem = copyOfTargetCollection
+							.remove(itemPosToDelete);
 					String infoText = "Deleted entry nr. " + itemPosToDelete;
 					if (hasImplementedToString(deletedItem))
 						infoText = "Deleted " + deletedItem;
@@ -169,11 +180,11 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 								public void onClick(View v) {
 									copyOfTargetCollection.add(itemPosToDelete,
 											deletedItem);
-									refreshUi(l);
+									notifyAdapterThatDataChanged();
 								}
 							});
 				}
-				refreshUi(l);
+				notifyAdapterThatDataChanged();
 			}
 
 			private boolean hasImplementedToString(Object o) {
@@ -186,24 +197,60 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 				return false;
 			}
 
-			private void refreshUi(final SwipeListView listView) {
-				((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+			private void notifyAdapterThatDataChanged() {
+				adapter.notifyDataSetChanged();
 			}
 
 		});
-		l.setSwipeOpenOnLongPress(false);
-		l.setSwipeActionLeft(SwipeListView.SWIPE_ACTION_DISMISS);
-		l.setSwipeActionRight(SwipeListView.SWIPE_ACTION_REVEAL);
+		listView.setSwipeOpenOnLongPress(false);
+		listView.setSwipeActionLeft(SwipeListView.SWIPE_ACTION_DISMISS);
+		listView.setSwipeActionRight(SwipeListView.SWIPE_ACTION_REVEAL);
 		if (listViewHeight != null) {
-			l.setLayoutParams(new LinearLayout.LayoutParams(
-					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					listViewHeight));
+			LayoutParams p2 = listView.getLayoutParams();
+			p2.width = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+			p2.height = listViewHeight;
+			listView.setLayoutParams(p2);
 		}
-		l.setAdapter(b);
-		l.setOnItemClickListener(b.newOnClickListener());
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(adapter.newOnClickListener());
 		// l.setOnItemLongClickListener(b.newOnLongClickListener());
 
-		return l;
+		LinearLayout headerContainer = new LinearLayout(context);
+		headerContainer.setOrientation(LinearLayout.VERTICAL);
+		headerContainer.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT));
+		headerContainer.setBackgroundColor(ColorUtils.RED);
+
+		// TODO pass headerCOntent as parameter instead of hardcoding it here:
+		LinearLayout headerContent = newBox(context, 200);
+		headerContainer.addView(headerContent);
+
+		/*
+		 * TODO calc height of sticky floating box and placeHolder dynamically
+		 * and not hardcoded,
+		 */
+		int heightOfStickyHeader = 150;
+		View placeHolderBelowFloatingBox = newBox(context, heightOfStickyHeader);
+		LinearLayout stickyFloatingBox = newBox(context, heightOfStickyHeader);
+		stickyFloatingBox.setBackgroundColor(ColorUtils.randomColor());
+
+		headerContainer.addView(placeHolderBelowFloatingBox);
+
+		new AnimatedHeader(listView).addHeaderView(stickyFloatingBox,
+				headerContainer, placeHolderBelowFloatingBox);
+
+		FrameLayout wrapper = new FrameLayout(context);
+		wrapper.addView(listView);
+		wrapper.addView(stickyFloatingBox);
+		return wrapper;
+	}
+
+	private LinearLayout newBox(Context context, int height) {
+		LinearLayout block = new LinearLayout(context);
+		block.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, height));
+		return block;
 	}
 
 	@Override
