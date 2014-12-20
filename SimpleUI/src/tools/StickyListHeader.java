@@ -1,30 +1,33 @@
 package tools;
 
+import util.Log;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.View.MeasureSpec;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
-import android.widget.FrameLayout;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class StickyListHeader implements OnScrollListener,
 		OnGlobalLayoutListener {
+	private static final String LOG_TAG = StickyListHeader.class
+			.getSimpleName();
 	private static final int STATE_ONSCREEN = 0;
 	private static final int STATE_OFFSCREEN = 1;
 	private static final int STATE_RETURNING = 2;
 	private static final int STATE_EXPANDED = 3;
+	private static int mItemCount;
 
-	private AbsListView mListView;
-	private View mQuickReturnView;
-	private View mPlaceHolderInHeaderForQuickReturnView;
+	private final AbsListView mListView;
+	private final View mQuickReturnView;
+	private final View mPlaceHolderInHeaderForQuickReturnView;
 
 	private int mCachedVerticalScrollRange;
 	private int mQuickReturnHeight;
@@ -203,23 +206,29 @@ public class StickyListHeader implements OnScrollListener,
 
 	public void computeScrollY(AbsListView listView) {
 		mItemOffsetY = new int[listView.getAdapter().getCount()];
-		mListViewHeight = calcHeightPlusOffsets(listView, mItemOffsetY);
+		mListViewHeight = calcHeightPlusOffsets(listView, mItemOffsetY,
+				mListViewHeight);
 		scrollIsComputed = true;
 	}
 
 	private static int calcHeightPlusOffsets(AbsListView listView,
-			int[] itemOffsetList) {
-		int mHeight = 0;
-		int mItemCount = listView.getAdapter().getCount();
+			int[] itemOffsetList, int oldHeight) {
+		Log.d(LOG_TAG, "calcHeightPlusOffsets called, oldHeight=" + oldHeight);
+		if (mItemCount == listView.getAdapter().getCount()) {
+			return oldHeight;
+		}
+		mItemCount = listView.getAdapter().getCount();
+		int heightSum = 0;
 		for (int i = 0; i < mItemCount; ++i) {
 			View view = listView.getAdapter().getView(i, null, listView);
 			view.measure(
 					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
 					MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-			itemOffsetList[i] = mHeight;
-			mHeight += view.getMeasuredHeight();
+			itemOffsetList[i] = heightSum;
+			heightSum += view.getMeasuredHeight();
 		}
-		return mHeight;
+		Log.d(LOG_TAG, "   > calcHeightPlusOffsets done, mHeight=" + heightSum);
+		return heightSum;
 	}
 
 	public int getComputedScrollY(AbsListView l) {

@@ -129,7 +129,7 @@ public class M_ListWrapperV3Tests {
 
 				boolean instantModelUpdates = false;
 				View a = new M_InfoText("Top").getView(context);
-				View b = new M_Button("Add no element at beginning") {
+				View b = new M_Button("Add new element at beginning") {
 
 					@Override
 					public void onClick(Context arg0, Button arg1) {
