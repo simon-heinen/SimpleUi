@@ -22,7 +22,7 @@ public class M_Toolbar implements ModifierInterface {
 		Toolbar t = new Toolbar(context);
 		t.setTitle(title);
 		t.setBackgroundColor(context.getResources().getColor(
-				R.color.colorPrimaryDark));
+				R.color.color_primary));
 		if (context instanceof ActionBarActivity) {
 			Log.i(LOG_TAG,
 					"Context was an ActionBarActivity, so registering as action bar");

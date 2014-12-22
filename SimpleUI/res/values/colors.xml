@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-     <!-- Basic material colors -->
-    <color name="colorAccent">#CCCC00</color>
-    <color name="colorPrimary">#00CC00</color>
-    <color name="colorPrimaryDark">#00AA00</color>
-    
-     <!-- additional material colors -->
-    <color name="colorControlNormal">#000000</color>
-    <color name="colorControlActivated">#000000</color>
-    <color name="colorControlHighlight">#000000</color>
-    <color name="colorButtonNormal">#000000</color>
-    <color name="colorSwitchThumbNormal">#000000</color>
-    <color name="colorEdgeEffect">#000000</color>
-    <color name="statusBarColor">#000000</color>
-    <color name="navigationBarColor">#000000</color>
+    <!-- Main material theme colors #AARRGGBB -->
+    <!-- colorPrimary is used for the default action bar background -->
+    <color name="color_primary">@color/green</color>
+    <!-- colorPrimaryDark is used for the status bar -->
+    <color name="color_primary_dark">@color/green</color>
+    <!-- colorAccent is used to tint widgets -->
+    <color name="color_accent">@color/green</color>
 
-    <!-- Android style -->
-    <color name="android_green">#A4C639</color>
+    <!-- additional material colors 
+    <color name="color_button_normal">@color/green</color>
+    <color name="color_control_normal">@color/green</color>
+    <color name="color_control_activated">@color/green</color>
+    <color name="color_control_highlight">@color/green</color>
+    <color name="color_switch_thumbNormal">@color/green</color>
+    -->
 
-    <!-- Windows 8 style -->
-    <color name="win8_magenta">#FF0097</color>
-    <color name="win8_purple">#A200FF</color>
-    <color name="win8_teal">#00ABA9</color>
-    <color name="win8_lime">#8CBF26</color>
-    <color name="win8_brown">#A05000</color>
-    <color name="win8_pink">#E671B8</color>
-    <color name="win8_orange">#F09609</color>
-    <color name="win8_blue">#1BA1E2</color>
-    <color name="win8_red">#E51400</color>
-    <color name="win8_green">#339933</color>
+    <!-- Android style #AARRGGBB -->
+    <color name="android_green">#FFA4C639</color>
 
-    <!-- Common -->
+    <!-- Windows 8 style #AARRGGBB -->
+    <color name="win8_magenta">#FFFF0097</color>
+    <color name="win8_purple">#FFA200FF</color>
+    <color name="win8_teal">#FF00ABA9</color>
+    <color name="win8_lime">#FF8CBF26</color>
+    <color name="win8_brown">#FFA05000</color>
+    <color name="win8_pink">#FFE671B8</color>
+    <color name="win8_orange">#FFF09609</color>
+    <color name="win8_blue">#FF1BA1E2</color>
+    <color name="win8_red">#FFE51400</color>
+    <color name="win8_green">#FF339933</color>
+
+    <!-- Common #RRGGBB -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="red">#F44336</color>
@@ -42,7 +43,7 @@
     <color name="Orange">#FF9800</color>
     <color name="Grey">#9E9E9E</color>
 
-    <!-- Generic -->
+    <!-- Generic #AARRGGBB -->
     <!-- Generic Dark -->
     <color name="DarkTurquoise">#00CED1</color>
     <color name="DarkCyan">#008B8B</color>

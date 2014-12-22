@@ -3,10 +3,12 @@ package com.googlecode.simpleui;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_CardView;
+import v2.simpleUi.M_Checkbox;
 import v2.simpleUi.M_Container;
 import v2.simpleUi.M_HalfHalf;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.M_SeperatorLine;
+import v2.simpleUi.M_TextInput;
 import v2.simpleUi.M_Toolbar;
 import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.util.ColorUtils;
@@ -26,6 +28,7 @@ public class V2MaterialUiTests extends M_Container {
 		add(newTestCard("A"));
 		add(newTestCard("B"));
 		add(newTestCard("C"));
+		addTestModifiers();
 		MenuItemList menuItemList = new MenuItemList();
 		menuItemList.add(new MItem("Menu Item A", null) {
 			@Override
@@ -35,6 +38,43 @@ public class V2MaterialUiTests extends M_Container {
 			}
 		});
 		setMenuItemList(menuItemList);
+	}
+
+	private void addTestModifiers() {
+		add(new M_TextInput(true, false, false) {
+
+			@Override
+			public boolean save(String arg0) {
+				return true;
+			}
+
+			@Override
+			public String load() {
+				return "A";
+			}
+
+			@Override
+			public String getVarName() {
+				return "Aa";
+			}
+		});
+		add(new M_Checkbox() {
+
+			@Override
+			public boolean save(boolean arg0) {
+				return true;
+			}
+
+			@Override
+			public boolean loadVar() {
+				return true;
+			}
+
+			@Override
+			public CharSequence getVarName() {
+				return "Bbbb";
+			}
+		});
 	}
 
 	private ModifierInterface example1Card() {

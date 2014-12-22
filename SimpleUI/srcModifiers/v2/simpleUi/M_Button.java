@@ -63,7 +63,6 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	@Override
 	public View getView(final Context context) {
-
 		button = new Button(context);
 		Drawable drawable = null;
 		if (myIconId != null) {

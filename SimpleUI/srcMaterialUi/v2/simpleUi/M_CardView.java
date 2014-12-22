@@ -2,6 +2,7 @@ package v2.simpleUi;
 
 import v2.simpleUi.util.ColorUtils;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
@@ -11,6 +12,8 @@ import android.widget.ScrollView;
 
 public class M_CardView extends M_Collection {
 
+	private static final String LOG_TAG = M_CardView.class.getSimpleName();
+	private static final int DEFAULT_SHADDOW_SIZE = 20;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 	private Integer backgroundColor;
 	private CardView card;
@@ -22,7 +25,7 @@ public class M_CardView extends M_Collection {
 		LinearLayout outerContainer = new LinearLayout(context);
 		LinearLayout listItemContainer = new LinearLayout(context);
 		card = newCardViewWithContainers(context, outerContainer,
-				listItemContainer);
+				listItemContainer, DEFAULT_SHADDOW_SIZE);
 		if (backgroundColor != null) {
 			card.setCardBackgroundColor(backgroundColor);
 		}
@@ -39,8 +42,9 @@ public class M_CardView extends M_Collection {
 	}
 
 	public static CardView newCardViewWithContainers(Context context,
-			LinearLayout outerContainer, LinearLayout listItemContainer) {
-		CardView card = newCardView(context, 20);
+			LinearLayout outerContainer, LinearLayout listItemContainer,
+			int shaddowSize) {
+		CardView card = newCardView(context, shaddowSize);
 		outerContainer.setOrientation(LinearLayout.VERTICAL);
 		ScrollView scrollContainer = new ScrollView(context);
 		listItemContainer.setOrientation(LinearLayout.VERTICAL);
@@ -52,10 +56,18 @@ public class M_CardView extends M_Collection {
 
 	public static CardView newCardView(Context context, int shaddowSize) {
 		CardView card = new CardView(context);
-		card.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
-		card.setMaxCardElevation(shaddowSize);
-		card.setCardElevation(shaddowSize);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		if (shaddowSize > 0) {
+			if (Build.VERSION_CODES.L == Build.VERSION.SDK_INT) {
+				params.setMargins(shaddowSize, shaddowSize, shaddowSize,
+						shaddowSize);
+			} else {
+				card.setMaxCardElevation(shaddowSize);
+			}
+			card.setCardElevation(shaddowSize);
+		}
+		card.setLayoutParams(params);
 		card.setCardBackgroundColor(ColorUtils.getDefaultBackgroundColor(
 				context, 0xFF00FF));
 		return card;

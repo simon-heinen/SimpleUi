@@ -33,8 +33,8 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 		LinearLayout outerContainer = new LinearLayout(context);
 		LinearLayout listItemContainer = new LinearLayout(context);
-		CardView card = M_CardView.newCardViewWithContainers(context, outerContainer,
-				listItemContainer);
+		CardView card = M_CardView.newCardViewWithContainers(context,
+				outerContainer, listItemContainer, 0);
 		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
 		createViewsForAllModifiers(context, listItemContainer,
 				firstEntryIsToolbar);
