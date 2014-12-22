@@ -3,19 +3,19 @@
 
     <!-- Main material theme colors #AARRGGBB -->
     <!-- colorPrimary is used for the default action bar background -->
-    <color name="color_primary">@color/green</color>
+    <color name="color_primary">@color/yellow</color>
     <!-- colorPrimaryDark is used for the status bar -->
-    <color name="color_primary_dark">@color/green</color>
+    <color name="color_primary_dark">@color/yellow</color>
     <!-- colorAccent is used to tint widgets -->
-    <color name="color_accent">@color/green</color>
+    <color name="color_accent">@color/yellow</color>
 
-    <!-- additional material colors 
-    <color name="color_button_normal">@color/green</color>
-    <color name="color_control_normal">@color/green</color>
-    <color name="color_control_activated">@color/green</color>
-    <color name="color_control_highlight">@color/green</color>
-    <color name="color_switch_thumbNormal">@color/green</color>
-    -->
+    <!-- additional material colors -->
+    <color name="color_button_normal">@color/yellow</color>
+    <color name="color_control_normal">@color/yellow</color>
+    <color name="color_control_activated">@color/yellow</color>
+    <color name="color_control_highlight">@color/yellow</color>
+    <color name="color_switch_thumbNormal">@color/yellow</color>
+    
 
     <!-- Android style #AARRGGBB -->
     <color name="android_green">#FFA4C639</color>

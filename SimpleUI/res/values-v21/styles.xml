@@ -10,14 +10,11 @@
         <!-- theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/color_accent</item>
 
-        <!--
-         You can also set colorControlNormal, colorControlActivated
-         colorControlHighlight.
-        
+        <!-- Other material theme colors -->
         <item name="android:colorControlNormal">@color/color_control_normal</item>
         <item name="android:colorControlActivated">@color/color_control_activated</item>
         <item name="android:colorControlHighlight">@color/color_control_highlight</item>
-        -->
+        
         
         <!-- Other Settings -->
         <item name="android:windowContentTransitions">true</item>
