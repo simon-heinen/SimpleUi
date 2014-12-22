@@ -3,9 +3,9 @@
 
     <!-- Main material theme colors #AARRGGBB -->
     <!-- colorPrimary is used for the default action bar background -->
-    <color name="color_primary">@color/yellow</color>
+    <color name="color_primary">@color/green</color>
     <!-- colorPrimaryDark is used for the status bar -->
-    <color name="color_primary_dark">@color/yellow</color>
+    <color name="color_primary_dark">@color/DarkGreen</color>
     <!-- colorAccent is used to tint widgets -->
     <color name="color_accent">@color/yellow</color>
 
