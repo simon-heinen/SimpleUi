@@ -28,6 +28,10 @@ import com.fortysevendeg.swipelistview.SwipeListViewWithHeader;
 /**
  * not yet usable, use {@link M_ListWrapperV2}
  * 
+ * - add move feature if easily possible
+ * 
+ * - make edit features optional: delete, move,
+ * 
  */
 @Deprecated
 public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
@@ -76,6 +80,12 @@ public abstract class M_ListWrapperV4Editable<T extends HasItsOwnView>
 		this.frontViewId = frontViewId;
 		this.headerContent = headerContent;
 		this.stickyFloatingBox = stickyFloatingBox;
+	}
+
+	public M_ListWrapperV4Editable(List<T> targetCollection,
+			boolean instantModelUpdates, int frontViewId, int backViewId) {
+		this(targetCollection, instantModelUpdates, frontViewId, backViewId,
+				null, null);
 	}
 
 	/**
