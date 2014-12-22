@@ -58,15 +58,13 @@ public class M_CardView extends M_Collection {
 		CardView card = new CardView(context);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		if (shaddowSize > 0) {
-			if (Build.VERSION_CODES.L == Build.VERSION.SDK_INT) {
-				params.setMargins(shaddowSize, shaddowSize, shaddowSize,
-						shaddowSize);
-			} else {
-				card.setMaxCardElevation(shaddowSize);
-			}
-			card.setCardElevation(shaddowSize);
+		if (Build.VERSION_CODES.L == Build.VERSION.SDK_INT) {
+			params.setMargins(shaddowSize, shaddowSize, shaddowSize,
+					shaddowSize);
+		} else {
+			card.setMaxCardElevation(shaddowSize);
 		}
+		card.setCardElevation(shaddowSize);
 		card.setLayoutParams(params);
 		card.setCardBackgroundColor(ColorUtils.getDefaultBackgroundColor(
 				context, 0xFF00FF));
