@@ -95,6 +95,10 @@ The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/
 2. Add the google play services to the linked libraries
 
 ##Screenshots
+
+Updated screenshots (Your modifiers will now automatically use the Material UI):
+![](https://lh4.googleusercontent.com/-yXBpidCLw9E/VJhVEO5yxkI/AAAAAAAAt-8/gBViaczGf7w/w814-h757-no/simpleUiAndroidLvsPreL.png  "")
+
 The following example designs can be created in minutes using SimpleUI. For more infos read (http://andrdev.blogspot.de/2012/04/simpleui-v2.html)
 
 ![](http://simpleui.googlecode.com/files/device-2012-04-27-164140.png  "")
