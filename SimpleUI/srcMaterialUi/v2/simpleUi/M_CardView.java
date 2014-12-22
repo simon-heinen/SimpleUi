@@ -1,7 +1,7 @@
 package v2.simpleUi;
 
+import v2.simpleUi.util.ColorUtils;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
@@ -21,7 +21,8 @@ public class M_CardView extends M_Collection {
 		// container for header, list of items and footer:
 		LinearLayout outerContainer = new LinearLayout(context);
 		LinearLayout listItemContainer = new LinearLayout(context);
-		card = newCardViewWithContainers(context, outerContainer, listItemContainer);
+		card = newCardViewWithContainers(context, outerContainer,
+				listItemContainer);
 		if (backgroundColor != null) {
 			card.setCardBackgroundColor(backgroundColor);
 		}
@@ -55,13 +56,8 @@ public class M_CardView extends M_Collection {
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
 		card.setMaxCardElevation(shaddowSize);
 		card.setCardElevation(shaddowSize);
-		try {
-			TypedArray array = context.getTheme().obtainStyledAttributes(
-					new int[] { android.R.attr.colorBackground });
-			card.setCardBackgroundColor(array.getColor(0, 0xFF00FF));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		card.setCardBackgroundColor(ColorUtils.getDefaultBackgroundColor(
+				context, 0xFF00FF));
 		return card;
 	}
 

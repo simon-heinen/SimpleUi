@@ -1,5 +1,7 @@
 package v2.simpleUi.util;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
@@ -207,6 +209,19 @@ public class ColorUtils extends Color {
 		}
 		hsv[1] = hsv[1] * 0.2f;
 		return Color.HSVToColor(hsv);
+	}
+
+	public static int getDefaultBackgroundColor(Context context,
+			int fallbackColor) {
+		try {
+			TypedArray array = context.getTheme().obtainStyledAttributes(
+					new int[] { android.R.attr.colorBackground });
+			int defaultBackgroundColor = array.getColor(0, fallbackColor);
+			return defaultBackgroundColor;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fallbackColor;
 	}
 
 	public static float[] genCornerArray(int cornerSize) {

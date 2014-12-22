@@ -45,14 +45,16 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	public void setLongClickListener(OnLongClickListener longClickListener) {
 		this.longClickListener = longClickListener;
-		if (button != null)
+		if (button != null) {
 			button.setOnLongClickListener(longClickListener);
+		}
 	}
 
 	public void setClickListener(OnClickListener clickListener) {
 		this.clickListener = clickListener;
-		if (button != null)
+		if (button != null) {
 			button.setOnClickListener(clickListener);
+		}
 	}
 
 	public OnLongClickListener getLongClickListener() {
