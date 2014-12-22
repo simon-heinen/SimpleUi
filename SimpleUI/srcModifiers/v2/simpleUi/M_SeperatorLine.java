@@ -3,6 +3,7 @@ package v2.simpleUi;
 import tools.ImageTransform;
 import v2.simpleUi.util.ColorUtils;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +12,8 @@ import android.widget.LinearLayout.LayoutParams;
 public abstract class M_SeperatorLine implements ModifierInterface {
 
 	private LinearLayout line;
-	private Integer backgroundColor;
+	protected Integer backgroundColor;
+	protected int margins = 10;
 
 	@Override
 	public View getView(Context context) {
@@ -20,8 +22,7 @@ public abstract class M_SeperatorLine implements ModifierInterface {
 				android.view.ViewGroup.LayoutParams.FILL_PARENT,
 				(int) ImageTransform.dipToPixels(line.getResources(),
 						getHeigthInDip()));
-		int p = 10;
-		lp.setMargins(p, 2 * p, p, 2 * p);
+		lp.setMargins(margins, 2 * margins, margins, 2 * margins);
 		line.setLayoutParams(lp);
 		if (backgroundColor != null) {
 			line.setBackgroundColor(backgroundColor);
@@ -53,8 +54,43 @@ public abstract class M_SeperatorLine implements ModifierInterface {
 	}
 
 	public static M_SeperatorLine newDefaultOne(int color) {
-		M_SeperatorLine l = newDefaultOne();
+		M_SeperatorLine l = new M_SeperatorLine() {
+
+			@Override
+			public Integer getHeigthInDip() {
+				return 2;
+			}
+		};
 		l.backgroundColor = color;
+		return l;
+	}
+
+	/**
+	 * @param color
+	 *            can be null, then a contrast version of the default background
+	 *            color will be picked automatically
+	 * @return
+	 */
+	public static M_SeperatorLine newMaterialOne(final Integer color) {
+		M_SeperatorLine l = new M_SeperatorLine() {
+			@Override
+			public View getView(Context context) {
+				if (color != null) {
+					backgroundColor = color;
+				} else {
+					int bgColor = ColorUtils.getDefaultBackgroundColor(context,
+							Color.BLACK);
+					backgroundColor = ColorUtils
+							.getContrastVersionForColor(bgColor);
+				}
+				return super.getView(context);
+			}
+
+			@Override
+			public Integer getHeigthInDip() {
+				return 1;
+			}
+		};
 		return l;
 	}
 

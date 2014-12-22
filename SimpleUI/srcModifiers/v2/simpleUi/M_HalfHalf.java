@@ -25,6 +25,13 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 		myRight = right;
 	}
 
+	/**
+	 * @param left
+	 * @param right
+	 * @param weightOfLeft
+	 *            pass 2
+	 * @param weightOfRight
+	 */
 	public M_HalfHalf(ModifierInterface left, ModifierInterface right,
 			float weightOfLeft, float weightOfRight) {
 		this(left, right);
@@ -67,9 +74,10 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 	@Override
 	public View getView(Context context) {
 
+		int f = 4;
 		LinearLayout l = new LinearLayout(context);
-		l.setPadding(l.getPaddingLeft(), l.getPaddingTop() + 10,
-				l.getPaddingRight(), l.getPaddingBottom());
+		l.setPadding(l.getPaddingLeft() + f, l.getPaddingTop() + f,
+				l.getPaddingRight() + f, l.getPaddingBottom() + f);
 		l.setGravity(Gravity.CENTER_VERTICAL);
 
 		if (minimumHeigthInDip != null) {
