@@ -14,10 +14,6 @@ import tools.ErrorHandler;
 import tools.IO;
 import tools.IntentHelper;
 import tools.SimpleAsyncTask;
-import v1.Headline;
-import v1.InfoText;
-import v1.V1SimpleUI;
-import v1.V1SimpleUiController;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_Checkbox;
@@ -31,7 +27,6 @@ import v2.simpleUi.M_PlusMinus;
 import v2.simpleUi.M_SpinnerWithCheckboxes;
 import v2.simpleUi.M_SpinnerWithCheckboxes.SpinnerItem;
 import v2.simpleUi.M_TextInput;
-import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;
 import v2.simpleUi.uiDecoration.ExampleDecorator;
 import v2.simpleUi.util.ProgressScreen;
@@ -372,39 +367,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		c.add(new M_Button("Old SimpleUI V1 Example") {
-
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-				final V1SimpleUiController i = new V1SimpleUiController() {
-
-					@Override
-					public void customizeScreen(List<ModifierInterface> group,
-							Object message) {
-						ModifierInterface m = new v1.Headline(
-								"Infos about the old v1 version");
-						group.add(m);
-						group.add(new Headline(
-								R.drawable.btn_dialog,
-								"This is the old deprecated"
-										+ " version of SimpleUI. "
-										+ "The Modifiers of v1 are all compatible"
-										+ " with the v2 version."));
-						group.add(new Headline(R.drawable.btn_plus,
-								"The theme concept was replaced by a more "
-										+ "flexible visitor pattern "
-										+ "like UIDecorater concept."));
-						group.add(new Headline(R.drawable.btn_plus,
-								"Most of the Modifiers were improved "
-										+ "and start all with a M_... now to "
-										+ "be easier to find."));
-
-					}
-				};
-				V1SimpleUI.showInfoScreen(MainActivity.this, i, null);
-			}
-		});
-
 		c.add(new M_Button("v2 Testbed") {
 
 			@Override
@@ -420,15 +382,6 @@ public class MainActivity extends Activity {
 				SimpleUI.showInfoDialog(context, "Close",
 						new M_RatingBarTests());
 
-			}
-		});
-
-		c.add(new M_Button("JSON parser v1 example") {
-
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-				MainActivity.this.startActivity(new Intent(MainActivity.this,
-						JsonDemoMain.class));
 			}
 		});
 
@@ -602,13 +555,13 @@ public class MainActivity extends Activity {
 
 	private void addTestContainer2Ui(M_Container c) {
 		M_Container2 c2 = new M_Container2("Section1", true);
-		c2.add(new InfoText("Karl", "otfto"));
-		c2.add(new InfoText("Ka7rl", "o9tto"));
-		c2.add(new InfoText("Kar234l", "votto"));
-		c2.add(new InfoText("Karvl", "otto234"));
-		c2.add(new InfoText("K5arl", "ot234to"));
-		c2.add(new InfoText("Ka23rl", "otyto"));
-		c2.add(new InfoText("K6arl", "ott5o"));
+		c2.add(new M_InfoText("Karl", "otfto"));
+		c2.add(new M_InfoText("Ka7rl", "o9tto"));
+		c2.add(new M_InfoText("Kar234l", "votto"));
+		c2.add(new M_InfoText("Karvl", "otto234"));
+		c2.add(new M_InfoText("K5arl", "ot234to"));
+		c2.add(new M_InfoText("Ka23rl", "otyto"));
+		c2.add(new M_InfoText("K6arl", "ott5o"));
 		c.add(c2);
 	}
 
