@@ -3,12 +3,12 @@ package com.googlecode.simpleui;
 import java.util.ArrayList;
 
 import simpleui.SimpleUI;
-import simpleui.modifiers.M_Container;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.uiDecoration.ExampleDecorator;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_CancelSave;
 import simpleui.modifiers.v3.M_Caption;
+import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_ImageGallery;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_TextInput;

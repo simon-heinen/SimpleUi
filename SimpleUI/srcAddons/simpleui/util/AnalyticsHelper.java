@@ -1,4 +1,4 @@
-package tools;
+package simpleui.util;
 
 import simpleui.util.IAnalyticsHelper;
 import android.app.Activity;

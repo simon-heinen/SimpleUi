@@ -2,8 +2,8 @@ package simpleui.customViews;
 
 import java.io.File;
 
-import simpleui.modifiers.M_Container;
 import simpleui.modifiers.ModifierInterface;
+import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_MakePhoto;
 import simpleui.util.ProgressScreen;

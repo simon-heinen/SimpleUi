@@ -6,10 +6,10 @@ import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
-import simpleui.modifiers.M_Container;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Checkbox;
+import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_TextInput;
 import android.R;

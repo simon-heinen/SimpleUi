@@ -1,17 +1,17 @@
 package com.googlecode.simpleui;
 
-import simpleui.modifiers.M_CardView;
-import simpleui.modifiers.M_Container;
-import simpleui.modifiers.M_Toolbar;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_ButtonBorderless;
 import simpleui.modifiers.v3.M_Caption;
+import simpleui.modifiers.v3.M_CardView;
 import simpleui.modifiers.v3.M_Checkbox;
+import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_HalfHalf;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_TextInput;
+import simpleui.modifiers.v3.M_Toolbar;
 import simpleui.util.ColorUtils;
 import simpleui.util.MenuItemList;
 import simpleui.util.MenuItemList.MItem;

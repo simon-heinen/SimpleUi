@@ -1,6 +1,5 @@
 package simpleui.util;
 
-import tools.AnalyticsHelper;
 import android.app.Activity;
 import android.content.Context;
 

@@ -4,8 +4,8 @@ import java.util.List;
 
 import simpleui.adapters.SimpleBaseAdapter;
 import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
+import simpleui.util.ButterknifeHelper;
 import simpleui.util.ColorUtils;
-import tools.ButterknifeHelper;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;

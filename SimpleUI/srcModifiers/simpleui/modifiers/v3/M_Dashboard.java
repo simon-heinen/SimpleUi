@@ -1,6 +1,5 @@
 package simpleui.modifiers.v3;
 
-import simpleui.modifiers.M_Container;
 import simpleui.modifiers.ModifierInterface;
 import android.content.Context;
 import android.view.View;

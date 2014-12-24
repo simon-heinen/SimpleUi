@@ -1,4 +1,4 @@
-package restInterfaces;
+package simpleui.rest;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

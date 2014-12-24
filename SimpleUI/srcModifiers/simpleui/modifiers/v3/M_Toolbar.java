@@ -1,5 +1,6 @@
-package simpleui.modifiers;
+package simpleui.modifiers.v3;
 
+import simpleui.modifiers.ModifierInterface;
 import simpleui.util.Log;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;

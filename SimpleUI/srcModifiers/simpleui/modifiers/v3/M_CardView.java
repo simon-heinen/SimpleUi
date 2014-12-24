@@ -1,6 +1,6 @@
-package simpleui.modifiers;
+package simpleui.modifiers.v3;
 
-import simpleui.modifiers.v3.M_Collection;
+import simpleui.modifiers.ModifierInterface;
 import simpleui.util.ColorUtils;
 import android.content.Context;
 import android.os.Build;

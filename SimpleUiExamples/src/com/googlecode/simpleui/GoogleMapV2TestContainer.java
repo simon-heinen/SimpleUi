@@ -1,6 +1,6 @@
 package com.googlecode.simpleui;
 
-import simpleui.modifiers.M_Container;
+import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.maps.GoogleMapsV2View;

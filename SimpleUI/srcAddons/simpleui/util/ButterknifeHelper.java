@@ -1,4 +1,4 @@
-package tools;
+package simpleui.util;
 
 import android.app.Activity;
 import android.content.Context;
