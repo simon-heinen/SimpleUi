@@ -1,6 +1,6 @@
 package com.googlecode.simpleui;
 
-import v3.maps.SimpleUIWithMaps;
+import simpleui.modifiers.v3.maps.SimpleUIWithMaps;
 
 public class TestMapsV2Activity extends SimpleUIWithMaps {
 

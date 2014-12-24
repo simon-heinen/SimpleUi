@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.List;
 
 import simpleui.modifiers.M_Container;
-import v2.simpleUi.M_InfoText;
-import v2.simpleUi.M_LeftRight;
-import v2.simpleUi.M_Spinner;
-import v2.simpleUi.ModifierInterface;
-import v3.M_ListWrapperV2;
-import v3.M_TextModifier;
+import simpleui.modifiers.ModifierInterface;
+import simpleui.modifiers.v1.M_ListWrapperV2;
+import simpleui.modifiers.v3.M_InfoText;
+import simpleui.modifiers.v3.M_LeftRight;
+import simpleui.modifiers.v3.M_Spinner;
+import simpleui.modifiers.v3.M_TextModifier;
 import android.content.Context;
 import android.util.Log;
 
@@ -87,10 +87,10 @@ public class ListWrapperTests {
 					}
 
 					private List<SpinnerItem> toSpinnerItemList(
-							ArrayList<v3.M_ListWrapperV2.WrapperItem<String>> items) {
+							ArrayList<simpleui.modifiers.v1.M_ListWrapperV2.WrapperItem<String>> items) {
 						List<SpinnerItem> r = new ArrayList<M_Spinner.SpinnerItem>();
 						for (int i = 0; i < items.size(); i++) {
-							v3.M_ListWrapperV2.WrapperItem<String> itemWrapper = items
+							simpleui.modifiers.v1.M_ListWrapperV2.WrapperItem<String> itemWrapper = items
 									.get(i);
 							if (!itemWrapper.removeRequest) {
 								r.add(new SpinnerItem(i,

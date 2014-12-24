@@ -2,12 +2,12 @@ package com.googlecode.simpleui;
 
 import java.util.ArrayList;
 
-import v2.simpleUi.M_Button;
-import v2.simpleUi.M_Caption;
-import v2.simpleUi.M_EmailInput;
-import v2.simpleUi.M_InfoText;
-import v2.simpleUi.customViews.SimpleRatingBar;
-import v2.simpleUi.customViews.SimpleRatingBar.RatingItem;
+import simpleui.customViews.SimpleRatingBar;
+import simpleui.customViews.SimpleRatingBar.RatingItem;
+import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_Caption;
+import simpleui.modifiers.v3.M_EmailInput;
+import simpleui.modifiers.v3.M_InfoText;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;

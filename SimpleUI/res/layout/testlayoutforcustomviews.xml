@@ -20,11 +20,11 @@
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
-            <v2.simpleUi.customViews.SimpleUiTestbed
+            <simpleui.customViews.SimpleUiTestbed
                 android:id="@+id/simpleUiTestbed1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-            </v2.simpleUi.customViews.SimpleUiTestbed>
+            </simpleui.customViews.SimpleUiTestbed>
 
             <Button
                 android:id="@+id/button1"

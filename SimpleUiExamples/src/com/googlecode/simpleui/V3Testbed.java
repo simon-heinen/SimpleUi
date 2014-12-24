@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simpleui.modifiers.M_Container;
-import v2.simpleUi.ActivityLifecycleListener;
-import v2.simpleUi.M_Button;
-import v3.M_MakePhoto;
-import v3.M_RadioButtonListCreator;
-import v3.M_TextModifier;
+import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_MakePhoto;
+import simpleui.modifiers.v3.M_RadioButtonListCreator;
+import simpleui.modifiers.v3.M_TextModifier;
+import simpleui.util.ActivityLifecycleListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

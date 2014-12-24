@@ -1,11 +1,11 @@
 package simpleui.util;
 
 import simpleui.modifiers.M_CardView;
-import v2.simpleUi.M_Button;
-import v2.simpleUi.M_HalfHalf;
-import v2.simpleUi.M_InfoText;
-import v2.simpleUi.ModifierInterface;
-import v3.M_ImageView;
+import simpleui.modifiers.ModifierInterface;
+import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_HalfHalf;
+import simpleui.modifiers.v3.M_ImageView;
+import simpleui.modifiers.v3.M_InfoText;
 
 import com.google.analytics.tracking.android.Log;
 import com.googlecode.simpleui.library.R;

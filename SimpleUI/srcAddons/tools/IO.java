@@ -17,8 +17,8 @@ import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import simpleui.util.ProgressScreen;
 import util.Log;
-import v2.simpleUi.util.ProgressScreen;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.squareup.picasso.Picasso;
+
 import commands.CommandInUiThread;
 
 /**

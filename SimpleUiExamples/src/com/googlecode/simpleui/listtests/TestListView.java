@@ -2,8 +2,8 @@ package com.googlecode.simpleui.listtests;
 
 import java.util.List;
 
+import simpleui.util.ColorUtils;
 import tools.ButterknifeHelper;
-import v2.simpleUi.util.ColorUtils;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.content.Context;

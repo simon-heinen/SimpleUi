@@ -1,8 +1,8 @@
 package com.googlecode.simpleui;
 
 import simpleui.modifiers.M_Container;
-import v2.simpleUi.M_InfoText;
-import v3.M_RatingBar;
+import simpleui.modifiers.v3.M_InfoText;
+import simpleui.modifiers.v3.M_RatingBar;
 import android.util.Log;
 
 public class M_RatingBarTests extends M_Container {

@@ -1,12 +1,11 @@
 package simpleui.modifiers;
 
+import simpleui.SimpleUI.OptionsMenuListener;
+import simpleui.modifiers.v1.uiDecoration.ExampleDecorator;
+import simpleui.modifiers.v3.M_Collection;
+import simpleui.util.MenuItemList;
 import tools.SimpleUiApplication;
 import util.Log;
-import v2.simpleUi.M_Collection;
-import v2.simpleUi.ModifierInterface;
-import v2.simpleUi.SimpleUI.OptionsMenuListener;
-import v2.simpleUi.uiDecoration.ExampleDecorator;
-import v3.MenuItemList;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;

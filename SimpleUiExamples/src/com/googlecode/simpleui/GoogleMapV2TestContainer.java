@@ -1,10 +1,10 @@
 package com.googlecode.simpleui;
 
 import simpleui.modifiers.M_Container;
-import v2.simpleUi.M_InfoText;
-import v2.simpleUi.M_SeperatorLine;
-import v3.maps.GoogleMapsV2View;
-import v3.maps.M_GoogleMapsV2;
+import simpleui.modifiers.v3.M_InfoText;
+import simpleui.modifiers.v3.M_SeperatorLine;
+import simpleui.modifiers.v3.maps.GoogleMapsV2View;
+import simpleui.modifiers.v3.maps.M_GoogleMapsV2;
 import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;

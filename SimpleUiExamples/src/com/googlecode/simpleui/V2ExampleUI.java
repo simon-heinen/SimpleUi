@@ -2,16 +2,16 @@ package com.googlecode.simpleui;
 
 import java.util.ArrayList;
 
+import simpleui.SimpleUI;
 import simpleui.modifiers.M_Container;
-import v2.simpleUi.M_Button;
-import v2.simpleUi.M_CancelSave;
-import v2.simpleUi.M_Caption;
-import v2.simpleUi.M_ImageGallery;
-import v2.simpleUi.M_InfoText;
-import v2.simpleUi.M_TextInput;
-import v2.simpleUi.ModifierInterface;
-import v2.simpleUi.SimpleUI;
-import v2.simpleUi.uiDecoration.ExampleDecorator;
+import simpleui.modifiers.ModifierInterface;
+import simpleui.modifiers.v1.uiDecoration.ExampleDecorator;
+import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_CancelSave;
+import simpleui.modifiers.v3.M_Caption;
+import simpleui.modifiers.v3.M_ImageGallery;
+import simpleui.modifiers.v3.M_InfoText;
+import simpleui.modifiers.v3.M_TextInput;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
@@ -72,7 +72,7 @@ public class V2ExampleUI extends Activity {
 			}
 		});
 
-		modifierList.add(new v2.simpleUi.M_Checkbox() {
+		modifierList.add(new simpleui.modifiers.v3.M_Checkbox() {
 
 			@Override
 			public boolean loadVar() {

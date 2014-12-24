@@ -1,8 +1,8 @@
 package com.googlecode.simpleui;
 
-import v2.simpleUi.M_Button;
-import v2.simpleUi.M_ButtonBorderless;
-import v2.simpleUi.M_Dashboard;
+import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_ButtonBorderless;
+import simpleui.modifiers.v3.M_Dashboard;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;

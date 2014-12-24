@@ -16,7 +16,7 @@
         <activity android:name="simpleui.modifiers.SimpleUI" android:theme="@style/LTheme"/>
         
         <activity
-            android:name="tools.ErrorHandler"
+            android:name="simpleui.util.ErrorHandler"
             android:process=":myexeptionprocess"
             android:taskAffinity="tools.ErrorHandler" >
             <intent-filter>

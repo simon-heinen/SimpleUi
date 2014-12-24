@@ -7,39 +7,39 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import simpleui.SimpleUI;
 import simpleui.modifiers.M_Container;
+import simpleui.modifiers.v1.uiDecoration.ExampleDecorator;
+import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_Caption;
+import simpleui.modifiers.v3.M_Checkbox;
+import simpleui.modifiers.v3.M_Container2;
+import simpleui.modifiers.v3.M_DateModifier;
+import simpleui.modifiers.v3.M_Double;
+import simpleui.modifiers.v3.M_EmailInput;
+import simpleui.modifiers.v3.M_FilePickerButton;
+import simpleui.modifiers.v3.M_ImageView;
+import simpleui.modifiers.v3.M_InfoText;
+import simpleui.modifiers.v3.M_Integer;
+import simpleui.modifiers.v3.M_ItemBar;
+import simpleui.modifiers.v3.M_LeftRight;
+import simpleui.modifiers.v3.M_MakePhoto;
+import simpleui.modifiers.v3.M_PlusMinus;
+import simpleui.modifiers.v3.M_RadioButtonListCreator2;
+import simpleui.modifiers.v3.M_SpinnerWithCheckboxes;
+import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2;
+import simpleui.modifiers.v3.M_TextInput;
+import simpleui.modifiers.v3.M_TextModifier;
+import simpleui.modifiers.v3.M_SpinnerWithCheckboxes.SpinnerItem;
+import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2.DefaultSpinnerItem;
+import simpleui.modifiers.v3.maps.SimpleUIWithMaps;
+import simpleui.util.ErrorHandler;
+import simpleui.util.ProgressScreen;
 import simpleui.util.ToastV2;
 import tools.DragAndDropListener;
-import tools.ErrorHandler;
 import tools.IO;
 import tools.IntentHelper;
 import tools.SimpleAsyncTask;
-import v2.simpleUi.M_Button;
-import v2.simpleUi.M_Caption;
-import v2.simpleUi.M_Checkbox;
-import v2.simpleUi.M_Container2;
-import v2.simpleUi.M_Double;
-import v2.simpleUi.M_EmailInput;
-import v2.simpleUi.M_InfoText;
-import v2.simpleUi.M_Integer;
-import v2.simpleUi.M_LeftRight;
-import v2.simpleUi.M_PlusMinus;
-import v2.simpleUi.M_SpinnerWithCheckboxes;
-import v2.simpleUi.M_SpinnerWithCheckboxes.SpinnerItem;
-import v2.simpleUi.M_TextInput;
-import v2.simpleUi.SimpleUI;
-import v2.simpleUi.uiDecoration.ExampleDecorator;
-import v2.simpleUi.util.ProgressScreen;
-import v3.M_DateModifier;
-import v3.M_FilePickerButton;
-import v3.M_ImageView;
-import v3.M_ItemBar;
-import v3.M_MakePhoto;
-import v3.M_RadioButtonListCreator2;
-import v3.M_SpinnerWithCheckboxesCreator2;
-import v3.M_SpinnerWithCheckboxesCreator2.DefaultSpinnerItem;
-import v3.M_TextModifier;
-import v3.maps.SimpleUIWithMaps;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
@@ -587,7 +587,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void testBasicModifiers(M_Container c) {
-		c.add(new v3.M_IntModifier() {
+		c.add(new simpleui.modifiers.v3.M_IntModifier() {
 
 			@Override
 			public int loadInt() {
@@ -607,7 +607,7 @@ public class MainActivity extends Activity {
 
 		});
 
-		c.add(new v3.M_DoubleModifier() {
+		c.add(new simpleui.modifiers.v3.M_DoubleModifier() {
 
 			@Override
 			public String getVarName() {
@@ -627,7 +627,7 @@ public class MainActivity extends Activity {
 
 		});
 
-		c.add(new v3.M_LongModifier() {
+		c.add(new simpleui.modifiers.v3.M_LongModifier() {
 
 			@Override
 			public String getVarName() {
@@ -647,7 +647,7 @@ public class MainActivity extends Activity {
 
 		});
 
-		M_TextModifier m = new v3.M_TextModifier() {
+		M_TextModifier m = new simpleui.modifiers.v3.M_TextModifier() {
 
 			@Override
 			public String load() {
@@ -779,7 +779,7 @@ public class MainActivity extends Activity {
 	}
 
 	protected void addcheckboxtestingstuff(M_Container c) {
-		final ArrayList<v3.M_SpinnerWithCheckboxesCreator2.SpinnerItem> l = new ArrayList<M_SpinnerWithCheckboxesCreator2.SpinnerItem>();
+		final ArrayList<simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2.SpinnerItem> l = new ArrayList<M_SpinnerWithCheckboxesCreator2.SpinnerItem>();
 		l.add(new DefaultSpinnerItem("AA", true));
 		l.add(new DefaultSpinnerItem("BB", false));
 		l.add(new DefaultSpinnerItem("CC", true));
@@ -798,7 +798,7 @@ public class MainActivity extends Activity {
 					}
 
 					@Override
-					public List<v3.M_SpinnerWithCheckboxesCreator2.SpinnerItem> getItemList() {
+					public List<simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2.SpinnerItem> getItemList() {
 						return l;
 					}
 

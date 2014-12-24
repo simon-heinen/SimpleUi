@@ -2,9 +2,9 @@ package simpleui.modifiers.v1;
 
 import java.util.List;
 
+import simpleui.modifiers.ModifierInterface;
+import simpleui.modifiers.v3.M_ListWrapperV3;
 import tools.ImageTransform;
-import v2.simpleUi.ModifierInterface;
-import v3.M_ListWrapperV3;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;

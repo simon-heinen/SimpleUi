@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simpleui.modifiers.M_Container;
-import v2.simpleUi.M_RadioButtonList;
-import v2.simpleUi.M_Spinner;
-import v2.simpleUi.M_WebView;
+import simpleui.modifiers.v3.M_RadioButtonList;
+import simpleui.modifiers.v3.M_Spinner;
+import simpleui.modifiers.v3.M_WebView;
 import android.content.Context;
 
 public class WebViewTests extends M_Container {
