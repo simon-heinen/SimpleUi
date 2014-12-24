@@ -7,11 +7,9 @@ import android.os.Bundle;
  * Extends the default {@link ActivityLifecycleListener} by all additional event
  * methods. Also read
  * http://developer.android.com/reference/android/app/Activity.html
- * 
- * @author Simon Heinen
- * 
  */
-public interface CompleteActivityLifecycleListener extends ActivityLifecycleListener {
+public interface CompleteActivityLifecycleListener extends
+		ActivityLifecycleListener {
 
 	void onCreate(Activity a, Bundle savedInstanceState);
 

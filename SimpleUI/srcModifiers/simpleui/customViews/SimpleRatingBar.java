@@ -3,7 +3,7 @@ package simpleui.customViews;
 import java.util.ArrayList;
 import java.util.List;
 
-import simpleui.util.ColorCollections;
+import simpleui.util.ColorUtils;
 import simpleui.util.IO;
 import simpleui.util.ImageTransform;
 import simpleui.util.NameGenerator;
@@ -127,14 +127,14 @@ public class SimpleRatingBar extends TextView {
 	private static final int ICON_ALPHA = 130;
 	private static final int ICON_MARGIN = 30;
 
-	private static final int borderColor = ColorCollections.l2pBlueDark;
+	private static final int borderColor = ColorUtils.DKGRAY;
 	// private static final int spamBoxCheckedColor =
 	// ColorCollections.l2pGrayLight;
-	private static final int spamBoxCheckedColor = ColorCollections.l2pOrange;
-	private static final int badColor = ColorCollections.l2pGray;
-	private static final int goodColor = ColorCollections.l2pGrayLight;
-	private static final int clearedStartColor = ColorCollections.l2pBlue;
-	private static final int clearedEndColor = ColorCollections.l2pBlueDark;
+	private static final int spamBoxCheckedColor = ColorUtils.l2pOrange;
+	private static final int badColor = ColorUtils.l2pGray;
+	private static final int goodColor = ColorUtils.l2pGrayLight;
+	private static final int clearedStartColor = ColorUtils.l2pBlue;
+	private static final int clearedEndColor = ColorUtils.l2pBlueDark;
 
 	private static final int spamBoxNotCheckedColor = badColor;
 

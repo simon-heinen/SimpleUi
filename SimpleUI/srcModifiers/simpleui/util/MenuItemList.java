@@ -11,6 +11,10 @@ import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Helper class to define menu items in a simple way with an OO design for the
+ * onClick handling
+ */
 public class MenuItemList extends ArrayList<MItem> implements
 		OptionsMenuListener {
 
