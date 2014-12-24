@@ -27,11 +27,11 @@ import simpleui.modifiers.v3.M_MakePhoto;
 import simpleui.modifiers.v3.M_PlusMinus;
 import simpleui.modifiers.v3.M_RadioButtonListCreator2;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxes;
+import simpleui.modifiers.v3.M_SpinnerWithCheckboxes.SpinnerItem;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2;
+import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2.DefaultSpinnerItem;
 import simpleui.modifiers.v3.M_TextInput;
 import simpleui.modifiers.v3.M_TextModifier;
-import simpleui.modifiers.v3.M_SpinnerWithCheckboxes.SpinnerItem;
-import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2.DefaultSpinnerItem;
 import simpleui.modifiers.v3.maps.SimpleUIWithMaps;
 import simpleui.util.ErrorHandler;
 import simpleui.util.IntentHelper;
@@ -159,14 +159,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUI.showUi(context, new StartExampleUi());
-			}
-		});
-
-		c.add(new M_Button("Meta Test Demo") {
-
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showInfoDialog(context, "Close", new MetaTestDemo());
 			}
 		});
 
