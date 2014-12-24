@@ -6,7 +6,6 @@ import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_EmailInput;
 import v2.simpleUi.M_InfoText;
-import v2.simpleUi.M_SimpleRatingBarController;
 import v2.simpleUi.customViews.SimpleRatingBar;
 import v2.simpleUi.customViews.SimpleRatingBar.RatingItem;
 import android.app.Activity;

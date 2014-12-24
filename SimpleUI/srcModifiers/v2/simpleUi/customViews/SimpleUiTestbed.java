@@ -2,7 +2,7 @@ package v2.simpleUi.customViews;
 
 import java.io.File;
 
-import v2.simpleUi.M_Container;
+import simpleui.modifiers.M_Container;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.util.ProgressScreen;

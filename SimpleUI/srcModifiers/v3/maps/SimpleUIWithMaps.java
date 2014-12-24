@@ -1,10 +1,10 @@
 package v3.maps;
 
+import simpleui.modifiers.M_Container;
 import tools.SimpleUiApplication;
 import v2.simpleUi.ActivityLifecycleListener;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
-import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI;

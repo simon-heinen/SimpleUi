@@ -1,5 +1,6 @@
 package v2.simpleUi;
 
+import simpleui.modifiers.v3.UiCreateListener;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import android.content.Context;
@@ -23,6 +24,7 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	private boolean enabled = true;
 	private OnLongClickListener longClickListener;
 	private OnClickListener clickListener;
+	private UiCreateListener<Button> uiListener;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_Button(String buttonText) {
@@ -55,6 +57,10 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 		if (button != null) {
 			button.setOnClickListener(clickListener);
 		}
+	}
+
+	public void setUiCreateListener(UiCreateListener<Button> l) {
+		this.uiListener = l;
 	}
 
 	public OnLongClickListener getLongClickListener() {
@@ -106,7 +112,9 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 			myDecorator.decorate(context, button, level + 1,
 					UiDecorator.TYPE_BUTTON);
 		}
-
+		if (uiListener != null) {
+			uiListener.onUiCreated(button);
+		}
 		return button;
 	}
 

@@ -1,9 +1,9 @@
 package com.googlecode.simpleui;
 
+import simpleui.modifiers.M_Container;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_Checkbox;
-import v2.simpleUi.M_Container;
 import v2.simpleUi.M_InfoText;
 import android.R;
 import android.app.Activity;

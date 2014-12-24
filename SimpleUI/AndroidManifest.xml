@@ -13,7 +13,7 @@
         <!-- Activty templates to copy to you app manifest file -->
 
         <!-- Simple UI -->
-        <activity android:name="v2.simpleUi.SimpleUI" android:theme="@style/LTheme"/>
+        <activity android:name="simpleui.modifiers.SimpleUI" android:theme="@style/LTheme"/>
         
         <activity
             android:name="tools.ErrorHandler"

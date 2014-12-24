@@ -2,10 +2,10 @@ package com.googlecode.simpleui;
 
 import java.util.ArrayList;
 
+import simpleui.modifiers.M_Container;
 import v2.simpleUi.M_Button;
 import v2.simpleUi.M_CancelSave;
 import v2.simpleUi.M_Caption;
-import v2.simpleUi.M_Container;
 import v2.simpleUi.M_ImageGallery;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.M_TextInput;

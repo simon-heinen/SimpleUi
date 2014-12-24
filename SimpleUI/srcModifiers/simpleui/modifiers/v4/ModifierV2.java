@@ -1,4 +1,4 @@
-package simpleui.v4;
+package simpleui.modifiers.v4;
 
 import android.app.Activity;
 import android.view.View;

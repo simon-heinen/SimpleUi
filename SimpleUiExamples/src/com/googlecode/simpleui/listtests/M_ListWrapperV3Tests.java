@@ -3,9 +3,9 @@ package com.googlecode.simpleui.listtests;
 import java.util.ArrayList;
 import java.util.List;
 
+import simpleui.modifiers.M_Container;
 import strings.NameGenerator;
 import v2.simpleUi.M_Button;
-import v2.simpleUi.M_Container;
 import v2.simpleUi.M_Container1;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;

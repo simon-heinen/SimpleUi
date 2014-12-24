@@ -3,7 +3,7 @@ package com.googlecode.simpleui;
 import java.util.ArrayList;
 import java.util.List;
 
-import v2.simpleUi.M_Container;
+import simpleui.modifiers.M_Container;
 import v2.simpleUi.M_RadioButtonList;
 import v2.simpleUi.M_Spinner;
 import v2.simpleUi.M_WebView;

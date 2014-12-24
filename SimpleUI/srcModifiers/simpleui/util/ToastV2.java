@@ -1,7 +1,7 @@
-package tools;
+package simpleui.util;
 
+import simpleui.modifiers.M_CardView;
 import v2.simpleUi.M_Button;
-import v2.simpleUi.M_CardView;
 import v2.simpleUi.M_HalfHalf;
 import v2.simpleUi.M_InfoText;
 import v2.simpleUi.ModifierInterface;

@@ -1,6 +1,6 @@
 package com.googlecode.simpleui;
 
-import v2.simpleUi.M_Container;
+import simpleui.modifiers.M_Container;
 import v2.simpleUi.M_InfoText;
 import v3.M_RatingBar;
 import android.util.Log;

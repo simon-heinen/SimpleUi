@@ -1,7 +1,9 @@
-package v2.simpleUi;
+package simpleui.modifiers;
 
 import tools.SimpleUiApplication;
 import util.Log;
+import v2.simpleUi.M_Collection;
+import v2.simpleUi.ModifierInterface;
 import v2.simpleUi.SimpleUI.OptionsMenuListener;
 import v2.simpleUi.uiDecoration.ExampleDecorator;
 import v3.MenuItemList;
