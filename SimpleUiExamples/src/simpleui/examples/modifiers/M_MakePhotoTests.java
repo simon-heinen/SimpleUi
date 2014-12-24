@@ -1,4 +1,4 @@
-package com.googlecode.simpleui;
+package simpleui.examples.modifiers;
 
 import java.io.File;
 import java.util.ArrayList;

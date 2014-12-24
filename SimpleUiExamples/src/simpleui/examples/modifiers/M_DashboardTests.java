@@ -1,4 +1,7 @@
-package com.googlecode.simpleui;
+package simpleui.examples.modifiers;
+
+import com.googlecode.simpleui.R;
+import com.googlecode.simpleui.R.drawable;
 
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_ButtonBorderless;

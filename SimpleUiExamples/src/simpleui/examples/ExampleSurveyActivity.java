@@ -1,6 +1,9 @@
-package com.googlecode.simpleui;
+package simpleui.examples;
 
 import java.util.ArrayList;
+
+import com.googlecode.simpleui.R;
+import com.googlecode.simpleui.R.drawable;
 
 import simpleui.customViews.SimpleRatingBar;
 import simpleui.customViews.SimpleRatingBar.RatingItem;

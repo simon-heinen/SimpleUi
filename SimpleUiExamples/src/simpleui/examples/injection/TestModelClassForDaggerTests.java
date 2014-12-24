@@ -1,4 +1,4 @@
-package injectionTests;
+package simpleui.examples.injection;
 
 public class TestModelClassForDaggerTests {
 

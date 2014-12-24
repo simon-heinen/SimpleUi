@@ -1,4 +1,4 @@
-package com.googlecode.simpleui;
+package simpleui.examples;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;

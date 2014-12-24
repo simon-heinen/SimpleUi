@@ -1,4 +1,4 @@
-package com.googlecode.simpleui.listtests;
+package simpleui.examples.listwrapper;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,25 @@
 package com.googlecode.simpleui;
 
-import injectionTests.ExampleButterknifeAndDaggerActivity;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import simpleui.SimpleUI;
+import simpleui.examples.ExampleActivity;
+import simpleui.examples.ExampleSurveyActivity;
+import simpleui.examples.M_CardViewTests;
+import simpleui.examples.M_ExampleDemoUiV1;
+import simpleui.examples.injection.ExampleButterknifeAndDaggerActivity;
+import simpleui.examples.listwrapper.M_ListWrapperV2Tests;
+import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
+import simpleui.examples.maps.ExampleMapActivity;
+import simpleui.examples.maps.M_GoogleMapsMarkLocationTests;
+import simpleui.examples.maps.M_GoogleMapsV2Tests;
+import simpleui.examples.modifiers.M_DashboardTests;
+import simpleui.examples.modifiers.M_MakePhotoTests;
+import simpleui.examples.modifiers.M_RatingBarTests;
+import simpleui.examples.modifiers.M_WebViewTests;
 import simpleui.modifiers.v1.uiDecoration.ExampleDecorator;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
@@ -55,7 +67,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
-import com.googlecode.simpleui.listtests.M_ListWrapperV3Tests;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends Activity {
@@ -158,7 +169,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showUi(context, new M_ExampleDemoUi());
+				SimpleUI.showUi(context, new M_ExampleDemoUiV1());
 			}
 		});
 

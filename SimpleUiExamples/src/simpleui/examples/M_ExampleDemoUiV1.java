@@ -1,4 +1,4 @@
-package com.googlecode.simpleui;
+package simpleui.examples;
 
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
@@ -11,9 +11,9 @@ import android.content.Context;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class M_ExampleDemoUi extends M_Container {
+public class M_ExampleDemoUiV1 extends M_Container {
 
-	public M_ExampleDemoUi() {
+	public M_ExampleDemoUiV1() {
 
 		final Context myMainActivity = getContext();
 

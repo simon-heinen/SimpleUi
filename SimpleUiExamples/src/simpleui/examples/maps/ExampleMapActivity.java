@@ -1,4 +1,4 @@
-package com.googlecode.simpleui;
+package simpleui.examples.maps;
 
 import simpleui.modifiers.v3.maps.SimpleUIWithMaps;
 

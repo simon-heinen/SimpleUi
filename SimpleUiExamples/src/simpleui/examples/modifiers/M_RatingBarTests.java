@@ -1,4 +1,4 @@
-package com.googlecode.simpleui;
+package simpleui.examples.modifiers;
 
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;

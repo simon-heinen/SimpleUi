@@ -1,4 +1,4 @@
-package injectionTests;
+package simpleui.examples.injection;
 
 import dagger.Module;
 import dagger.Provides;
