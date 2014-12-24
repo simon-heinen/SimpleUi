@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import v2.simpleUi.M_Button;
-import v2.simpleUi.M_IconButtonWithText;
+import v2.simpleUi.M_ButtonBorderless;
 import v2.simpleUi.M_LeftRight;
 import v2.simpleUi.ModifierInterface;
 import android.R;
@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
@@ -111,10 +110,10 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 			final WrapperItem<T> itemWrapper,
 			ArrayList<WrapperItem<T>> itemList, int posInList) {
 		M_LeftRight h = new M_LeftRight(itemWrapper.modifier, leftSize,
-				new M_IconButtonWithText(R.drawable.ic_delete) {
+				new M_ButtonBorderless(R.drawable.ic_delete) {
 
 					@Override
-					public void onClick(Context context, ImageView clickedButton) {
+					public void onClick(Context context, View clickedButton) {
 						if (itemWrapper.isNewItem) {
 							/*
 							 * if its a new item it is not yet in the original
@@ -136,19 +135,21 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		return h.getView(context);
 	}
 
-	/** This method is used to create an "Add" Button by
+	/**
+	 * This method is used to create an "Add" Button by
 	 * {@link #getView(Context)}. The default implementation returns a
 	 * {@link M_Button} which, on click, queries
 	 * {@link #getNewItemInstance(Context, int)} for a new object and adds it to
 	 * the list.<br>
 	 * <br>
-	 * Subclasses can (must don't have to) override it. Implementations can
-	 * call the method {@link #addItemToWrapperList(Context, Object)}, e.g. when
-	 * they create
-	 * a button that opens a list with objects to choose from.
+	 * Subclasses can (must don't have to) override it. Implementations can call
+	 * the method {@link #addItemToWrapperList(Context, Object)}, e.g. when they
+	 * create a button that opens a list with objects to choose from.
+	 * 
 	 * @param context
 	 * @return A {@link M_Button} that adds a new
-	 *         {@link #getNewItemInstance(Context, int)}. */
+	 *         {@link #getNewItemInstance(Context, int)}.
+	 */
 	protected ModifierInterface createAddButton(Context context) {
 		return new M_Button(addItemButtonText) {
 			@Override
@@ -159,10 +160,13 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		};
 	}
 
-	/** Can be called by overriding implementations of
+	/**
+	 * Can be called by overriding implementations of
 	 * {@link #createAddButton(Context)}.
+	 * 
 	 * @param context
-	 * @param item */
+	 * @param item
+	 */
 	protected final void addItemToWrapperList(Context context, T item) {
 		if (item != null) {
 			WrapperItem<T> iw = new WrapperItem<T>(item);
@@ -216,7 +220,8 @@ public abstract class M_ListWrapperV2<T> implements ModifierInterface {
 		return true;
 	}
 
-	/** return a modifier for the passed item and also implement the save action
+	/**
+	 * return a modifier for the passed item and also implement the save action
 	 * return a modifier for the passed item and also implement the save action
 	 * as usual. the save action will only be executed when the complete list is
 	 * saved

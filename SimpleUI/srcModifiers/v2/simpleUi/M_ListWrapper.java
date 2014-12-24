@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
@@ -48,10 +47,10 @@ public abstract class M_ListWrapper<T> implements ModifierInterface {
 
 	private static final String LOG_TAG = "M_ListWrapper";
 
-	private List<T> passedList;
-	private String addItemText;
+	private final List<T> passedList;
+	private final String addItemText;
 	private LinearLayout linLayContainer;
-	private LinkedHashSet<ModifierAndView<T>> hashmap = new LinkedHashSet<ModifierAndView<T>>();
+	private final LinkedHashSet<ModifierAndView<T>> hashmap = new LinkedHashSet<ModifierAndView<T>>();
 
 	@Deprecated
 	public M_ListWrapper(List<T> list, String addItemText) {
@@ -84,11 +83,11 @@ public abstract class M_ListWrapper<T> implements ModifierInterface {
 
 					ModifierInterface modifierForItem = getModifierFor(item);
 					M_LeftRight h = new M_LeftRight(modifierForItem, lw,
-							new M_IconButtonWithText(R.drawable.ic_delete) {
+							new M_ButtonBorderless(R.drawable.ic_delete) {
 
 								@Override
 								public void onClick(Context context,
-										ImageView clickedButton) {
+										View clickedButton) {
 									onDelete(item);
 									refreshListContent(context);
 								}

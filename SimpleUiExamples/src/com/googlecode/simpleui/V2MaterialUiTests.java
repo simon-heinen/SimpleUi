@@ -4,6 +4,7 @@ import simpleui.modifiers.M_CardView;
 import simpleui.modifiers.M_Container;
 import simpleui.modifiers.M_Toolbar;
 import v2.simpleUi.M_Button;
+import v2.simpleUi.M_ButtonBorderless;
 import v2.simpleUi.M_Caption;
 import v2.simpleUi.M_Checkbox;
 import v2.simpleUi.M_HalfHalf;
@@ -17,6 +18,7 @@ import v3.MenuItemList.MItem;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -91,12 +93,13 @@ public class V2MaterialUiTests extends M_Container {
 				System.out.println("No");
 			}
 		};
-		M_Button right = new M_Button("Yes") {
+		M_ButtonBorderless right = new M_ButtonBorderless("Yes") {
 
 			@Override
-			public void onClick(Context arg0, Button arg1) {
+			public void onClick(Context arg0, View arg1) {
 				System.out.println("Yes");
 			}
+
 		};
 		c.add(new M_HalfHalf(left, right));
 

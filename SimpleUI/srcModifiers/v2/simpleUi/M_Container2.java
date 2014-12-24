@@ -21,9 +21,9 @@ import android.widget.LinearLayout;
 /**
  * A collapsible container
  * 
- * @author Spobo
- * 
  */
+// TODO rename to M_ContainerCollapsible and use M_CardView design like for
+// M_Container
 public class M_Container2 extends M_Collection implements UiDecoratable {
 
 	private static final float CAPTION_SIZE = 1.1f;
@@ -42,10 +42,10 @@ public class M_Container2 extends M_Collection implements UiDecoratable {
 
 	public M_Container2(String title) {
 
-		final M_IconButtonWithText expandButton = new M_IconButtonWithText(
+		final M_ButtonBorderless expandButton = new M_ButtonBorderless(
 				R.drawable.arrow_up_float) {
 			@Override
-			public void onClick(Context context, ImageView clickedButton) {
+			public void onClick(Context context, View clickedButton) {
 				expandablePanel.switchBetweenCollapsedAndExpandedMode();
 			}
 		};
@@ -117,7 +117,7 @@ public class M_Container2 extends M_Collection implements UiDecoratable {
 	public M_Container2() {
 	}
 
-	public void initHeaderOfContainer(final M_IconButtonWithText expandButton,
+	public void initHeaderOfContainer(final M_ButtonBorderless expandButton,
 			final M_Caption caption) {
 		add(new M_LeftRight(expandButton, 1, caption, 5));
 	}

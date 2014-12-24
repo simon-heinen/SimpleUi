@@ -6,11 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * This is a first example implementation with a fixed number of 2 items in each
- * row
- * 
- * @author Simon Heinen
- * 
+ * Dashboard design with 2 elements per row, useful for Buttons e.g.
  */
 public class M_Dashboard extends M_Container {
 	@Override

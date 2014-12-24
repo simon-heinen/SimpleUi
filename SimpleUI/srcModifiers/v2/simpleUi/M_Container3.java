@@ -1,5 +1,7 @@
 package v2.simpleUi;
 
+import simpleui.modifiers.M_CardView;
+import simpleui.modifiers.M_Container;
 import v2.simpleUi.uiDecoration.UiDecoratable;
 import v2.simpleUi.uiDecoration.UiDecorator;
 import android.content.Context;
@@ -11,6 +13,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+/**
+ * Use {@link M_Container} or {@link M_CardView} instead
+ *
+ */
+@Deprecated
 public class M_Container3 extends M_Collection implements UiDecoratable {
 
 	private static final float CAPTION_SIZE = 1.1f;

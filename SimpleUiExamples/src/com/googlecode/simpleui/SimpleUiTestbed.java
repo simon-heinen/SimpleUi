@@ -1,27 +1,27 @@
 package com.googlecode.simpleui;
 
 import v2.simpleUi.M_Button;
+import v2.simpleUi.M_ButtonBorderless;
 import v2.simpleUi.M_Dashboard;
-import v2.simpleUi.M_IconButtonWithText;
 import android.content.Context;
+import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 public class SimpleUiTestbed extends M_Dashboard {
 	public SimpleUiTestbed() {
 		super();
-		M_IconButtonWithText left = new M_IconButtonWithText(R.drawable.good, "f") {
+		M_ButtonBorderless left = new M_ButtonBorderless(R.drawable.good, "f") {
 
 			@Override
-			public void onClick(Context context, ImageView clickedButton) {
+			public void onClick(Context context, View clickedButton) {
 				// TODO Auto-generated method stub
 
 			}
 		};
-		M_IconButtonWithText right = new M_IconButtonWithText(R.drawable.bad) {
+		M_ButtonBorderless right = new M_ButtonBorderless(R.drawable.bad) {
 
 			@Override
-			public void onClick(Context context, ImageView clickedButton) {
+			public void onClick(Context context, View clickedButton) {
 				// TODO Auto-generated method stub
 
 			}

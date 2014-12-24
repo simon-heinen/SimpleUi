@@ -1,8 +1,10 @@
-package v2.simpleUi;
+package simpleui.modifiers.v1;
 
 import java.util.List;
 
 import tools.ImageTransform;
+import v2.simpleUi.ModifierInterface;
+import v3.M_ListWrapperV3;
 import adapters.SimpleBaseAdapter;
 import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
@@ -15,6 +17,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
+/**
+ * Use {@link M_ListWrapperV3} instead
+ */
+@Deprecated
 public abstract class M_ListView implements ModifierInterface {
 
 	/**

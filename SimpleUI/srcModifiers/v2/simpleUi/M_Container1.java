@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+@Deprecated
 public class M_Container1 extends M_Collection implements UiDecoratable {
 
 	private static final int MOST_OUTER_PADDING = 13;

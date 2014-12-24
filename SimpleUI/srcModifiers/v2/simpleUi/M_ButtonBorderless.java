@@ -12,27 +12,31 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-public abstract class M_IconButtonWithText implements ModifierInterface,
+public abstract class M_ButtonBorderless implements ModifierInterface,
 		UiDecoratable {
 
 	private String myText;
 	private UiDecorator myDecorator;
-	private int myIconId;
+	private Integer myIconId;
 	private ImageView imageButton;
 
-	public M_IconButtonWithText(int iconId) {
+	public M_ButtonBorderless(Integer iconId) {
 		myIconId = iconId;
 	}
 
-	public M_IconButtonWithText(int iconId, String buttonText) {
-		myIconId = iconId;
+	public M_ButtonBorderless(Integer iconId, String buttonText) {
+		this(iconId);
 		myText = buttonText;
+	}
+
+	public M_ButtonBorderless(String buttonText) {
+		this(null, buttonText);
 	}
 
 	@Override
 	public View getView(final Context context) {
 
-		LinearLayout l = new LinearLayout(context);
+		final LinearLayout l = new LinearLayout(context);
 
 		LayoutParams params = new LayoutParams(
 				android.view.ViewGroup.LayoutParams.FILL_PARENT,
@@ -43,32 +47,32 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 
 		// l.setGravity(Gravity.CENTER_HORIZONTAL);
 
-		imageButton = new ImageView(context);
-		LayoutParams imparams = new LayoutParams(
-				android.view.ViewGroup.LayoutParams.FILL_PARENT,
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-		int p = 3;
-		imparams.setMargins(p, p, p, p);
-		imageButton.setLayoutParams(imparams);
+		if (myIconId != null) {
+			imageButton = new ImageView(context);
+			LayoutParams imparams = new LayoutParams(
+					android.view.ViewGroup.LayoutParams.FILL_PARENT,
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+			int p = 3;
+			imparams.setMargins(p, p, p, p);
+			imageButton.setLayoutParams(imparams);
+			imageButton.setImageResource(myIconId);
+			l.addView(imageButton);
+		}
 
-		imageButton.setOnClickListener(new OnClickListener() {
+		l.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				M_IconButtonWithText.this.onClick(context, imageButton);
+				M_ButtonBorderless.this.onClick(context, l);
 			}
 		});
 
-		imageButton.setOnLongClickListener(new OnLongClickListener() {
+		l.setOnLongClickListener(new OnLongClickListener() {
 
 			@Override
 			public boolean onLongClick(View v) {
-				return M_IconButtonWithText.this.onLongClick(context,
-						imageButton);
+				return M_ButtonBorderless.this.onLongClick(context, l);
 			}
 		});
-
-		imageButton.setImageResource(myIconId);
-		l.addView(imageButton);
 
 		TextView t = null;
 		if (myText != null) {
@@ -107,9 +111,9 @@ public abstract class M_IconButtonWithText implements ModifierInterface,
 		return true;
 	}
 
-	public abstract void onClick(Context context, ImageView clickedButton);
+	public abstract void onClick(Context context, View clickedButton);
 
-	public boolean onLongClick(Context context, ImageView clickedButton) {
+	public boolean onLongClick(Context context, View clickedButton) {
 		return false;
 	};
 
