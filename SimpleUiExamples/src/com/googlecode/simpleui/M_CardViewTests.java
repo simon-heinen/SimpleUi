@@ -22,9 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class V2MaterialUiTests extends M_Container {
+public class M_CardViewTests extends M_Container {
 
-	public V2MaterialUiTests() {
+	public M_CardViewTests() {
 		add(new M_Toolbar("Material UI demo"));
 		add(example1Card());
 		add(newTestCard("A"));

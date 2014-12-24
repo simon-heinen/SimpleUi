@@ -7,8 +7,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
-public class SimpleUiTestbed extends M_Dashboard {
-	public SimpleUiTestbed() {
+public class M_DashboardTests extends M_Dashboard {
+	public M_DashboardTests() {
 		super();
 		M_ButtonBorderless left = new M_ButtonBorderless(R.drawable.good, "f") {
 

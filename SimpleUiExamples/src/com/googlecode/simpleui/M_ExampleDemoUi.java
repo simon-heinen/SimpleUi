@@ -11,9 +11,9 @@ import android.content.Context;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class StartExampleUi extends M_Container {
+public class M_ExampleDemoUi extends M_Container {
 
-	public StartExampleUi() {
+	public M_ExampleDemoUi() {
 
 		final Context myMainActivity = getContext();
 

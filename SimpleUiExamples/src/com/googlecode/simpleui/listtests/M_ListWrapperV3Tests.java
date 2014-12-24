@@ -202,6 +202,6 @@ public class M_ListWrapperV3Tests {
 
 	private static HasItsOwnView newElement2(final NameGenerator n) {
 		final String name = n.getName() + " " + n.getName();
-		return new TestListView(name);
+		return new ExampleListItemView(name);
 	}
 }

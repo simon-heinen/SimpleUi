@@ -17,9 +17,9 @@ import butterknife.InjectView;
 
 import com.googlecode.simpleui.R;
 
-public class TestListView implements HasItsOwnView {
+public class ExampleListItemView implements HasItsOwnView {
 
-	private static final String LOG_TAG = TestListView.class.getSimpleName();
+	private static final String LOG_TAG = ExampleListItemView.class.getSimpleName();
 	@InjectView(R.id.swype_list_item_front_text)
 	TextView t;
 	@InjectView(R.id.swype_list_item_back_button)
@@ -27,7 +27,7 @@ public class TestListView implements HasItsOwnView {
 
 	private final String name;
 
-	public TestListView(String name) {
+	public ExampleListItemView(String name) {
 		this.name = name;
 	}
 

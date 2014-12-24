@@ -14,9 +14,9 @@ import simpleui.modifiers.v3.M_TextModifier;
 import android.content.Context;
 import android.util.Log;
 
-public class ListWrapperTests {
+public class M_ListWrapperV2Tests {
 
-	private static String LOG_TAG = "ListWrapperTests";
+	private static String LOG_TAG = "M_ListWrapperV2Tests";
 
 	public static void generateEditUiForAssociationQuestionQuestion(
 			M_Container container, Collection<String> getAnswers,

@@ -9,8 +9,8 @@ import simpleui.modifiers.v3.M_Spinner;
 import simpleui.modifiers.v3.M_WebView;
 import android.content.Context;
 
-public class WebViewTests extends M_Container {
-	public WebViewTests(final Context c) {
+public class M_WebViewTests extends M_Container {
+	public M_WebViewTests(final Context c) {
 		M_Spinner s = new M_Spinner() {
 
 			@Override

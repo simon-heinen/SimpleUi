@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
 			public void onClick(Context context, Button clickedButton) {
 				try {
 					SimpleUI.showInfoDialog(context, "Close",
-							new V2MaterialUiTests());
+							new M_CardViewTests());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -158,7 +158,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showUi(context, new StartExampleUi());
+				SimpleUI.showUi(context, new M_ExampleDemoUi());
 			}
 		});
 
@@ -198,7 +198,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showInfoDialog(context, "Close", new V3Testbed());
+				SimpleUI.showInfoDialog(context, "Close", new M_MakePhotoTests());
 			}
 		});
 
@@ -347,7 +347,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				MainActivity.this.startActivity(new Intent(MainActivity.this,
-						V2ExampleUI.class));
+						TestActivity.class));
 			}
 		});
 		c.add(new M_Button("SimpleUi survey generated with simpleUi") {
@@ -363,7 +363,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showUi(MainActivity.this, new SimpleUiTestbed());
+				SimpleUI.showUi(MainActivity.this, new M_DashboardTests());
 			}
 		});
 
@@ -433,7 +433,7 @@ public class MainActivity extends Activity {
 
 				// c.add(M_ListWrapperV2.newStringCollectionModifier(l1,
 				// "Add"));
-				ListWrapperTests.generateEditUiForAssociationQuestionQuestion(
+				M_ListWrapperV2Tests.generateEditUiForAssociationQuestionQuestion(
 						c, answers, questions, numbers);
 				SimpleUI.showCancelOkDialog(context, "Cancel", "Ok", c);
 			}
@@ -540,7 +540,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUI.showInfoDialog(context, "Ok",
-						new WebViewTests(context));
+						new M_WebViewTests(context));
 			}
 		});
 	}
@@ -755,8 +755,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUIWithMaps.showUi(MainActivity.this,
-						new GoogleMapV2TestContainer(),
-						TestMapsV2Activity.class);
+						new M_GoogleMapsV2Tests(),
+						MapsTestActivity.class);
 			}
 		});
 		c.add(new M_Button("Select pos on map v2") {
@@ -764,8 +764,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUIWithMaps.showUi(MainActivity.this,
-						new GoogleMapV2PosOnMapTests(),
-						TestMapsV2Activity.class);
+						new M_GoogleMapsMarkLocationTests(),
+						MapsTestActivity.class);
 			}
 		});
 	}

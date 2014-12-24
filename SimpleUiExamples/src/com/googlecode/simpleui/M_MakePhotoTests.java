@@ -15,11 +15,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Button;
 
-public class V3Testbed extends M_Container implements ActivityLifecycleListener {
+public class M_MakePhotoTests extends M_Container implements ActivityLifecycleListener {
 	private M_MakePhoto photo;
 	private File file;
 
-	public V3Testbed() {
+	public M_MakePhotoTests() {
 
 		photo = new M_MakePhoto(file) {
 

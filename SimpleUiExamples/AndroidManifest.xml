@@ -58,7 +58,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
 
-        <activity android:name="com.googlecode.simpleui.TestMapsV2Activity" >
+        <activity android:name="com.googlecode.simpleui.MapsTestActivity" >
         </activity>
         <activity
             android:name="tools.ErrorHandler"
