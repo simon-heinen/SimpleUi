@@ -6,7 +6,6 @@ import java.util.Map;
 
 import simpleui.SimpleUI.OptionsMenuListener;
 import simpleui.util.MenuItemList.MItem;
-import util.Log;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;

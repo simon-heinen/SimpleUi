@@ -10,7 +10,7 @@ import simpleui.customViews.DraggableListView;
 import simpleui.customViews.DraggableListView.ModelModificationListener;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.util.DeviceInformation;
-import util.Log;
+import simpleui.util.Log;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;

@@ -2,7 +2,7 @@ package simpleui.commands;
 
 import java.util.Locale;
 
-import util.Command;
+import simpleui.util.Command;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;

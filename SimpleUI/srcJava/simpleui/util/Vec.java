@@ -1,8 +1,6 @@
-package math;
+package simpleui.util;
 
 import java.io.Serializable;
-
-import util.Log;
 
 /**
  * see {@link Vec#Vec(float, float, float)}

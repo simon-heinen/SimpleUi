@@ -1,4 +1,4 @@
-package util;
+package simpleui.util;
 
 public class Pair<A, B> {
 	private final A a;

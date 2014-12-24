@@ -1,4 +1,4 @@
-package dataStructures;
+package simpleui.dataStructures;
 
 import java.util.LinkedList;
 

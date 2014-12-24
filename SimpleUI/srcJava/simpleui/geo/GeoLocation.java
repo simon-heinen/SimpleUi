@@ -1,10 +1,10 @@
-package geo;
+package simpleui.geo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import math.Vec;
-import util.Log;
+import simpleui.util.Log;
+import simpleui.util.Vec;
 import ch.hsr.geohash.GeoHash;
 import ch.hsr.geohash.WGS84Point;
 import ch.hsr.geohash.util.VincentyGeodesy;
@@ -164,7 +164,7 @@ public class GeoLocation implements Serializable {
 	 * you have to convert to decimal degrees.
 	 * 
 	 * Example usage: <br>
-	 * 16° 19' 28,29" to 16,324525°
+	 * 16ï¿½ 19' 28,29" to 16,324525ï¿½
 	 * 
 	 * @param degree
 	 *            16
@@ -172,7 +172,7 @@ public class GeoLocation implements Serializable {
 	 *            19
 	 * @param seconds
 	 *            28,29
-	 * @return 16,324525°
+	 * @return 16,324525ï¿½
 	 */
 	public static double convertDegreesMinutesSecondsToDecimalDegrees(
 			double degree, double minutes, double seconds) {

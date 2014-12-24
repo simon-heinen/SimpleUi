@@ -1,6 +1,6 @@
 package simpleui.commands;
 
-import util.Command;
+import simpleui.util.Command;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;

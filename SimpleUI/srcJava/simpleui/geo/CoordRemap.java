@@ -1,6 +1,6 @@
-package geo;
+package simpleui.geo;
 
-import util.Log;
+import simpleui.util.Log;
 
 /**
  * Utility class to perform a remapping of GPS coordinates to the internal

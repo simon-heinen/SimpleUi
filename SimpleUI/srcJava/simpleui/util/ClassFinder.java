@@ -1,4 +1,4 @@
-package util;
+package simpleui.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;

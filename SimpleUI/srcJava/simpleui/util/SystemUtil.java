@@ -1,4 +1,4 @@
-package util;
+package simpleui.util;
 
 import java.util.Enumeration;
 import java.util.Properties;

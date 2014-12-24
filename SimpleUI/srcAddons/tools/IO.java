@@ -19,9 +19,9 @@ import java.net.URL;
 
 import simpleui.commands.CommandInUiThread;
 import simpleui.util.ImageTransform;
+import simpleui.util.Log;
 import simpleui.util.ProgressScreen;
 import simpleui.util.SimpleUiApplication;
-import util.Log;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -41,10 +41,10 @@ import android.view.ViewGroup.LayoutParams;
 import com.squareup.picasso.Picasso;
 
 /**
- * Android specific extensions to default {@link util.IOHelper} class
+ * Android specific extensions to default {@link simpleui.util.IOHelper} class
  * 
  */
-public class IO extends util.IOHelper {
+public class IO extends simpleui.util.IOHelper {
 
 	private static final String LOG_TAG = "IO";
 

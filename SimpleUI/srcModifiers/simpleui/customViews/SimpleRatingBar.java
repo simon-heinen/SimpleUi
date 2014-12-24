@@ -5,7 +5,7 @@ import java.util.List;
 
 import simpleui.util.ColorCollections;
 import simpleui.util.ImageTransform;
-import strings.NameGenerator;
+import simpleui.util.NameGenerator;
 import tools.IO;
 import android.content.Context;
 import android.content.res.Resources;

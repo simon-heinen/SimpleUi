@@ -15,7 +15,7 @@ import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_ListWrapperV3;
 import simpleui.modifiers.v3.M_ListWrapperV4Editable;
 import simpleui.util.ColorUtils;
-import strings.NameGenerator;
+import simpleui.util.NameGenerator;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;

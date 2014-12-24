@@ -1,4 +1,4 @@
-package util;
+package simpleui.util;
 
 public interface Command {
 	/**

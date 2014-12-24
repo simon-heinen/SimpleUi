@@ -1,4 +1,4 @@
-package dataStructures;
+package simpleui.dataStructures;
 
 /**
  * This structure should be useful for large 2D worlds. It can find objects in a

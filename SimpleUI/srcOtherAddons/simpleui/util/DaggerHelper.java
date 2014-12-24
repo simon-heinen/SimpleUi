@@ -1,4 +1,4 @@
-package tools;
+package simpleui.util;
 
 import android.util.Log;
 import dagger.ObjectGraph;

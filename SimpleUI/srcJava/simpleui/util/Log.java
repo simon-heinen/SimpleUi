@@ -1,4 +1,4 @@
-package util;
+package simpleui.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -2,8 +2,8 @@ package injectionTests;
 
 import javax.inject.Inject;
 
+import simpleui.util.DaggerHelper;
 import tools.ButterknifeHelper;
-import tools.DaggerHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;

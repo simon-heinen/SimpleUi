@@ -1,6 +1,6 @@
 package simpleui.commands;
 
-import util.Command;
+import simpleui.util.Command;
 import android.os.Handler;
 import android.os.Looper;
 

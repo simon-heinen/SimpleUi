@@ -1,4 +1,4 @@
-package util;
+package simpleui.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import util.IOHelper;
+import simpleui.util.IOHelper;
 
 public class Unzip {
 

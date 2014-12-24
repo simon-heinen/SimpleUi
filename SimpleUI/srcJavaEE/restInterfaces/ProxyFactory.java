@@ -27,7 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import util.Log;
+import simpleui.util.Log;
 
 /**
  * use {@link ProxyFactory#create(Class, String, ProxyMethodCallHandler)}
@@ -101,7 +101,7 @@ public class ProxyFactory {
 
 			/*
 			 * checken ob der proxy die konkrete klasse ist und das bei der base
-			 * url berechnung mit übergeben
+			 * url berechnung mit ï¿½bergeben
 			 */
 
 			initHandlerFields();

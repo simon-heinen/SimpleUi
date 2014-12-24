@@ -1,4 +1,4 @@
-package strings;
+package simpleui.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

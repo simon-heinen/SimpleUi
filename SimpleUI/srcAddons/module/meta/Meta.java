@@ -3,7 +3,7 @@ package module.meta;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import util.Log;
+import simpleui.util.Log;
 
 public class Meta {
 

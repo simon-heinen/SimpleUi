@@ -1,6 +1,5 @@
 package simpleui.util;
 
-import util.Log;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
