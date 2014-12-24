@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 import simpleui.SimpleUI;
-import simpleui.examples.ExampleActivity;
-import simpleui.examples.ExampleSurveyActivity;
 import simpleui.examples.M_CardViewTests;
 import simpleui.examples.M_ExampleDemoUiV1;
+import simpleui.examples.activities.ExampleActivity;
+import simpleui.examples.activities.ExampleSurveyActivity;
 import simpleui.examples.injection.ExampleButterknifeAndDaggerActivity;
 import simpleui.examples.listwrapper.M_ListWrapperV2Tests;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;

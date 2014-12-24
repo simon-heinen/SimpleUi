@@ -1,4 +1,4 @@
-package simpleui.examples;
+package simpleui.examples.activities;
 
 import java.util.ArrayList;
 
