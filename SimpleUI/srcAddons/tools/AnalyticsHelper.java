@@ -1,5 +1,6 @@
 package tools;
 
+import simpleui.util.IAnalyticsHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;

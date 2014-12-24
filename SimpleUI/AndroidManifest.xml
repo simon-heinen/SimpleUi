@@ -8,7 +8,7 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="21" />
 
-    <application android:name="tools.SimpleUiApplication" >
+    <application android:name="simpleui.util.SimpleUiApplication" >
 
         <!-- Activty templates to copy to you app manifest file -->
 

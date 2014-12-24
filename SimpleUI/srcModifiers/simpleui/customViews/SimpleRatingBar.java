@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simpleui.util.ColorCollections;
+import simpleui.util.ImageTransform;
 import strings.NameGenerator;
 import tools.IO;
-import tools.ImageTransform;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simpleui.SimpleUI;
+import simpleui.adapters.SimpleBaseAdapter;
+import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
 import simpleui.modifiers.M_Container;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.M_Container1;
@@ -14,8 +16,6 @@ import simpleui.modifiers.v3.M_ListWrapperV3;
 import simpleui.modifiers.v3.M_ListWrapperV4Editable;
 import simpleui.util.ColorUtils;
 import strings.NameGenerator;
-import adapters.SimpleBaseAdapter;
-import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;

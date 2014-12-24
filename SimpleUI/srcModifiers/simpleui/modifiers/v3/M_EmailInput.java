@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.uiDecoration.UiDecoratable;
 import simpleui.modifiers.v1.uiDecoration.UiDecorator;
-import tools.IntentHelper;
+import simpleui.util.IntentHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;

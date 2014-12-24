@@ -3,14 +3,14 @@ package simpleui.modifiers.v3;
 import java.util.ArrayList;
 import java.util.List;
 
+import simpleui.adapters.SimpleBaseAdapter;
+import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.M_ListWrapperV2;
+import simpleui.util.DeviceInformation;
+import simpleui.util.StickyListHeader;
 import simpleui.util.ToastV2;
-import tools.DeviceInformation;
-import tools.StickyListHeader;
 import util.Log;
-import adapters.SimpleBaseAdapter;
-import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;

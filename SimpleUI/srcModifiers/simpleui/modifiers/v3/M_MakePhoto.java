@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.util.ActivityLifecycleListener;
+import simpleui.util.ImageTransform;
+import simpleui.util.KeepProcessAliveService;
 import tools.IO;
-import tools.ImageTransform;
-import tools.KeepProcessAliveService;
 import android.R;
 import android.annotation.TargetApi;
 import android.app.Activity;

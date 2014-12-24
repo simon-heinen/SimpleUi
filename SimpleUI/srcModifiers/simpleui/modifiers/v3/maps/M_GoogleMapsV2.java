@@ -3,7 +3,7 @@ package simpleui.modifiers.v3.maps;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.maps.GoogleMapsV2View.MapsV2EventListener;
 import simpleui.util.GeoUtils;
-import tools.ImageTransform;
+import simpleui.util.ImageTransform;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;

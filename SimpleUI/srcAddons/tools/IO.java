@@ -17,7 +17,10 @@ import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import simpleui.commands.CommandInUiThread;
+import simpleui.util.ImageTransform;
 import simpleui.util.ProgressScreen;
+import simpleui.util.SimpleUiApplication;
 import util.Log;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -36,8 +39,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
 import com.squareup.picasso.Picasso;
-
-import commands.CommandInUiThread;
 
 /**
  * Android specific extensions to default {@link util.IOHelper} class

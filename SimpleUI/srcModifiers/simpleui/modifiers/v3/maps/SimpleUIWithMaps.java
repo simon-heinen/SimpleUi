@@ -9,7 +9,7 @@ import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.util.ActivityLifecycleListener;
-import tools.SimpleUiApplication;
+import simpleui.util.SimpleUiApplication;
 import android.R;
 import android.app.Activity;
 import android.content.Context;

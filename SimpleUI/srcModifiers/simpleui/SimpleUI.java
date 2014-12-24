@@ -12,10 +12,10 @@ import simpleui.modifiers.v3.M_Collection;
 import simpleui.modifiers.v3.M_HalfHalf;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.util.ActivityLifecycleListener;
+import simpleui.util.AnalyticsHelperNoOp;
 import simpleui.util.ErrorHandler;
-import tools.AnalyticsHelperNoOp;
-import tools.IAnalyticsHelper;
-import tools.SimpleUiApplication;
+import simpleui.util.IAnalyticsHelper;
+import simpleui.util.SimpleUiApplication;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
@@ -143,7 +143,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		return showUi(context, itemsToDisplay);
 	}
 
-	private static tools.IAnalyticsHelper initIAnalyticsHelper() {
+	private static simpleui.util.IAnalyticsHelper initIAnalyticsHelper() {
 		try {
 			ClassLoader classLoader = SimpleUI.class.getClassLoader();
 
@@ -154,7 +154,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 					.loadClass("tools.AnalyticsHelper");
 			Log.i(LOG_TAG, "Found tools.AnalyticsHelper and "
 					+ "will create instance now");
-			return (tools.IAnalyticsHelper) analyticsHelperClass.newInstance();
+			return (simpleui.util.IAnalyticsHelper) analyticsHelperClass.newInstance();
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}

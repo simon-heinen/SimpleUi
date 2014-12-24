@@ -2,10 +2,10 @@ package simpleui.modifiers.v3;
 
 import java.util.List;
 
+import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.M_ListWrapperV3Editable;
 import util.Log;
-import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;

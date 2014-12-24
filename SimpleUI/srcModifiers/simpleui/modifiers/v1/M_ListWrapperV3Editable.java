@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import simpleui.adapters.SimpleBaseAdapter;
+import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
+import simpleui.customViews.DraggableListView;
+import simpleui.customViews.DraggableListView.ModelModificationListener;
 import simpleui.modifiers.ModifierInterface;
-import tools.DeviceInformation;
+import simpleui.util.DeviceInformation;
 import util.Log;
-import adapters.SimpleBaseAdapter;
-import adapters.SimpleBaseAdapter.HasItsOwnView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
@@ -17,8 +19,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import customViews.DraggableListView;
-import customViews.DraggableListView.ModelModificationListener;
 
 /**
  * not yet usable, use {@link M_ListWrapperV2}

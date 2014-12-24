@@ -2,11 +2,11 @@ package simpleui.modifiers.v1;
 
 import java.util.List;
 
+import simpleui.adapters.SimpleBaseAdapter;
+import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_ListWrapperV3;
-import tools.ImageTransform;
-import adapters.SimpleBaseAdapter;
-import adapters.SimpleBaseAdapter.HasItsOwnView;
+import simpleui.util.ImageTransform;
 import android.app.Activity;
 import android.content.Context;
 import android.view.MotionEvent;

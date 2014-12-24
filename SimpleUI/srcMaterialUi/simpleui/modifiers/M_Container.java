@@ -4,7 +4,7 @@ import simpleui.SimpleUI.OptionsMenuListener;
 import simpleui.modifiers.v1.uiDecoration.ExampleDecorator;
 import simpleui.modifiers.v3.M_Collection;
 import simpleui.util.MenuItemList;
-import tools.SimpleUiApplication;
+import simpleui.util.SimpleUiApplication;
 import util.Log;
 import android.app.Activity;
 import android.content.Context;

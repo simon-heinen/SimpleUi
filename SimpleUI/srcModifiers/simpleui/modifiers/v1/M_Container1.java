@@ -6,7 +6,7 @@ import simpleui.modifiers.v1.uiDecoration.UiDecorator;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Collection;
 import simpleui.util.ColorUtils;
-import tools.SimpleUiApplication;
+import simpleui.util.SimpleUiApplication;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;

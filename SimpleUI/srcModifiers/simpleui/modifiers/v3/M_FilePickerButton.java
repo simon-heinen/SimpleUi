@@ -3,7 +3,7 @@ package simpleui.modifiers.v3;
 import java.io.File;
 
 import simpleui.util.ActivityLifecycleListener;
-import tools.KeepProcessAliveService;
+import simpleui.util.KeepProcessAliveService;
 import android.R;
 import android.app.Activity;
 import android.content.Context;

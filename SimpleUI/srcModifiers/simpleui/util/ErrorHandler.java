@@ -12,8 +12,6 @@ import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_TextInput;
-import tools.DeviceInformation;
-import tools.IntentHelper;
 import android.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;

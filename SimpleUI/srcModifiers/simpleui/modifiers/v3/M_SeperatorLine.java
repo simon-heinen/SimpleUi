@@ -2,7 +2,7 @@ package simpleui.modifiers.v3;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.util.ColorUtils;
-import tools.ImageTransform;
+import simpleui.util.ImageTransform;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable.Orientation;
