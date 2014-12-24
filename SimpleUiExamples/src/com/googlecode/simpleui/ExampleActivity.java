@@ -29,7 +29,7 @@ import android.widget.Button;
  * @author Simon Heinen
  * 
  */
-public class TestActivity extends Activity {
+public class ExampleActivity extends Activity {
 
 	private static String myValue;
 	private static boolean myBool;

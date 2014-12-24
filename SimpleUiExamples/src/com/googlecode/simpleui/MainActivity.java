@@ -1,6 +1,6 @@
 package com.googlecode.simpleui;
 
-import injectionTests.ButterknifeAndDaggerTestActivity;
+import injectionTests.ExampleButterknifeAndDaggerActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -167,13 +167,13 @@ public class MainActivity extends Activity {
 		info.setContainsUrls(true);
 		c.add(info);
 
-		c.add(new M_Button("Show " + ButterknifeAndDaggerTestActivity.class
+		c.add(new M_Button("Show " + ExampleButterknifeAndDaggerActivity.class
 				+ " activity") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				MainActivity.this.startActivity(new Intent(MainActivity.this,
-						ButterknifeAndDaggerTestActivity.class));
+						ExampleButterknifeAndDaggerActivity.class));
 			}
 		});
 
@@ -347,7 +347,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				MainActivity.this.startActivity(new Intent(MainActivity.this,
-						TestActivity.class));
+						ExampleActivity.class));
 			}
 		});
 		c.add(new M_Button("SimpleUi survey generated with simpleUi") {
@@ -756,7 +756,7 @@ public class MainActivity extends Activity {
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUIWithMaps.showUi(MainActivity.this,
 						new M_GoogleMapsV2Tests(),
-						MapsTestActivity.class);
+						ExampleMapActivity.class);
 			}
 		});
 		c.add(new M_Button("Select pos on map v2") {
@@ -765,7 +765,7 @@ public class MainActivity extends Activity {
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUIWithMaps.showUi(MainActivity.this,
 						new M_GoogleMapsMarkLocationTests(),
-						MapsTestActivity.class);
+						ExampleMapActivity.class);
 			}
 		});
 	}

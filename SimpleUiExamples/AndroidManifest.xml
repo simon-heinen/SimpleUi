@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="injectionTests.ButterknifeAndDaggerTestActivity" >
+        <activity android:name="injectionTests.ExampleButterknifeAndDaggerActivity" >
         </activity>
 
         <service android:name="tools.KeepProcessAliveService" >
@@ -58,7 +58,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
 
-        <activity android:name="com.googlecode.simpleui.MapsTestActivity" >
+        <activity android:name="com.googlecode.simpleui.ExampleMapActivity" >
         </activity>
         <activity
             android:name="tools.ErrorHandler"

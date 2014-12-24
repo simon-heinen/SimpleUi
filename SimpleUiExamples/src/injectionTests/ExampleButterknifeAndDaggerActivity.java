@@ -20,7 +20,7 @@ import dagger.ObjectGraph;
  * library http://jakewharton.github.io/butterknife/ide-eclipse.html
  * 
  */
-public class ButterknifeAndDaggerTestActivity extends Activity {
+public class ExampleButterknifeAndDaggerActivity extends Activity {
 
 	// dagger
 	@Inject

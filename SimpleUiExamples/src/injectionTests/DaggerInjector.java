@@ -7,7 +7,7 @@ import dagger.Provides;
  * this example injection modules keeps the information what concrete subclasses
  * are generated when a object instance is injected.
  */
-@Module(injects = { ButterknifeAndDaggerTestActivity.class })
+@Module(injects = { ExampleButterknifeAndDaggerActivity.class })
 public class DaggerInjector {
 
 	/**
