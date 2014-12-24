@@ -16,6 +16,5 @@
 	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/butterknife-3.0.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/libGoogleAnalyticsServices.jar"/>
 	<classpathentry exported="true" kind="lib" path="/SimpleUI/libsMore/gson-2.2.4.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SimpleUI"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
