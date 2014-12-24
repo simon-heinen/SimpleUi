@@ -30,8 +30,8 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity android:name="simpleui.SimpleUI" android:theme="@style/LTheme"/>
-        <activity android:name="simpleui.examples.activities.ExampleSurveyActivity" >
-        </activity>
+         <activity android:name="simpleui.examples.activities.ExampleActivity"/>
+        <activity android:name="simpleui.examples.activities.ExampleSurveyActivity"/>
         <activity android:name="MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,8 +42,7 @@
         <activity android:name="simpleui.examples.injection.ExampleButterknifeAndDaggerActivity" >
         </activity>
 
-        <service android:name="simpleui.util.KeepProcessAliveService" >
-        </service>
+        <service android:name="simpleui.util.KeepProcessAliveService" />
 
         <!-- get your key at https://code.google.com/apis/console -->
         <meta-data
