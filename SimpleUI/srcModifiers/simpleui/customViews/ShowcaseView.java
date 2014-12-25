@@ -214,6 +214,10 @@ public abstract class ShowcaseView extends RelativeLayout implements
 		}
 	}
 
+	public void setListener(OnClickListener mListener) {
+		this.mListener = mListener;
+	}
+
 	public void hide() {
 		if (mEventListener != null) {
 			mEventListener.onShowcaseViewHide(this);

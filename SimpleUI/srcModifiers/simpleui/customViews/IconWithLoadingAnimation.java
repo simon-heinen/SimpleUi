@@ -49,13 +49,15 @@ public class IconWithLoadingAnimation extends SimpleCustomView {
 
 	public IconWithLoadingAnimation(Context context, int iconid) {
 		super(context);
-		init((int) dipToPixels(DEFAULT_MAX_WIDTH_IN_DIP), loadBitmapFromId(context, iconid));
+		init((int) dipToPixels(DEFAULT_MAX_WIDTH_IN_DIP),
+				loadBitmapFromId(context, iconid));
 	}
 
 	@Deprecated
 	public IconWithLoadingAnimation(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init((int) dipToPixels(DEFAULT_EDITOR_MAX_WIDTH_IN_DIP), loadBitmapFromId(context, R.drawable.ic_delete));
+		init((int) dipToPixels(DEFAULT_EDITOR_MAX_WIDTH_IN_DIP),
+				loadBitmapFromId(context, R.drawable.ic_delete));
 	}
 
 	public void setIcon(Bitmap icon) {
@@ -107,7 +109,8 @@ public class IconWithLoadingAnimation extends SimpleCustomView {
 			myWidth = myMaxWidth;
 		}
 		if (icon != null) {
-			myHeight = (int) ((float) (icon.getHeight()) / (float) (icon.getWidth()) * (myWidth));
+			myHeight = (int) ((float) (icon.getHeight())
+					/ (float) (icon.getWidth()) * (myWidth));
 		} else {
 			myHeight = myWidth;
 		}
@@ -126,7 +129,8 @@ public class IconWithLoadingAnimation extends SimpleCustomView {
 		float x = myWidth * 0.5f;
 		arcRect = new RectF(-x, -x, myWidth + x, myHeight + x);
 
-		mutable = Bitmap.createBitmap(myWidth, myHeight, Bitmap.Config.ARGB_8888);
+		mutable = Bitmap.createBitmap(myWidth, myHeight,
+				Bitmap.Config.ARGB_8888);
 		stampCanvas = new Canvas(mutable);
 		resizeIconToViewSize();
 	}
@@ -196,7 +200,7 @@ public class IconWithLoadingAnimation extends SimpleCustomView {
 	// }
 
 	public void update(float currentValue, float maxValue) {
-		if (currentValue != Float.NaN && maxValue != Float.NaN) {
+		if (!Float.isNaN(currentValue) && !Float.isNaN(maxValue)) {
 			if (currentValue < maxValue) {
 				this.setLoadingAngle(currentValue / maxValue * 360);
 			} else {

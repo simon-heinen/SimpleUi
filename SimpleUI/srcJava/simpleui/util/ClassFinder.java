@@ -67,12 +67,12 @@ public abstract class ClassFinder {
 			if (!Modifier.isAbstract(c.getModifiers())
 					&& !Modifier.isInterface(c.getModifiers())) {
 				if (searchedClassType.isAssignableFrom(c)) {
-					if (resultListener instanceof ClassResultListener){
-						((ClassResultListener)resultListener).runTestsFor(c);
+					if (resultListener instanceof ClassResultListener) {
+						((ClassResultListener) resultListener).runTestsFor(c);
 					} else if (resultListener instanceof ResultListener) {
 						try {
 							((ResultListener) resultListener)
-							.runTestsFor(((Class<T>) c).newInstance());
+									.runTestsFor(((Class<T>) c).newInstance());
 						} catch (final InstantiationException e) {
 							Log.e(LOG_TAG,
 									"Skipping "

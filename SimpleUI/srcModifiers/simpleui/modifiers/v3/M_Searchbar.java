@@ -77,14 +77,11 @@ public abstract class M_Searchbar implements ModifierInterface, UiDecoratable {
 
 		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
-				weightOfDescription);
-		LinearLayout.LayoutParams p2 = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
 				weightOfInputText);
 
 		if (isLongText()) {
 			int m = 8;
-			p2.setMargins(2 * m, m, 2 * m, m);
+			p.setMargins(2 * m, m, 2 * m, m);
 			l.setOrientation(LinearLayout.VERTICAL);
 		}
 
@@ -109,7 +106,7 @@ public abstract class M_Searchbar implements ModifierInterface, UiDecoratable {
 		if (!autoSuggestionsEnabled) {
 			setAutoSuggestions(autoSuggestionsEnabled);
 		}
-		editText.setLayoutParams(p2);
+		editText.setLayoutParams(p);
 		setInfoText(additionalInfoText);
 		setEditable(isEditable());
 

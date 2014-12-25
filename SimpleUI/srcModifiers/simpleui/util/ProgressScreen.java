@@ -53,7 +53,7 @@ public abstract class ProgressScreen implements ModifierInterface,
 	 * another
 	 */
 	private boolean mActivityAlreadyClosedAgain;
-	private static Handler myHandler;
+	private volatile static Handler myHandler;
 
 	public ProgressScreen() {
 		this(null, DEFAULT_SPEED);

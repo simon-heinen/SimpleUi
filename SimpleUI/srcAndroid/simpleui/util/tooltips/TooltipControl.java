@@ -1,6 +1,8 @@
 package simpleui.util.tooltips;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TooltipControl {
 
 	private static final String LOG_TAG = "TooltipControl";
@@ -181,8 +184,9 @@ public class TooltipControl {
 		v.setY(topPosY);
 		if (bubbleColor != null) {
 			boolean arrowOnTop = belowTargetView;
-			v.setBackground(new ChatBubbleDrawable(arrowAlignment, arrowOnTop,
-					bubbleColor, bubblePadding, bubbleCornerRadiusInPixel));
+			v.setBackgroundDrawable(new ChatBubbleDrawable(arrowAlignment,
+					arrowOnTop, bubbleColor, bubblePadding,
+					bubbleCornerRadiusInPixel));
 		}
 	}
 
@@ -200,7 +204,6 @@ public class TooltipControl {
 		if (oldParams instanceof RelativeLayout.LayoutParams) {
 			LayoutParams oldP = (LayoutParams) oldParams;
 			return oldP.width == newP.width && oldP.height == newP.height
-					&& oldP.height == newP.height
 					&& oldP.leftMargin == newP.leftMargin
 					&& oldP.topMargin == newP.topMargin;
 		}

@@ -38,14 +38,18 @@ public class QuadTree<T> {
 	private void getAllItems(ResultListener r, TreeNode node) {
 		if (node != null) {
 			r.onResult(node.myValue);
-			if (node.quadrant1 != null)
+			if (node.quadrant1 != null) {
 				getAllItems(r, node.quadrant1);
-			if (node.quadrant2 != null)
+			}
+			if (node.quadrant2 != null) {
 				getAllItems(r, node.quadrant2);
-			if (node.quadrant3 != null)
+			}
+			if (node.quadrant3 != null) {
 				getAllItems(r, node.quadrant3);
-			if (node.quadrant4 != null)
+			}
+			if (node.quadrant4 != null) {
 				getAllItems(r, node.quadrant4);
+			}
 		}
 	}
 
@@ -79,20 +83,28 @@ public class QuadTree<T> {
 
 	private boolean findValueEntry(TreeNode node, T value,
 			boolean removeWhenFound) {
-		if (node != null && node.myValue.equals(value)) {
-			if (removeWhenFound)
+		if (node == null) {
+			return false;
+		}
+		if (node.myValue.equals(value)) {
+			if (removeWhenFound) {
 				node.myValue = null;
+			}
 			return true;
 		} else {
 			boolean result = false;
-			if (node.quadrant1 != null)
+			if (node.quadrant1 != null) {
 				result |= findValueEntry(node.quadrant1, value, removeWhenFound);
-			if (!result && node.quadrant2 != null)
+			}
+			if (!result && node.quadrant2 != null) {
 				result |= findValueEntry(node.quadrant2, value, removeWhenFound);
-			if (!result && node.quadrant3 != null)
+			}
+			if (!result && node.quadrant3 != null) {
 				result |= findValueEntry(node.quadrant3, value, removeWhenFound);
-			if (!result && node.quadrant4 != null)
+			}
+			if (!result && node.quadrant4 != null) {
 				result |= findValueEntry(node.quadrant4, value, removeWhenFound);
+			}
 			return result;
 		}
 	}
@@ -110,23 +122,24 @@ public class QuadTree<T> {
 	}
 
 	private TreeNode add(TreeNode node, float x, float y, T value) {
-		if (node == null)
+		if (node == null) {
 			return new TreeNode(x, y, value);
-		else if (node.myValue == null && canBeInsertedHere(node, x, y)) {
+		} else if (node.myValue == null && canBeInsertedHere(node, x, y)) {
 			node.myValue = value;
 			return node;
 		}
 		// if dublicate objects at the same <x,y> coords should not be allowed,
 		// add this line:
 		// if (x == node.x && y == node.y) node.myValue = value;
-		else if (x < node.x && y < node.y)
+		else if (x < node.x && y < node.y) {
 			node.quadrant3 = add(node.quadrant3, x, y, value);
-		else if (x < node.x && y >= node.y)
+		} else if (x < node.x && y >= node.y) {
 			node.quadrant2 = add(node.quadrant2, x, y, value);
-		else if (x >= node.x && y < node.y)
+		} else if (x >= node.x && y < node.y) {
 			node.quadrant4 = add(node.quadrant4, x, y, value);
-		else if (x >= node.x && y >= node.y)
+		} else if (x >= node.x && y >= node.y) {
 			node.quadrant1 = add(node.quadrant1, x, y, value);
+		}
 		return node;
 	}
 
@@ -175,21 +188,27 @@ public class QuadTree<T> {
 
 	private void findInArea(ResultListener resultListener, TreeNode node,
 			float xMin, float xMax, float yMin, float yMax) {
-		if (node == null)
+		if (node == null) {
 			return;
+		}
 
 		if (node.x >= xMin && node.x <= xMax && node.y >= yMin
 				&& node.y <= yMax) {
-			if (node.myValue != null)
+			if (node.myValue != null) {
 				resultListener.onResult(node.myValue);
+			}
 		}
-		if (xMin < node.x && yMin < node.y)
+		if (xMin < node.x && yMin < node.y) {
 			findInArea(resultListener, node.quadrant3, xMin, xMax, yMin, yMax);
-		if (xMin < node.x && yMax >= node.y)
+		}
+		if (xMin < node.x && yMax >= node.y) {
 			findInArea(resultListener, node.quadrant2, xMin, xMax, yMin, yMax);
-		if (xMax >= node.x && yMin < node.y)
+		}
+		if (xMax >= node.x && yMin < node.y) {
 			findInArea(resultListener, node.quadrant4, xMin, xMax, yMin, yMax);
-		if (xMax >= node.x && yMax >= node.y)
+		}
+		if (xMax >= node.x && yMax >= node.y) {
 			findInArea(resultListener, node.quadrant1, xMin, xMax, yMin, yMax);
+		}
 	}
 }

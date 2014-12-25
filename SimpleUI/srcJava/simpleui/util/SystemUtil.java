@@ -22,6 +22,7 @@ public class SystemUtil {
 							&& Build_MODEL.startsWith("Glass");
 				} catch (Exception e) {
 					e.printStackTrace();
+					return false;
 				}
 			}
 			return isGlass;
