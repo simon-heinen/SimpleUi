@@ -20,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 public abstract class M_SpinnerWithCheckboxesCreator2 implements
 		ModifierInterface {
 
@@ -160,7 +162,8 @@ public abstract class M_SpinnerWithCheckboxesCreator2 implements
 		buttonBox.addView(iconView, new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
 				layoutWeightSelect));
-		final EditText textInput = new EditText(context);
+		final EditText textInput = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
 		textInput.setEnabled(true);
 		textInput.setFocusable(true);
 		textInput.setText(itemText);

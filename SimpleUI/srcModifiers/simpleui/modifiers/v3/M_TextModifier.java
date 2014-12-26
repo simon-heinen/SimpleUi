@@ -14,10 +14,13 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.googlecode.simpleui.library.R;
 
 /**
  * Has a text input area and a name
@@ -101,15 +104,19 @@ public abstract class M_TextModifier implements ModifierInterface,
 		}
 
 		// TODO replace by better view representative:
-		editText = new EditText(context) {
+		editText = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
+		editText.setOnTouchListener(new OnTouchListener() {
+
 			@Override
-			public boolean onTouchEvent(MotionEvent event) {
+			public boolean onTouch(View v, MotionEvent event) {
 				if (horizontalScrollable) {
-					getParent().requestDisallowInterceptTouchEvent(true);
+					editText.getParent().requestDisallowInterceptTouchEvent(
+							true);
 				}
-				return super.onTouchEvent(event);
+				return false;
 			}
-		};
+		});
 		if (inPasswordInputMode) {
 			setEditTextToPWMode();
 		} else if (inMailInputMode) {

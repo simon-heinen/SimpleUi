@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 /**
  * use {@link M_IntModifier} instead
  * 
@@ -71,8 +73,12 @@ public abstract class M_Integer implements ModifierInterface, UiDecoratable {
 		LinearLayout l = new LinearLayout(context);
 		l.setGravity(Gravity.CENTER_VERTICAL);
 
-		LayoutParams p = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, weightOfDescription);
-		LayoutParams p2 = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, weightOfInputText);
+		LayoutParams p = new LinearLayout.LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
+				weightOfDescription);
+		LayoutParams p2 = new LinearLayout.LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
+				weightOfInputText);
 
 		TextView t = new TextView(context);
 		t.setLayoutParams(p);
@@ -81,7 +87,8 @@ public abstract class M_Integer implements ModifierInterface, UiDecoratable {
 		l.addView(t);
 
 		// TODO replace by better view representative:
-		e = new EditText(context);
+		e = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
 		e.setLayoutParams(p2);
 		e.setText("" + load());
 		e.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -93,26 +100,32 @@ public abstract class M_Integer implements ModifierInterface, UiDecoratable {
 		}
 
 		l.addView(e);
-		l.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING);
+		l.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING,
+				DEFAULT_PADDING);
 
 		if (myDecorator != null) {
 			int level = myDecorator.getCurrentLevel();
-			myDecorator.decorate(context, t, level + 1, UiDecorator.TYPE_INFO_TEXT);
-			myDecorator.decorate(context, e, level + 1, UiDecorator.TYPE_EDIT_TEXT);
+			myDecorator.decorate(context, t, level + 1,
+					UiDecorator.TYPE_INFO_TEXT);
+			myDecorator.decorate(context, e, level + 1,
+					UiDecorator.TYPE_EDIT_TEXT);
 		}
 
 		return l;
 	}
 
-	private static void setMinMaxFilterFor(EditText e, final Integer min, final Integer max) {
+	private static void setMinMaxFilterFor(EditText e, final Integer min,
+			final Integer max) {
 		e.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 			}
 
 			@Override
@@ -151,12 +164,14 @@ public abstract class M_Integer implements ModifierInterface, UiDecoratable {
 							e.setEnabled(false);
 						} else {
 							e.setEnabled(true);
-							e.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+							e.getBackground().setColorFilter(Color.GRAY,
+									PorterDuff.Mode.MULTIPLY);
 							e.setOnClickListener(myNotEditableInfo);
 						}
 					} else {
 						e.setOnClickListener(null);
-						e.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+						e.getBackground().setColorFilter(Color.WHITE,
+								PorterDuff.Mode.MULTIPLY);
 						e.setEnabled(true);
 					}
 
@@ -194,7 +209,8 @@ public abstract class M_Integer implements ModifierInterface, UiDecoratable {
 			return save(Integer.parseInt(e.getText().toString()));
 		} catch (NumberFormatException e) {
 			// TODO show toast?
-			Log.e("EditScreen", "The entered value for " + getVarName() + " was no number!");
+			Log.e("EditScreen", "The entered value for " + getVarName()
+					+ " was no number!");
 		}
 		e.requestFocus();
 		return false;

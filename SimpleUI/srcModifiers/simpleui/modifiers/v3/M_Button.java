@@ -14,6 +14,8 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 
+import com.googlecode.simpleui.library.R;
+
 public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	private String myText;
@@ -69,7 +71,8 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 
 	@Override
 	public View getView(final Context context) {
-		button = new Button(context);
+		button = (Button) View.inflate(context,
+				R.layout.material_factory_button, null);
 		Drawable drawable = null;
 		if (myIconId != null) {
 			try {

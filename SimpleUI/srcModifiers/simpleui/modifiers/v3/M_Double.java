@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 /**
  * use {@link M_DoubleModifier} instead
  * 
@@ -64,7 +66,8 @@ public abstract class M_Double implements ModifierInterface, UiDecoratable {
 		l.addView(t);
 
 		// TODO replace by better view representative:
-		e = new EditText(context);
+		e = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
 		e.setLayoutParams(p2);
 		e.setInputType(InputType.TYPE_CLASS_NUMBER
 				| InputType.TYPE_NUMBER_FLAG_DECIMAL);

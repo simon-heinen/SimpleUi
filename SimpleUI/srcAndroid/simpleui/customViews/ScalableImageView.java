@@ -1,9 +1,12 @@
 package simpleui.customViews;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ScalableImageView extends ImageView {
 
 	public ScalableImageView(Context context) {

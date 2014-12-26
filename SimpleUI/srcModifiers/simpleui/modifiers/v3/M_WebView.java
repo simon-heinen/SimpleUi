@@ -1,6 +1,7 @@
 package simpleui.modifiers.v3;
 
 import simpleui.modifiers.ModifierInterface;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+@SuppressLint("JavascriptInterface")
 public abstract class M_WebView implements ModifierInterface {
 
 	protected static final String LOG_TAG = "M_WebView";

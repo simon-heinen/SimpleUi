@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 /**
  * use {@link M_SpinnerWithCheckboxesCreator2} instead
  * 
@@ -108,7 +110,8 @@ public abstract class M_SpinnerWithCheckboxesCreator implements
 		buttonBox.addView(iconView, new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
 				layoutWeightSelect));
-		final EditText textInput = new EditText(context);
+		final EditText textInput = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
 		textInput.setEnabled(true);
 		textInput.setFocusable(true);
 		if (item != null) {

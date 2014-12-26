@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 /**
  * to allow or ban certain providers you can use
  * {@link M_EmailInput#setProviderBlackList(ArrayList)} and
@@ -64,7 +66,8 @@ public abstract class M_EmailInput implements ModifierInterface, UiDecoratable {
 		nameText.setLayoutParams(p);
 		container.addView(nameText);
 
-		editText = new EditText(context);
+		editText = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
 		editText.setLayoutParams(p2);
 		editText.setInputType(InputType.TYPE_CLASS_TEXT
 				| InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);

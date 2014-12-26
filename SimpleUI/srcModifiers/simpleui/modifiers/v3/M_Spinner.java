@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 public abstract class M_Spinner implements ModifierInterface {
 
 	private static final String LOG_TAG = "M_Spinner";
@@ -89,7 +91,8 @@ public abstract class M_Spinner implements ModifierInterface {
 			container.addView(nameText);
 		}
 
-		s = new Spinner(context);
+		s = (Spinner) View.inflate(context, R.layout.material_factory_spinner,
+				null);
 		s.setLayoutParams(p2);
 		s.setOnTouchListener(new OnTouchListener() {
 

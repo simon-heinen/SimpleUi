@@ -11,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.googlecode.simpleui.library.R;
+
 public abstract class M_RadioButtonList implements ModifierInterface {
 
 	public interface SelectableItem {
@@ -42,7 +44,8 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 		List<SelectableItem> list = getItemList();
 		for (int i = 0; i < list.size(); i++) {
 			final SelectableItem item = list.get(i);
-			RadioButton b = new RadioButton(context);
+			RadioButton b = (RadioButton) View.inflate(context,
+					R.layout.material_factory_radiobutton, null);
 			b.setId(item.getId());
 			if (idOfSelectedItem != null) {
 				b.setChecked(idOfSelectedItem.equals(item.getId()));

@@ -9,10 +9,13 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.googlecode.simpleui.library.R;
 
 /**
  * use {@link M_TextModifier} instead
@@ -107,15 +110,19 @@ public abstract class M_TextInput implements ModifierInterface, UiDecoratable {
 		nameText.setLayoutParams(p);
 		container.addView(nameText);
 
-		editText = new EditText(context) {
+		editText = (EditText) View.inflate(context,
+				R.layout.material_factory_edittext, null);
+		editText.setOnTouchListener(new OnTouchListener() {
+
 			@Override
-			public boolean onTouchEvent(MotionEvent event) {
+			public boolean onTouch(View v, MotionEvent event) {
 				if (horizontalScrollable) {
-					getParent().requestDisallowInterceptTouchEvent(true);
+					editText.getParent().requestDisallowInterceptTouchEvent(
+							true);
 				}
-				return super.onTouchEvent(event);
+				return false;
 			}
-		};
+		});
 		editText.setLayoutParams(p2);
 		editText.setText(load());
 		editText.setEnabled(editable);
