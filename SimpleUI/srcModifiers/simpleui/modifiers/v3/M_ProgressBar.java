@@ -29,6 +29,12 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 		this(false);
 	}
 
+	/**
+	 * Use {@link M_Slider} instead
+	 * 
+	 * @param clickable
+	 */
+	@Deprecated
 	public M_ProgressBar(boolean clickable) {
 		this.clickable = clickable;
 	}
