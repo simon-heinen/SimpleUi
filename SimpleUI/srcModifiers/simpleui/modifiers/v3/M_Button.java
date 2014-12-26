@@ -27,10 +27,22 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	private OnLongClickListener longClickListener;
 	private OnClickListener clickListener;
 	private UiCreateListener<Button> uiListener;
+	private boolean borderless;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_Button(String buttonText) {
 		myText = buttonText;
+	}
+
+	// TODO use borderless flag
+	/**
+	 * @param buttonText
+	 * @param borderless
+	 *            pass true to do not show the normal button border
+	 */
+	public M_Button(String buttonText, boolean borderless) {
+		this(buttonText);
+		this.borderless = borderless;
 	}
 
 	public M_Button(Integer iconIdOnLeftSideOfText, String buttonText) {

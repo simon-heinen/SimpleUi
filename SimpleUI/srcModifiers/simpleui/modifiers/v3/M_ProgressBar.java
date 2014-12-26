@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.googlecode.simpleui.library.R;
+
 public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable {
 
 	private ProgressBar progressBar;
@@ -58,8 +60,8 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 		nameText.setLayoutParams(p);
 		container.addView(nameText);
 
-		progressBar = new ProgressBar(context, null,
-				android.R.attr.progressBarStyleHorizontal);
+		progressBar = (ProgressBar) View.inflate(context,
+				R.layout.material_factory_progressbar_horizontal, null);
 		progressBar.setLayoutParams(p2);
 		progressBar.setProgress(loadInitValue());
 		final int maxValue = loadMaxValue();

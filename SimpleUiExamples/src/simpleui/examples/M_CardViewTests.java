@@ -1,5 +1,8 @@
 package simpleui.examples;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_ButtonBorderless;
@@ -9,7 +12,10 @@ import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_HalfHalf;
 import simpleui.modifiers.v3.M_InfoText;
+import simpleui.modifiers.v3.M_ProgressBar;
+import simpleui.modifiers.v3.M_RadioButtonList;
 import simpleui.modifiers.v3.M_SeperatorLine;
+import simpleui.modifiers.v3.M_Slider;
 import simpleui.modifiers.v3.M_TextInput;
 import simpleui.modifiers.v3.M_Toolbar;
 import simpleui.util.ColorUtils;
@@ -45,19 +51,22 @@ public class M_CardViewTests extends M_Container {
 	private void addTestModifiers() {
 		add(new M_TextInput(true, false, false) {
 
+			private String model = "Abc";
+
 			@Override
-			public boolean save(String arg0) {
+			public boolean save(String newValue) {
+				model = newValue;
 				return true;
 			}
 
 			@Override
 			public String load() {
-				return "A";
+				return model;
 			}
 
 			@Override
 			public String getVarName() {
-				return "Aa";
+				return "M_TextInput example";
 			}
 		});
 		add(new M_Checkbox() {
@@ -74,8 +83,47 @@ public class M_CardViewTests extends M_Container {
 
 			@Override
 			public CharSequence getVarName() {
-				return "Bbbb";
+				return "M_Checkbox example";
 			}
+		});
+		add(new M_ProgressBar() {
+
+			@Override
+			public int loadMaxValue() {
+				return 100;
+			}
+
+			@Override
+			public int loadInitValue() {
+				return 40;
+			}
+
+			@Override
+			public String getVarName() {
+				return "M_Progressbar example";
+			}
+		});
+		add(new M_RadioButtonList() {
+
+			@Override
+			public boolean save(SelectableItem i) {
+				return true;
+			}
+
+			@Override
+			public void onItemSelectedByUser(Context c, SelectableItem i) {
+			}
+
+			@Override
+			public List<SelectableItem> getItemList() {
+				List<SelectableItem> l = new ArrayList<M_RadioButtonList.SelectableItem>();
+				l.add(newDefaultSelectableItem(0, "Item 1"));
+				l.add(newDefaultSelectableItem(1, "Item 2"));
+				return l;
+			}
+		});
+		add(new M_Slider() {
+
 		});
 	}
 

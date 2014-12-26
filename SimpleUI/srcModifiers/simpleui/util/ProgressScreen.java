@@ -17,7 +17,8 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+
+import com.googlecode.simpleui.library.R;
 
 /**
  * Allows to give feedback that something is going on and that the user should
@@ -152,7 +153,8 @@ public abstract class ProgressScreen implements ModifierInterface,
 
 	protected void getProgressUi(Context context, LinearLayout container) {
 		if (mImageIds == null || mImageIds.isEmpty()) {
-			container.addView(new ProgressBar(context));
+			container.addView(View.inflate(context,
+					R.layout.material_factory_progressbar, null));
 		} else {
 			mImageView = new ImageView(context);
 

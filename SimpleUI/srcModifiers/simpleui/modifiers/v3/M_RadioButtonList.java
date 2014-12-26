@@ -26,6 +26,22 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 
 	}
 
+	public static SelectableItem newDefaultSelectableItem(final int id,
+			final String text) {
+		return new SelectableItem() {
+
+			@Override
+			public String getText() {
+				return text;
+			}
+
+			@Override
+			public int getId() {
+				return id;
+			}
+		};
+	}
+
 	private RadioGroup group;
 	private boolean editable = true;
 	private final Handler myHandler = new Handler(Looper.getMainLooper());

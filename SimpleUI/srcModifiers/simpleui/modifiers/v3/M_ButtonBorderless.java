@@ -13,6 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+/**
+ * Use {@link M_Button#M_Button(String, boolean)} instead
+ *
+ */
+@Deprecated
 public abstract class M_ButtonBorderless implements ModifierInterface,
 		UiDecoratable {
 

@@ -59,7 +59,7 @@ public class M_CardView extends M_Collection {
 		CardView card = new CardView(context);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		if (Build.VERSION_CODES.L == Build.VERSION.SDK_INT) {
+		if (Build.VERSION_CODES.LOLLIPOP == Build.VERSION.SDK_INT) {
 			params.setMargins(shaddowSize, shaddowSize, shaddowSize,
 					shaddowSize);
 		} else {
