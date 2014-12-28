@@ -8,6 +8,7 @@ import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -27,14 +28,13 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	private OnLongClickListener longClickListener;
 	private OnClickListener clickListener;
 	private UiCreateListener<Button> uiListener;
-	private boolean borderless;
+	private boolean borderless = false;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_Button(String buttonText) {
 		myText = buttonText;
 	}
 
-	// TODO use borderless flag
 	/**
 	 * @param buttonText
 	 * @param borderless
@@ -42,6 +42,10 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	 */
 	public M_Button(String buttonText, boolean borderless) {
 		this(buttonText);
+		this.borderless = borderless;
+	}
+
+	public void setBorderless(boolean borderless) {
 		this.borderless = borderless;
 	}
 
@@ -82,9 +86,17 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 	}
 
 	@Override
-	public View getView(final Context context) {
+	public View getView(Context context) {
+		if (borderless
+				&& android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
+			// the button should have no borders so use the borderless button
+			// theme when inflating from the XML:
+			context = new ContextThemeWrapper(context,
+					R.style.BorderlessButtonStyle);
+		}
 		button = (Button) View.inflate(context,
 				R.layout.material_factory_button, null);
+
 		Drawable drawable = null;
 		if (myIconId != null) {
 			try {
@@ -106,8 +118,9 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 			clickListener = new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					M_Button.this.onClick(context, (Button) v);
+					M_Button.this.onClick(v.getContext(), (Button) v);
 				}
+
 			};
 		}
 		button.setOnClickListener(clickListener);
@@ -130,6 +143,7 @@ public abstract class M_Button implements ModifierInterface, UiDecoratable {
 		if (uiListener != null) {
 			uiListener.onUiCreated(button);
 		}
+
 		return button;
 	}
 

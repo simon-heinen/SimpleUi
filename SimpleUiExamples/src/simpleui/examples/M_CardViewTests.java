@@ -5,7 +5,6 @@ import java.util.List;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
-import simpleui.modifiers.v3.M_ButtonBorderless;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_CardView;
 import simpleui.modifiers.v3.M_Checkbox;
@@ -24,7 +23,6 @@ import simpleui.util.MenuItemList.MItem;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -134,17 +132,17 @@ public class M_CardViewTests extends M_Container {
 		String text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
 		c.add(new M_InfoText(text));
 		c.add(M_SeperatorLine.newMaterialOne(null));
-		M_Button left = new M_Button("No") {
+		M_Button left = new M_Button("No", true) {
 
 			@Override
 			public void onClick(Context arg0, Button arg1) {
 				System.out.println("No");
 			}
 		};
-		M_ButtonBorderless right = new M_ButtonBorderless("Yes") {
+		M_Button right = new M_Button("Yes", true) {
 
 			@Override
-			public void onClick(Context arg0, View arg1) {
+			public void onClick(Context arg0, Button arg1) {
 				System.out.println("Yes");
 			}
 

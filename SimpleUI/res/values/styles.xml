@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme.Base" parent="Theme.AppCompat">
+
+        <!-- Enable Transparency: -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="LTheme" parent="AppTheme.Base">
 
         <!-- Main material theme colors -->
@@ -13,17 +23,10 @@
         <item name="colorControlActivated">@color/color_control_activated</item>
         <item name="colorControlHighlight">@color/color_control_highlight</item>
         <item name="colorSwitchThumbNormal">@color/color_switch_thumbNormal</item>
-        
     </style>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat">
-
-        <!-- Enable Transparency: -->
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
+    <style name="BorderlessButtonStyle" parent="LTheme">
+        <item name="android:buttonStyle">?android:borderlessButtonStyle</item>
     </style>
 
     <style name="fade_animation">
