@@ -25,7 +25,7 @@ import com.googlecode.simpleui.library.R;
 public abstract class M_SpinnerWithCheckboxesCreator2 implements
 		ModifierInterface {
 
-	private static final String TAG = "M_SpinnerWithCheckboxesCreator";
+	private static final String TAG = "M_SpinnerWithCheckboxesCreator2";
 
 	public interface SpinnerItem {
 

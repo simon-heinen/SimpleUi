@@ -120,8 +120,12 @@ public class M_CardViewTests extends M_Container {
 				return l;
 			}
 		});
-		add(new M_Slider() {
+		add(new M_Slider(6, 12) {
 
+			@Override
+			public boolean save(int arg0) {
+				return true;
+			}
 		});
 	}
 

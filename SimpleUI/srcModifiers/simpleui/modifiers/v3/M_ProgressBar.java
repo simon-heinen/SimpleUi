@@ -56,19 +56,17 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 		container = new LinearLayout(context);
 		container.setOrientation(LinearLayout.VERTICAL);
 		container.setGravity(Gravity.CENTER_VERTICAL);
-		LayoutParams p = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 2);
-		LayoutParams p2 = new LinearLayout.LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1);
 
 		nameText = new TextView(context);
 		nameText.setText(getVarName());
-		nameText.setLayoutParams(p);
+		nameText.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 2));
 		container.addView(nameText);
 
 		progressBar = (ProgressBar) View.inflate(context,
 				R.layout.material_factory_progressbar_horizontal, null);
-		progressBar.setLayoutParams(p2);
+		progressBar.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 1));
 		progressBar.setProgress(loadInitValue());
 		final int maxValue = loadMaxValue();
 		progressBar.setMax(maxValue);
