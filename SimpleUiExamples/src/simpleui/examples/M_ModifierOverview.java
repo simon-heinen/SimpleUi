@@ -17,6 +17,7 @@ import simpleui.modifiers.v3.M_RadioButtonList;
 import simpleui.modifiers.v3.M_RadioButtonList.DefaultSelectableItem;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Slider;
+import simpleui.modifiers.v3.M_Spinner;
 import simpleui.modifiers.v3.M_TextModifier;
 import android.R;
 import android.content.Context;
@@ -38,6 +39,7 @@ public class M_ModifierOverview extends M_Container {
 		add(newM_CheckboxAndM_RadioButtonList());
 		add(newM_TextModifierExamples());
 		add(newM_ProgressBarExample());
+		add(newM_SpinnerExample());
 
 	}
 
@@ -259,6 +261,43 @@ public class M_ModifierOverview extends M_Container {
 				valueToModify = newValue;
 				return true;
 			}
+		});
+		return c;
+	}
+
+	private static M_CardView newM_SpinnerExample() {
+		M_CardView c = new M_CardView();
+		c.add(new M_Caption("This is an M_Spinner example"));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		c.add(new M_Spinner() {
+			private int selectedItemId = 2;
+
+			@Override
+			public String getVarName() {
+				return "A M_Spinner";
+			}
+
+			@Override
+			public int loadSelectedItemId() {
+				return selectedItemId;
+			}
+
+			@Override
+			public List<SpinnerItem> loadListToDisplay() {
+				List<SpinnerItem> l = new ArrayList<M_Spinner.SpinnerItem>();
+				l.add(new SpinnerItem(1, "Spinner Item 1"));
+				l.add(new SpinnerItem(2, "Spinner Item 2"));
+				l.add(new SpinnerItem(3, "Spinner Item 3"));
+				l.add(new SpinnerItem(4, "Spinner Item 4"));
+				return l;
+			}
+
+			@Override
+			public boolean save(SpinnerItem selectedItem) {
+				selectedItemId = selectedItem.getId();
+				return true;
+			}
+
 		});
 		return c;
 	}

@@ -30,10 +30,10 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	public static class SpinnerItem {
 
-		private final long id;
+		private final int id;
 		private final String text;
 
-		public SpinnerItem(long id, String text) {
+		public SpinnerItem(int id, String text) {
 			this.id = id;
 			this.text = text;
 		}
@@ -42,7 +42,7 @@ public abstract class M_Spinner implements ModifierInterface {
 			return text;
 		}
 
-		public long getId() {
+		public int getId() {
 			return id;
 		}
 
@@ -53,7 +53,7 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	}
 
-	private Spinner s;
+	private Spinner spinner;
 	private boolean editable = true;
 	private Integer selectedItemPos;
 	private float weightOfDescription = 1;
@@ -70,7 +70,7 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	@Override
 	public View getView(final Context context) {
-
+		selectedItemPos = null;
 		LinearLayout container = new LinearLayout(context);
 		container.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING,
 				DEFAULT_PADDING);
@@ -91,10 +91,10 @@ public abstract class M_Spinner implements ModifierInterface {
 			container.addView(nameText);
 		}
 
-		s = (Spinner) View.inflate(context, R.layout.material_factory_spinner,
-				null);
-		s.setLayoutParams(p2);
-		s.setOnTouchListener(new OnTouchListener() {
+		spinner = (Spinner) View.inflate(context,
+				R.layout.material_factory_spinner, null);
+		spinner.setLayoutParams(p2);
+		spinner.setOnTouchListener(new OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -105,7 +105,7 @@ public abstract class M_Spinner implements ModifierInterface {
 			}
 
 		});
-		s.setOnKeyListener(new OnKeyListener() {
+		spinner.setOnKeyListener(new OnKeyListener() {
 
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -115,11 +115,11 @@ public abstract class M_Spinner implements ModifierInterface {
 				return false;
 			}
 		});
-		s.setPrompt(getTitleForSpinnerBox());
+		spinner.setPrompt(getTitleForSpinnerBox());
 		setEditable(isEditable());
 		reloadItemsInSpinner(context);
 
-		container.addView(s);
+		container.addView(spinner);
 
 		return container;
 	}
@@ -143,11 +143,11 @@ public abstract class M_Spinner implements ModifierInterface {
 
 		};
 		a.setDropDownViewResource(android.R.layout.select_dialog_singlechoice);
-		int oldPos = s.getSelectedItemPosition();
+		int oldPos = spinner.getSelectedItemPosition();
 		if (oldPos != AdapterView.INVALID_POSITION) {
 			selectedItemPos = oldPos;
 		}
-		s.setAdapter(a);
+		spinner.setAdapter(a);
 		if (selectedItemPos == null) {
 			Log.i(LOG_TAG, "selectedItemPos was null, "
 					+ "using loadSelectedItemId()");
@@ -171,12 +171,12 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
-		if (s != null) {
+		if (spinner != null) {
 			myHandler.post(new Runnable() {
 				@Override
 				public void run() {
-					s.setEnabled(isEditable());
-					s.setFocusable(isEditable());
+					spinner.setEnabled(isEditable());
+					spinner.setFocusable(isEditable());
 				}
 			});
 		}
@@ -188,10 +188,10 @@ public abstract class M_Spinner implements ModifierInterface {
 
 	@Override
 	public boolean save() {
-		if (s.getSelectedItemId() == AdapterView.INVALID_ROW_ID) {
+		if (spinner.getSelectedItemId() == AdapterView.INVALID_ROW_ID) {
 			return false;
 		}
-		return save((SpinnerItem) s.getSelectedItem());
+		return save((SpinnerItem) spinner.getSelectedItem());
 	}
 
 	public abstract boolean save(SpinnerItem selectedItem);
@@ -229,7 +229,7 @@ public abstract class M_Spinner implements ModifierInterface {
 	}
 
 	public void selectInSpinner(final int posInList) {
-		if (s != null) {
+		if (spinner != null) {
 			myHandler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -245,7 +245,7 @@ public abstract class M_Spinner implements ModifierInterface {
 					}
 					selectedItemPos = posInList;
 					Log.i(LOG_TAG, "selected item pos=" + selectedItemPos);
-					s.setSelection(selectedItemPos);
+					spinner.setSelection(selectedItemPos);
 				}
 			});
 		}
