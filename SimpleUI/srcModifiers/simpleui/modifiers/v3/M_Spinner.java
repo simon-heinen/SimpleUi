@@ -207,47 +207,40 @@ public abstract class M_Spinner implements ModifierInterface {
 					+ "empty cant select an item in it");
 			return false;
 		}
-		if (selectedItemId < 0 || selectedItemId >= list.size()) {
-			Log.w(LOG_TAG, "selectedItemId was out of range (selectedItemId="
-					+ selectedItemId + ")");
-			return false;
-		}
 
 		if (selectedItemId < list.size()
 				&& list.get(selectedItemId).getId() == selectedItemId) {
-			selectInSpinner(selectedItemId);
-			return true;
+			return selectInSpinner(selectedItemId);
 		}
 
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId() == selectedItemId) {
-				selectInSpinner(i);
-				return true;
+				return selectInSpinner(i);
 			}
 		}
 		return false;
 	}
 
-	public void selectInSpinner(final int posInList) {
-		if (spinner != null) {
-			myHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					if (spinnerItemsList == null || spinnerItemsList.isEmpty()) {
-						Log.e(LOG_TAG, "spinnerItemsList was null or "
-								+ "empty cant select an item in it");
-						return;
-					}
-					if (posInList < 0 || posInList >= spinnerItemsList.size()) {
-						Log.e(LOG_TAG, "posInList was out of range (posInList="
-								+ posInList + ")");
-						return;
-					}
-					selectedItemPos = posInList;
-					Log.i(LOG_TAG, "selected item pos=" + selectedItemPos);
-					spinner.setSelection(selectedItemPos);
-				}
-			});
+	public boolean selectInSpinner(final int posInList) {
+		if (spinner == null || spinnerItemsList == null
+				|| spinnerItemsList.isEmpty()) {
+			Log.e(LOG_TAG, "spinner or spinnerItemsList was null or "
+					+ "empty cant select an item in it");
+			return false;
 		}
+		if (posInList < 0 || posInList >= spinnerItemsList.size()) {
+			Log.e(LOG_TAG, "posInList was out of range (posInList=" + posInList
+					+ ")");
+			return false;
+		}
+		myHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				selectedItemPos = posInList;
+				Log.i(LOG_TAG, "selected item pos=" + selectedItemPos);
+				spinner.setSelection(selectedItemPos);
+			}
+		});
+		return true;
 	}
 }
