@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+@Deprecated
 public class M_InfoTextList implements ModifierInterface, UiDecoratable {
 
 	private String myText;
@@ -48,10 +49,11 @@ public class M_InfoTextList implements ModifierInterface, UiDecoratable {
 	}
 
 	public void addLine(String line) {
-		if (myText == null)
+		if (myText == null) {
 			myText = line;
-		else
+		} else {
 			myText += "\n" + line;
+		}
 	}
 
 	public void clearLines() {
@@ -88,14 +90,16 @@ public class M_InfoTextList implements ModifierInterface, UiDecoratable {
 
 		l.addView(t);
 
-		if (myTextSize != 0)
+		if (myTextSize != 0) {
 			t.setTextSize(myTextSize);
+		}
 
 		if (myDecorator != null) {
 			int level = myDecorator.getCurrentLevel();
-			if (i != null)
+			if (i != null) {
 				myDecorator.decorate(context, i, level + 1,
 						UiDecorator.TYPE_ICON);
+			}
 			myDecorator.decorate(context, t, level + 1,
 					UiDecorator.TYPE_INFO_TEXT);
 		}

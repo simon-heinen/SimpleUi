@@ -11,7 +11,7 @@ import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
-import simpleui.modifiers.v3.M_TextInput;
+import simpleui.modifiers.v3.M_TextModifier;
 import android.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -397,7 +397,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 						+ "with your device. \n\n You can send "
 						+ "the error to us so that we can fix this bug."));
 
-		M_TextInput problemDescr = new M_TextInput(true, true, false) {
+		M_TextModifier problemDescr = new M_TextModifier(true, true, false) {
 
 			@Override
 			public boolean save(String newText) {
@@ -463,7 +463,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		}
 
 		if (exceptionText != null && !exceptionText.equals("")) {
-			c.add(new M_TextInput(false, true, false) {
+			c.add(new M_TextModifier(false, true, false) {
 
 				@Override
 				public boolean save(String newText) {
@@ -484,7 +484,7 @@ public class ErrorHandler extends Activity implements UncaughtExceptionHandler {
 		}
 
 		if (deviceDebugInformation != null) {
-			c.add(new M_TextInput(true, true, true) {
+			c.add(new M_TextModifier(true, true, true) {
 
 				@Override
 				public boolean save(String newText) {

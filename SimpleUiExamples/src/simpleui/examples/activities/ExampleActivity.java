@@ -11,7 +11,7 @@ import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_ImageGallery;
 import simpleui.modifiers.v3.M_InfoText;
-import simpleui.modifiers.v3.M_TextInput;
+import simpleui.modifiers.v3.M_TextModifier;
 import android.R;
 import android.app.Activity;
 import android.content.Context;
@@ -53,7 +53,7 @@ public class ExampleActivity extends Activity {
 						+ "getView() on any modifier to use "
 						+ "it without the SimpleUI activity eg"));
 
-		modifierList.add(new M_TextInput() {
+		modifierList.add(new M_TextModifier() {
 
 			@Override
 			public boolean save(String string) {

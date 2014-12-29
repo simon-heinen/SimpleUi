@@ -11,7 +11,7 @@ import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_ProgressBar;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Slider;
-import simpleui.modifiers.v3.M_TextInput;
+import simpleui.modifiers.v3.M_TextModifier;
 import simpleui.modifiers.v3.M_Toolbar;
 import simpleui.util.ColorUtils;
 import simpleui.util.MenuItemList;
@@ -43,7 +43,7 @@ public class M_CardViewTests extends M_Container {
 	}
 
 	private void addTestModifiers() {
-		add(new M_TextInput(true, false, false) {
+		add(new M_TextModifier(true, false, false) {
 
 			private String model = "Abc";
 

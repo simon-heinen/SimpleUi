@@ -1,21 +1,15 @@
 package simpleui.examples.modifiers;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_MakePhoto;
-import simpleui.modifiers.v3.M_RadioButtonListCreator;
-import simpleui.modifiers.v3.M_TextModifier;
 import simpleui.util.ActivityLifecycleListener;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.widget.Button;
 
-public class M_MakePhotoTests extends M_Container implements ActivityLifecycleListener {
+public class M_MakePhotoTests extends M_Container implements
+		ActivityLifecycleListener {
 	private M_MakePhoto photo;
 	private File file;
 
@@ -61,118 +55,6 @@ public class M_MakePhotoTests extends M_Container implements ActivityLifecycleLi
 			}
 		};
 		add(photo);
-
-		add(new M_TextModifier() {
-
-			@Override
-			public boolean save(String newValue) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public String load() {
-				// TODO Auto-generated method stub
-				return "abc";
-			}
-
-			@Override
-			public String getVarName() {
-				// TODO Auto-generated method stub
-				return "Test";
-			}
-		});
-		add(new M_TextModifier() {
-
-			@Override
-			public boolean save(String newValue) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-
-			@Override
-			public String load() {
-				// TODO Auto-generated method stub
-				return "abc";
-			}
-
-			@Override
-			public String getVarName() {
-				// TODO Auto-generated method stub
-				return "Test";
-			}
-		});
-
-		final M_RadioButtonListCreator responseOptionList = new M_RadioButtonListCreator() {
-			int selectedItem = -1;
-			List<String> answers = new ArrayList<String>();
-
-			@Override
-			public void setSelectedItemId(int newId) {
-				selectedItem = newId;
-			}
-
-			@Override
-			public void removeItem(int id) {
-				answers.remove(id);
-
-			}
-
-			@Override
-			public int getSelectedItemId() {
-				return selectedItem;
-			}
-
-			@Override
-			public List<SelectableItem> getItemList() {
-				List<SelectableItem> list = new ArrayList<SelectableItem>();
-				for (int i = 0; i < answers.size(); i++) {
-					final int index = i;
-					list.add(new SelectableItem() {
-
-						@Override
-						public void setText(String newText) {
-							answers.set(index, newText);
-						}
-
-						@Override
-						public void setId(int newId) {
-							answers.set(newId, getText());
-						}
-
-						@Override
-						public String getText() {
-							return answers.get(index);
-						}
-
-						@Override
-						public int getId() {
-							return index;
-						}
-					});
-
-				}
-				return list;
-			}
-
-			@Override
-			public void addNewItemToSelectableList(int id, String text) {
-				answers.add(id, text);
-
-			}
-		};
-
-		add(responseOptionList);
-
-		add(new M_Button("new answer") {
-
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-				responseOptionList.addNewEmptyItem(context);
-				this.getView(context).invalidate();
-			}
-		});
-
 	}
 
 	@Override

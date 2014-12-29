@@ -1,5 +1,6 @@
 package simpleui.modifiers.v3;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,70 +9,86 @@ import simpleui.modifiers.ModifierInterface;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.googlecode.simpleui.library.R;
 
-/**
- * use {@link M_RadioButtonListCreator2} instead
- */
-@Deprecated
 public abstract class M_RadioButtonListCreator implements ModifierInterface {
 
-	private static final String TAG = "M_RadioButtonListCreator";
+	private static final String TAG = "M_SpinnerWithCheckboxesCreator";
 
-	public interface SelectableItem {
-		int getId();
-
-		void setId(int newId);
-
-		String getText();
-
-		void setText(String newText);
-	}
-
-	private RadioGroup group;
-	private List<SelectableItem> list;
-	private int selectedItem = -1;
+	private ArrayList<String> itemList;
 
 	private final int layoutWeightSelect = 1;
 	private final int layoutWeightTextInput = 2;
 	private final int layoutWeightDelete = 1;
 
-	private List<Integer> itemsToRemove;
+	/**
+	 * The positions in the item list for all objects that have to be removed
+	 */
+	private List<Integer> itemPosToRemove;
+	private Integer selectedItemNr;
+	private LinearLayout listView;
 
 	@Override
 	public View getView(final Context context) {
-		group = new RadioGroup(context);
-		list = getItemList();
-		selectedItem = getSelectedItemId();
-		if (selectedItem >= 0) {
-			group.check(selectedItem);
-		}
-		itemsToRemove = new ArrayList<Integer>();
-		for (int i = 0; i < list.size(); i++) {
-			final int index = i;
-			final SelectableItem item = list.get(index);
-			LinearLayout button = createOptionRow(context, index, item);
-			group.addView(button, new ViewGroup.LayoutParams(
+		LinearLayout outerLinLay = new LinearLayout(context);
+		outerLinLay.setOrientation(LinearLayout.VERTICAL);
+
+		listView = new LinearLayout(context);
+		listView.setLayoutParams(new LinearLayout.LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		listView.setOrientation(LinearLayout.VERTICAL);
+		itemList = getItemList();
+		selectedItemNr = getSelectedItemNr();
+		itemPosToRemove = new ArrayList<Integer>();
+		for (int i = 0; i < itemList.size(); i++) {
+			final String item = itemList.get(i);
+			LinearLayout row = createOptionRow(context, i, item);
+			listView.addView(row, new ViewGroup.LayoutParams(
 					ViewGroup.LayoutParams.FILL_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT));
 		}
-		group.setEnabled(true);
-		group.setFocusable(true);
-		return group;
+
+		outerLinLay.addView(listView);
+		outerLinLay.addView(new M_Button(getAddItemButtonText()) {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				addNewEmptyItem(context);
+				this.getView(context).invalidate();
+			}
+		}.getView(context));
+		return outerLinLay;
+	}
+
+	public abstract Integer getSelectedItemNr();
+
+	/**
+	 * @return something like "Add new element"
+	 */
+	public abstract String getAddItemButtonText();
+
+	public void addNewEmptyItem(Context context) {
+		LinearLayout emptyItem = createOptionRow(context,
+				listView.getChildCount(), null);
+		listView.addView(emptyItem, new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT));
+		emptyItem.requestFocus();
 	}
 
 	private LinearLayout createOptionRow(final Context context,
-			final int index, final SelectableItem item) {
+			final int itemNrInList, String itemText) {
 		LinearLayout buttonBox = new LinearLayout(context);
 		buttonBox.setOrientation(LinearLayout.HORIZONTAL);
 		final ImageButton iconView = new ImageButton(context);
@@ -79,19 +96,14 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 
 			@Override
 			public void onClick(View v) {
-				if (group.getCheckedRadioButtonId() >= 0) {
-					ImageButton buttonToUncheck = (ImageButton) (((LinearLayout) group
-							.getChildAt(group.getCheckedRadioButtonId()))
-							.getChildAt(0));
-					buttonToUncheck
-							.setImageResource(android.R.drawable.radiobutton_off_background);
+				if (selectedItemNr != itemNrInList) {
+					selectedItemNr = itemNrInList;
+					setAllButtonsToUnChecked(listView);
+					iconView.setImageResource(android.R.drawable.radiobutton_on_background);
 				}
-				group.check(index);
-				iconView.setImageResource(android.R.drawable.radiobutton_on_background);
-
 			}
 		});
-		if (group.getCheckedRadioButtonId() == index) {
+		if (selectedItemNr == itemNrInList) {
 			iconView.setImageResource(android.R.drawable.radiobutton_on_background);
 		} else {
 			iconView.setImageResource(android.R.drawable.radiobutton_off_background);
@@ -104,12 +116,7 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 				R.layout.material_factory_edittext, null);
 		textInput.setEnabled(true);
 		textInput.setFocusable(true);
-		if (item != null) {
-			textInput.setText(item.getText());
-		} else {
-			textInput.setText(" ");
-			textInput.setText("");
-		}
+		textInput.setText(itemText);
 		buttonBox.addView(textInput, new LinearLayout.LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
 				layoutWeightTextInput));
@@ -120,25 +127,21 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 
 			@Override
 			public void onClick(View v) {
-				if (textInput.getText().toString().equals("")) {
-					group.removeViewAt(index);
-					if (index < list.size()) {
-						list.remove(index);
-					}
+				Log.i(TAG, "Adding item " + textInput.getText().toString()
+						+ " to the remove list");
+				if (!itemPosToRemove.contains(itemNrInList)) {
+					textInput.setPaintFlags(textInput.getPaintFlags()
+							| Paint.STRIKE_THRU_TEXT_FLAG);
+					textInput.setEnabled(false);
+					textInput.invalidate();
+					itemPosToRemove.add(itemNrInList);
 				} else {
-					if (!itemsToRemove.contains(index)) {
-						textInput.setPaintFlags(textInput.getPaintFlags()
-								| Paint.STRIKE_THRU_TEXT_FLAG);
-						textInput.invalidate();
-						itemsToRemove.add(index);
-					} else {
-						itemsToRemove.remove((Integer) index);
-						textInput.setPaintFlags(textInput.getPaintFlags()
-								& (~Paint.STRIKE_THRU_TEXT_FLAG));
-						textInput.invalidate();
-					}
+					itemPosToRemove.remove((Integer) itemNrInList);
+					textInput.setPaintFlags(textInput.getPaintFlags()
+							& (~Paint.STRIKE_THRU_TEXT_FLAG));
+					textInput.setEnabled(true);
+					textInput.invalidate();
 				}
-
 			}
 		});
 		buttonBox.addView(deleteButton, new LinearLayout.LayoutParams(
@@ -148,58 +151,74 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 		return buttonBox;
 	}
 
+	protected void setAllButtonsToUnChecked(LinearLayout container) {
+		for (int i = 0; i < container.getChildCount(); i++) {
+			ImageButton iconView = (ImageButton) ((LinearLayout) container
+					.getChildAt(i)).getChildAt(0);
+			iconView.setImageResource(android.R.drawable.radiobutton_off_background);
+		}
+	}
+
 	@Override
 	public boolean save() {
-		for (int i = 0; i < group.getChildCount(); i++) {
-			String itemText = ((TextView) ((LinearLayout) group.getChildAt(i))
-					.getChildAt(1)).getText().toString();
-			if (i <= list.size() - 1) {
-				SelectableItem itemToSave = list.get(i);
-				itemToSave.setText(itemText);
-				itemToSave.setId(i);
+
+		if (selectedItemNr < 0 || selectedItemNr >= listView.getChildCount()) {
+			Log.w(TAG,
+					"selectedItemNr=" + selectedItemNr
+							+ " not in allowed range. itemList.size()="
+							+ itemList.size());
+			return false;
+		}
+		if (itemPosToRemove.contains(selectedItemNr)) {
+			Log.w(TAG, "itemPosToRemove " + itemPosToRemove
+					+ " is not allowed to contain selectedItemNr="
+					+ selectedItemNr);
+			return false;
+		}
+
+		for (int i = 0; i < listView.getChildCount(); i++) {
+			String newItemText = ((TextView) ((LinearLayout) listView
+					.getChildAt(i)).getChildAt(1)).getText().toString();
+			if (i <= itemList.size() - 1) {
+				itemList.set(i, newItemText);
 			} else {
-				addNewItemToSelectableList(i, itemText);
+				addNewItemToList(itemList, newItemText);
 			}
 
 		}
 
-		selectedItem = group.getCheckedRadioButtonId();
-		Collections.sort(itemsToRemove);
-		for (int i = itemsToRemove.size() - 1; i >= 0; i--) {
-			if (itemsToRemove.get(i) == selectedItem) {
-				((LinearLayout) group.getChildAt(itemsToRemove.get(i)))
-						.requestFocus();
-				return false;
-			}
-			removeItem(itemsToRemove.get(i));
-			if (selectedItem > itemsToRemove.get(i)) {
-				selectedItem--;
-			}
+		Collections.sort(itemPosToRemove);
+		for (int i = itemPosToRemove.size() - 1; i >= 0; i--) {
+			removeItemFromList(itemList, itemPosToRemove.get(i));
 		}
+		itemPosToRemove.clear();
 
-		setSelectedItemId(selectedItem);
-
-		return true;
+		return save(itemList, selectedItemNr);
 
 	}
 
-	public void addNewEmptyItem(Context context) {
-		LinearLayout emptyItem = createOptionRow(context,
-				group.getChildCount(), null);
-		group.addView(emptyItem, new ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.WRAP_CONTENT));
-		emptyItem.requestFocus();
+	public void removeItemFromList(List<String> l, int itemNrToRemove) {
+		l.remove(itemNrToRemove);
 	}
 
-	public abstract List<SelectableItem> getItemList();
+	public void addNewItemToList(List<String> l, String newItemText) {
+		l.add(newItemText);
+	}
 
-	public abstract int getSelectedItemId();
+	public abstract ArrayList<String> getItemList();
 
-	public abstract void setSelectedItemId(int newId);
-
-	public abstract void removeItem(int id);
-
-	public abstract void addNewItemToSelectableList(int id, String text);
+	/**
+	 * @param itemList
+	 *            the item list which is passed in the {@link Modifier} when
+	 *            {@link M_RadioButtonListCreator#getItemList()} is called.
+	 *            This object is just returned here
+	 * @param selectedItemNr
+	 *            the list with all item ids for the items which are checked.
+	 *            You can also check if the list is empty to not allow selecting
+	 *            no anwers
+	 * @return
+	 */
+	public abstract boolean save(ArrayList<String> itemList,
+			Integer selectedItemNr);
 
 }

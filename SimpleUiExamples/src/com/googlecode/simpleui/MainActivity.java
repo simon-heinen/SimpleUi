@@ -41,7 +41,6 @@ import simpleui.modifiers.v3.M_SpinnerWithCheckboxes;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxes.SpinnerItem;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2.DefaultSpinnerItem;
-import simpleui.modifiers.v3.M_TextInput;
 import simpleui.modifiers.v3.M_TextModifier;
 import simpleui.modifiers.v3.maps.SimpleUIWithMaps;
 import simpleui.util.DragAndDropListener;
@@ -264,7 +263,7 @@ public class MainActivity extends Activity {
 					}
 
 				});
-				m.add(new M_TextInput() {
+				m.add(new M_TextModifier() {
 
 					@Override
 					public boolean save(String newText) {
@@ -803,7 +802,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				M_Container c = new M_Container();
-				c.add(new M_RadioButtonListCreator2() {
+				c.add(new M_RadioButtonListCreator() {
 
 					private Integer selectedItemNr = 1;
 
