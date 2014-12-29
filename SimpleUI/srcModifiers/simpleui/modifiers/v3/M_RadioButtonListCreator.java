@@ -22,6 +22,10 @@ import android.widget.TextView;
 
 import com.googlecode.simpleui.library.R;
 
+/**
+ * Lets the user create a list of radio-button-group entries
+ *
+ */
 public abstract class M_RadioButtonListCreator implements ModifierInterface {
 
 	private static final String TAG = "M_SpinnerWithCheckboxesCreator";
@@ -210,8 +214,8 @@ public abstract class M_RadioButtonListCreator implements ModifierInterface {
 	/**
 	 * @param itemList
 	 *            the item list which is passed in the {@link Modifier} when
-	 *            {@link M_RadioButtonListCreator#getItemList()} is called.
-	 *            This object is just returned here
+	 *            {@link M_RadioButtonListCreator#getItemList()} is called. This
+	 *            object is just returned here
 	 * @param selectedItemNr
 	 *            the list with all item ids for the items which are checked.
 	 *            You can also check if the list is empty to not allow selecting

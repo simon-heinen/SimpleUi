@@ -57,6 +57,12 @@ public abstract class M_RadioButtonList<T extends SelectableItem> implements
 	public M_RadioButtonList() {
 	}
 
+	/**
+	 * Override {@link M_RadioButtonList#loadSelectedItemId()} instead
+	 * 
+	 * @param idOfSelectedItem
+	 */
+	@Deprecated
 	public M_RadioButtonList(int idOfSelectedItem) {
 		this.idOfSelectedItem = idOfSelectedItem;
 	}
@@ -70,8 +76,9 @@ public abstract class M_RadioButtonList<T extends SelectableItem> implements
 			RadioButton b = (RadioButton) View.inflate(context,
 					R.layout.material_factory_radiobutton, null);
 			b.setId(item.getId());
-			if (idOfSelectedItem != null) {
-				b.setChecked(idOfSelectedItem.equals(item.getId()));
+			Integer selectedItemId = loadSelectedItemId();
+			if (selectedItemId != null) {
+				b.setChecked(selectedItemId.equals(item.getId()));
 			}
 			b.setText(item.getText());
 			b.setOnClickListener(new OnClickListener() {
@@ -85,6 +92,14 @@ public abstract class M_RadioButtonList<T extends SelectableItem> implements
 		}
 		setEditable(editable);
 		return group;
+	}
+
+	/**
+	 * @return the id of the item which should be selected or NULL if no item
+	 *         should be selected
+	 */
+	public Integer loadSelectedItemId() {
+		return idOfSelectedItem;
 	}
 
 	@Override
@@ -109,7 +124,8 @@ public abstract class M_RadioButtonList<T extends SelectableItem> implements
 	 * 
 	 * @param item
 	 */
-	public abstract void onItemSelectedByUser(Context context, T item);
+	public void onItemSelectedByUser(Context context, T item) {
+	}
 
 	public abstract List<T> getItemList();
 

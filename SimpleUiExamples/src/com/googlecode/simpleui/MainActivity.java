@@ -36,7 +36,7 @@ import simpleui.modifiers.v3.M_ItemBar;
 import simpleui.modifiers.v3.M_LeftRight;
 import simpleui.modifiers.v3.M_MakePhoto;
 import simpleui.modifiers.v3.M_PlusMinus;
-import simpleui.modifiers.v3.M_RadioButtonListCreator2;
+import simpleui.modifiers.v3.M_RadioButtonListCreator;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxes;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxes.SpinnerItem;
 import simpleui.modifiers.v3.M_SpinnerWithCheckboxesCreator2;
