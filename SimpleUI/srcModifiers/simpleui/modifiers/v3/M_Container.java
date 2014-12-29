@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 public class M_Container extends M_Collection implements OptionsMenuListener {
@@ -25,6 +26,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 	private Context context;
 	MenuItemList menuItemList;
 	private Integer cardBackgroundColor = null;
+	private boolean fillCompleteScreen = false;
 
 	@Override
 	public View getView(Context context) {
@@ -35,19 +37,37 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 		LinearLayout outerContainer = new LinearLayout(context);
 		LinearLayout listItemContainer = new LinearLayout(context);
+		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
+		boolean fillScreen = firstEntryIsToolbar || this.fillCompleteScreen;
+
+		int shaddowSize = M_CardView.DEFAULT_SHADDOW_SIZE;
+		if (fillScreen) {
+			shaddowSize = 0;
+		}
 		CardView card = M_CardView.newCardViewWithContainers(context,
-				outerContainer, listItemContainer, 0);
+				outerContainer, listItemContainer, shaddowSize);
 		if (cardBackgroundColor != null) {
 			card.setCardBackgroundColor(cardBackgroundColor);
 		}
-		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
 		createViewsForAllModifiers(context, listItemContainer,
 				firstEntryIsToolbar);
+		if (fillScreen) {
+			listItemContainer.setPadding(card.getPaddingLeft(),
+					card.getPaddingTop(), card.getPaddingRight(),
+					card.getPaddingBottom());
+			card.setContentPadding(0, 0, 0, 0);
+			card.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT));
+		}
 		if (firstEntryIsToolbar) {
 			outerContainer.addView(get(0).getView(context), 0);
 		}
 		mostOuterBox.addView(card);
 		return mostOuterBox;
+	}
+
+	public void setFillCompleteScreen(boolean fillCompleteScreen) {
+		this.fillCompleteScreen = fillCompleteScreen;
 	}
 
 	@Override

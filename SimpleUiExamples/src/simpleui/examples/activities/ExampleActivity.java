@@ -9,7 +9,7 @@ import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_CancelSave;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Container;
-import simpleui.modifiers.v3.M_ImageGallery;
+import simpleui.modifiers.v3.M_IconGallery;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_TextModifier;
 import android.R;
@@ -92,7 +92,7 @@ public class ExampleActivity extends Activity {
 
 		});
 
-		modifierList.add(new M_ImageGallery() {
+		modifierList.add(new M_IconGallery() {
 
 			@Override
 			public boolean save(int selectedItemId) {

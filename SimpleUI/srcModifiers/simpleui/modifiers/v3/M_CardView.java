@@ -2,6 +2,7 @@ package simpleui.modifiers.v3;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.util.ColorUtils;
+import simpleui.util.ImageTransform;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
@@ -14,7 +15,7 @@ import android.widget.ScrollView;
 public class M_CardView extends M_Collection {
 
 	private static final String LOG_TAG = M_CardView.class.getSimpleName();
-	private static final int DEFAULT_SHADDOW_SIZE = 20;
+	public static final int DEFAULT_SHADDOW_SIZE = 20;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 	private Integer backgroundColor;
 	private CardView card;
@@ -69,6 +70,8 @@ public class M_CardView extends M_Collection {
 		card.setLayoutParams(params);
 		card.setCardBackgroundColor(ColorUtils.getDefaultBackgroundColor(
 				context, 0xFF00FF));
+		int p = (int) ImageTransform.dipToPixels(context, 3);
+		card.setContentPadding(p, p, p, p);
 		return card;
 	}
 

@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public abstract class M_ImageGallery implements ModifierInterface,
+public abstract class M_IconGallery implements ModifierInterface,
 		UiDecoratable {
 
 	private int selectedItemNr = -1;
