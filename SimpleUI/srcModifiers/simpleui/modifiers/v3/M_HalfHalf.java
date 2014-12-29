@@ -75,7 +75,7 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 	@Override
 	public View getView(Context context) {
 
-		int f = 4;
+		int f = 2;
 		LinearLayout l = new LinearLayout(context);
 		l.setPadding(l.getPaddingLeft() + f, l.getPaddingTop() + f,
 				l.getPaddingRight() + f, l.getPaddingBottom() + f);
@@ -115,10 +115,12 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 					weightOfRight);
 			left.setLayoutParams(lparams);
 			right.setLayoutParams(rparams);
-			int h = (int) ImageTransform.dipToPixels(context.getResources(),
-					minimumHeigthInDip);
-			left.setMinimumHeight(h);
-			right.setMinimumHeight(h);
+			if (minimumHeigthInDip != null) {
+				int h = (int) ImageTransform.dipToPixels(
+						context.getResources(), minimumHeigthInDip);
+				left.setMinimumHeight(h);
+				right.setMinimumHeight(h);
+			}
 		} else {
 			// TODO or always use FILL_PARENT for height?
 			LayoutParams lparams = new LinearLayout.LayoutParams(

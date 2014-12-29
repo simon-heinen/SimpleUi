@@ -14,8 +14,8 @@ import android.widget.ScrollView;
 
 public class M_CardView extends M_Collection {
 
-	private static final int DEFAULT_CHILDREN_PADDING = 4;
 	private static final String LOG_TAG = M_CardView.class.getSimpleName();
+	public static final int DEFAULT_CHILDREN_PADDING = 4;
 	public static final int DEFAULT_SHADDOW_SIZE = 20;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 	private Integer backgroundColor;

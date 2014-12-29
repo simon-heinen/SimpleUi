@@ -51,10 +51,24 @@ public class M_ModifierOverview extends M_Container {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("This is a M_CardView"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
-		c.add(new M_InfoText(R.drawable.ic_dialog_info,
-				"It can contain as many modifiers as you want."));
 		c.add(new M_InfoText("Modifiers will be grouped in separate "
 				+ "cards to give you a better overview."));
+		c.add(new M_InfoText(R.drawable.ic_dialog_info,
+				"A M_CardView can contain as many modifiers as you want."));
+		c.add(new M_InfoText(
+				"This information is shown using M_InfoText modifiers. These modifiers display normal unmodifiable content."));
+
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		c.add(new M_InfoText("Example caption:",
+				"M_InfoText can also be used for such structured text."));
+		c.add(new M_InfoText("Another caption:", "Another example description"));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+
+		M_InfoText infoTextWithUrlsEnabled = new M_InfoText(
+				R.drawable.ic_dialog_alert,
+				"Text blocks with embedded URLs like google.com are supported as well!");
+		infoTextWithUrlsEnabled.setContainsUrls(true);
+		c.add(infoTextWithUrlsEnabled);
 		return c;
 	}
 
@@ -225,8 +239,8 @@ public class M_ModifierOverview extends M_Container {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("M_ProgressBar and M_Slider"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
-		c.add(new M_InfoText("An M_ProgressBar (which can be "
-				+ "updated by M_Slider):"));
+		c.add(new M_InfoText("An M_ProgressBar (which is automatically "
+				+ "updated by the M_Slider):"));
 		final int maxValue = 100;
 		final M_ProgressBar progressbar = new M_ProgressBar() {
 

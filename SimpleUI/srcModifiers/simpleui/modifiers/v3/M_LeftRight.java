@@ -10,10 +10,14 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
+/**
+ * use {@link M_HalfHalf} instead, has the same features
+ */
+@Deprecated
 public class M_LeftRight implements ModifierInterface, UiDecoratable {
 
-	private ModifierInterface myLeft;
-	private ModifierInterface myRight;
+	private final ModifierInterface myLeft;
+	private final ModifierInterface myRight;
 	private UiDecorator myDecorator;
 	private Integer minimumHeigthInDip;
 	private boolean bothViewsSameHeigth;

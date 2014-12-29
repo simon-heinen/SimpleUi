@@ -7,9 +7,15 @@ import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Use a {@link M_InfoText} with {@link M_InfoText#setContainsUrls(boolean)}
+ * instead
+ *
+ */
+@Deprecated
 public class M_Url implements ModifierInterface {
 
-	private String url;
+	private final String url;
 
 	public M_Url(String url) {
 		this.url = url;
