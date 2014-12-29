@@ -10,6 +10,8 @@ import simpleui.modifiers.v3.M_CardView;
 import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_FloatModifier;
+import simpleui.modifiers.v3.M_HalfHalf;
+import simpleui.modifiers.v3.M_ImageView;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_IntModifier;
 import simpleui.modifiers.v3.M_ProgressBar;
@@ -19,9 +21,14 @@ import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Slider;
 import simpleui.modifiers.v3.M_Spinner;
 import simpleui.modifiers.v3.M_TextModifier;
+import simpleui.modifiers.v3.M_Toolbar;
+import simpleui.util.MenuItemList;
+import simpleui.util.MenuItemList.MItem;
 import android.R;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -34,20 +41,34 @@ public class M_ModifierOverview extends M_Container {
 
 	public M_ModifierOverview() {
 		setCardBackgroundColor(Color.DKGRAY);
-		add(newM_CardView());
-		add(newM_ButtonExample());
-		add(newM_CheckboxAndM_RadioButtonList());
+		addM_ToolbarExample();
+		add(newM_CardViewAndM_InfoTextExamples());
+		add(newM_ButtonExamples());
+		add(newM_HalfHalfExamples());
+		add(newM_CheckboxAndM_RadioButtonListExamples());
 		add(newM_TextModifierExamples());
-		add(newM_ProgressBarExample());
+		add(newM_ProgressBarExamples());
 		add(newM_SpinnerExample());
 
+	}
+
+	private void addM_ToolbarExample() {
+		add(new M_Toolbar("Modifier Overview"));
+		MenuItemList menuItemList = new MenuItemList();
+		menuItemList.add(new MItem("I'm a M_Toolbar, click here", null) {
+			@Override
+			public void onClick(Activity context) {
+				toast(context, "Item in M_Toolbar clicked");
+			}
+		});
+		setMenuItemList(menuItemList);
 	}
 
 	private static void toast(Context c, String text) {
 		Toast.makeText(c, text, Toast.LENGTH_SHORT).show();
 	}
 
-	private static M_CardView newM_CardView() {
+	private static M_CardView newM_CardViewAndM_InfoTextExamples() {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("This is a M_CardView"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
@@ -72,7 +93,7 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_ButtonExample() {
+	private static M_CardView newM_ButtonExamples() {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("M_Button examples"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
@@ -93,7 +114,36 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_CheckboxAndM_RadioButtonList() {
+	private static M_CardView newM_HalfHalfExamples() {
+		M_CardView c = new M_CardView();
+		c.add(new M_Caption("M_HalfHalf examples"));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		c.add(new M_InfoText("A first M_HalfHalf example with 2 buttons:"));
+		ModifierInterface left = new M_Button("Left button in M_HalfHalf") {
+
+			@Override
+			public void onClick(Context context, Button arg1) {
+				toast(context, "I'm the left button");
+			}
+		};
+		ModifierInterface right = new M_Button("Right button in M_HalfHalf") {
+
+			@Override
+			public void onClick(Context context, Button arg1) {
+				toast(context, "I'm the right button");
+			}
+		};
+		c.add(new M_HalfHalf(left, right));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		left = new M_ImageView(Uri.parse("http://lorempixel.com/200/320/"));
+		right = new M_InfoText(
+				"Like in this second M_HalfHalf the 2 modifiers can have different weights, to make one modifier bigger than the other. In this case the left one is a M_ImageView");
+		c.add(new M_HalfHalf(left, right, 2, 1));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		return c;
+	}
+
+	private static M_CardView newM_CheckboxAndM_RadioButtonListExamples() {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("M_RadioButtonList"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
@@ -235,7 +285,7 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static ModifierInterface newM_ProgressBarExample() {
+	private static ModifierInterface newM_ProgressBarExamples() {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("M_ProgressBar and M_Slider"));
 		c.add(M_SeperatorLine.newMaterialOne(null));

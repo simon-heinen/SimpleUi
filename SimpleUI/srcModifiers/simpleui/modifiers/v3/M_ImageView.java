@@ -1,9 +1,11 @@
 package simpleui.modifiers.v3;
 
 import java.io.File;
+import java.io.IOException;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.util.IO;
+import simpleui.util.SimpleUiApplication;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -39,6 +41,7 @@ public class M_ImageView implements ModifierInterface, Target {
 	private OnClickListener imageClickListener;
 	private Integer maxHeightInPixel = null;
 	private Integer maxWidthInPixel = null;
+	private Context context;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
 
 	public M_ImageView() {
@@ -58,12 +61,6 @@ public class M_ImageView implements ModifierInterface, Target {
 		Picasso.with(context).load(imagePath).into(this);
 	}
 
-	/**
-	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
-	 * 
-	 * @param uri
-	 */
-	@Deprecated
 	public M_ImageView(Uri uri) {
 		setBitmapUri(uri);
 	}
@@ -76,12 +73,6 @@ public class M_ImageView implements ModifierInterface, Target {
 		this.maxWidthInPixel = maxWidthInPixel;
 	}
 
-	/**
-	 * deprication info: read {@link M_ImageView#setBitmapUri(Uri)}
-	 * 
-	 * @param imageFile
-	 */
-	@Deprecated
 	public M_ImageView(File imageFile) {
 		setBitmapUri(IO.toUri(imageFile));
 	}
@@ -119,11 +110,18 @@ public class M_ImageView implements ModifierInterface, Target {
 
 	@Override
 	public View getView(Context context) {
+		this.context = context;
 		imageView = new ImageView(context) {
 
 			@Override
 			protected void onAttachedToWindow() {
-				refreshImageViewFromUiThread();
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						refreshImageView();
+					}
+				}).start();
 				super.onAttachedToWindow();
 			}
 
@@ -185,6 +183,11 @@ public class M_ImageView implements ModifierInterface, Target {
 			refreshImageViewFromUiThread();
 		} else {
 			// Not on UI thread.
+			try {
+				setBitmap(Picasso.with(getContext()).load(bitmapUri).get());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			myHandler.post(new Runnable() {
 				@Override
 				public void run() {
@@ -246,6 +249,13 @@ public class M_ImageView implements ModifierInterface, Target {
 			}
 			oldBitmapToBeRecycled = null;
 		}
+	}
+
+	private Context getContext() {
+		if (context == null) {
+			context = SimpleUiApplication.getContext();
+		}
+		return context;
 	}
 
 	public void setImageClickListener(OnClickListener l) {
