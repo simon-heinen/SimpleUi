@@ -24,6 +24,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	private Context context;
 	MenuItemList menuItemList;
+	private Integer cardBackgroundColor = null;
 
 	@Override
 	public View getView(Context context) {
@@ -36,6 +37,9 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		LinearLayout listItemContainer = new LinearLayout(context);
 		CardView card = M_CardView.newCardViewWithContainers(context,
 				outerContainer, listItemContainer, 0);
+		if (cardBackgroundColor != null) {
+			card.setCardBackgroundColor(cardBackgroundColor);
+		}
 		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
 		createViewsForAllModifiers(context, listItemContainer,
 				firstEntryIsToolbar);
@@ -55,6 +59,10 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 			}
 		}
 		return result;
+	}
+
+	public void setCardBackgroundColor(Integer cardBackgroundColor) {
+		this.cardBackgroundColor = cardBackgroundColor;
 	}
 
 	public void setMenuItemList(MenuItemList menuItemList) {

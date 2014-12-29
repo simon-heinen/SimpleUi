@@ -8,6 +8,7 @@ import java.util.List;
 import simpleui.SimpleUI;
 import simpleui.examples.M_CardViewTests;
 import simpleui.examples.M_ExampleDemoUiV1;
+import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity;
 import simpleui.examples.activities.ExampleSurveyActivity;
 import simpleui.examples.injection.ExampleButterknifeAndDaggerActivity;
@@ -27,12 +28,10 @@ import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_Container2;
 import simpleui.modifiers.v3.M_DateModifier;
-import simpleui.modifiers.v3.M_Double;
 import simpleui.modifiers.v3.M_EmailInput;
 import simpleui.modifiers.v3.M_FilePickerButton;
 import simpleui.modifiers.v3.M_ImageView;
 import simpleui.modifiers.v3.M_InfoText;
-import simpleui.modifiers.v3.M_Integer;
 import simpleui.modifiers.v3.M_ItemBar;
 import simpleui.modifiers.v3.M_LeftRight;
 import simpleui.modifiers.v3.M_MakePhoto;
@@ -101,6 +100,16 @@ public class MainActivity extends Activity {
 		// throwExceptionForErrorHandlerTesting();
 
 		M_Container c = new M_Container();
+
+		c.add(new M_Button("Start M_ModifierOverview") {
+
+			M_ModifierOverview m_ModifierOverview = new M_ModifierOverview();
+
+			@Override
+			public void onClick(Context arg0, Button arg1) {
+				SimpleUI.showInfoDialog(arg0, "Close", m_ModifierOverview);
+			}
+		});
 
 		c.add(M_ListWrapperV3Tests.newButtonForM_ListWrapperV4Tests());
 
@@ -209,7 +218,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showInfoDialog(context, "Close", new M_MakePhotoTests());
+				SimpleUI.showInfoDialog(context, "Close",
+						new M_MakePhotoTests());
 			}
 		});
 
@@ -310,43 +320,6 @@ public class MainActivity extends Activity {
 								+ doubleValue1 + ")";
 					}
 				});
-				m.add(new M_Double() {
-
-					@Override
-					public boolean save(double newValue) {
-						doubleValue2 = newValue;
-						return true;
-					}
-
-					@Override
-					public double load() {
-						return doubleValue2;
-					}
-
-					@Override
-					public String getVarName() {
-						return "Double 2";
-					}
-				});
-				m.add(new M_Integer() {
-
-					@Override
-					public boolean save(int newValue) {
-						intValue = newValue;
-						return true;
-					}
-
-					@Override
-					public int load() {
-						return intValue;
-					}
-
-					@Override
-					public String getVarName() {
-						// TODO Auto-generated method stub
-						return "Test";
-					}
-				});
 
 				m.assignNewDecorator(new ExampleDecorator());
 
@@ -444,8 +417,9 @@ public class MainActivity extends Activity {
 
 				// c.add(M_ListWrapperV2.newStringCollectionModifier(l1,
 				// "Add"));
-				M_ListWrapperV2Tests.generateEditUiForAssociationQuestionQuestion(
-						c, answers, questions, numbers);
+				M_ListWrapperV2Tests
+						.generateEditUiForAssociationQuestionQuestion(c,
+								answers, questions, numbers);
 				SimpleUI.showCancelOkDialog(context, "Cancel", "Ok", c);
 			}
 		});
@@ -550,8 +524,8 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				SimpleUI.showInfoDialog(context, "Ok",
-						new M_WebViewTests(context));
+				SimpleUI.showInfoDialog(context, "Ok", new M_WebViewTests(
+						context));
 			}
 		});
 	}
@@ -766,8 +740,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				SimpleUIWithMaps.showUi(MainActivity.this,
-						new M_GoogleMapsV2Tests(),
-						ExampleMapActivity.class);
+						new M_GoogleMapsV2Tests(), ExampleMapActivity.class);
 			}
 		});
 		c.add(new M_Button("Select pos on map v2") {

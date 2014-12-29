@@ -3,6 +3,7 @@ package simpleui.modifiers.v3;
 import java.util.List;
 
 import simpleui.modifiers.ModifierInterface;
+import simpleui.modifiers.v3.M_RadioButtonList.SelectableItem;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,7 +14,8 @@ import android.widget.RadioGroup;
 
 import com.googlecode.simpleui.library.R;
 
-public abstract class M_RadioButtonList implements ModifierInterface {
+public abstract class M_RadioButtonList<T extends SelectableItem> implements
+		ModifierInterface {
 
 	public interface SelectableItem {
 		/**
@@ -26,20 +28,25 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 
 	}
 
-	public static SelectableItem newDefaultSelectableItem(final int id,
-			final String text) {
-		return new SelectableItem() {
+	public static class DefaultSelectableItem implements SelectableItem {
 
-			@Override
-			public String getText() {
-				return text;
-			}
+		private final String text;
+		private final int id;
 
-			@Override
-			public int getId() {
-				return id;
-			}
-		};
+		public DefaultSelectableItem(final int id, final String text) {
+			this.id = id;
+			this.text = text;
+		}
+
+		@Override
+		public String getText() {
+			return text;
+		}
+
+		@Override
+		public int getId() {
+			return id;
+		}
 	}
 
 	private RadioGroup group;
@@ -57,9 +64,9 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 	@Override
 	public View getView(final Context context) {
 		group = new RadioGroup(context);
-		List<SelectableItem> list = getItemList();
+		List<T> list = getItemList();
 		for (int i = 0; i < list.size(); i++) {
-			final SelectableItem item = list.get(i);
+			final T item = list.get(i);
 			RadioButton b = (RadioButton) View.inflate(context,
 					R.layout.material_factory_radiobutton, null);
 			b.setId(item.getId());
@@ -82,7 +89,7 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 
 	@Override
 	public boolean save() {
-		for (SelectableItem i : getItemList()) {
+		for (T i : getItemList()) {
 			if (i.getId() == group.getCheckedRadioButtonId()) {
 				return save(i);
 			}
@@ -90,7 +97,7 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 		return false;
 	}
 
-	public abstract boolean save(SelectableItem item);
+	public abstract boolean save(T item);
 
 	/**
 	 * This is called as soon as the user selects an {@link SelectableItem} in
@@ -102,10 +109,9 @@ public abstract class M_RadioButtonList implements ModifierInterface {
 	 * 
 	 * @param item
 	 */
-	public abstract void onItemSelectedByUser(Context context,
-			SelectableItem item);
+	public abstract void onItemSelectedByUser(Context context, T item);
 
-	public abstract List<SelectableItem> getItemList();
+	public abstract List<T> getItemList();
 
 	public void setEditable(final boolean editable) {
 		this.editable = editable;

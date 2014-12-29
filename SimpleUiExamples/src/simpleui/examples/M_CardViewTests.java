@@ -1,8 +1,5 @@
 package simpleui.examples;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
@@ -12,7 +9,6 @@ import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_HalfHalf;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_ProgressBar;
-import simpleui.modifiers.v3.M_RadioButtonList;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Slider;
 import simpleui.modifiers.v3.M_TextInput;
@@ -101,25 +97,7 @@ public class M_CardViewTests extends M_Container {
 				return "M_Progressbar example";
 			}
 		});
-		add(new M_RadioButtonList() {
 
-			@Override
-			public boolean save(SelectableItem i) {
-				return true;
-			}
-
-			@Override
-			public void onItemSelectedByUser(Context c, SelectableItem i) {
-			}
-
-			@Override
-			public List<SelectableItem> getItemList() {
-				List<SelectableItem> l = new ArrayList<M_RadioButtonList.SelectableItem>();
-				l.add(newDefaultSelectableItem(0, "Item 1"));
-				l.add(newDefaultSelectableItem(1, "Item 2"));
-				return l;
-			}
-		});
 		add(new M_Slider(6, 12) {
 
 			@Override

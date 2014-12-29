@@ -11,7 +11,17 @@ import android.content.Context;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * The following is now already done in the main activity:<br>
+ * // To display the generated UI the SimpleUI class can be used:<br>
+ * SimpleUI.showUi(context, box);<br>
+ * // or you generate the UI for this box controller: <br>
+ * View generatedView = box.getView(context);<br>
+ * 
+ */
 public class M_ExampleDemoUiV1 extends M_Container {
+
+	private static final long serialVersionUID = -1823400016600929569L;
 
 	public M_ExampleDemoUiV1() {
 
@@ -66,10 +76,5 @@ public class M_ExampleDemoUiV1 extends M_Container {
 			}
 		});
 
-		// the following is now already done in the main activity:
-		// // To display the generated UI the SimpleUI class can be used:
-		// SimpleUI.showUi(context, box);
-		// // or you generate the UI for this box controller:
-		// View generatedView = box.getView(context);
 	}
 }
