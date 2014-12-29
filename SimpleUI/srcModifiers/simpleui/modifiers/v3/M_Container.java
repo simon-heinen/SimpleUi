@@ -52,10 +52,6 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		createViewsForAllModifiers(context, listItemContainer,
 				firstEntryIsToolbar);
 		if (fillScreen) {
-			listItemContainer.setPadding(card.getPaddingLeft(),
-					card.getPaddingTop(), card.getPaddingRight(),
-					card.getPaddingBottom());
-			card.setContentPadding(0, 0, 0, 0);
 			card.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 					LayoutParams.MATCH_PARENT));
 		}

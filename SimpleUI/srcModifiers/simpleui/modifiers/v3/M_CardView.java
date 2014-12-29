@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 
 public class M_CardView extends M_Collection {
 
+	private static final int DEFAULT_CHILDREN_PADDING = 4;
 	private static final String LOG_TAG = M_CardView.class.getSimpleName();
 	public static final int DEFAULT_SHADDOW_SIZE = 20;
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
@@ -50,6 +51,9 @@ public class M_CardView extends M_Collection {
 		outerContainer.setOrientation(LinearLayout.VERTICAL);
 		ScrollView scrollContainer = new ScrollView(context);
 		listItemContainer.setOrientation(LinearLayout.VERTICAL);
+		int p = (int) ImageTransform.dipToPixels(context,
+				DEFAULT_CHILDREN_PADDING);
+		listItemContainer.setPadding(p, p, p, p);
 		scrollContainer.addView(listItemContainer);
 		outerContainer.addView(scrollContainer);
 		card.addView(outerContainer);
@@ -70,8 +74,6 @@ public class M_CardView extends M_Collection {
 		card.setLayoutParams(params);
 		card.setCardBackgroundColor(ColorUtils.getDefaultBackgroundColor(
 				context, 0xFF00FF));
-		int p = (int) ImageTransform.dipToPixels(context, 3);
-		card.setContentPadding(p, p, p, p);
 		return card;
 	}
 
