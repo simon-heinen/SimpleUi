@@ -9,6 +9,7 @@ import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_CardView;
 import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
+import simpleui.modifiers.v3.M_Container2;
 import simpleui.modifiers.v3.M_FloatModifier;
 import simpleui.modifiers.v3.M_HalfHalf;
 import simpleui.modifiers.v3.M_ImageView;
@@ -22,6 +23,7 @@ import simpleui.modifiers.v3.M_Slider;
 import simpleui.modifiers.v3.M_Spinner;
 import simpleui.modifiers.v3.M_TextModifier;
 import simpleui.modifiers.v3.M_Toolbar;
+import simpleui.modifiers.v3.M_WebView;
 import simpleui.util.MenuItemList;
 import simpleui.util.MenuItemList.MItem;
 import android.R;
@@ -49,7 +51,8 @@ public class M_ModifierOverview extends M_Container {
 		add(newM_TextModifierExamples());
 		add(newM_ProgressBarExamples());
 		add(newM_SpinnerExample());
-
+		add(newM_WebviewExample());
+		add(newM_Container2Example());
 	}
 
 	private void addM_ToolbarExample() {
@@ -364,6 +367,40 @@ public class M_ModifierOverview extends M_Container {
 
 		});
 		return c;
+	}
+
+	private static M_CardView newM_WebviewExample() {
+		M_CardView c = new M_CardView();
+		c.add(new M_Caption("M_WebView example:"));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		c.add(new M_WebView(true, false) {
+			@Override
+			public String getUrlToDisplay() {
+				return "https://www.google.com";
+			}
+
+			@Override
+			public void onPageLoadProgress(int percent) {
+			}
+
+			@Override
+			protected void onPageLoaded(String url) {
+			}
+
+		});
+		return c;
+	}
+
+	private static M_CardView newM_Container2Example() {
+		M_CardView card = new M_CardView();
+		M_Container2 c = new M_Container2(
+				"I'm a M_Container2: Click here to collapse me");
+		card.add(c);
+		c.add(M_SeperatorLine.newMaterialOne(null));
+		for (int i = 0; i < 10; i++) {
+			c.add(new M_InfoText("Example text " + i));
+		}
+		return card;
 	}
 
 }
