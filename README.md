@@ -99,13 +99,4 @@ The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/
 Updated screenshots (Your modifiers will now automatically use the Material UI):
 ![](https://lh4.googleusercontent.com/-yXBpidCLw9E/VJhVEO5yxkI/AAAAAAAAt-8/gBViaczGf7w/w814-h757-no/simpleUiAndroidLvsPreL.png  "")
 
-The following example designs can be created in minutes using SimpleUI. For more infos read (http://andrdev.blogspot.de/2012/04/simpleui-v2.html)
-
-![](http://simpleui.googlecode.com/files/device-2012-04-27-164140.png  "")
-![](http://simpleui.googlecode.com/files/device-2012-04-27-164223.png  "")
-
-![](http://simpleui.googlecode.com/files/device-2012-04-27-164239.png  "")
-![](http://simpleui.googlecode.com/files/device-2012-04-27-164254.png  "")
-
-
 http://simpleui.googlecode.com/files/SimpleUI.jpeg
