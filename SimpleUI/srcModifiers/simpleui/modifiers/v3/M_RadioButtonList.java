@@ -52,19 +52,8 @@ public abstract class M_RadioButtonList<T extends SelectableItem> implements
 	private RadioGroup group;
 	private boolean editable = true;
 	private final Handler myHandler = new Handler(Looper.getMainLooper());
-	private Integer idOfSelectedItem;
 
 	public M_RadioButtonList() {
-	}
-
-	/**
-	 * Override {@link M_RadioButtonList#loadSelectedItemId()} instead
-	 * 
-	 * @param idOfSelectedItem
-	 */
-	@Deprecated
-	public M_RadioButtonList(int idOfSelectedItem) {
-		this.idOfSelectedItem = idOfSelectedItem;
 	}
 
 	@Override
@@ -98,9 +87,7 @@ public abstract class M_RadioButtonList<T extends SelectableItem> implements
 	 * @return the id of the item which should be selected or NULL if no item
 	 *         should be selected
 	 */
-	public Integer loadSelectedItemId() {
-		return idOfSelectedItem;
-	}
+	public abstract Integer loadSelectedItemId();
 
 	@Override
 	public boolean save() {

@@ -98,7 +98,11 @@ public class M_CardViewTests extends M_Container {
 			}
 		});
 
-		add(new M_Slider(6, 12) {
+		add(new M_Slider(12) {
+			@Override
+			public int loadCurrentValue() {
+				return 6;
+			}
 
 			@Override
 			public boolean save(int arg0) {

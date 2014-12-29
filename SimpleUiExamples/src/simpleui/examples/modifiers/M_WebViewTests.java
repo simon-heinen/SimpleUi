@@ -52,6 +52,11 @@ public class M_WebViewTests extends M_Container {
 			}
 
 			@Override
+			public Integer loadSelectedItemId() {
+				return 1;
+			}
+
+			@Override
 			public List<SelectableItem> getItemList() {
 				ArrayList<SelectableItem> l = new ArrayList<M_RadioButtonList.SelectableItem>();
 				l.add(new SelectableItem() {
@@ -79,11 +84,6 @@ public class M_WebViewTests extends M_Container {
 					}
 				});
 				return l;
-			}
-
-			@Override
-			public void onItemSelectedByUser(Context context,
-					SelectableItem item) {
 			}
 
 		});

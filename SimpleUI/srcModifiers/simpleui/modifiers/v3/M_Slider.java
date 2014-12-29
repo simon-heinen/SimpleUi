@@ -17,8 +17,7 @@ public abstract class M_Slider implements ModifierInterface,
 	private final int maxValue;
 	private UiCreateListener<SeekBar> uiListener;
 
-	public M_Slider(int initValue, int maxValue) {
-		this.mProgress = initValue;
+	public M_Slider(int maxValue) {
 		this.maxValue = maxValue;
 	}
 
@@ -27,6 +26,7 @@ public abstract class M_Slider implements ModifierInterface,
 		SeekBar s = (SeekBar) View.inflate(context,
 				R.layout.material_factory_seekbar, null);
 		s.setMax(maxValue);
+		this.mProgress = loadCurrentValue();
 		s.setProgress(mProgress);
 		s.setOnSeekBarChangeListener(this);
 		if (uiListener != null) {
@@ -44,10 +44,12 @@ public abstract class M_Slider implements ModifierInterface,
 		return save(mProgress);
 	}
 
+	public abstract int loadCurrentValue();
+
 	public abstract boolean save(int progress);
 
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress,
+	public final void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
 		this.mProgress = progress;
 		if (fromUser) {

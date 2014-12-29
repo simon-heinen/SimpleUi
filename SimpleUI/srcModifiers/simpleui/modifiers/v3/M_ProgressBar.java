@@ -57,11 +57,14 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 		container.setOrientation(LinearLayout.VERTICAL);
 		container.setGravity(Gravity.CENTER_VERTICAL);
 
-		nameText = new TextView(context);
-		nameText.setText(getVarName());
-		nameText.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 2));
-		container.addView(nameText);
+		String progressBarCaption = getVarName();
+		if (progressBarCaption != null) {
+			nameText = new TextView(context);
+			nameText.setText(progressBarCaption);
+			nameText.setLayoutParams(new LinearLayout.LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 2));
+			container.addView(nameText);
+		}
 
 		progressBar = (ProgressBar) View.inflate(context,
 				R.layout.material_factory_progressbar_horizontal, null);
@@ -112,10 +115,20 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 
 	public abstract int loadMaxValue();
 
-	public abstract String getVarName();
+	@Deprecated
+	public String getVarName() {
+		return null;
+	}
 
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
 
+	/**
+	 * use {@link M_ProgressBar#setValue(int)} instead
+	 * 
+	 * @param newProgressValue
+	 * @param updatedText
+	 */
+	@Deprecated
 	public void updateValue(final int newProgressValue, final String updatedText) {
 		// do it from the UI thread:
 		mHandler.post(new Runnable() {
@@ -127,6 +140,10 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 				}
 			}
 		});
+	}
+
+	public void setValue(int newProgressValue) {
+		updateValue(newProgressValue, null);
 	}
 
 	public int getProgressValue() {
