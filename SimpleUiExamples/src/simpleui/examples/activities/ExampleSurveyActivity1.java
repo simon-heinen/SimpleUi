@@ -2,9 +2,6 @@ package simpleui.examples.activities;
 
 import java.util.ArrayList;
 
-import com.googlecode.simpleui.R;
-import com.googlecode.simpleui.R.drawable;
-
 import simpleui.customViews.SimpleRatingBar;
 import simpleui.customViews.SimpleRatingBar.RatingItem;
 import simpleui.modifiers.v3.M_Button;
@@ -18,7 +15,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-public class ExampleSurveyActivity extends Activity {
+import com.googlecode.simpleui.R;
+
+public class ExampleSurveyActivity1 extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +63,7 @@ public class ExampleSurveyActivity extends Activity {
 
 			@Override
 			public boolean save(String validEmailAddress) {
-				sendMail(ExampleSurveyActivity.this, validEmailAddress,
+				sendMail(ExampleSurveyActivity1.this, validEmailAddress,
 						"Some feedback for SimpleUI", getRatingSummary());
 				return true;
 			}
@@ -84,8 +83,9 @@ public class ExampleSurveyActivity extends Activity {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
-				if (email.save())
-					ExampleSurveyActivity.this.finish();
+				if (email.save()) {
+					ExampleSurveyActivity1.this.finish();
+				}
 			}
 		}.getView(this));
 

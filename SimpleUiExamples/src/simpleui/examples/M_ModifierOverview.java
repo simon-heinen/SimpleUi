@@ -148,7 +148,7 @@ public class M_ModifierOverview extends M_Container {
 
 	private static M_CardView newM_CheckboxAndM_RadioButtonListExamples() {
 		M_CardView c = new M_CardView();
-		c.add(new M_Caption("M_RadioButtonList"));
+		c.add(new M_Caption("M_Checkbox & M_RadioButtonList"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_Checkbox() {
 			private boolean exampleBool = true;

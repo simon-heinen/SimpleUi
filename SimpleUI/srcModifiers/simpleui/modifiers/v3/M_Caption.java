@@ -13,6 +13,13 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * A simple "caption" which works well in combination with
+ * {@link M_SeperatorLine}. You might also want to consider using a
+ * {@link M_Toolbar} instead of an {@link M_Caption} to get closer to the normal
+ * Android UI style which uses toolbars
+ *
+ */
 public class M_Caption implements ModifierInterface, UiDecoratable {
 
 	private String myText;

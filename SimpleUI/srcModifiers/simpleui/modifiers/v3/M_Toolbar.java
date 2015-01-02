@@ -2,6 +2,7 @@ package simpleui.modifiers.v3;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.util.Log;
+import simpleui.util.MenuItemList;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,10 @@ import android.view.View;
 
 import com.googlecode.simpleui.library.R;
 
+/**
+ * Use {@link MenuItemList} to add elements to this Toolbar
+ *
+ */
 public class M_Toolbar implements ModifierInterface {
 
 	private static final String LOG_TAG = M_Toolbar.class.getSimpleName();

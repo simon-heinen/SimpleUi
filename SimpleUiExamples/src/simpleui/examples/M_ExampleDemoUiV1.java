@@ -1,5 +1,6 @@
 package simpleui.examples;
 
+import simpleui.SimpleUI;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Checkbox;
@@ -12,8 +13,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 /**
- * The following is now already done in the main activity:<br>
- * // To display the generated UI the SimpleUI class can be used:<br>
+ * This is an example how to create and show a working UI: There are multiple
+ * ways to show it:<br>
+ * <br>
+ * M_ExampleDemoUiV1 box = new M_ExampleDemoUiV1(); <br>
+ * // To display the generated UI the {@link SimpleUI} class can be used:<br>
  * SimpleUI.showUi(context, box);<br>
  * // or you generate the UI for this box controller: <br>
  * View generatedView = box.getView(context);<br>
@@ -29,7 +33,7 @@ public class M_ExampleDemoUiV1 extends M_Container {
 
 		// context can be your main activity e.g.:
 		final Context context = myMainActivity;
-		final M_Container box = this;// new M_Container();
+		final M_Container box = this;
 		box.add(new M_Caption("Hello World"));
 		box.add(new M_InfoText(R.drawable.ic_dialog_info,
 				"This is an example UI with 4 elements to demonstrate "
