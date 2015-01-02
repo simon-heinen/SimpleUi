@@ -2,6 +2,7 @@ package com.googlecode.simpleui;
 
 import simpleui.SimpleUI;
 import simpleui.examples.M_ExampleDemoUiV1;
+import simpleui.examples.M_MaterialUiCompositionTests;
 import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity1;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
@@ -37,6 +38,15 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(Context context, Button b) {
 				SimpleUI.showInfoDialog(context, "Close", m_ModifierOverview);
+			}
+		});
+
+		c.add(new M_Button("Start M_MaterialUiCompositionTests") {
+			M_MaterialUiCompositionTests m = new M_MaterialUiCompositionTests();
+
+			@Override
+			public void onClick(Context context, Button b) {
+				SimpleUI.showInfoDialog(context, "Close", m);
 			}
 		});
 

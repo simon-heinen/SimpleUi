@@ -55,6 +55,10 @@ public class M_ModifierOverview extends M_Container {
 		add(newM_Container2Example());
 	}
 
+	private static void toast(Context c, String text) {
+		Toast.makeText(c, text, Toast.LENGTH_SHORT).show();
+	}
+
 	private void addM_ToolbarExample() {
 		add(new M_Toolbar("Modifier Overview"));
 		MenuItemList menuItemList = new MenuItemList();
@@ -65,10 +69,6 @@ public class M_ModifierOverview extends M_Container {
 			}
 		});
 		setMenuItemList(menuItemList);
-	}
-
-	private static void toast(Context c, String text) {
-		Toast.makeText(c, text, Toast.LENGTH_SHORT).show();
 	}
 
 	private static M_CardView newM_CardViewAndM_InfoTextExamples() {

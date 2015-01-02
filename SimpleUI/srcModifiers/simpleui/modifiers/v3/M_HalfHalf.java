@@ -21,6 +21,16 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 	private float weightOfLeft = 1;
 	private float weightOfRight = 1;
 
+	public static M_HalfHalf GoldenCutLeftLarge(ModifierInterface left,
+			ModifierInterface right) {
+		return new M_HalfHalf(left, right, 38, 61);
+	}
+
+	public static M_HalfHalf GoldenCutRightLarge(ModifierInterface left,
+			ModifierInterface right) {
+		return new M_HalfHalf(left, right, 61, 38);
+	}
+
 	public M_HalfHalf(ModifierInterface left, ModifierInterface right) {
 		myLeft = left;
 		myRight = right;
@@ -100,8 +110,18 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 			myDecorator.setCurrentLevel(level + 1);
 		}
 
-		View left = myLeft.getView(context);
-		View right = myRight.getView(context);
+		View left = null;
+		if (myLeft != null) {
+			left = myLeft.getView(context);
+		} else {
+			left = new LinearLayout(context);
+		}
+		View right = null;
+		if (myRight != null) {
+			right = myRight.getView(context);
+		} else {
+			right = new LinearLayout(context);
+		}
 
 		l.addView(left);
 		l.addView(right);
@@ -142,6 +162,12 @@ public class M_HalfHalf implements ModifierInterface, UiDecoratable {
 
 	@Override
 	public boolean save() {
+		if (myLeft == null) {
+			return myRight.save();
+		}
+		if (myRight == null) {
+			return myLeft.save();
+		}
 		return myLeft.save() && myRight.save();
 	}
 
