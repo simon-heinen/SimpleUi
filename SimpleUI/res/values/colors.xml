@@ -7,15 +7,14 @@
     <!-- colorPrimaryDark is used for the status bar -->
     <color name="color_primary_dark">@color/DarkGreen</color>
     <!-- colorAccent is used to tint widgets -->
-    <color name="color_accent">@color/yellow</color>
+    <color name="color_accent">@color/orange</color>
 
     <!-- additional material colors -->
-    <color name="color_button_normal">@color/yellow</color>
-    <color name="color_control_normal">@color/yellow</color>
-    <color name="color_control_activated">@color/yellow</color>
-    <color name="color_control_highlight">@color/yellow</color>
-    <color name="color_switch_thumbNormal">@color/yellow</color>
-    
+    <color name="color_button_normal">@color/orange</color>
+    <color name="color_control_normal">@color/orange</color>
+    <color name="color_control_activated">@color/orange</color>
+    <color name="color_control_highlight">@color/orange</color>
+    <color name="color_switch_thumbNormal">@color/orange</color>
 
     <!-- Android style #AARRGGBB -->
     <color name="android_green">#FFA4C639</color>
@@ -38,9 +37,12 @@
     <color name="red">#F44336</color>
     <color name="green">#4CAF50</color>
     <color name="blue">#3F51B5</color>
+    <color name="blue_dark">#1A237E</color>
     <color name="yellow">#FFEB3B</color>
     <color name="teal">#008080</color>
+    <color name="orange_light">#FFB74D</color>
     <color name="orange">#FF9800</color>
+    <color name="orange_dark">#EF6C00</color>
     <color name="grey">#9E9E9E</color>
 
     <!-- Generic #AARRGGBB -->
