@@ -268,7 +268,7 @@ public class M_ModifierOverview extends M_Container {
 
 			@Override
 			public String getVarName() {
-				return "An M_IntModifier:";
+				return "An M_FloatModifier:";
 			}
 
 			@Override

@@ -3,8 +3,11 @@ package simpleui.modifiers.v3;
 import java.io.File;
 import java.io.IOException;
 
+import simpleui.customViews.ScalableImageView;
 import simpleui.modifiers.ModifierInterface;
+import simpleui.util.ColorUtils;
 import simpleui.util.IO;
+import simpleui.util.ImageTransform;
 import simpleui.util.SimpleUiApplication;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,12 +16,11 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -34,7 +36,7 @@ public class M_ImageView implements ModifierInterface, Target {
 	private Bitmap bitmap;
 
 	private Integer imageBorderColor = Color.parseColor("#F5F1DE");
-	private final int imageBorderSizeInPixel = 10;
+	private int imageBorderSizeInPixel = 1;
 	private Bitmap oldBitmapToBeRecycled;
 	private TextView imageCaption;
 	private String caption;
@@ -111,7 +113,7 @@ public class M_ImageView implements ModifierInterface, Target {
 	@Override
 	public View getView(Context context) {
 		this.context = context;
-		imageView = new ImageView(context) {
+		imageView = new ScalableImageView(context) {
 
 			@Override
 			protected void onAttachedToWindow() {
@@ -137,25 +139,29 @@ public class M_ImageView implements ModifierInterface, Target {
 		if (imageView.getBackground() != null) {
 			imageBorderColor = null;
 		}
-		LinearLayout linlay = new LinearLayout(context);
-		// LayoutParams params = new LayoutParams(
-		// android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-		// android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-		// linlay.setLayoutParams(params);
-		linlay.setGravity(Gravity.CENTER_HORIZONTAL);
-		linlay.setOrientation(LinearLayout.VERTICAL);
-		int p = DEFAULT_PADDING;
-		linlay.setPadding(p, p, p, p);
-		linlay.addView(imageView);
+		RelativeLayout container = new RelativeLayout(context);
+		container.addView(imageView);
 		imageCaption = new TextView(context);
-		imageCaption.setGravity(Gravity.CENTER_HORIZONTAL);
+		LayoutParams p = new LayoutParams(
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		imageCaption.setLayoutParams(p);
+		float shadowSize = ImageTransform.dipToPixels(context, 1);
+		float shaddowPos = ImageTransform.dipToPixels(context, 1);
+		imageCaption.setShadowLayer(shadowSize, shaddowPos, shaddowPos,
+				ColorUtils.getDefaultBackgroundColor(context, Color.BLACK));
+		int m = (int) ImageTransform.dipToPixels(context, 10);
+		imageCaption.setPadding(m, m, m, m);
+		imageCaption.setTextAppearance(context,
+				android.R.style.TextAppearance_Large);
 		if (caption == null) {
 			imageCaption.setVisibility(View.GONE);
 		} else {
 			setImageCaption(caption);
 		}
-		linlay.addView(imageCaption);
-		return linlay;
+		container.addView(imageCaption);
+		return container;
 	}
 
 	public void setImageCaption(String newCaption) {
@@ -269,6 +275,14 @@ public class M_ImageView implements ModifierInterface, Target {
 				}
 			});
 		}
+	}
+
+	public void setImageBorderColor(Integer imageBorderColor) {
+		this.imageBorderColor = imageBorderColor;
+	}
+
+	public void setImageBorderSizeInPixel(int imageBorderSizeInPixel) {
+		this.imageBorderSizeInPixel = imageBorderSizeInPixel;
 	}
 
 	@Override
