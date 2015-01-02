@@ -29,10 +29,8 @@ public class M_MaterialUiCompositionTests extends M_Container {
 
 	private static M_CardView newM_CardViewAndM_InfoTextExamples() {
 		M_CardView c = new M_CardView();
-		M_ImageView imageView = new M_ImageView(
-				Uri.parse("http://lorempixel.com/500/300/"));
-		imageView.setImageCaption("Kangaroo Valley Safari");
-		c.add(imageView);
+		c.add(new M_ImageView(Uri.parse("http://lorempixel.com/500/300/"),
+				"Kangaroo Valley Safari"));
 		c.add(new M_InfoText(
 				"Located two hours south of Sydney in the Southern Highlands of New South Wales, ..."));
 		c.add(M_SeperatorLine.newMaterialOne(null));
@@ -51,9 +49,7 @@ public class M_MaterialUiCompositionTests extends M_Container {
 				toast(context, "EXPLORE clicked");
 			}
 		};
-		M_HalfHalf buttons = new M_HalfHalf(left, right);
-		c.add(M_HalfHalf.GoldenCutLeftLarge(buttons, null));
-
+		c.add(M_HalfHalf.GoldenCutLeftLarge(new M_HalfHalf(left, right), null));
 		return c;
 	}
 }

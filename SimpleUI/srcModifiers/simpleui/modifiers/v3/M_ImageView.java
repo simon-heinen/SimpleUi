@@ -35,7 +35,7 @@ public class M_ImageView implements ModifierInterface, Target {
 	private Uri bitmapUri;
 	private Bitmap bitmap;
 
-	private Integer imageBorderColor = Color.parseColor("#F5F1DE");
+	private Integer imageBorderColor;
 	private int imageBorderSizeInPixel = 1;
 	private Bitmap oldBitmapToBeRecycled;
 	private TextView imageCaption;
@@ -65,6 +65,11 @@ public class M_ImageView implements ModifierInterface, Target {
 
 	public M_ImageView(Uri uri) {
 		setBitmapUri(uri);
+	}
+
+	public M_ImageView(Uri uri, String caption) {
+		this(uri);
+		setImageCaption(caption);
 	}
 
 	public void setMaxHeightInPixel(Integer maxHeightInPixel) {
@@ -136,9 +141,6 @@ public class M_ImageView implements ModifierInterface, Target {
 		if (imageClickListener != null) {
 			setImageClickListener(imageClickListener);
 		}
-		if (imageView.getBackground() != null) {
-			imageBorderColor = null;
-		}
 		RelativeLayout container = new RelativeLayout(context);
 		container.addView(imageView);
 		imageCaption = new TextView(context);
@@ -161,6 +163,10 @@ public class M_ImageView implements ModifierInterface, Target {
 			setImageCaption(caption);
 		}
 		container.addView(imageCaption);
+		if (imageBorderColor == null) {
+			imageBorderColor = ColorUtils.getContrastVersionForColor(ColorUtils
+					.getDefaultBackgroundColor(context, Color.DKGRAY));
+		}
 		return container;
 	}
 
@@ -213,7 +219,8 @@ public class M_ImageView implements ModifierInterface, Target {
 		}
 		if (imageView != null) {
 			if (bitmap != null && !bitmap.isRecycled()) {
-				if (imageBorderColor != null && !bitmap.hasAlpha()) {
+				imageView.setVisibility(View.VISIBLE);
+				if (imageView.getBackground() == null && !bitmap.hasAlpha()) {
 					imageView.setBackgroundColor(imageBorderColor);
 				}
 				LayoutParams p = new LayoutParams(
@@ -237,11 +244,8 @@ public class M_ImageView implements ModifierInterface, Target {
 			} else {
 				Log.i(LOG_TAG, "refreshImageViewFromUiThread: bitmap=" + bitmap
 						+ " was recycled (or null)");
-				if (imageBorderColor != null) {
-					// else clear image border
-					imageView.setBackgroundColor(Color.TRANSPARENT);
-				}
 				imageView.setImageBitmap(null);
+				imageView.setVisibility(View.INVISIBLE);
 			}
 		} else {
 			Log.i(LOG_TAG,
