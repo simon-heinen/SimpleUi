@@ -48,6 +48,7 @@ public class M_ModifierOverview extends M_Container {
 		add(newM_CardViewAndM_InfoTextExamples());
 		add(newM_ButtonExamples());
 		add(newM_HalfHalfExamples());
+		add(newM_ImageViewExample());
 		add(newM_CheckboxAndM_RadioButtonListExamples());
 		add(newM_TextModifierExamples());
 		add(newM_ProgressBarExamples());
@@ -144,6 +145,34 @@ public class M_ModifierOverview extends M_Container {
 				"Like in this second M_HalfHalf the 2 modifiers can have different weights, to make one modifier bigger than the other. In this case the left one is a M_ImageView");
 		c.add(new M_HalfHalf(left, right, 2, 1));
 		c.add(M_SeperatorLine.newMaterialOne(null));
+		return c;
+	}
+
+	private static M_CardView newM_ImageViewExample() {
+		M_CardView c = new M_CardView();
+		c.add(new M_ImageView(Uri.parse("http://lorempixel.com/500/300/"),
+				"I'm another M_ImageView with a caption on it"));
+		c.add(new M_InfoText(
+				"An M_ImageView can have a caption and will always fill its given width like you can see in this example and the other one above."));
+		c.add(new M_InfoText(
+				"The design of this card tries to mimic an example card from the Android design guidelines to evaluate the usability of the Modifier principle."));
+		c.add(M_SeperatorLine.newMaterialOne(null));
+
+		ModifierInterface left = new M_Button("SHARE", true) {
+
+			@Override
+			public void onClick(Context context, Button arg1) {
+				toast(context, "SHARE clicked");
+			}
+		};
+		ModifierInterface right = new M_Button("EXPLORE", true) {
+
+			@Override
+			public void onClick(Context context, Button arg1) {
+				toast(context, "EXPLORE clicked");
+			}
+		};
+		c.add(M_HalfHalf.GoldenCutLeftLarge(new M_HalfHalf(left, right), null));
 		return c;
 	}
 
