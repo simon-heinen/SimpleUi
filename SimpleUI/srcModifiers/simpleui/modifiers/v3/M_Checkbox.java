@@ -18,14 +18,31 @@ import android.widget.TextView;
 
 import com.googlecode.simpleui.library.R;
 
+/**
+ * Consider using {@link M_Switch} instead for some cases
+ */
 public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 
+	private static Handler myHandler = new Handler(Looper.getMainLooper());
 	private CheckBox checkbox;
 	private UiDecorator myDecorator;
 	private boolean editable = true;
 	private float weightOfDescription = 1;
 	private float weightOfInputText = 1;
-	private static Handler myHandler = new Handler(Looper.getMainLooper());
+	private UiCreateListener<CheckBox> checkboxCreatedListener;
+	private UiCreateListener<TextView> textCreatedListener;
+	private String varName;
+
+	/**
+	 * Use the {@link M_Checkbox#M_Checkbox(String)} constructor instead
+	 */
+	@Deprecated
+	public M_Checkbox() {
+	}
+
+	public M_Checkbox(String varName) {
+		this.varName = varName;
+	}
 
 	public void setWeightOfDescription(float weightOfDescription) {
 		this.weightOfDescription = weightOfDescription;
@@ -103,9 +120,6 @@ public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 		return l;
 	}
 
-	private UiCreateListener<CheckBox> checkboxCreatedListener;
-	private UiCreateListener<TextView> textCreatedListener;
-
 	public void setCheckboxCreatedListener(
 			UiCreateListener<CheckBox> checkboxCreatedListener) {
 		this.checkboxCreatedListener = checkboxCreatedListener;
@@ -163,7 +177,16 @@ public abstract class M_Checkbox implements ModifierInterface, UiDecoratable {
 
 	public abstract boolean loadVar();
 
-	public abstract CharSequence getVarName();
+	/**
+	 * pass the varName in the {@link M_Checkbox#M_Checkbox(String)} constructor
+	 * instead
+	 * 
+	 * @return
+	 */
+	@Deprecated
+	public CharSequence getVarName() {
+		return varName;
+	}
 
 	public abstract boolean save(boolean newValue);
 

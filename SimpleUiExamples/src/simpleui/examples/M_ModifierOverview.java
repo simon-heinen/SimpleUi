@@ -21,6 +21,7 @@ import simpleui.modifiers.v3.M_RadioButtonList.DefaultSelectableItem;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Slider;
 import simpleui.modifiers.v3.M_Spinner;
+import simpleui.modifiers.v3.M_Switch;
 import simpleui.modifiers.v3.M_TextModifier;
 import simpleui.modifiers.v3.M_Toolbar;
 import simpleui.modifiers.v3.M_WebView;
@@ -62,7 +63,7 @@ public class M_ModifierOverview extends M_Container {
 	private void addM_ToolbarExample() {
 		add(new M_Toolbar("Modifier Overview"));
 		MenuItemList menuItemList = new MenuItemList();
-		menuItemList.add(new MItem("I'm a M_Toolbar, click here", null) {
+		menuItemList.add(new MItem("I'm an M_Toolbar, click here", null) {
 			@Override
 			public void onClick(Activity context) {
 				toast(context, "Item in M_Toolbar clicked");
@@ -150,13 +151,8 @@ public class M_ModifierOverview extends M_Container {
 		M_CardView c = new M_CardView();
 		c.add(new M_Caption("M_Checkbox & M_RadioButtonList"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
-		c.add(new M_Checkbox() {
+		c.add(new M_Checkbox("I'm an M_Checkbox") {
 			private boolean exampleBool = true;
-
-			@Override
-			public CharSequence getVarName() {
-				return "I'm a M_Checkbox";
-			}
 
 			@Override
 			public boolean loadVar() {
@@ -169,6 +165,20 @@ public class M_ModifierOverview extends M_Container {
 				return true;
 			}
 
+		});
+		c.add(new M_Switch("I'm an M_Switch") {
+			private boolean exampleBool = true;
+
+			@Override
+			public boolean loadVar() {
+				return exampleBool;
+			}
+
+			@Override
+			public boolean save(boolean newValue) {
+				exampleBool = newValue;
+				return true;
+			}
 		});
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_InfoText("M_RadioButtonList:"));
@@ -308,7 +318,7 @@ public class M_ModifierOverview extends M_Container {
 			}
 		};
 		c.add(progressbar);
-		c.add(new M_InfoText("An M_Slider:"));
+		c.add(new M_InfoText("I'm an M_Slider:"));
 		c.add(new M_Slider(maxValue) {
 			private int valueToModify = 20;
 
@@ -341,7 +351,7 @@ public class M_ModifierOverview extends M_Container {
 
 			@Override
 			public String getVarName() {
-				return "A M_Spinner";
+				return "An M_Spinner";
 			}
 
 			@Override
@@ -394,7 +404,7 @@ public class M_ModifierOverview extends M_Container {
 	private static M_CardView newM_Container2Example() {
 		M_CardView card = new M_CardView();
 		M_Container2 c = new M_Container2(
-				"I'm a M_Container2: Click here to collapse me");
+				"I'm an M_Container2: Click here to collapse me");
 		card.add(c);
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		for (int i = 0; i < 10; i++) {

@@ -10,11 +10,11 @@
     <color name="color_accent">@color/orange</color>
 
     <!-- additional material colors -->
-    <color name="color_button_normal">@color/orange</color>
-    <color name="color_control_normal">@color/orange</color>
-    <color name="color_control_activated">@color/orange</color>
-    <color name="color_control_highlight">@color/orange</color>
-    <color name="color_switch_thumbNormal">@color/orange</color>
+    <color name="color_button_normal">@color/color_accent</color>
+    <color name="color_control_normal">@color/color_accent</color>
+    <color name="color_control_activated">@color/color_accent</color>
+    <color name="color_control_highlight">@color/color_accent</color>
+    <color name="color_switch_thumbNormal">@color/color_accent</color>
 
     <!-- Android style #AARRGGBB -->
     <color name="android_green">#FFA4C639</color>
