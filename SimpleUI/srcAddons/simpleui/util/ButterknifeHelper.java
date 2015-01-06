@@ -49,11 +49,17 @@ public class ButterknifeHelper {
 
 	public static View injectFieldsInListItem(Context context, Object listItem,
 			View convertView, int listItemLayoutId) {
+		convertView = inflateViewFromXml(context, convertView, listItemLayoutId);
+		Views.inject(listItem, convertView);
+		return convertView;
+	}
+
+	public static View inflateViewFromXml(Context context, View convertView,
+			int listItemLayoutId) {
 		if (convertView == null || convertView.getId() != listItemLayoutId) {
 			convertView = View.inflate(context, listItemLayoutId, null);
 			convertView.setId(listItemLayoutId);
 		}
-		Views.inject(listItem, convertView);
 		return convertView;
 	}
 }
