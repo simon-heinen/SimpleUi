@@ -43,10 +43,10 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 	private FreeFlowContainer container;
 
 	public M_ListWrapperV3(List<T> targetList, int listHeight,
-			int initialRowOrColumnCount, boolean startInVerticalMode) {
+			int nrOfParallelGridElements, boolean startInVerticalMode) {
 		this.targetList = targetList;
 		this.listHeight = listHeight;
-		this.initialRowOrColumnCount = initialRowOrColumnCount;
+		this.initialRowOrColumnCount = nrOfParallelGridElements;
 		this.startInVerticalMode = startInVerticalMode;
 	}
 
@@ -183,7 +183,7 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 
 	public boolean switchToHorizontalGrid(int rowCount) {
 		if (container != null) {
-			final int itemHeight = listHeight / rowCount;
+			final int itemHeight = container.getHeight() / rowCount;
 			final int itemWidth = itemHeight;
 			FreeFlowLayout vLayout = new HGridLayout();
 			vLayout.setLayoutParams(new HGridLayout.LayoutParams(itemWidth,

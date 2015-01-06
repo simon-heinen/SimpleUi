@@ -57,7 +57,7 @@ public class M_ModifierOverview extends M_Container {
 		add(newM_Container2Example());
 	}
 
-	private static void toast(Context c, String text) {
+	private static void showToast(Context c, String text) {
 		Toast.makeText(c, text, Toast.LENGTH_SHORT).show();
 	}
 
@@ -67,7 +67,7 @@ public class M_ModifierOverview extends M_Container {
 		menuItemList.add(new MItem("I'm an M_Toolbar, click here", null) {
 			@Override
 			public void onClick(Activity context) {
-				toast(context, "Item in M_Toolbar clicked");
+				showToast(context, "Item in M_Toolbar clicked");
 			}
 		});
 		setMenuItemList(menuItemList);
@@ -106,14 +106,14 @@ public class M_ModifierOverview extends M_Container {
 
 			@Override
 			public void onClick(Context context, Button arg1) {
-				toast(context, "I'm Button A");
+				showToast(context, "I'm Button A");
 			}
 		});
 		c.add(new M_Button("Borderless Button B", true) {
 
 			@Override
 			public void onClick(Context context, Button arg1) {
-				toast(context, "I'm a borderless button");
+				showToast(context, "I'm a borderless button");
 			}
 		});
 		return c;
@@ -128,14 +128,14 @@ public class M_ModifierOverview extends M_Container {
 
 			@Override
 			public void onClick(Context context, Button arg1) {
-				toast(context, "I'm the left button");
+				showToast(context, "I'm the left button");
 			}
 		};
 		ModifierInterface right = new M_Button("Right button in M_HalfHalf") {
 
 			@Override
 			public void onClick(Context context, Button arg1) {
-				toast(context, "I'm the right button");
+				showToast(context, "I'm the right button");
 			}
 		};
 		c.add(new M_HalfHalf(left, right));
@@ -162,14 +162,14 @@ public class M_ModifierOverview extends M_Container {
 
 			@Override
 			public void onClick(Context context, Button arg1) {
-				toast(context, "SHARE clicked");
+				showToast(context, "SHARE clicked");
 			}
 		};
 		ModifierInterface right = new M_Button("EXPLORE", true) {
 
 			@Override
 			public void onClick(Context context, Button arg1) {
-				toast(context, "EXPLORE clicked");
+				showToast(context, "EXPLORE clicked");
 			}
 		};
 		c.add(M_HalfHalf.GoldenCutLeftLarge(new M_HalfHalf(left, right), null));
