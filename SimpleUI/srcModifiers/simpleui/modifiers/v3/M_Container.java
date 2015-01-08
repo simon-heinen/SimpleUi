@@ -30,7 +30,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	@Override
 	public View getView(Context context) {
-
+		this.context = context;
 		LinearLayout mostOuterBox = new LinearLayout(context);
 		mostOuterBox.setGravity(Gravity.CENTER);
 		mostOuterBox.setBackgroundColor(OUTER_BACKGROUND_DIMMING_COLOR);
