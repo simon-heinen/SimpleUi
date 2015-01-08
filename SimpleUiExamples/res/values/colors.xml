@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main material theme colors #AARRGGBB -->
+    <!-- colorPrimary is used for the default action bar background -->
+    <color name="color_primary">@color/blue</color>
+    <!-- colorPrimaryDark is used for the status bar -->
+    <color name="color_primary_dark">@color/blue_dark</color>
+    <!-- colorAccent is used to tint widgets -->
+    <color name="color_accent">@color/yellow</color>
+
+    <!-- additional material colors 
+    <color name="color_button_normal">@color/color_accent</color>
+    <color name="color_control_normal">@color/color_accent</color>
+    <color name="color_control_activated">@color/color_accent</color>
+    <color name="color_control_highlight">@color/color_accent</color>
+    <color name="color_switch_thumbNormal">@color/color_accent</color>
+    -->
+
+</resources>

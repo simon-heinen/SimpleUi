@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorAccent">#CCCC00</color>
-    <color name="colorPrimary">#00CC00</color>
-    <color name="colorPrimaryDark">#00AA00</color>
+    <!-- Main material theme colors #AARRGGBB -->
+    <!-- colorPrimary is used for the default action bar background -->
+    <color name="color_primary">@color/green</color>
+    <!-- colorPrimaryDark is used for the status bar -->
+    <color name="color_primary_dark">@color/DarkGreen</color>
+    <!-- colorAccent is used to tint widgets -->
+    <color name="color_accent">@color/orange</color>
 
-    <!-- Android style -->
-    <color name="android_green">#A4C639</color>
+    <!-- additional material colors -->
+    <color name="color_button_normal">@color/color_accent</color>
+    <color name="color_control_normal">@color/color_accent</color>
+    <color name="color_control_activated">@color/color_accent</color>
+    <color name="color_control_highlight">@color/color_accent</color>
+    <color name="color_switch_thumbNormal">@color/color_accent</color>
 
-    <!-- Windows 8 style -->
-    <color name="win8_magenta">#FF0097</color>
-    <color name="win8_purple">#A200FF</color>
-    <color name="win8_teal">#00ABA9</color>
-    <color name="win8_lime">#8CBF26</color>
-    <color name="win8_brown">#A05000</color>
-    <color name="win8_pink">#E671B8</color>
-    <color name="win8_orange">#F09609</color>
-    <color name="win8_blue">#1BA1E2</color>
-    <color name="win8_red">#E51400</color>
-    <color name="win8_green">#339933</color>
+    <!-- Android style #AARRGGBB -->
+    <color name="android_green">#FFA4C639</color>
 
-    <!-- Common -->
+    <!-- Windows 8 style #AARRGGBB -->
+    <color name="win8_magenta">#FFFF0097</color>
+    <color name="win8_purple">#FFA200FF</color>
+    <color name="win8_teal">#FF00ABA9</color>
+    <color name="win8_lime">#FF8CBF26</color>
+    <color name="win8_brown">#FFA05000</color>
+    <color name="win8_pink">#FFE671B8</color>
+    <color name="win8_orange">#FFF09609</color>
+    <color name="win8_blue">#FF1BA1E2</color>
+    <color name="win8_red">#FFE51400</color>
+    <color name="win8_green">#FF339933</color>
+
+    <!-- Common #RRGGBB -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="red">#FF0000</color>
-    <color name="green">#008000</color>
-    <color name="blue">#0000FF</color>
-    <color name="yellow">#FFFF00</color>
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+    <color name="blue">#3F51B5</color>
+    <color name="blue_dark">#1A237E</color>
+    <color name="yellow">#FFEB3B</color>
     <color name="teal">#008080</color>
-    <color name="Orange">#FFA500</color>
-    <!-- Generic -->
+    <color name="orange_light">#FFB74D</color>
+    <color name="orange">#FF9800</color>
+    <color name="orange_dark">#EF6C00</color>
+    <color name="grey">#9E9E9E</color>
+
+    <!-- Generic #AARRGGBB -->
     <!-- Generic Dark -->
     <color name="DarkTurquoise">#00CED1</color>
     <color name="DarkCyan">#008B8B</color>
@@ -81,7 +97,7 @@
     <!-- b -->
     <color name="Beige">#F5F5DC</color>
     <color name="BurlyWood">#DEB887</color>
-    <color name="Brown">#A52A2A</color>
+    <color name="Brown">#795548</color>
     <color name="BlueViolet">#8A2BE2</color>
     <color name="aqua">#00FFFF</color>
     <color name="Bisque">#FFE4C4</color>
@@ -95,7 +111,9 @@
     <color name="CadetBlue">#5F9EA0</color>
     <color name="Chartreuse">#7FFF00</color>
     <!-- d -->
+    <color name="DeepOrange">#FF5722</color>
     <color name="DeepPink">#FF1493</color>
+    <color name="DeepPurple">#673AB7</color>
     <color name="DeepSkyBlue">#00BFFF</color>
     <color name="DimGray">#696969</color>
     <color name="DodgerBlue">#1E90FF</color>
@@ -136,7 +154,7 @@
     <color name="Moccasin">#FFE4B5</color>
     <color name="Maroon">#800000</color>
     <color name="MintCream">#F5FFFA</color>
-    <color name="Magenta">#FF00FF</color>
+    <color name="Magenta">#3F51B5</color>
     <color name="MidnightBlue">#191970</color>
     <color name="MistyRose">#FFE4E1</color>
     <!-- n -->

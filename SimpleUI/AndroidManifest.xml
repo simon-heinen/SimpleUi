@@ -5,16 +5,27 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="7"
+        android:minSdkVersion="10"
         android:targetSdkVersion="21" />
 
-    <application android:name="tools.SimpleUiApplication" >
+    <application android:name="simpleui.util.SimpleUiApplication" >
 
         <!-- Activty templates to copy to you app manifest file -->
 
+        <!-- Simple UI -->
+        <activity android:name="simpleui.SimpleUI" android:theme="@style/LTheme"/>
+        
         <activity
-            android:name="v2.simpleUi.SimpleUI"
-            android:theme="@android:style/Theme.Translucent" />
+            android:name="simpleui.util.ErrorHandler"
+            android:process=":myexeptionprocess"
+            android:taskAffinity="tools.ErrorHandler" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <data android:mimeType="errors/myUnhandleCatcher" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

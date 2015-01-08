@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import simpleui.util.SystemUtil;
+
 /**
- * Automatically outputs the position in the code where the log information was
- * produced
- * 
- * @author Simon Heinen
- * 
+ * use {@link simpleui.util.Log} instead
  */
+@Deprecated
 public class Log {
 
 	private static final String SPACER = ">  ";
@@ -220,5 +219,9 @@ public class Log {
 		lastName = eventName;
 		lastStamp = stamp;
 
+	}
+
+	public static void e(String LOG_TAG, String errorMessage, Exception e) {
+		e(LOG_TAG, e, errorMessage);
 	}
 }

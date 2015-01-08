@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--
+
     <style name="LTheme" parent="AppTheme.Base">
+
+        <!-- your app branding color for the app bar -->
+        <item name="android:colorPrimary">@color/color_primary</item>
+        <!-- darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+        <!-- theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">@color/color_accent</item>
+
+        <!-- Other material theme colors -->
+        <item name="android:colorControlNormal">@color/color_control_normal</item>
+        <item name="android:colorControlActivated">@color/color_control_activated</item>
+        <item name="android:colorControlHighlight">@color/color_control_highlight</item>
+        
+        
+        <!-- Other Settings -->
         <item name="android:windowContentTransitions">true</item>
-         <item name="android:windowAllowEnterTransitionOverlap">true</item> 
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+        
+        
     </style>
--->
+
 </resources>

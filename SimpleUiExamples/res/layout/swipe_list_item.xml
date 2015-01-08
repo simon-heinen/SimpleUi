@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:tag="back"
+        android:visibility="invisible" >
+
+        <Button
+            android:id="@+id/swype_list_item_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button on Back" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/front"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="front" >
+
+        <TextView
+            android:id="@+id/swype_list_item_front_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Front" />
+    </LinearLayout>
+
+</FrameLayout>

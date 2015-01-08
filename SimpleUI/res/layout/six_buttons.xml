@@ -23,7 +23,7 @@
 
             <Button
                 android:id="@+id/sb_button1"
-                android:layout_width="@dimen/default_button_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/default_button_height"
                 android:layout_margin="@dimen/default_button_margin"
                 android:layout_weight="1"
@@ -34,7 +34,7 @@
 
             <Button
                 android:id="@+id/sb_button2"
-                android:layout_width="@dimen/default_button_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/default_button_height"
                 android:layout_margin="@dimen/default_button_margin"
                 android:layout_weight="1"
@@ -45,7 +45,7 @@
 
             <Button
                 android:id="@+id/sb_button3"
-                android:layout_width="@dimen/default_button_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/default_button_height"
                 android:layout_margin="@dimen/default_button_margin"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
 
             <Button
                 android:id="@+id/sb_button4"
-                android:layout_width="@dimen/default_button_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/default_button_height"
                 android:layout_margin="@dimen/default_button_margin"
                 android:layout_weight="1"
@@ -74,7 +74,7 @@
 
             <Button
                 android:id="@+id/sb_button5"
-                android:layout_width="@dimen/default_button_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/default_button_height"
                 android:layout_margin="@dimen/default_button_margin"
                 android:layout_weight="1"
@@ -85,7 +85,7 @@
 
             <Button
                 android:id="@+id/sb_button6"
-                android:layout_width="@dimen/default_button_width"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/default_button_height"
                 android:layout_margin="@dimen/default_button_margin"
                 android:layout_weight="1"

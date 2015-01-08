@@ -26,52 +26,38 @@
         android:required="true" />
 
     <application
-        android:name="tools.SimpleUiApplication"
+        android:name="simpleui.util.SimpleUiApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
-        <activity
-            android:name="v2.simpleUi.SimpleUI"
-            android:theme="@style/LTheme" >
-        </activity>
-        <activity
-            android:name=".JsonDemoMain"
-            android:label="@string/app_name" >
-        </activity>
-        <activity android:name="V2ExampleUI" >
-        </activity>
-        <activity android:name="v1.V1SimpleUI" >
-        </activity>
-        <activity android:name="ExampleSurveyActivity" >
-        </activity>
-        <activity android:name="MainActivity" >
+        
+        <activity android:name="simpleui.SimpleUI" android:theme="@style/LTheme"/>
+        
+        <activity android:name="MainActivity" android:theme="@style/LTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="injectionTests.ButterknifeAndDaggerTestActivity" >
-        </activity>
+       
+        <activity android:name="simpleui.examples.activities.ExampleActivity1"/>
+        <activity android:name="simpleui.examples.activities.ExampleActivity2"/>
+        <activity android:name="simpleui.examples.activities.ExampleSurveyActivity1"/>
+        <activity android:name="simpleui.examples.injection.ExampleButterknifeAndDaggerActivity" />
+        <activity android:name="simpleui.examples.maps.ExampleMapActivity" />
+        <service android:name="simpleui.util.KeepProcessAliveService" />
 
-        <service android:name="tools.KeepProcessAliveService" >
-        </service>
-
-        <!-- get your key at https://code.google.com/apis/console -->
+        <!-- get your maps key at https://code.google.com/apis/console -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
-
-        <activity android:name="com.googlecode.simpleui.TestMapsV2Activity" >
-        </activity>
+        
         <activity
-            android:name="tools.ErrorHandler"
+            android:name="simpleui.util.ErrorHandler"
             android:process=":myexeptionprocess"
             android:taskAffinity="tools.ErrorHandler" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <action android:name="android.intent.action.VIEW" />
-
                 <data android:mimeType="errors/testErrorHandlerSimpleUiTests" />
             </intent-filter>
         </activity>
