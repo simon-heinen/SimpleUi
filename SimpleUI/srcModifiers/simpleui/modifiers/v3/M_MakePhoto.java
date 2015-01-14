@@ -28,8 +28,8 @@ import android.widget.LinearLayout;
 public abstract class M_MakePhoto implements ModifierInterface,
 		ActivityLifecycleListener {
 
-	public final static int TAKE_PICTURE = 367289;
-	public static final int SELECT_FROM_FILE = 3463270;
+	public final static int TAKE_PICTURE = 3672;
+	public static final int SELECT_FROM_FILE = 3463;
 
 	private int maxWidth = 640;
 	private int maxHeight = 480;
