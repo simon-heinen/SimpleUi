@@ -26,6 +26,10 @@ public class M_CardViewTests extends M_Container {
 
 	public M_CardViewTests() {
 		add(new M_Toolbar("Material UI demo"));
+
+		add(newM_ContainerInM_ContainerExample());
+		add(newM_ContainerInM_ContainerExample());
+
 		add(example1Card());
 		add(newTestCard("A"));
 		add(newTestCard("B"));
@@ -40,6 +44,14 @@ public class M_CardViewTests extends M_Container {
 			}
 		});
 		setMenuItemList(menuItemList);
+	}
+
+	private M_Container newM_ContainerInM_ContainerExample() {
+		M_Container c = new M_Container();
+		c.add(new M_Caption("M_Container inception"));
+		c.add(new M_InfoText(
+				"An M_Container in an M_Container is possible as well"));
+		return c;
 	}
 
 	private void addTestModifiers() {
