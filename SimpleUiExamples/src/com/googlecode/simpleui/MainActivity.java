@@ -1,6 +1,7 @@
 package com.googlecode.simpleui;
 
 import simpleui.SimpleUI;
+import simpleui.examples.M_CardViewTests;
 import simpleui.examples.M_ExampleDemoUiV1;
 import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity1;
@@ -46,6 +47,19 @@ public class MainActivity extends Activity {
 			public void onClick(Context context, Button clickedButton) {
 				ModifierInterface box = new M_ExampleDemoUiV1();
 				SimpleUI.showUi(context, box);
+			}
+		});
+
+		c.add(new M_Button("Some Material UI tests") {
+
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				try {
+					SimpleUI.showInfoDialog(context, "Close",
+							new M_CardViewTests());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 

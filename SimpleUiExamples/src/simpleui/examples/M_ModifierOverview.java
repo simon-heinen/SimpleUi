@@ -6,7 +6,6 @@ import java.util.List;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
-import simpleui.modifiers.v3.M_CardView;
 import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_Container2;
@@ -73,8 +72,8 @@ public class M_ModifierOverview extends M_Container {
 		setMenuItemList(menuItemList);
 	}
 
-	private static M_CardView newM_CardViewAndM_InfoTextExamples() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_CardViewAndM_InfoTextExamples() {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("This is a M_CardView"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_InfoText("Modifiers will be grouped in separate "
@@ -98,8 +97,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_ButtonExamples() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_ButtonExamples() {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("M_Button examples"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_Button("Button A") {
@@ -119,8 +118,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_HalfHalfExamples() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_HalfHalfExamples() {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("M_HalfHalf examples"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_InfoText("A first M_HalfHalf example with 2 buttons:"));
@@ -148,8 +147,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_ImageViewExample() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_ImageViewExample() {
+		M_Container c = new M_Container();
 		c.add(new M_ImageView(Uri.parse("http://lorempixel.com/500/300/"),
 				"I'm another M_ImageView with a caption on it"));
 		c.add(new M_InfoText(
@@ -176,8 +175,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_CheckboxAndM_RadioButtonListExamples() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_CheckboxAndM_RadioButtonListExamples() {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("M_Checkbox & M_RadioButtonList"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_Checkbox("I'm an M_Checkbox") {
@@ -239,7 +238,7 @@ public class M_ModifierOverview extends M_Container {
 	}
 
 	private static ModifierInterface newM_TextModifierExamples() {
-		M_CardView c = new M_CardView();
+		M_Container c = new M_Container();
 		c.add(new M_Caption("These are some M_TextModifier examples"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_TextModifier() {
@@ -328,7 +327,7 @@ public class M_ModifierOverview extends M_Container {
 	}
 
 	private static ModifierInterface newM_ProgressBarExamples() {
-		M_CardView c = new M_CardView();
+		M_Container c = new M_Container();
 		c.add(new M_Caption("M_ProgressBar and M_Slider"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_InfoText("An M_ProgressBar (which is automatically "
@@ -371,8 +370,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_SpinnerExample() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_SpinnerExample() {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("This is an M_Spinner example"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_Spinner() {
@@ -408,8 +407,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_WebviewExample() {
-		M_CardView c = new M_CardView();
+	private static M_Container newM_WebviewExample() {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("M_WebView example:"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_WebView(true, false) {
@@ -430,8 +429,8 @@ public class M_ModifierOverview extends M_Container {
 		return c;
 	}
 
-	private static M_CardView newM_Container2Example() {
-		M_CardView card = new M_CardView();
+	private static M_Container newM_Container2Example() {
+		M_Container card = new M_Container();
 		M_Container2 c = new M_Container2(
 				"I'm an M_Container2: Click here to collapse me");
 		card.add(c);

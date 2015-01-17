@@ -2,29 +2,21 @@ package simpleui.util;
 
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
-import simpleui.modifiers.v3.M_CardView;
+import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_HalfHalf;
-import simpleui.modifiers.v3.M_ImageView;
 import simpleui.modifiers.v3.M_InfoText;
-
-import com.google.analytics.tracking.android.Log;
-import com.googlecode.simpleui.library.R;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.CardView;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.googlecode.simpleui.library.R;
 
 public class ToastV2 {
 
@@ -41,8 +33,8 @@ public class ToastV2 {
 	 *            notified when the user clicks undo
 	 */
 	public static PopupWindow showUndoToast(Context context,
-			String deleteInfoText,
-			String undoButtonText, final OnClickListener undoClickListener) {
+			String deleteInfoText, String undoButtonText,
+			final OnClickListener undoClickListener) {
 		ModifierInterface text = new M_InfoText(
 				android.R.drawable.ic_menu_delete, deleteInfoText);
 		M_Button button = new M_Button(android.R.drawable.ic_menu_revert,
@@ -89,7 +81,7 @@ public class ToastV2 {
 	 */
 	public static PopupWindow showToast(Context context, View viewToShow,
 			int durationInMs, int verticGravity, int horizGravity) {
-		CardView v = M_CardView.newCardView(context, 20);
+		CardView v = M_Container.newCardView(context, 20);
 		v.addView(viewToShow);
 		final PopupWindow mUndoPopup = new PopupWindow(v);
 		mUndoPopup.setAnimationStyle(R.style.fade_animation);
