@@ -31,8 +31,8 @@ import android.widget.ScrollView;
 public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	private static final String LOG_TAG = M_Container.class.getSimpleName();
-	public static final int DEFAULT_CHILDREN_PADDING = 4;
-	public static final int DEFAULT_SHADDOW_SIZE = 16;
+	public static final int DEFAULT_CHILDREN_PADDING_IN_DIP = 4;
+	public static final int DEFAULT_SHADDOW_SIZE_IN_DIP = 5;
 	private static final int OUTER_BACKGROUND_DIMMING_COLOR = Color.argb(200,
 			255, 255, 255);
 	private static Handler myHandler = new Handler(Looper.getMainLooper());
@@ -58,7 +58,8 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
 		boolean fillScreen = firstEntryIsToolbar || this.fillCompleteScreen;
 
-		int shaddowSize = DEFAULT_SHADDOW_SIZE;
+		int shaddowSize = (int) ImageTransform.dipToPixels(context,
+				DEFAULT_SHADDOW_SIZE_IN_DIP);
 		if (fillScreen) {
 			shaddowSize = 0;
 		}
@@ -82,13 +83,13 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	public static CardView newCardViewWithContainers(Context context,
 			LinearLayout outerContainer, LinearLayout listItemContainer,
-			int shaddowSize) {
-		CardView card = newCardView(context, shaddowSize);
+			int shaddowSizeInPxls) {
+		CardView card = newCardView(context, shaddowSizeInPxls);
 		outerContainer.setOrientation(LinearLayout.VERTICAL);
 		ScrollView scrollContainer = new ScrollView(context);
 		listItemContainer.setOrientation(LinearLayout.VERTICAL);
 		int p = (int) ImageTransform.dipToPixels(context,
-				DEFAULT_CHILDREN_PADDING);
+				DEFAULT_CHILDREN_PADDING_IN_DIP);
 		listItemContainer.setPadding(p, p, p, p);
 		scrollContainer.addView(listItemContainer);
 		outerContainer.addView(scrollContainer);
@@ -96,17 +97,17 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		return card;
 	}
 
-	public static CardView newCardView(Context context, int shaddowSize) {
+	public static CardView newCardView(Context context, int shaddowSizeInPxls) {
 		CardView card = new CardView(context);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		if (Build.VERSION_CODES.LOLLIPOP == Build.VERSION.SDK_INT) {
-			params.setMargins(shaddowSize, shaddowSize, shaddowSize,
-					shaddowSize);
+			params.setMargins(shaddowSizeInPxls, shaddowSizeInPxls,
+					shaddowSizeInPxls, shaddowSizeInPxls);
 		} else {
-			card.setMaxCardElevation(shaddowSize);
+			card.setMaxCardElevation(shaddowSizeInPxls);
 		}
-		card.setCardElevation(shaddowSize);
+		card.setCardElevation(shaddowSizeInPxls);
 		card.setLayoutParams(params);
 		card.setCardBackgroundColor(ColorUtils.getDefaultBackgroundColor(
 				context, 0xFF00FF));
@@ -138,8 +139,10 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 	public boolean save() {
 		boolean result = true;
 		for (ModifierInterface m : this) {
-			if (m != null) {
-				result &= m.save();
+			if (m != null && !m.save()) {
+				Log.w(LOG_TAG, "save(): Modifier " + m
+						+ " rejected save request");
+				result = false;
 			}
 		}
 		return result;

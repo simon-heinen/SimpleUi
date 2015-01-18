@@ -54,6 +54,7 @@ public class M_ModifierOverview extends M_Container {
 		add(newM_SpinnerExample());
 		add(newM_WebviewExample());
 		add(newM_Container2Example());
+		add(newM_ContainerInM_ContainerExample());
 	}
 
 	private static void showToast(Context c, String text) {
@@ -436,9 +437,21 @@ public class M_ModifierOverview extends M_Container {
 		card.add(c);
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		for (int i = 0; i < 10; i++) {
-			c.add(new M_InfoText("Example text " + i));
+			c.add(new M_InfoText("Example M_InfoText nr. " + i));
 		}
 		return card;
+	}
+
+	private static M_Container newM_ContainerInM_ContainerExample() {
+		M_Container c1 = new M_Container();
+		c1.add(new M_Caption("M_Container inception"));
+		M_Container c2 = new M_Container();
+		c2.add(new M_InfoText(
+				"As you see, an M_Container in an M_Container is possible. "
+						+ "But keep in mind that with each layer the content will "
+						+ "have less space due to the padding"));
+		c1.add(c2);
+		return c1;
 	}
 
 }

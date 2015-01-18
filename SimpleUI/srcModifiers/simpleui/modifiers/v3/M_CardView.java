@@ -1,6 +1,7 @@
 package simpleui.modifiers.v3;
 
 import simpleui.modifiers.ModifierInterface;
+import simpleui.util.ImageTransform;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,8 +26,10 @@ public class M_CardView extends M_Collection {
 		// container for header, list of items and footer:
 		LinearLayout outerContainer = new LinearLayout(context);
 		LinearLayout listItemContainer = new LinearLayout(context);
+		int shadowSizeInDip = (int) ImageTransform.dipToPixels(context,
+				M_Container.DEFAULT_SHADDOW_SIZE_IN_DIP);
 		card = M_Container.newCardViewWithContainers(context, outerContainer,
-				listItemContainer, M_Container.DEFAULT_SHADDOW_SIZE);
+				listItemContainer, shadowSizeInDip);
 		if (backgroundColor != null) {
 			card.setCardBackgroundColor(backgroundColor);
 		}
