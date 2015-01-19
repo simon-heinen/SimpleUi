@@ -8,7 +8,9 @@ import simpleui.examples.activities.ExampleActivity1;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
+import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Container;
+import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Toolbar;
 import simpleui.util.ErrorHandler;
 import android.app.Activity;
@@ -31,7 +33,19 @@ public class MainActivity extends Activity {
 
 		c.add(new M_Toolbar("Simple UI Examples Overview"));
 
-		c.add(new M_Button("Start M_ModifierOverview "
+		addButtonsForBasicDemos(c);
+		addButtonsForOtherDemosAndTests(c);
+
+		setContentView(c.getView(this));
+
+	}
+
+	private void addButtonsForBasicDemos(M_Container c) {
+		M_Container innerContainer = new M_Container();
+		c.add(innerContainer);
+		innerContainer.add(new M_Caption("Basic examples"));
+		innerContainer.add(M_SeperatorLine.newMaterialOne());
+		innerContainer.add(new M_Button("Start M_ModifierOverview "
 				+ "(a short intro to all standard modifiers)") {
 			M_ModifierOverview m_ModifierOverview = new M_ModifierOverview();
 
@@ -41,7 +55,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		c.add(new M_Button("Show M_ExampleDemoUiV1") {
+		innerContainer.add(new M_Button("Show M_ExampleDemoUiV1") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
@@ -49,8 +63,14 @@ public class MainActivity extends Activity {
 				SimpleUI.showUi(context, box);
 			}
 		});
+	}
 
-		c.add(new M_Button("Some Material UI tests") {
+	private void addButtonsForOtherDemosAndTests(M_Container c) {
+		M_Container innerContainer = new M_Container();
+		c.add(innerContainer);
+		innerContainer.add(new M_Caption("Other demos"));
+		innerContainer.add(M_SeperatorLine.newMaterialOne());
+		innerContainer.add(new M_Button("Some Material UI tests") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
@@ -63,7 +83,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		c.add(new M_Button("List examples") {
+		innerContainer.add(new M_Button("List examples") {
 
 			@Override
 			public void onClick(Context arg0, Button arg1) {
@@ -75,17 +95,16 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		c.add(new M_Button("Start OldExampleActivity"
-				+ "(a short intro to all standard modifiers)") {
+		innerContainer
+				.add(new M_Button(
+						"Start ExampleActivity1 (A collection of many modifier tests)") {
 
-			@Override
-			public void onClick(Context context, Button b) {
-				startActivity(new Intent(MainActivity.this,
-						ExampleActivity1.class));
-			}
-		});
-
-		setContentView(c.getView(this));
-
+					@Override
+					public void onClick(Context context, Button b) {
+						startActivity(new Intent(MainActivity.this,
+								ExampleActivity1.class));
+					}
+				});
 	}
+
 }
