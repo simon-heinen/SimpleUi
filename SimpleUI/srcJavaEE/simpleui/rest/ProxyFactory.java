@@ -662,6 +662,28 @@ public class ProxyFactory {
 	}
 
 	@SuppressWarnings("unchecked")
+	public static <T> T create(Class<T> c, String url) {
+		return create(c, url, getProgyMethodCallHandler());
+	}
+
+	private static ProxyMethodCallHandler getProgyMethodCallHandler() {
+		/*
+		 * TODO how to inject the handler?
+		 */
+		throw new RuntimeException("TODO init default ProxyMethodCallHandler");
+	}
+
+	/**
+	 * use {@link ProxyFactory#create(Class, String)} instead which will
+	 * automatically instanciate the correct {@link ProxyMethodCallHandler}
+	 * 
+	 * @param c
+	 * @param url
+	 * @param methodCallHandler
+	 * @return
+	 */
+	@Deprecated
+	@SuppressWarnings("unchecked")
 	public static <T> T create(Class<T> c, String url,
 			ProxyMethodCallHandler methodCallHandler) {
 		methodCallHandler.setProxiedClass(c);

@@ -3,7 +3,6 @@ package simpleui.examples;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
-import simpleui.modifiers.v3.M_CardView;
 import simpleui.modifiers.v3.M_Checkbox;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_HalfHalf;
@@ -26,11 +25,14 @@ public class M_CardViewTests extends M_Container {
 
 	public M_CardViewTests() {
 		add(new M_Toolbar("Material UI demo"));
+
 		add(example1Card());
 		add(newTestCard("A"));
 		add(newTestCard("B"));
 		add(newTestCard("C"));
 		addTestModifiers();
+		add(newM_ContainerInM_ContainerExample());
+
 		MenuItemList menuItemList = new MenuItemList();
 		menuItemList.add(new MItem("Menu Item A", null) {
 			@Override
@@ -112,7 +114,7 @@ public class M_CardViewTests extends M_Container {
 	}
 
 	private ModifierInterface example1Card() {
-		M_CardView c = new M_CardView();
+		M_Container c = new M_Container();
 		c.add(new M_Caption("Welcome back!"));
 
 		String text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. ";
@@ -138,8 +140,8 @@ public class M_CardViewTests extends M_Container {
 		return c;
 	}
 
-	private M_CardView newTestCard(final String cardName) {
-		M_CardView c = new M_CardView();
+	private M_Container newTestCard(final String cardName) {
+		M_Container c = new M_Container();
 		c.add(new M_Caption("Card " + cardName));
 
 		int color = ColorUtils.randomColor();
@@ -161,4 +163,13 @@ public class M_CardViewTests extends M_Container {
 		return c;
 	}
 
+	private M_Container newM_ContainerInM_ContainerExample() {
+		M_Container c = new M_Container();
+		c.add(new M_Caption("M_Container inception"));
+		c.add(new M_InfoText(
+				"As you see, an M_Container in an M_Container is possible. "
+						+ "But keep in mind that with each layer the content will "
+						+ "have less space due to the padding"));
+		return c;
+	}
 }

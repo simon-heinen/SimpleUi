@@ -8,6 +8,7 @@ import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Button;
 
 public abstract class M_FilePickerButton extends M_Button implements
@@ -19,10 +20,28 @@ public abstract class M_FilePickerButton extends M_Button implements
 		super(R.drawable.ic_input_add, buttonText);
 	}
 
+	private File folderLocation;
+
+	/**
+	 * Allows to limit the picking process to a specific folder
+	 * 
+	 * @param buttonText
+	 * @param folderLocation
+	 */
+	public M_FilePickerButton(final String buttonText, final File folderLocation) {
+		this(buttonText);
+		this.folderLocation = folderLocation;
+	}
+
 	@Override
 	public void onClick(Context context, Button clickedButton) {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("file/*");
+		final String type = "file/*";
+		if (folderLocation != null) {// User specified a folder to start from
+			intent.setDataAndType(Uri.fromFile(folderLocation), type);
+		} else {
+			intent.setType(type);
+		}
 		KeepProcessAliveService.startKeepAliveService(context);
 		((Activity) context).startActivityForResult(intent, SELECT_FILE_CODE);
 	}

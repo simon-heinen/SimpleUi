@@ -27,12 +27,14 @@ public class ScalableImageView extends ImageView {
 
 		int height = 0;
 		if (getDrawable() != null) {
-			height = width * getDrawable().getIntrinsicHeight()
-					/ getDrawable().getIntrinsicWidth();
+			int intrinsicWidth = getDrawable().getIntrinsicWidth();
+			if (intrinsicWidth != 0) {
+				height = width * getDrawable().getIntrinsicHeight()
+						/ intrinsicWidth;
+			}
 		} else {
 			height = getMinimumHeight();
 		}
-
 		setMeasuredDimension(width, height);
 	}
 }

@@ -38,11 +38,7 @@ public class M_ExampleDemoUiV1 extends M_Container {
 		box.add(new M_InfoText(R.drawable.ic_dialog_info,
 				"This is an example UI with 4 elements to demonstrate "
 						+ "how the SimpleUI concepts can be applied."));
-		box.add(new M_Checkbox() {
-			@Override
-			public CharSequence getVarName() {
-				return "I understand!";
-			}
+		box.add(new M_Checkbox("I understand!") {
 
 			@Override
 			public boolean loadVar() {
@@ -56,11 +52,12 @@ public class M_ExampleDemoUiV1 extends M_Container {
 				// e.g update your model: myModel.setValueXYZ(newCheckboxValue);
 				// then return true to signalize that the new value was accepted
 				// in this case the user has to check the checkbox to continue:
-				if (!newCheckboxValue) {
+				boolean userCheckedCheckbox = newCheckboxValue;
+				if (!userCheckedCheckbox) {
 					Toast.makeText(context, "You need to understand ",
 							Toast.LENGTH_LONG).show();
 				}
-				return (newCheckboxValue == true);
+				return userCheckedCheckbox;
 			}
 		});
 		box.add(new M_Button("Save") {

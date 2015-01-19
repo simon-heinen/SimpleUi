@@ -54,7 +54,8 @@ public abstract class ProgressScreen implements ModifierInterface,
 	 * another
 	 */
 	private boolean mActivityAlreadyClosedAgain;
-	private volatile static Handler myHandler;
+	private volatile static Handler myHandler = new Handler(
+			Looper.getMainLooper());
 
 	public ProgressScreen() {
 		this(null, DEFAULT_SPEED);
@@ -98,13 +99,6 @@ public abstract class ProgressScreen implements ModifierInterface,
 		} else {
 			Log.e(LOG_TAG, "mActivityToClose was null, cant close screen");
 		}
-	}
-
-	private static Handler getMyHandler() {
-		if (myHandler == null) {
-			myHandler = new Handler(Looper.getMainLooper());
-		}
-		return myHandler;
 	}
 
 	/**
@@ -164,7 +158,7 @@ public abstract class ProgressScreen implements ModifierInterface,
 				@Override
 				public void run() {
 					while (mKeepRunning) {
-						getMyHandler().post(new Runnable() {
+						myHandler.post(new Runnable() {
 							@Override
 							public void run() {
 								onProgressUpdate();

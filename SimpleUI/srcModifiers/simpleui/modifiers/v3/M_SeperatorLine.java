@@ -66,6 +66,10 @@ public abstract class M_SeperatorLine implements ModifierInterface {
 		return l;
 	}
 
+	public static M_SeperatorLine newMaterialOne() {
+		return newMaterialOne(null);
+	}
+
 	/**
 	 * @param color
 	 *            can be null, then a contrast version of the default background
