@@ -159,14 +159,12 @@ public class M_ModifierOverview extends M_Container {
 		c.add(M_SeperatorLine.newMaterialOne(null));
 
 		ModifierInterface left = new M_Button("SHARE", true) {
-
 			@Override
 			public void onClick(Context context, Button arg1) {
 				showToast(context, "SHARE clicked");
 			}
 		};
 		ModifierInterface right = new M_Button("EXPLORE", true) {
-
 			@Override
 			public void onClick(Context context, Button arg1) {
 				showToast(context, "EXPLORE clicked");
