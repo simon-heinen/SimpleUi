@@ -9,7 +9,7 @@
 	<classpathentry kind="src" path="srcAddons"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libsMore/acra-4.5.0.jar"/>
 	<classpathentry kind="lib" path="libsMore/butterknife-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libsMore/dagger-1.1.0.jar"/>
@@ -26,5 +26,7 @@
 	<classpathentry kind="lib" path="libsMore/volley.jar"/>
 	<classpathentry exported="true" kind="lib" path="libsMore/FreeFlow.jar"/>
 	<classpathentry exported="true" kind="lib" path="libsMore/nineoldandroids-2.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-play-services.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/picasso-2.0.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

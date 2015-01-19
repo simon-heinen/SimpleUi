@@ -10,6 +10,7 @@ import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Container;
+import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Toolbar;
 import simpleui.util.ErrorHandler;
@@ -24,20 +25,24 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		registerErrorHandlerToCatchExceptions();
+
+		M_Container container = new M_Container();
+		container.add(new M_Toolbar("Simple UI Examples Overview"));
+		container
+				.add(new M_InfoText(
+						"The following examples will give you a general overview about the concepts developed in SimpleUI, use this example-app in combination with the sourcecode to get most out of this."));
+		addButtonsForBasicDemos(container);
+		addButtonsForOtherDemosAndTests(container);
+
+		setContentView(container.getView(this));
+	}
+
+	private void registerErrorHandlerToCatchExceptions() {
 		ErrorHandler.registerNewErrorHandler(this,
 				"errors/testErrorHandlerSimpleUiTests");
 		ErrorHandler.enableEmailReports("simon.heinen@gmail.com",
 				"Error in SimpleUi Test project");
-
-		M_Container c = new M_Container();
-
-		c.add(new M_Toolbar("Simple UI Examples Overview"));
-
-		addButtonsForBasicDemos(c);
-		addButtonsForOtherDemosAndTests(c);
-
-		setContentView(c.getView(this));
-
 	}
 
 	private void addButtonsForBasicDemos(M_Container c) {
@@ -47,16 +52,15 @@ public class MainActivity extends Activity {
 		innerContainer.add(M_SeperatorLine.newMaterialOne());
 		innerContainer.add(new M_Button("Start M_ModifierOverview "
 				+ "(a short intro to all standard modifiers)") {
-			M_ModifierOverview m_ModifierOverview = new M_ModifierOverview();
+
+			private final M_ModifierOverview m_ModifierOverview = new M_ModifierOverview();
 
 			@Override
 			public void onClick(Context context, Button b) {
 				SimpleUI.showInfoDialog(context, "Close", m_ModifierOverview);
 			}
 		});
-
 		innerContainer.add(new M_Button("Show M_ExampleDemoUiV1") {
-
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				ModifierInterface box = new M_ExampleDemoUiV1();
@@ -71,7 +75,6 @@ public class MainActivity extends Activity {
 		innerContainer.add(new M_Caption("Other demos"));
 		innerContainer.add(M_SeperatorLine.newMaterialOne());
 		innerContainer.add(new M_Button("Some Material UI tests") {
-
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				try {
@@ -82,9 +85,7 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
-
 		innerContainer.add(new M_Button("List examples") {
-
 			@Override
 			public void onClick(Context arg0, Button arg1) {
 				M_Container c = new M_Container();
@@ -94,7 +95,6 @@ public class MainActivity extends Activity {
 				SimpleUI.showInfoDialog(arg0, "Close", c);
 			}
 		});
-
 		innerContainer
 				.add(new M_Button(
 						"Start ExampleActivity1 (A collection of many modifier tests)") {
