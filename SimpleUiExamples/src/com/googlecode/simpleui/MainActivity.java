@@ -6,6 +6,7 @@ import simpleui.examples.M_ExampleDemoUiV1;
 import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity1;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
+import simpleui.examples.modifiers.M_MakePhotoTests;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
@@ -32,6 +33,16 @@ public class MainActivity extends Activity {
 		container
 				.add(new M_InfoText(
 						"The following examples will give you a general overview about the concepts developed in SimpleUI, use this example-app in combination with the sourcecode to get most out of this."));
+
+		container.add(new M_Button("Photo test") {
+
+			@Override
+			public void onClick(Context arg0, Button arg1) {
+				SimpleUI.showCancelOkDialog(arg0, "Cancel", "Ok",
+						new M_MakePhotoTests());
+			}
+		});
+
 		addButtonsForBasicDemos(container);
 		addButtonsForOtherDemosAndTests(container);
 
