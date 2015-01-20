@@ -43,8 +43,8 @@ public class M_ModifierOverview extends M_Container {
 
 	public M_ModifierOverview() {
 		setCardBackgroundColor(Color.DKGRAY);
-		addM_ToolbarExample();
-		add(newM_CardViewAndM_InfoTextExamples());
+		addM_ToolbarExample(this);
+		add(newM_ContainerAndM_InfoTextExamples());
 		add(newM_ButtonExamples());
 		add(newM_HalfHalfExamples());
 		add(newM_ImageViewExample());
@@ -61,8 +61,8 @@ public class M_ModifierOverview extends M_Container {
 		Toast.makeText(c, text, Toast.LENGTH_SHORT).show();
 	}
 
-	private void addM_ToolbarExample() {
-		add(new M_Toolbar("Modifier Overview"));
+	private static void addM_ToolbarExample(M_Container container) {
+		container.add(new M_Toolbar("Modifier Overview"));
 		MenuItemList menuItemList = new MenuItemList();
 		menuItemList.add(new MItem("I'm an M_Toolbar, click here", null) {
 			@Override
@@ -70,17 +70,17 @@ public class M_ModifierOverview extends M_Container {
 				showToast(context, "Item in M_Toolbar clicked");
 			}
 		});
-		setMenuItemList(menuItemList);
+		container.setMenuItemList(menuItemList);
 	}
 
-	private static M_Container newM_CardViewAndM_InfoTextExamples() {
+	private static M_Container newM_ContainerAndM_InfoTextExamples() {
 		M_Container c = new M_Container();
-		c.add(new M_Caption("This is a M_CardView"));
+		c.add(new M_Caption("This is a M_Container"));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		c.add(new M_InfoText("Modifiers will be grouped in separate "
 				+ "cards to give you a better overview."));
 		c.add(new M_InfoText(R.drawable.ic_dialog_info,
-				"A M_CardView can contain as many modifiers as you want."));
+				"A M_Container can contain as many modifiers as you want."));
 		c.add(new M_InfoText(
 				"This information is shown using M_InfoText modifiers. These modifiers display normal unmodifiable content."));
 
