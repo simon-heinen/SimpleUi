@@ -36,10 +36,11 @@ public class MainActivity extends Activity {
 
 		container.add(new M_Button("Photo test") {
 
+			M_MakePhotoTests photoTests = new M_MakePhotoTests();
+
 			@Override
 			public void onClick(Context arg0, Button arg1) {
-				SimpleUI.showCancelOkDialog(arg0, "Cancel", "Ok",
-						new M_MakePhotoTests());
+				SimpleUI.showCancelOkDialog(arg0, "Cancel", "Ok", photoTests);
 			}
 		});
 

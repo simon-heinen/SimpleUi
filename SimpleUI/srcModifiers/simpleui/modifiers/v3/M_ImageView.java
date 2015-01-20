@@ -196,7 +196,10 @@ public class M_ImageView implements ModifierInterface, Target {
 		} else {
 			// Not on UI thread.
 			try {
-				setBitmap(Picasso.with(getContext()).load(bitmapUri).get());
+				if (bitmap == null || bitmap.isRecycled()) {
+					Log.d(LOG_TAG, "Loading bitmap via Picasso..");
+					setBitmap(Picasso.with(getContext()).load(bitmapUri).get());
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -305,6 +308,7 @@ public class M_ImageView implements ModifierInterface, Target {
 	 */
 	@Deprecated
 	public void setImage(Uri bitmapUri, Bitmap bitmap) {
+		Log.d(LOG_TAG, "setImage(Uri " + bitmapUri + ", Bitmap " + bitmap + ")");
 		setBitmapUri(bitmapUri);
 		setBitmap(bitmap);
 		refreshImageView();

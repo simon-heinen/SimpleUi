@@ -54,7 +54,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	 * if true the selected image from the gallery will be rewritten to the SD
 	 * card
 	 */
-	private boolean rewriteImageToStorage = true;
+	private boolean rewriteImageToStorage = false;
 	private String fileType = "*";
 
 	public M_MakePhoto() {
@@ -75,10 +75,10 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	}
 
 	public M_MakePhoto(File f) {
-		setTakenBitmapFileAndUri(f);
+		setTakenBitmapUri(f);
 	}
 
-	private void setTakenBitmapFileAndUri(File takenBitmapFile) {
+	private void setTakenBitmapUri(File takenBitmapFile) {
 		if (takenBitmapFile != null) {
 			takenBitmapUri = IO.toUri(takenBitmapFile);
 		}
@@ -86,7 +86,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 	public void setFileToLoadInImageView(File bitmap) {
 		try {
-			setTakenBitmapFileAndUri(bitmap);
+			setTakenBitmapUri(bitmap);
 			takenBitmap = IO.loadBitmapFromUri(takenBitmapUri);
 			refreshImageInImageView();
 		} catch (Exception e) {
@@ -104,17 +104,17 @@ public abstract class M_MakePhoto implements ModifierInterface,
 	 * @param jpgQuality
 	 *            from 0 (small file size, bad quality) to 100 (large file size
 	 *            goode image quality)
-	 * @param restoreImageFromStorage
+	 * @param rewriteImageToStorage
 	 *            if true the selected image from the gallery will be rewritten
-	 *            to the SD card
+	 *            to the SD card (is false on default)
 	 */
 	public M_MakePhoto(Bitmap startBitmap, int maxWidth, int maxHeight,
-			int jpgQuality, boolean restoreImageFromStorage) {
+			int jpgQuality, boolean rewriteImageToStorage) {
 		this.takenBitmap = startBitmap;
 		this.maxWidth = maxWidth;
 		this.maxHeight = maxHeight;
 		this.imageQuality = jpgQuality;
-		this.rewriteImageToStorage = restoreImageFromStorage;
+		this.rewriteImageToStorage = rewriteImageToStorage;
 	}
 
 	@Override
@@ -139,7 +139,9 @@ public abstract class M_MakePhoto implements ModifierInterface,
 
 		if (takenBitmapUri != null && takenBitmap == null) {
 			try {
-				takenBitmap = IO.loadBitmapFromUri(takenBitmapUri);
+				setTakenBitmap(takenBitmap = IO
+						.loadBitmapFromUri(takenBitmapUri));
+				resizeBitmap(context);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -307,26 +309,30 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			return;
 		}
 
-		Log.i(LOG_TAG, "Loadin bitmap from " + filePath);
+		Log.i(LOG_TAG, "Loading bitmap from " + filePath);
 		try {
-			setTakenBitmapFileAndUri(new File(filePath));
+			setTakenBitmapUri(new File(filePath));
 			setTakenBitmap(BitmapFactory.decodeFile(filePath));
-			if (takenBitmap != null) {
-				setTakenBitmap(ImageTransform.rotateAndResizeBitmap(a,
-						takenBitmap, takenBitmapUri, maxWidth, maxHeight));
-				if (rewriteImageToStorage) {
-					setTakenBitmapFileAndUri(new File(
-							Environment.getExternalStorageDirectory(),
-							getImageFileName()));
-					ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
-							IO.toFile(takenBitmapUri), imageQuality);
-				}
-			} else {
-				Log.e(LOG_TAG, "Could not load bitmap from file " + filePath);
-			}
+			resizeBitmap(a);
 		} catch (Exception e) {
 			Log.e(LOG_TAG, "Error while loading bitmap from " + filePath);
 			e.printStackTrace();
+		}
+	}
+
+	private void resizeBitmap(Context context) {
+		if (takenBitmap != null) {
+			setTakenBitmap(ImageTransform.rotateAndResizeBitmap(context,
+					takenBitmap, takenBitmapUri, maxWidth, maxHeight));
+			if (rewriteImageToStorage) {
+				setTakenBitmapUri(new File(
+						Environment.getExternalStorageDirectory(),
+						getImageFileName()));
+				ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
+						IO.toFile(takenBitmapUri), imageQuality);
+			}
+		} else {
+			Log.e(LOG_TAG, "Could not load bitmap from file " + takenBitmapUri);
 		}
 	}
 
@@ -393,6 +399,10 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			Log.d(LOG_TAG, "takenBitmap.getWidth()=" + takenBitmap.getWidth());
 			Log.d(LOG_TAG, "takenBitmap.getHeight()=" + takenBitmap.getHeight());
 			imageViewModifier.setImage(takenBitmapUri, takenBitmap);
+		} else if (imageViewModifier != null && takenBitmapUri != null) {
+			Log.d(LOG_TAG, "refreshImageInImageView with takenBitmapUri="
+					+ takenBitmapUri);
+			imageViewModifier.setImage(takenBitmapUri, null);
 		}
 	}
 
@@ -447,7 +457,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 			setTakenBitmap(rotateAndResizeReceivedImage(a, takenBitmapUri,
 					maxWidth, maxHeight));
 
-			setTakenBitmapFileAndUri(new File(
+			setTakenBitmapUri(new File(
 					Environment.getExternalStorageDirectory(), imageFileName));
 			ImageTransform.tryToStoreBitmapToTargetFile(takenBitmap,
 					IO.toFile(takenBitmapUri), imageQuality);
