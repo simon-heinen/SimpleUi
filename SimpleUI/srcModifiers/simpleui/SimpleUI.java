@@ -29,7 +29,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 
 /**
@@ -154,7 +153,8 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 					.loadClass("tools.AnalyticsHelper");
 			Log.i(LOG_TAG, "Found tools.AnalyticsHelper and "
 					+ "will create instance now");
-			return (simpleui.util.IAnalyticsHelper) analyticsHelperClass.newInstance();
+			return (simpleui.util.IAnalyticsHelper) analyticsHelperClass
+					.newInstance();
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
@@ -516,11 +516,11 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 	}
 
 	public static void onCreate(Activity a, Bundle savedInstanceState) {
-		try {
-			a.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// a.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		if (DEBUG) {
 			Log.i(LOG_TAG, "onCreate" + " by " + a);
 		}

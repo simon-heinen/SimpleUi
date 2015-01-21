@@ -14,14 +14,19 @@ import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Toolbar;
+import simpleui.util.BleTrigger;
 import simpleui.util.ErrorHandler;
+import simpleui.util.Log;
+import simpleui.util.BleTrigger.BleDeviceFoundListener;
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,6 +38,31 @@ public class MainActivity extends Activity {
 		container
 				.add(new M_InfoText(
 						"The following examples will give you a general overview about the concepts developed in SimpleUI, use this example-app in combination with the sourcecode to get most out of this."));
+
+		container.add(new M_Button("BLE Tests") {
+
+			@Override
+			public void onClick(Context c, Button b) {
+
+				BleTrigger ble = new BleTrigger(1000);
+				ble.addBleDeviceFoundListener(new BleDeviceFoundListener() {
+					@Override
+					public boolean onDeviceFound(String deviceId,
+							Integer deviceRssi, BluetoothDevice device,
+							long totalTimeRunningInMs) {
+						Log.i("totalTimeRunningInMs=" + totalTimeRunningInMs);
+						Log.i("device.getName()=" + device.getName());
+						Log.i("deviceId=" + deviceId);
+						Log.i("deviceRssi=" + deviceRssi);
+						boolean keepRunning = totalTimeRunningInMs < 60 * 1000;
+						return keepRunning; // stop after one minute
+					}
+
+				});
+				ble.startWatching();
+
+			}
+		});
 
 		container.add(new M_Button("Photo test") {
 
