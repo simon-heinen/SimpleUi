@@ -5,6 +5,7 @@ import simpleui.examples.M_CardViewTests;
 import simpleui.examples.M_ExampleDemoUiV1;
 import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity1;
+import simpleui.examples.bleTests.BleTest;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
 import simpleui.examples.modifiers.M_MakePhotoTests;
 import simpleui.modifiers.ModifierInterface;
@@ -14,12 +15,8 @@ import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
 import simpleui.modifiers.v3.M_Toolbar;
-import simpleui.util.BleTrigger;
 import simpleui.util.ErrorHandler;
-import simpleui.util.Log;
-import simpleui.util.BleTrigger.BleDeviceFoundListener;
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,24 +40,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context c, Button b) {
-
-				BleTrigger ble = new BleTrigger(1000);
-				ble.addBleDeviceFoundListener(new BleDeviceFoundListener() {
-					@Override
-					public boolean onDeviceFound(String deviceId,
-							Integer deviceRssi, BluetoothDevice device,
-							long totalTimeRunningInMs) {
-						Log.i("totalTimeRunningInMs=" + totalTimeRunningInMs);
-						Log.i("device.getName()=" + device.getName());
-						Log.i("deviceId=" + deviceId);
-						Log.i("deviceRssi=" + deviceRssi);
-						boolean keepRunning = totalTimeRunningInMs < 60 * 1000;
-						return keepRunning; // stop after one minute
-					}
-
-				});
-				ble.startWatching();
-
+				BleTest.startTriggerTest();
 			}
 		});
 
