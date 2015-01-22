@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(Context c, Button b) {
-				BleTest.startTriggerTest();
+				BleTest.startCommandTriggerSystem();
 			}
 		});
 

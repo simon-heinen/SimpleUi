@@ -1,5 +1,6 @@
 package simpleui.examples.bleTests;
 
+import simpleui.util.BleCommandSystem;
 import simpleui.util.BleTrigger;
 import simpleui.util.BleTrigger.BleDeviceFoundListener;
 import simpleui.util.BleTriggerOnDistance;
@@ -55,6 +56,28 @@ public class BleTest {
 
 		});
 		ble.startWatching();
+	}
+
+	public static void startCommandTriggerSystem() {
+		BleCommandSystem s = new BleCommandSystem(1000, 20);
+		s.addCommand("BC:6A:29:AB:C2:62", new simpleui.util.Command() {
+
+			@Override
+			public boolean execute() {
+				Log.d("Command triggered for " + "BC:6A:29:AB:C2:62");
+				return true;
+			}
+		});
+		s.addCommand("BC:6A:29:48:F9:D2", new simpleui.util.Command() {
+
+			@Override
+			public boolean execute() {
+				Log.d("Command triggered for " + "BC:6A:29:48:F9:D2");
+				return true;
+			}
+		});
+		s.startWatching();
+
 	}
 
 }
