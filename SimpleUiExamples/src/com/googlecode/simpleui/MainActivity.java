@@ -2,15 +2,15 @@ package com.googlecode.simpleui;
 
 import simpleui.SimpleUI;
 import simpleui.examples.M_CardViewTests;
+import simpleui.examples.M_CurrentNewFeatureTests;
 import simpleui.examples.M_ExampleDemoUiV1;
 import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity1;
-import simpleui.examples.bleTests.BleTest;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
-import simpleui.examples.modifiers.M_MakePhotoTests;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
+import simpleui.modifiers.v3.M_Collection;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
@@ -35,24 +35,6 @@ public class MainActivity extends Activity {
 		container
 				.add(new M_InfoText(
 						"The following examples will give you a general overview about the concepts developed in SimpleUI, use this example-app in combination with the sourcecode to get most out of this."));
-
-		container.add(new M_Button("BLE Tests") {
-
-			@Override
-			public void onClick(Context c, Button b) {
-				BleTest.startCommandTriggerSystem();
-			}
-		});
-
-		container.add(new M_Button("Photo test") {
-
-			M_MakePhotoTests photoTests = new M_MakePhotoTests();
-
-			@Override
-			public void onClick(Context arg0, Button arg1) {
-				SimpleUI.showCancelOkDialog(arg0, "Cancel", "Ok", photoTests);
-			}
-		});
 
 		addButtonsForBasicDemos(container);
 		addButtonsForOtherDemosAndTests(container);
@@ -95,19 +77,16 @@ public class MainActivity extends Activity {
 		M_Container innerContainer = new M_Container();
 		c.add(innerContainer);
 		innerContainer.add(new M_Caption("Other demos"));
+
 		innerContainer.add(M_SeperatorLine.newMaterialOne());
-		innerContainer.add(new M_Button("Some Material UI tests") {
-			@Override
-			public void onClick(Context context, Button clickedButton) {
-				try {
-					SimpleUI.showInfoDialog(context, "Close",
-							new M_CardViewTests());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		innerContainer.add(new M_Button("List examples") {
+		addButtonToStartModifier(innerContainer,
+				"A container to test all latest features added to SimpleUI",
+				new M_CurrentNewFeatureTests());
+		addButtonToStartModifier(innerContainer, "Some Material UI tests",
+				new M_CardViewTests());
+
+		innerContainer.add(new M_Button(
+				"Some examples with different ListViews") {
 			@Override
 			public void onClick(Context arg0, Button arg1) {
 				M_Container c = new M_Container();
@@ -119,7 +98,7 @@ public class MainActivity extends Activity {
 		});
 		innerContainer
 				.add(new M_Button(
-						"Start ExampleActivity1 (A collection of many modifier tests)") {
+						"Start ExampleActivity1 (An older collection of many modifier tests)") {
 
 					@Override
 					public void onClick(Context context, Button b) {
@@ -127,6 +106,20 @@ public class MainActivity extends Activity {
 								ExampleActivity1.class));
 					}
 				});
+	}
+
+	private void addButtonToStartModifier(M_Container targetContainer,
+			String nameOfModifier, final M_Collection modifierToShow) {
+		targetContainer.add(new M_Button(nameOfModifier) {
+			@Override
+			public void onClick(Context context, Button clickedButton) {
+				try {
+					SimpleUI.showInfoDialog(context, "Close", modifierToShow);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

@@ -27,7 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import simpleui.util.Log;
+import util.Log;
 
 /**
  * use {@link ProxyFactory#create(Class, String, ProxyMethodCallHandler)}
@@ -693,7 +693,7 @@ public class ProxyFactory {
 	}
 
 	public static String getHostForUrl(String domainUrl) {
-		if (domainUrl.startsWith("http://")) {
+		if (domainUrl.startsWith("http://") || domainUrl.startsWith("https://")) {
 			try {
 				URL url = new URL(domainUrl);
 				return url.getHost();

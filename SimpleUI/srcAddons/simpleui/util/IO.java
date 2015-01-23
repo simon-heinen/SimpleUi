@@ -16,12 +16,10 @@ import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import simpleui.commands.CommandInUiThread;
-import simpleui.util.ImageTransform;
-import simpleui.util.Log;
-import simpleui.util.ProgressScreen;
-import simpleui.util.SimpleUiApplication;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -495,6 +493,122 @@ public class IO extends simpleui.util.IOHelper {
 			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
 		}
 		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
+	}
+
+	public interface FileFromUriListener {
+
+		void onError(Exception e);
+
+		/**
+		 * @return every time this method is called false can be returned to
+		 *         stop the download process
+		 */
+		boolean cancelDownload();
+
+		/**
+		 * @param percent
+		 *            value between 0 to 100
+		 */
+		void onProgress(int percent);
+
+	}
+
+	/**
+	 * Synchronously loads data into a {@link File} from the specified
+	 * {@link Uri}
+	 * 
+	 * @param sourceUri
+	 *            the {@link Uri} where the content should come from
+	 * @param targetFolder
+	 *            the folder where the content should be stored in
+	 * @param fallbackFileName
+	 *            the fallback filename if the online resource does not provide
+	 *            its filename
+	 * @param l
+	 *            can be null, if no error or update information is needed
+	 * @return
+	 */
+	public static boolean loadFileFromUri(Uri sourceUri, File targetFolder,
+			String fallbackFileName, FileFromUriListener l) {
+		try {
+			if (!targetFolder.exists() && !targetFolder.mkdirs()) {
+				if (l != null) {
+					l.onError(new Exception("Could not create folder "
+							+ targetFolder));
+				}
+				return false;
+			}
+
+			URL url = new URL(sourceUri.toString());
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.connect();
+
+			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				if (l != null) {
+					l.onError(new Exception("Server returned HTTP "
+							+ connection.getResponseCode() + " "
+							+ connection.getResponseMessage()));
+				}
+				return false;
+			}
+
+			// this will be useful to display download percentage
+			// might be -1: server did not report the length
+			int fileLength = connection.getContentLength();
+
+			String raw = connection.getHeaderField("Content-Disposition");
+			// raw = "attachment; filename=abc.jpg"
+			if (raw != null) {
+				System.out.println("raw=" + raw);
+				Pattern regex = Pattern.compile("(?<=filename=\").*?(?=\")");
+				Matcher regexMatcher = regex.matcher(raw);
+				if (regexMatcher.find()) {
+					fallbackFileName = regexMatcher.group();
+				} else if (raw.contains("=")) {
+					fallbackFileName = ""
+							+ raw.subSequence(raw.lastIndexOf("=") + 1,
+									raw.length());
+					fallbackFileName = fallbackFileName.trim();
+				}
+
+			}
+			File targetFile = new File(targetFolder, fallbackFileName);
+			InputStream input = connection.getInputStream();
+			OutputStream output = new FileOutputStream(targetFile);
+
+			byte data[] = new byte[4096];
+			long total = 0;
+			int count;
+			while ((count = input.read(data)) != -1) {
+				// allow canceling with back button
+				if (l != null && l.cancelDownload()) {
+					input.close();
+					output.close();
+					return false;
+				}
+				total += count;
+				if (l != null && fileLength > 0) {
+					l.onProgress((int) (total * 100 / fileLength));
+				}
+				output.write(data, 0, count);
+			}
+			if (output != null) {
+				output.close();
+			}
+			if (input != null) {
+				input.close();
+			}
+			if (connection != null) {
+				connection.disconnect();
+			}
+			return true;
+		} catch (Exception e) {
+			if (l != null) {
+				l.onError(e);
+			}
+			return false;
+		}
 	}
 
 	public interface AssetCopyCallback {
