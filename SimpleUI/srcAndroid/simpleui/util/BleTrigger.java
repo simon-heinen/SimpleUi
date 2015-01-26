@@ -59,9 +59,13 @@ public class BleTrigger<T extends BleTrigger.BleDeviceFoundListener> {
 		this.updateSpeedInMs = updateSpeedInMs;
 	}
 
+	public boolean isWatching() {
+		return timer != null;
+	}
+
 	public boolean startWatching() {
 		if (enableBluetoothIfNotOn()) {
-			if (timer != null) {
+			if (isWatching()) {
 				Log.w(LOG_TAG, "startWatching called but this BleTrigger is "
 						+ "already watching! Call stopWatching() first..");
 				return false;

@@ -8,14 +8,13 @@ import android.bluetooth.BluetoothDevice;
  * gets close to a device the command is triggered once. when another device
  * gets in range the command for that other device is triggered
  */
-public class BleCommandSystem {
+public class BleTriggerSystemAndroid implements BleTriggerSystem {
 
 	private final BleTriggerOnDistance trigger;
-	private final float maxRangeInPercent;
 	private String lastFoundBleDeviceId;
 	private Command commandToTriggerOnNextRefresh;
 
-	public BleCommandSystem(int updateSpeedInMs, float maxRangeInPercent) {
+	public BleTriggerSystemAndroid(int updateSpeedInMs) {
 		trigger = new BleTriggerOnDistance(updateSpeedInMs) {
 			@Override
 			protected void onScanReset() {
@@ -25,10 +24,11 @@ public class BleCommandSystem {
 				}
 			}
 		};
-		this.maxRangeInPercent = maxRangeInPercent;
 	}
 
-	public void addCommand(String bleDeviceId, final Command command) {
+	@Override
+	public void addCommand(String bleDeviceId, float maxRangeInPercent,
+			final Command command) {
 		trigger.addBleDeviceFoundListener(bleDeviceId,
 				new BleDeviceInRangeListener(maxRangeInPercent) {
 
@@ -46,10 +46,17 @@ public class BleCommandSystem {
 				});
 	}
 
+	@Override
+	public boolean isWatching() {
+		return trigger.isWatching();
+	}
+
+	@Override
 	public void startWatching() {
 		trigger.startWatching();
 	}
 
+	@Override
 	public void stopWatching() {
 		trigger.stopWatching();
 	}
