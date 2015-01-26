@@ -497,6 +497,10 @@ public class IO extends simpleui.util.IOHelper {
 
 	public interface FileFromUriListener {
 
+		void onStart();
+
+		void onStop(File downloadedFile);
+
 		void onError(Exception e);
 
 		/**
@@ -526,9 +530,9 @@ public class IO extends simpleui.util.IOHelper {
 	 *            its filename
 	 * @param l
 	 *            can be null, if no error or update information is needed
-	 * @return
+	 * @return the downloaded {@link File} or null if an error happened
 	 */
-	public static boolean loadFileFromUri(Uri sourceUri, File targetFolder,
+	public static File loadFileFromUri(Uri sourceUri, File targetFolder,
 			String fallbackFileName, FileFromUriListener l) {
 		try {
 			if (!targetFolder.exists() && !targetFolder.mkdirs()) {
@@ -536,7 +540,7 @@ public class IO extends simpleui.util.IOHelper {
 					l.onError(new Exception("Could not create folder "
 							+ targetFolder));
 				}
-				return false;
+				return null;
 			}
 
 			URL url = new URL(sourceUri.toString());
@@ -550,7 +554,7 @@ public class IO extends simpleui.util.IOHelper {
 							+ connection.getResponseCode() + " "
 							+ connection.getResponseMessage()));
 				}
-				return false;
+				return null;
 			}
 
 			// this will be useful to display download percentage
@@ -580,12 +584,15 @@ public class IO extends simpleui.util.IOHelper {
 			byte data[] = new byte[4096];
 			long total = 0;
 			int count;
+			if (l != null) {
+				l.onStart();
+			}
 			while ((count = input.read(data)) != -1) {
 				// allow canceling with back button
 				if (l != null && l.cancelDownload()) {
 					input.close();
 					output.close();
-					return false;
+					return null;
 				}
 				total += count;
 				if (l != null && fileLength > 0) {
@@ -602,12 +609,15 @@ public class IO extends simpleui.util.IOHelper {
 			if (connection != null) {
 				connection.disconnect();
 			}
-			return true;
+			if (l != null) {
+				l.onStop(targetFile);
+			}
+			return targetFile;
 		} catch (Exception e) {
 			if (l != null) {
 				l.onError(e);
 			}
-			return false;
+			return null;
 		}
 	}
 

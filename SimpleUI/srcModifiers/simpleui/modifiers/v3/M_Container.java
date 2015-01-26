@@ -136,6 +136,16 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		this.fillCompleteScreen = fillCompleteScreen;
 	}
 
+	public boolean closeParentActivity() {
+		if (getContext() instanceof Activity) {
+			((Activity) getContext()).finish();
+			return true;
+		}
+		Log.w(LOG_TAG, "Could not close window, parent context=" + context
+				+ " was not an activity");
+		return false;
+	}
+
 	@Override
 	public boolean add(ModifierInterface object) {
 		if (object instanceof M_Container) {
