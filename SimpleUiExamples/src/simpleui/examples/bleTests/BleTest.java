@@ -1,10 +1,11 @@
 package simpleui.examples.bleTests;
 
-import simpleui.util.BleCommandSystem;
 import simpleui.util.BleTrigger;
 import simpleui.util.BleTrigger.BleDeviceFoundListener;
 import simpleui.util.BleTriggerOnDistance;
 import simpleui.util.BleTriggerOnDistance.BleDeviceInRangeListener;
+import simpleui.util.BleTriggerSystem;
+import simpleui.util.BleTriggerSystemAndroid;
 import simpleui.util.Log;
 import android.bluetooth.BluetoothDevice;
 
@@ -59,23 +60,26 @@ public class BleTest {
 	}
 
 	public static void startCommandTriggerSystem() {
-		BleCommandSystem s = new BleCommandSystem(1000, 20);
-		s.addCommand("BC:6A:29:AB:C2:62", new simpleui.util.Command() {
+		BleTriggerSystem s = new BleTriggerSystemAndroid(1000);
+		int distanceInPercent = 20;
+		s.addCommand("BC:6A:29:AB:C2:62", distanceInPercent,
+				new simpleui.util.Command() {
 
-			@Override
-			public boolean execute() {
-				Log.d("Command triggered for " + "BC:6A:29:AB:C2:62");
-				return true;
-			}
-		});
-		s.addCommand("BC:6A:29:48:F9:D2", new simpleui.util.Command() {
+					@Override
+					public boolean execute() {
+						Log.d("Command triggered for " + "BC:6A:29:AB:C2:62");
+						return true;
+					}
+				});
+		s.addCommand("BC:6A:29:48:F9:D2", distanceInPercent,
+				new simpleui.util.Command() {
 
-			@Override
-			public boolean execute() {
-				Log.d("Command triggered for " + "BC:6A:29:48:F9:D2");
-				return true;
-			}
-		});
+					@Override
+					public boolean execute() {
+						Log.d("Command triggered for " + "BC:6A:29:48:F9:D2");
+						return true;
+					}
+				});
 		s.startWatching();
 
 	}

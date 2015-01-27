@@ -16,7 +16,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -312,7 +311,7 @@ public abstract class M_MakePhoto implements ModifierInterface,
 		Log.i(LOG_TAG, "Loading bitmap from " + filePath);
 		try {
 			setTakenBitmapUri(new File(filePath));
-			setTakenBitmap(BitmapFactory.decodeFile(filePath));
+			setTakenBitmap(IO.loadBitmapFromFile(filePath));
 			resizeBitmap(a);
 		} catch (Exception e) {
 			Log.e(LOG_TAG, "Error while loading bitmap from " + filePath);
