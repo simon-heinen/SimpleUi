@@ -156,9 +156,10 @@ public class IntentHelper {
 	}
 
 	public static void installApp(Context a, String strPackageName) {
-		Uri installUri = Uri.fromParts("package", strPackageName, null);
-		Intent it = new Intent(Intent.ACTION_PACKAGE_ADDED, installUri);
-		a.startActivity(it);
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse("market://details?id=" + strPackageName));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		a.startActivity(intent);
 	}
 
 	public static void uninstallApp(Context a, String strPackageName) {

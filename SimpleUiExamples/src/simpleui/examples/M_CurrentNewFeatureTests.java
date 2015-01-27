@@ -55,6 +55,14 @@ public class M_CurrentNewFeatureTests extends M_Container {
 									public boolean cancelDownload() {
 										return false;
 									}
+
+									@Override
+									public void onStart() {
+									}
+
+									@Override
+									public void onStop(File a) {
+									}
 								});
 					}
 				});

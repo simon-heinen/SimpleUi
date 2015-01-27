@@ -96,35 +96,46 @@ public class IO extends simpleui.util.IOHelper {
 	}
 
 	/**
+	 * see {@link IO#loadBitmapFromFile(String)}
+	 * 
+	 * @param imagePath
+	 * @param maxWidthInPixels
+	 * @param maxHeightInPixels
+	 * @return
+	 */
+	public static Bitmap loadBitmapFromFile(String imagePath,
+			int maxWidthInPixels, int maxHeightInPixels) {
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		try {
+			o.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(imagePath, o);
+			o.inSampleSize = calculateInSampleSize(o, maxWidthInPixels,
+					maxHeightInPixels);
+			o.inPreferredConfig = Bitmap.Config.RGB_565;
+			o.inJustDecodeBounds = false;
+			return BitmapFactory.decodeFile(imagePath, o);
+		} catch (OutOfMemoryError e) {
+			e.printStackTrace();
+			System.gc();
+			try {
+				return BitmapFactory.decodeFile(imagePath, o);
+			} catch (OutOfMemoryError e2) {
+				e2.printStackTrace();
+				return null;
+			}
+		}
+	}
+
+	/**
 	 * any type of image can be imported this way
 	 * 
 	 * @param imagePath
 	 *            for example "/sdcard/abc.PNG"
-	 * @return
+	 * @return null if the bitmap could not be loaded
 	 */
 	public static Bitmap loadBitmapFromFile(String imagePath) {
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inPreferredConfig = Bitmap.Config.RGB_565;
-		return BitmapFactory.decodeFile(imagePath, o);
-	}
-
-	/**
-	 * see {@link IO#loadBitmapFromFile(String)}
-	 * 
-	 * @param imagePath
-	 * @param maxWidth
-	 * @param maxHeight
-	 * @return
-	 */
-	public static Bitmap loadBitmapFromFile(String imagePath, int maxWidth,
-			int maxHeight) {
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
-		o.inSampleSize = calculateInSampleSize(o, maxWidth, maxHeight);
-		o.inPreferredConfig = Bitmap.Config.RGB_565;
-		o.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFile(imagePath, o);
+		int maxSize = 2048;
+		return loadBitmapFromFile(imagePath, maxSize, maxSize);
 	}
 
 	private static int calculateInSampleSize(BitmapFactory.Options options,
@@ -137,8 +148,8 @@ public class IO extends simpleui.util.IOHelper {
 			final int halfHeight = height / 2;
 			final int halfWidth = width / 2;
 			// Calculate the largest inSampleSize value that is a power of 2 and
-			// keeps both
-			// height and width larger than the requested height and width.
+			// keeps both height and width larger than the requested height and
+			// width.
 			while ((halfHeight / inSampleSize) > reqHeight
 					&& (halfWidth / inSampleSize) > reqWidth) {
 				inSampleSize *= 2;
