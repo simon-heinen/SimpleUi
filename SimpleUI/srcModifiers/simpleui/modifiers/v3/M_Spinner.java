@@ -122,7 +122,8 @@ public abstract class M_Spinner implements ModifierInterface {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (id != selectedItemPos) {
-					onUserSelectedNewItem(id);
+					onUserSelectedNewItem(context, id,
+							(SpinnerItem) spinner.getItemAtPosition(position));
 				}
 			}
 
@@ -137,9 +138,10 @@ public abstract class M_Spinner implements ModifierInterface {
 		return container;
 	}
 
-	protected void onUserSelectedNewItem(long selectedItemId) {
-		Log.i(LOG_TAG, "onUserSelectedNewItem(selectedItemId=" + selectedItemId
-				+ ")");
+	protected void onUserSelectedNewItem(Context context, long selectedItemId,
+			SpinnerItem selectedItem) {
+		Log.i(LOG_TAG, "onUserSelectedNewItem(" + "selectedItem="
+				+ selectedItem.getText() + ")");
 	}
 
 	public void reloadItemsInSpinner(final Context context) {
