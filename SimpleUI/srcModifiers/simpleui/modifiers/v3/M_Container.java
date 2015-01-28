@@ -58,7 +58,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 	}
 
 	public boolean rebuildUi() {
-		if (mostOuterBox == null || card == null) {
+		if (mostOuterBox == null) {
 			return false;
 		}
 		if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
