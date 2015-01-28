@@ -10,7 +10,7 @@ import android.util.Log;
 
 /**
  * You need to add <br>
- * android:name="v2.simpleUi.SimpleUiApplication"<br>
+ * android:name="simpleui.util.SimpleUiApplication"<br>
  * in the application tag in the manifest.
  * 
  * 

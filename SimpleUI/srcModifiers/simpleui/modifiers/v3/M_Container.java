@@ -57,7 +57,10 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 		return mostOuterBox;
 	}
 
-	public void rebuildUi() {
+	public boolean rebuildUi() {
+		if (mostOuterBox == null || card == null) {
+			return false;
+		}
 		if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
 			mostOuterBox.removeAllViews();
 			createCardWithContent();
@@ -70,6 +73,7 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 				}
 			});
 		}
+		return true;
 	}
 
 	private void createCardWithContent() {
