@@ -7,6 +7,7 @@ import simpleui.util.BleTriggerOnDistance.BleDeviceInRangeListener;
 import simpleui.util.BleTriggerSystem;
 import simpleui.util.BleTriggerSystemAndroid;
 import simpleui.util.Log;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 
 public class BleTest {
@@ -30,18 +31,21 @@ public class BleTest {
 	}
 
 	public static void startTriggerTest() {
-		BleTriggerOnDistance ble = new BleTriggerOnDistance(2000);
-		ble.addBleDeviceFoundListener(new BleDeviceInRangeListener(20) {
+		BleTriggerOnDistance ble = new BleTriggerOnDistance(5000);
+		ble.addBleDeviceFoundListener(new BleDeviceInRangeListener(30) {
 
+			@SuppressLint("NewApi")
 			@Override
 			public boolean onDeviceInRange(String deviceId, Integer deviceRssi,
 					BluetoothDevice device, long totalTimeRunningInMs,
 					float currentRangeInPercent) {
+
 				Log.i("totalTimeRunningInMs=" + totalTimeRunningInMs);
 				Log.i("device.getName()=" + device.getName());
 				Log.i("deviceId=" + deviceId);
 				Log.i("deviceRssi=" + deviceRssi);
 				Log.i("currentDistancePercent=" + currentRangeInPercent);
+
 				boolean keepRunning = totalTimeRunningInMs < 60 * 1000;
 				return keepRunning; // stop after one minute
 			}

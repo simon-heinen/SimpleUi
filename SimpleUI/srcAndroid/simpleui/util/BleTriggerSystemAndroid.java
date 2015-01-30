@@ -12,6 +12,7 @@ public class BleTriggerSystemAndroid implements BleTriggerSystem {
 
 	private final BleTriggerOnDistance trigger;
 	private String lastFoundBleDeviceId;
+	protected float lastFoundBleDistance = Float.MAX_VALUE;
 	private Command commandToTriggerOnNextRefresh;
 
 	public BleTriggerSystemAndroid(int updateSpeedInMs) {
@@ -21,6 +22,7 @@ public class BleTriggerSystemAndroid implements BleTriggerSystem {
 				if (commandToTriggerOnNextRefresh != null) {
 					commandToTriggerOnNextRefresh.execute();
 					commandToTriggerOnNextRefresh = null;
+					lastFoundBleDistance = Float.MAX_VALUE;
 				}
 			}
 		};
@@ -37,8 +39,10 @@ public class BleTriggerSystemAndroid implements BleTriggerSystem {
 							Integer deviceRssi, BluetoothDevice device,
 							long totalTimeRunningInMs,
 							float currentRangeInPercent) {
-						if (!deviceId.equals(lastFoundBleDeviceId)) {
+						if (!deviceId.equals(lastFoundBleDeviceId)
+								&& currentRangeInPercent < lastFoundBleDistance) {
 							lastFoundBleDeviceId = deviceId;
+							lastFoundBleDistance = currentRangeInPercent;
 							commandToTriggerOnNextRefresh = command;
 						}
 						return true;

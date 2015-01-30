@@ -73,7 +73,7 @@ public class M_CurrentNewFeatureTests extends M_Container {
 
 			@Override
 			public void onClick(Context c, Button b) {
-				BleTest.startCommandTriggerSystem();
+				BleTest.startTriggerTest();
 			}
 		});
 		add(new M_Button("Photo selection test") {

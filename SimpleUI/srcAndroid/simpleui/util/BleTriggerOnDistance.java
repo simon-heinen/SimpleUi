@@ -23,8 +23,8 @@ public class BleTriggerOnDistance extends
 	public static abstract class BleDeviceInRangeListener implements
 			simpleui.util.BleTrigger.BleDeviceFoundListener {
 
-		private float minRssi = 50;
-		private float maxRssi = 100;
+		private float minRssi = 60;
+		private float maxRssi = 90;
 		private final float maxRangeInPercent;
 
 		/**
