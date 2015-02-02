@@ -31,6 +31,16 @@ public abstract class M_Switch implements ModifierInterface {
 		return save(s.isChecked());
 	}
 
+	/**
+	 * @return true if the {@link M_Switch} is currently checked
+	 */
+	public final boolean isChecked() {
+		if (s == null) {
+			return loadVar();
+		}
+		return s.isChecked();
+	}
+
 	public abstract boolean save(boolean checked);
 
 }
