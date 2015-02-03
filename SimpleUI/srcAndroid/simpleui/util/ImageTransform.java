@@ -433,6 +433,32 @@ public class ImageTransform {
 		return newBitmap;
 	}
 
+	public static Bitmap fixBitmapAspectRatio(Bitmap takenBitmap,
+			float correctWidthFactor, float correctHeightFactor) {
+		Matrix matrix = new Matrix();
+		float width = takenBitmap.getWidth();
+		float height = takenBitmap.getHeight();
+		if (correctWidthFactor > correctHeightFactor) {
+			float newHeightFactor = width / height * correctHeightFactor
+					/ correctWidthFactor;
+			Log.d(LOG_TAG, "Fixing aspect ratio from (w X h=" + width + " X "
+					+ height + ") to (newHeightFactor=" + newHeightFactor + ")");
+			matrix.postScale(1, newHeightFactor);
+		} else {
+			float newWidthFactor = height / width * correctWidthFactor
+					/ correctHeightFactor;
+			Log.d(LOG_TAG, "Fixing aspect ratio from (w X h=" + width + " X "
+					+ height + ") to (newWidthFactor=" + newWidthFactor + ")");
+			matrix.postScale(newWidthFactor, 1);
+		}
+		Bitmap newBitmap = Bitmap.createBitmap(takenBitmap, 0, 0,
+				takenBitmap.getWidth(), takenBitmap.getHeight(), matrix, true);
+		if (newBitmap != takenBitmap) {
+			takenBitmap.recycle();
+		}
+		return newBitmap;
+	}
+
 	/**
 	 * http://mobisocial.stanford.edu/news/2011/08/rotating-images-in-android/
 	 * 
