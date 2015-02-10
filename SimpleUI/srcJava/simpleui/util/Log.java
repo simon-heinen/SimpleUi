@@ -16,23 +16,45 @@ import java.util.logging.Logger;
 public class Log {
 
 	private static final String SPACER = ">  ";
+
+	public static final int VERBOSE = 1;
+	public static final int DEBUG = 2;
+	public static final int INFO = 3;
+	public static final int WARNING = 4;
+	public static final int ERROR = 5;
+	public static final int NO_LOGGING = 6;
+	private static int currentLoggingLevel = 2;
+
 	/**
 	 * sysout logging only if not android device (e.g. server)
 	 */
 	private static final boolean IS_DESKTOP = !SystemUtil.isAndroid();
 
 	private static final String LOG_TAG = "CustomLogger";
-	private static boolean DEBUG_ENABLED = true;
+
 	private static ArrayList<String> logHistory = new ArrayList<String>();
 
-	public static void setDEBUG_ENABLED(boolean dEBUG_ENABLED) {
-		DEBUG_ENABLED = dEBUG_ENABLED;
+	/**
+	 * use {@link Log#setLoggingLevel(int)} instead
+	 */
+	@Deprecated
+	public static void setDEBUG_ENABLED(boolean enableDebugging) {
+		if (enableDebugging) {
+			currentLoggingLevel = VERBOSE;
+		} else {
+			currentLoggingLevel = NO_LOGGING;
+		}
+	}
+
+	public static void setLoggingLevel(int level) {
+		currentLoggingLevel = level;
 	}
 
 	public static void w(String LOG_TAG, String warning) {
-		if (DEBUG_ENABLED) {
+		if (currentLoggingLevel <= WARNING) {
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + "\t\t W > " + warning);
+				System.err.println(calcDesktopSpacing(LOG_TAG) + " W > "
+						+ warning);
 			} else {
 				logHistory.add(newLogEntry("w", LOG_TAG, warning));
 				Logger.getLogger(LOG_TAG).warning(warning);
@@ -45,9 +67,9 @@ public class Log {
 	}
 
 	public static void e(String LOG_TAG, String error) {
-		if (DEBUG_ENABLED) {
+		if (currentLoggingLevel <= ERROR) {
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + SPACER + error);
+				System.err.println(LOG_TAG + SPACER + error);
 			} else {
 				logHistory.add(newLogEntry("e", LOG_TAG, error));
 				Logger.getLogger(LOG_TAG).severe(error);
@@ -56,10 +78,29 @@ public class Log {
 		}
 	}
 
-	public static void i(String LOG_TAG, String info) {
-		if (DEBUG_ENABLED) {
+	public static void e(String LOG_TAG, Exception e, String errorInfoText) {
+		if (currentLoggingLevel <= ERROR) {
+			String errorStack = getFirstElementsOfStackTrace(e, 20, "\n");
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + "\t\t I > " + info);
+				System.err.println(LOG_TAG + SPACER + errorInfoText + ": "
+						+ errorStack);
+				e.printStackTrace();
+			} else {
+				logHistory.add(newLogEntry("e", LOG_TAG, errorInfoText + ": "
+						+ errorStack));
+				Logger.getLogger(LOG_TAG).severe(errorInfoText);
+				Logger.getLogger(LOG_TAG).severe(errorStack);
+				Logger.getLogger(LOG_TAG).severe("" + e);
+			}
+
+		}
+	}
+
+	public static void i(String LOG_TAG, String info) {
+		if (currentLoggingLevel <= INFO) {
+			if (IS_DESKTOP) {
+				System.out
+						.println(calcDesktopSpacing(LOG_TAG) + " I > " + info);
 			} else {
 				logHistory.add(newLogEntry("i", LOG_TAG, info));
 				Logger.getLogger(LOG_TAG).info(info);
@@ -69,13 +110,37 @@ public class Log {
 	}
 
 	public static void d(String LOG_TAG, String debugText) {
-		if (DEBUG_ENABLED) {
+		if (currentLoggingLevel <= DEBUG) {
 			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + "\t\t D > " + debugText);
+				System.out.println(calcDesktopSpacing(LOG_TAG) + " D > "
+						+ debugText);
 			} else {
 				// dont log debugging events
-				// logHistory.add(newLogEntry("d", logTag, debugText));
-				Logger.getLogger(LOG_TAG).info(debugText);
+				Logger.getLogger(LOG_TAG).config(debugText);
+			}
+		}
+	}
+
+	public static int usedDesktopTabLength = 15;
+
+	private static String calcDesktopSpacing(String tag) {
+		do {
+			tag += " ";
+			if (tag.length() > usedDesktopTabLength) {
+				usedDesktopTabLength = tag.length();
+			}
+		} while (tag.length() < usedDesktopTabLength);
+		return tag;
+	}
+
+	public static void v(String LOG_TAG, String debugText) {
+		if (currentLoggingLevel <= VERBOSE) {
+			if (IS_DESKTOP) {
+				System.out.println(calcDesktopSpacing(LOG_TAG) + " V > "
+						+ debugText);
+			} else {
+				// dont log verbose events
+				Logger.getLogger(LOG_TAG).fine(debugText);
 			}
 		}
 	}
@@ -91,24 +156,6 @@ public class Log {
 		}
 		StackTraceElement[] stackTrace = t.getStackTrace();
 		return getElementsOfStackTrace(stackTrace, 0, nrOfElements, separator);
-	}
-
-	public static void e(String LOG_TAG, Exception e, String errorInfoText) {
-		if (DEBUG_ENABLED) {
-			String errorStack = getFirstElementsOfStackTrace(e, 20, "\n");
-			if (IS_DESKTOP) {
-				System.out.println(LOG_TAG + SPACER + errorInfoText + ": "
-						+ errorStack);
-				e.printStackTrace();
-			} else {
-				logHistory.add(newLogEntry("e", LOG_TAG, errorInfoText + ": "
-						+ errorStack));
-				Logger.getLogger(LOG_TAG).severe(errorInfoText);
-				Logger.getLogger(LOG_TAG).severe(errorStack);
-				Logger.getLogger(LOG_TAG).severe("" + e);
-			}
-
-		}
 	}
 
 	public static String getLogTag() {
@@ -158,10 +205,6 @@ public class Log {
 	 */
 	public static void d(String string) {
 		d(getLogTag(), string);
-	}
-
-	public static void v(String LOG_TAG, String string) {
-		d(LOG_TAG, string);
 	}
 
 	public static String generateLogHistoryAsJsonArray() {
