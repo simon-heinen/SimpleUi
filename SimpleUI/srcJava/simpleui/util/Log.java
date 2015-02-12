@@ -23,7 +23,7 @@ public class Log {
 	public static final int WARNING = 4;
 	public static final int ERROR = 5;
 	public static final int NO_LOGGING = 6;
-	private static int currentLoggingLevel = 2;
+	private static int currentLoggingLevel = 0;
 
 	/**
 	 * sysout logging only if not android device (e.g. server)
