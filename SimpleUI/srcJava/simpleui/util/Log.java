@@ -1,5 +1,6 @@
 package simpleui.util;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +29,19 @@ public class Log {
 	/**
 	 * sysout logging only if not android device (e.g. server)
 	 */
-	private static final boolean IS_DESKTOP = !SystemUtil.isAndroid();
+	private static final boolean IS_DESKTOP = SystemUtil.isDesktop();
+	private static final boolean IS_ANDROID = SystemUtil.isAndroid();
 
 	private static final String LOG_TAG = "CustomLogger";
 
 	private static ArrayList<String> logHistory = new ArrayList<String>();
+
+	private static boolean androidLogAvailable = true;
+
+	public static int usedDesktopTabLength = 15;
+
+	private static Method android_Log_v;
+	private static Method android_Log_d;
 
 	/**
 	 * use {@link Log#setLoggingLevel(int)} instead
@@ -114,14 +123,23 @@ public class Log {
 			if (IS_DESKTOP) {
 				System.out.println(calcDesktopSpacing(LOG_TAG) + " D > "
 						+ debugText);
+			} else if (IS_ANDROID && androidLogAvailable) {
+				// use reflection for debug and verbose levels
+				try {
+					if (android_Log_d == null) {
+						Class logClass = Class.forName("android.util.Log");
+						android_Log_d = logClass.getMethod("d", String.class,
+								String.class);
+					}
+					android_Log_d.invoke(null, LOG_TAG, debugText);
+				} catch (Exception e) {
+					androidLogAvailable = false;
+				}
 			} else {
-				// dont log debugging events
 				Logger.getLogger(LOG_TAG).config(debugText);
 			}
 		}
 	}
-
-	public static int usedDesktopTabLength = 15;
 
 	private static String calcDesktopSpacing(String tag) {
 		do {
@@ -138,8 +156,19 @@ public class Log {
 			if (IS_DESKTOP) {
 				System.out.println(calcDesktopSpacing(LOG_TAG) + " V > "
 						+ debugText);
+			} else if (IS_ANDROID && androidLogAvailable) {
+				// use reflection for debug and verbose levels
+				try {
+					if (android_Log_v == null) {
+						Class logClass = Class.forName("android.util.Log");
+						android_Log_v = logClass.getMethod("v", String.class,
+								String.class);
+					}
+					android_Log_v.invoke(null, LOG_TAG, debugText);
+				} catch (Exception e) {
+					androidLogAvailable = false;
+				}
 			} else {
-				// dont log verbose events
 				Logger.getLogger(LOG_TAG).fine(debugText);
 			}
 		}

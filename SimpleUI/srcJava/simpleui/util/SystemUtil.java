@@ -77,4 +77,9 @@ public class SystemUtil {
 		return isAndroid;
 	}
 
+	public static boolean isDesktop() {
+		// TODO maybe better isPureJava? or isJavaEEServer?
+		return !isAndroid();
+	}
+
 }

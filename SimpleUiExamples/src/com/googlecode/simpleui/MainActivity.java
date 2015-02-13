@@ -24,6 +24,8 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 
+	private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
