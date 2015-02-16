@@ -162,6 +162,14 @@ public class IntentHelper {
 		a.startActivity(intent);
 	}
 
+	public static void updateApp(Context a) {
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse("market://details?id="
+						+ a.getApplicationContext().getPackageName()));
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		a.startActivity(intent);
+	}
+
 	public static void uninstallApp(Context a, String strPackageName) {
 		Uri uri = Uri.fromParts("package", strPackageName, null);
 		Intent it = new Intent(Intent.ACTION_DELETE, uri);
