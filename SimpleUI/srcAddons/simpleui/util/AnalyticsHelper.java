@@ -1,6 +1,5 @@
 package simpleui.util;
 
-import simpleui.util.IAnalyticsHelper;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -9,19 +8,19 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
+/**
+ * Google Analytics tracking: The app specific id has to be placed in an
+ * res/values/analytics.xml file (read
+ * https://developers.google.com/analytics/devguides/collection/android/v3/ for
+ * more information)
+ */
 public class AnalyticsHelper implements IAnalyticsHelper {
-	private static final String LOG_TAG = "AnalyticsHelper";
-
-	public static final String TRACK_DEFAULT_CATEGORY = "defEvents";
+	private static final String LOG_TAG = AnalyticsHelper.class.getSimpleName();
 
 	public AnalyticsHelper() {
+		Log.i(LOG_TAG, LOG_TAG + " created");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see tools.AAA#trackStart(android.app.Activity, java.lang.String)
-	 */
 	@Override
 	public void trackStart(Activity a, String screenName) {
 		try {
@@ -40,42 +39,33 @@ public class AnalyticsHelper implements IAnalyticsHelper {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see tools.AAA#trackStop(android.app.Activity)
-	 */
 	@Override
 	public void trackStop(Activity a) {
-		EasyTracker.getInstance(a).activityStop(a);
+		try {
+			EasyTracker.getInstance(a).activityStop(a);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see tools.AAA#track(android.content.Context, java.lang.String,
-	 * java.lang.String)
-	 */
 	@Override
 	public void track(Context c, String action, String label) {
 		track(c, TRACK_DEFAULT_CATEGORY, action, label, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see tools.AAA#track(android.content.Context, java.lang.String,
-	 * java.lang.String, java.lang.String, java.lang.Long)
-	 */
 	@Override
 	public void track(Context c, String category, String action, String label,
 			Long value) {
-		if (c != null) {
-			EasyTracker.getInstance(c).send(
-					MapBuilder.createEvent(category, action, label, value)
-							.build());
-		} else {
-			Log.w(LOG_TAG, "track: c was null");
+		try {
+			if (c != null) {
+				EasyTracker.getInstance(c).send(
+						MapBuilder.createEvent(category, action, label, value)
+								.build());
+			} else {
+				Log.w(LOG_TAG, "track: context was null");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

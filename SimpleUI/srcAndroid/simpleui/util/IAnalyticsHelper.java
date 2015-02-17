@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 
 public interface IAnalyticsHelper {
+
+	public static final String TRACK_DEFAULT_CATEGORY = "defEvents";
+
 	public void trackStart(Activity a, String screenName);
 
 	public void trackStop(Activity a);

@@ -20,7 +20,7 @@
 	<classpathentry kind="lib" path="libsMore/javax.inject.jar"/>
 	<classpathentry kind="lib" path="libsMore/json-20140107.jar"/>
 	<classpathentry kind="lib" path="libsMore/jsr311-api-1.1.1.jar"/>
-	<classpathentry kind="lib" path="libsMore/libGoogleAnalyticsServices.jar"/>
+	<classpathentry exported="true" kind="lib" path="libsMore/libGoogleAnalyticsServices.jar"/>
 	<classpathentry exported="true" kind="lib" path="libsMore/otto-1.3.4.jar"/>
 	<classpathentry kind="lib" path="libsMore/retrofit-1.4.1.jar"/>
 	<classpathentry kind="lib" path="libsMore/volley.jar"/>

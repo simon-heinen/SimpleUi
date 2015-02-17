@@ -1,8 +1,8 @@
 package simpleui.modifiers.v3.maps;
 
 import simpleui.SimpleUI;
-import simpleui.SimpleUIInterface;
 import simpleui.SimpleUI.OptionsMenuListener;
+import simpleui.SimpleUIInterface;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
@@ -125,8 +125,7 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 
 	@Override
 	protected void onStart() {
-		SimpleUI.IAnalyticsHelper.trackStart(this,
-				SimpleUI.getTrackText(myModifier));
+		SimpleUI.analytics.trackStart(this, SimpleUI.getTrackText(myModifier));
 
 		try {
 			super.onStart();
@@ -179,7 +178,7 @@ public abstract class SimpleUIWithMaps extends FragmentActivity implements
 
 	@Override
 	protected void onStop() {
-		SimpleUI.IAnalyticsHelper.trackStop(this);
+		SimpleUI.analytics.trackStop(this);
 		super.onStop();
 	}
 

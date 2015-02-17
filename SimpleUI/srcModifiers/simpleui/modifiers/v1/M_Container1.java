@@ -3,7 +3,6 @@ package simpleui.modifiers.v1;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.uiDecoration.UiDecoratable;
 import simpleui.modifiers.v1.uiDecoration.UiDecorator;
-import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_Collection;
 import simpleui.util.ColorUtils;
 import simpleui.util.SimpleUiApplication;
@@ -94,24 +93,6 @@ public class M_Container1 extends M_Collection implements UiDecoratable {
 		if (scrollContainer.getBackground() == null) {
 			BACKGROUND.applyBackgroundTo(scrollContainer);
 		}
-	}
-
-	@Override
-	public String toString() {
-		if (!isEmpty()) {
-			if (get(0).getClass() == M_Caption.class
-					|| get(0).getClass().isAssignableFrom(M_Caption.class)
-					|| M_Caption.class.isAssignableFrom(get(0).getClass())) {
-				return "Screen " + get(0).toString();
-			} else {
-				String cl = "";
-				for (ModifierInterface m : this) {
-					cl += m.getClass() + ",";
-				}
-				return "(" + this.size() + ")[" + cl + "]";
-			}
-		}
-		return getClass() + "(0)[]";
 	}
 
 	@Override
