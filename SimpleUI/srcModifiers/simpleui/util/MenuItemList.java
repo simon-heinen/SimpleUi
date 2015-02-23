@@ -45,21 +45,27 @@ public class MenuItemList extends ArrayList<MItem> implements
 		}
 
 		public abstract void onClick(Activity activity);
+
+		/**
+		 * @param actionEnum
+		 *            read {@link MenuItem#setShowAsAction(int)}
+		 */
+		public void setShowAsAction(int actionEnum) {
+			item.setShowAsAction(actionEnum);
+		}
 	}
 
-	private Menu menu;
 	private final Map<MenuItem, MItem> map = new HashMap<MenuItem, MenuItemList.MItem>();
 
 	@Override
 	public boolean onCreateOptionsMenu(Activity a, Menu m) {
-		menu = m;
 		if (size() > 0) {
-			return generateMenu();
+			return generateMenu(m);
 		}
 		return false;
 	}
 
-	private boolean generateMenu() {
+	private boolean generateMenu(Menu menu) {
 		if (menu == null) {
 			Log.w(LOG_TAG, "Won't generate menu, menu not yet set");
 			return false;
@@ -75,6 +81,7 @@ public class MenuItemList extends ArrayList<MItem> implements
 				item.setIcon(e.icon);
 			}
 			e.item = item;
+			e.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 			map.put(item, e);
 		}
 		return true;

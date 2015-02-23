@@ -74,7 +74,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		boolean onCreateOptionsMenu(Activity a, Menu menu);
 
 		/**
-		 * See {@link Activity#onCreateOptionsMenu(Menu)}
+		 * See {@link Activity#onPrepareOptionsMenu(Menu)}
 		 * 
 		 * just return true if you alread handled everything in
 		 * {@link OptionsMenuListener#onCreateOptionsMenu(Activity, Menu)}
@@ -95,7 +95,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		boolean onOptionsItemSelected(Activity a, MenuItem item);
 
 		/**
-		 * See {@link Activity#onOptionsItemSelected(MenuItem)}
+		 * See {@link Activity#onOptionsMenuClosed(MenuItem)}
 		 * 
 		 * @param simpleUI
 		 * @param menu
