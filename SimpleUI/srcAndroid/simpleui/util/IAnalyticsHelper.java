@@ -12,7 +12,7 @@ public interface IAnalyticsHelper {
 	public void trackStop(Activity a);
 
 	/**
-	 * see {@link AnalyticsHelper#track(Context, String, String, String, Long)}
+	 * see {@link IAnalyticsHelper#track(Context, String, String, String, Long)}
 	 * 
 	 * @param c
 	 * @param action
