@@ -55,7 +55,10 @@
         <!-- get your maps key at https://code.google.com/apis/console -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDbGG1cxZT9ObkA91z0MMvVHjtxQVX2rvY" />
+            android:value="AIzaSyBScgJlrhNZTUmzUXyYuvVUTw_it0v-a2Q" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="6587000" />
 
         <activity
             android:name="simpleui.util.ErrorHandler"

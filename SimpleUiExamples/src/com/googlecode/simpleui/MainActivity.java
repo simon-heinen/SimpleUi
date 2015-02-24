@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class MainActivity extends Activity {
 
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -29,6 +31,9 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		LatLng x = new LatLng(2d, 2d);
+		simpleui.util.Log.d("", "x=" + x);
 
 		registerErrorHandlerToCatchExceptions();
 
