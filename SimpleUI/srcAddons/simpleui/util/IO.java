@@ -16,6 +16,9 @@ import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -508,7 +511,15 @@ public class IO extends simpleui.util.IOHelper {
 
 	public interface FileFromUriListener {
 
-		void onStart();
+		/**
+		 * @param fileName
+		 *            the name of the file which will be downloaded
+		 * @param lastModifiedTimestamp
+		 *            the timestamp when the file was last changed, can be 0 if
+		 *            not available
+		 * @return true to continue the process, false to abort it
+		 */
+		boolean onStart(String fileName, long lastModifiedTimestamp);
 
 		void onStop(File downloadedFile);
 
@@ -553,7 +564,7 @@ public class IO extends simpleui.util.IOHelper {
 				}
 				return null;
 			}
-
+			Log.d(LOG_TAG, "Downoading " + sourceUri);
 			URL url = new URL(sourceUri.toString());
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
@@ -575,7 +586,7 @@ public class IO extends simpleui.util.IOHelper {
 			String raw = connection.getHeaderField("Content-Disposition");
 			// raw = "attachment; filename=abc.jpg"
 			if (raw != null) {
-				System.out.println("raw=" + raw);
+				Log.d("raw=" + raw);
 				Pattern regex = Pattern.compile("(?<=filename=\").*?(?=\")");
 				Matcher regexMatcher = regex.matcher(raw);
 				if (regexMatcher.find()) {
@@ -590,14 +601,23 @@ public class IO extends simpleui.util.IOHelper {
 			}
 			File targetFile = new File(targetFolder, fallbackFileName);
 			InputStream input = connection.getInputStream();
+			if (l != null) {
+				long lastModifiedDate = connection.getLastModified();
+				if (lastModifiedDate <= 0) {
+					// debugOutputHeaderFields(connection);
+					lastModifiedDate = connection.getHeaderFieldDate("Date", 0);
+				}
+				Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate);
+				if (!l.onStart(fallbackFileName, lastModifiedDate)) {
+					return null;
+				}
+			}
 			OutputStream output = new FileOutputStream(targetFile);
 
 			byte data[] = new byte[4096];
 			long total = 0;
 			int count;
-			if (l != null) {
-				l.onStart();
-			}
+
 			while ((count = input.read(data)) != -1) {
 				// allow canceling with back button
 				if (l != null && l.cancelDownload()) {
@@ -629,6 +649,17 @@ public class IO extends simpleui.util.IOHelper {
 				l.onError(e);
 			}
 			return null;
+		}
+	}
+
+	private static void debugOutputHeaderFields(HttpURLConnection connection) {
+		Map<String, List<String>> f = connection.getHeaderFields();
+		for (Entry<String, List<String>> e : f.entrySet()) {
+			Log.i(LOG_TAG, "header key=" + e.getKey());
+			List<String> values = e.getValue();
+			for (String v : values) {
+				Log.i(LOG_TAG, "     > value=" + v);
+			}
 		}
 	}
 
