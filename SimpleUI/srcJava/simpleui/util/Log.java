@@ -35,6 +35,7 @@ public class Log {
 	private static final String LOG_TAG = "CustomLogger";
 
 	private static ArrayList<String> logHistory = new ArrayList<String>();
+	private static Map<Thread, String> threadNames = new HashMap<Thread, String>();
 
 	private static boolean androidLogAvailable = true;
 
@@ -61,6 +62,7 @@ public class Log {
 
 	public static void w(String LOG_TAG, String warning) {
 		if (currentLoggingLevel <= WARNING) {
+			LOG_TAG += getCurrentThreadName();
 			if (IS_DESKTOP) {
 				System.err.println(calcDesktopSpacing(LOG_TAG) + " W > "
 						+ warning);
@@ -71,12 +73,26 @@ public class Log {
 		}
 	}
 
+	public static String getCurrentThreadName() {
+		Thread currentThread = Thread.currentThread();
+		String name = threadNames.get(currentThread);
+		if (name == null) {
+			name = currentThread.getName();
+			if (name.contains("%")) {
+				name = "T." + threadNames.size();
+			}
+			threadNames.put(currentThread, name);
+		}
+		return " (" + name + ")";
+	}
+
 	public static ArrayList<String> getLogHistory() {
 		return logHistory;
 	}
 
 	public static void e(String LOG_TAG, String error) {
 		if (currentLoggingLevel <= ERROR) {
+			LOG_TAG += getCurrentThreadName();
 			if (IS_DESKTOP) {
 				System.err.println(LOG_TAG + SPACER + error);
 			} else {
@@ -107,6 +123,7 @@ public class Log {
 
 	public static void i(String LOG_TAG, String info) {
 		if (currentLoggingLevel <= INFO) {
+			LOG_TAG += getCurrentThreadName();
 			if (IS_DESKTOP) {
 				System.out
 						.println(calcDesktopSpacing(LOG_TAG) + " I > " + info);
@@ -120,6 +137,7 @@ public class Log {
 
 	public static void d(String LOG_TAG, String debugText) {
 		if (currentLoggingLevel <= DEBUG) {
+			LOG_TAG += getCurrentThreadName();
 			if (IS_DESKTOP) {
 				System.out.println(calcDesktopSpacing(LOG_TAG) + " D > "
 						+ debugText);
@@ -153,6 +171,7 @@ public class Log {
 
 	public static void v(String LOG_TAG, String debugText) {
 		if (currentLoggingLevel <= VERBOSE) {
+			LOG_TAG += getCurrentThreadName();
 			if (IS_DESKTOP) {
 				System.out.println(calcDesktopSpacing(LOG_TAG) + " V > "
 						+ debugText);

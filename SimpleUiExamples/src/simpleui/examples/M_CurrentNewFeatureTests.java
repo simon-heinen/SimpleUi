@@ -57,7 +57,9 @@ public class M_CurrentNewFeatureTests extends M_Container {
 									}
 
 									@Override
-									public void onStart() {
+									public boolean onStart(String arg0,
+											long arg1) {
+										return true;
 									}
 
 									@Override
