@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.util.Arrays;
@@ -156,6 +157,16 @@ public class IOHelper {
 		saveSerializableToExternalStorage(file, objectToSave);
 	}
 
+	public static boolean saveStringToFile(File targetFile, String stringToSave)
+			throws IOException {
+		targetFile = newFile(targetFile);
+		PrintWriter out = new PrintWriter(targetFile);
+		out.println(stringToSave);
+		out.flush();
+		out.close();
+		return true;
+	}
+
 	public static void saveSerializableToExternalStorage(File file,
 			Serializable objectToSave) throws FileNotFoundException,
 			IOException {
@@ -167,6 +178,13 @@ public class IOHelper {
 		return newFile(new File(filePath));
 	}
 
+	/**
+	 * Creates the file plus all needed folders
+	 * 
+	 * @param f
+	 * @return
+	 * @throws IOException
+	 */
 	public static File newFile(File f) throws IOException {
 		if (!f.exists()) {
 			if (!f.getParentFile().exists()) {

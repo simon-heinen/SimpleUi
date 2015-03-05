@@ -129,7 +129,12 @@ public abstract class M_WebView implements ModifierInterface {
 			}
 		}, "HTMLOUT");
 		webView.clearView();
-		webView.loadUrl(getUrlToDisplay());
+		String url = getUrlToDisplay();
+		if (!url.contains("://")) { // no protocol defined
+			url = "http://" + url; // use default http
+		}
+		Log.i(LOG_TAG, "Loading page " + url);
+		webView.loadUrl(url);
 		return webView;
 	}
 
