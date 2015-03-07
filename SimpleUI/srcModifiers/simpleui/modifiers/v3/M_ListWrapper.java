@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 /**
- * use the M_ListWrapperV2 instead
+ * use the {@link M_ListWrapperV3} instead
  * 
  * @param <T>
  */
