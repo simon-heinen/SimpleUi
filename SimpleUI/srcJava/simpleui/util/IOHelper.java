@@ -1,6 +1,7 @@
 package simpleui.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -244,6 +245,19 @@ public class IOHelper {
 			in.close();
 			out.close();
 		}
+	}
+
+	public static byte[] loadFileAsByteArray(File file) throws IOException {
+		InputStream is = new FileInputStream(file);
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		int nRead;
+		byte[] data = new byte[16384];
+		while ((nRead = is.read(data, 0, data.length)) != -1) {
+			buffer.write(data, 0, nRead);
+		}
+		buffer.flush();
+		is.close();
+		return buffer.toByteArray();
 	}
 
 	public static List<File> getFilesInPath(String path) {
