@@ -602,14 +602,30 @@ public class IO extends simpleui.util.IOHelper {
 			File targetFile = new File(targetFolder, fallbackFileName);
 			InputStream input = connection.getInputStream();
 			if (l != null) {
-				long lastModifiedDate = connection.getLastModified();
+				long lastModifiedDate = 0;
+				try {
+					String lmString = connection
+							.getHeaderField("Last-Modified");
+					if (lmString != null) {
+						lastModifiedDate = Long.parseLong(lmString);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				if (lastModifiedDate <= 0) {
-					// debugOutputHeaderFields(connection);
+					Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate
+							+ ", trying to get it from getLastModified()");
+					lastModifiedDate = connection.getLastModified();
+				}
+				if (lastModifiedDate <= 0) {
+					Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate
+							+ ", trying to get it from header field 'Date'");
 					lastModifiedDate = connection.getHeaderFieldDate("Date", 0);
 				}
-				Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate);
+				// debugOutputHeaderFields(connection);
+				Log.v(LOG_TAG, "final lastModifiedDate=" + lastModifiedDate);
 				if (!l.onStart(fallbackFileName, lastModifiedDate)) {
-					return null;
+					return null; // abort download
 				}
 			}
 			OutputStream output = new FileOutputStream(targetFile);
@@ -655,10 +671,10 @@ public class IO extends simpleui.util.IOHelper {
 	private static void debugOutputHeaderFields(HttpURLConnection connection) {
 		Map<String, List<String>> f = connection.getHeaderFields();
 		for (Entry<String, List<String>> e : f.entrySet()) {
-			Log.i(LOG_TAG, "header key=" + e.getKey());
+			Log.i(LOG_TAG, "       > header key=" + e.getKey());
 			List<String> values = e.getValue();
 			for (String v : values) {
-				Log.i(LOG_TAG, "     > value=" + v);
+				Log.i(LOG_TAG, "              >> value=" + v);
 			}
 		}
 	}
