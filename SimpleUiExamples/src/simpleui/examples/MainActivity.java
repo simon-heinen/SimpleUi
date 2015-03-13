@@ -1,10 +1,6 @@
-package com.googlecode.simpleui;
+package simpleui.examples;
 
 import simpleui.SimpleUI;
-import simpleui.examples.M_CardViewTests;
-import simpleui.examples.M_CurrentNewFeatureTests;
-import simpleui.examples.M_ExampleDemoUiV1;
-import simpleui.examples.M_ModifierOverview;
 import simpleui.examples.activities.ExampleActivity1;
 import simpleui.examples.listwrapper.M_ListWrapperV3Tests;
 import simpleui.modifiers.ModifierInterface;

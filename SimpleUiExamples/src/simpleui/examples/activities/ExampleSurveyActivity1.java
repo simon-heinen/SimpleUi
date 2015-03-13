@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import simpleui.customViews.SimpleRatingBar;
 import simpleui.customViews.SimpleRatingBar.RatingItem;
+import simpleui.examples.R;
 import simpleui.modifiers.v3.M_Button;
 import simpleui.modifiers.v3.M_Caption;
 import simpleui.modifiers.v3.M_EmailInput;
@@ -14,8 +15,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-
-import com.googlecode.simpleui.R;
 
 public class ExampleSurveyActivity1 extends Activity {
 	@Override

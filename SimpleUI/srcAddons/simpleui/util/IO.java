@@ -518,8 +518,13 @@ public class IO extends simpleui.util.IOHelper {
 		 *            the timestamp when the file was last changed, can be 0 if
 		 *            not available
 		 * @return true to continue the process, false to abort it
+		 * @param fileSizeOnServer
+		 *            file size in bytes on server, check additionally to the
+		 *            lastModifiedTimestamp, can be null if unknown
+		 * @return
 		 */
-		boolean onStart(String fileName, long lastModifiedTimestamp);
+		boolean onStart(String fileName, long lastModifiedTimestamp,
+				Integer fileSizeOnServer);
 
 		void onStop(File downloadedFile);
 
@@ -583,18 +588,32 @@ public class IO extends simpleui.util.IOHelper {
 			// might be -1: server did not report the length
 			int fileLength = connection.getContentLength();
 
-			String raw = connection.getHeaderField("Content-Disposition");
-			// raw = "attachment; filename=abc.jpg"
-			if (raw != null) {
-				Log.d("raw=" + raw);
+			debugOutputHeaderFields(connection);
+
+			Integer fileSizeOnServer = null;
+			try {
+				String fileSizeString = connection
+						.getHeaderField("Content-Length");
+				if (fileSizeString != null) {
+					fileSizeOnServer = Integer.parseInt(fileSizeString);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+			String rawContDisp = connection
+					.getHeaderField("Content-Disposition");
+			if (rawContDisp != null) {
+				Log.d("raw=" + rawContDisp);
 				Pattern regex = Pattern.compile("(?<=filename=\").*?(?=\")");
-				Matcher regexMatcher = regex.matcher(raw);
+				Matcher regexMatcher = regex.matcher(rawContDisp);
 				if (regexMatcher.find()) {
 					fallbackFileName = regexMatcher.group();
-				} else if (raw.contains("=")) {
+				} else if (rawContDisp.contains("=")) {
 					fallbackFileName = ""
-							+ raw.subSequence(raw.lastIndexOf("=") + 1,
-									raw.length());
+							+ rawContDisp.subSequence(
+									rawContDisp.lastIndexOf("=") + 1,
+									rawContDisp.length());
 					fallbackFileName = fallbackFileName.trim();
 				}
 
@@ -624,7 +643,8 @@ public class IO extends simpleui.util.IOHelper {
 				}
 				// debugOutputHeaderFields(connection);
 				Log.v(LOG_TAG, "final lastModifiedDate=" + lastModifiedDate);
-				if (!l.onStart(fallbackFileName, lastModifiedDate)) {
+				if (!l.onStart(fallbackFileName, lastModifiedDate,
+						fileSizeOnServer)) {
 					return null; // abort download
 				}
 			}

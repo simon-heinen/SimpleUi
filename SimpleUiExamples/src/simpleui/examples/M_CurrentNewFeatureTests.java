@@ -58,8 +58,9 @@ public class M_CurrentNewFeatureTests extends M_Container {
 
 									@Override
 									public boolean onStart(String arg0,
-											long arg1) {
-										return true;
+											long arg1, Integer arg2) {
+										// TODO Auto-generated method stub
+										return false;
 									}
 
 									@Override

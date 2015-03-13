@@ -6,6 +6,7 @@ import java.util.List;
 import simpleui.SimpleUI;
 import simpleui.adapters.SimpleBaseAdapter;
 import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
+import simpleui.examples.R;
 import simpleui.modifiers.ModifierInterface;
 import simpleui.modifiers.v1.M_Container1;
 import simpleui.modifiers.v1.M_ListWrapperV3Editable;
@@ -22,8 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.googlecode.simpleui.R;
 
 public class M_ListWrapperV3Tests {
 
