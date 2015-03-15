@@ -94,7 +94,10 @@ public class ToastV2 {
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					mUndoPopup.dismiss();
+					try {
+						mUndoPopup.dismiss();
+					} catch (Exception e) {
+					}
 				}
 			}, durationInMs);
 		}

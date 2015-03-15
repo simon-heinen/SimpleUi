@@ -1,5 +1,6 @@
 package simpleui.examples.maps;
 
+import simpleui.examples.R;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_InfoText;
 import simpleui.modifiers.v3.M_SeperatorLine;
@@ -7,8 +8,6 @@ import simpleui.modifiers.v3.maps.M_GoogleMapsMarkLocation;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.googlecode.simpleui.R;
-import com.googlecode.simpleui.R.drawable;
 
 public class M_GoogleMapsMarkLocationTests extends M_Container {
 

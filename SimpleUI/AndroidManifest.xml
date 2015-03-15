@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="15"
         android:targetSdkVersion="21" />
 
     <application android:name="simpleui.util.SimpleUiApplication" >
@@ -25,6 +25,8 @@
                 <data android:mimeType="errors/myUnhandleCatcher" />
             </intent-filter>
         </activity>
+        
+        <meta-data android:name="com.google.android.gms.version" android:value="6587000" />
         
     </application>
 

@@ -15,6 +15,7 @@ import simpleui.util.ActivityLifecycleListener;
 import simpleui.util.AnalyticsHelperNoOp;
 import simpleui.util.ErrorHandler;
 import simpleui.util.IAnalyticsHelper;
+import simpleui.util.Log;
 import simpleui.util.SimpleUiApplication;
 import android.R;
 import android.app.Activity;
@@ -23,13 +24,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 
 /**
@@ -75,7 +74,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		boolean onCreateOptionsMenu(Activity a, Menu menu);
 
 		/**
-		 * See {@link Activity#onCreateOptionsMenu(Menu)}
+		 * See {@link Activity#onPrepareOptionsMenu(Menu)}
 		 * 
 		 * just return true if you alread handled everything in
 		 * {@link OptionsMenuListener#onCreateOptionsMenu(Activity, Menu)}
@@ -96,7 +95,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		boolean onOptionsItemSelected(Activity a, MenuItem item);
 
 		/**
-		 * See {@link Activity#onOptionsItemSelected(MenuItem)}
+		 * See {@link Activity#onOptionsMenuClosed(MenuItem)}
 		 * 
 		 * @param simpleUI
 		 * @param menu
@@ -106,11 +105,11 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 	}
 
 	private static final String TRANSFAIR_KEY_ID = "transfairKey";
-	private static final String LOG_TAG = "SimpleUI v2";
+	private static final String LOG_TAG = SimpleUI.class.getSimpleName();
 	private static boolean DEBUG = true;
 	private static SimpleUiApplication application;
 
-	public static IAnalyticsHelper IAnalyticsHelper = initIAnalyticsHelper();
+	public static IAnalyticsHelper analytics = initIAnalyticsHelper();
 
 	private View myViewToShow;
 	private ModifierInterface myModifier;
@@ -151,14 +150,15 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 			classLoader
 					.loadClass("com.google.analytics.tracking.android.EasyTracker");
 			Class analyticsHelperClass = classLoader
-					.loadClass("tools.AnalyticsHelper");
-			Log.i(LOG_TAG, "Found tools.AnalyticsHelper and "
+					.loadClass("simpleui.util.AnalyticsHelper");
+			Log.i(LOG_TAG, "Found simpleui.util.AnalyticsHelper and "
 					+ "will create instance now");
-			return (simpleui.util.IAnalyticsHelper) analyticsHelperClass.newInstance();
+			return (simpleui.util.IAnalyticsHelper) analyticsHelperClass
+					.newInstance();
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
-		Log.i(LOG_TAG, "Google Analytics not supported in this "
+		Log.w(LOG_TAG, "Google Analytics not supported in this "
 				+ "application, injecting AnalyticsHelperNoOp");
 		return new AnalyticsHelperNoOp();
 	}
@@ -177,11 +177,11 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 			@Override
 			public void onClick(Context context, Button clickedButton) {
 				if (targetContainer.save() && context instanceof Activity) {
-					IAnalyticsHelper.track(context, "okSucc", "OkPress "
+					analytics.track(context, "okSucc", "OkPress "
 							+ getTrackText(targetContainer));
 					((Activity) context).finish();
 				} else {
-					IAnalyticsHelper.track(context, "okError", "OkPress "
+					analytics.track(context, "okError", "OkPress "
 							+ getTrackText(targetContainer));
 				}
 			}
@@ -227,7 +227,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 					public void onCancel(Context context,
 							M_Collection targetContainer) {
 						if (context instanceof Activity) {
-							IAnalyticsHelper.track(context, "cancelPress",
+							analytics.track(context, "cancelPress",
 									"Cancelled "
 											+ getTrackText(targetContainer));
 							((Activity) context).finish();
@@ -240,14 +240,12 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 
 						if (targetContainer.save()
 								&& context instanceof Activity) {
-							IAnalyticsHelper.track(context, "saveSucc",
-									"SavePress "
-											+ getTrackText(targetContainer));
+							analytics.track(context, "saveSucc", "SavePress "
+									+ getTrackText(targetContainer));
 							((Activity) context).finish();
 						} else {
-							IAnalyticsHelper.track(context, "saveError",
-									"SavePress "
-											+ getTrackText(targetContainer));
+							analytics.track(context, "saveError", "SavePress "
+									+ getTrackText(targetContainer));
 						}
 					}
 
@@ -392,7 +390,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		}
 
 		if (myModifier != null) {
-			IAnalyticsHelper.trackStart(this, getTrackText(myModifier));
+			analytics.trackStart(this, getTrackText(myModifier));
 		}
 	}
 
@@ -415,7 +413,7 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 			m.onStop(this);
 		}
 		super.onStop();
-		IAnalyticsHelper.trackStop(this);
+		analytics.trackStop(this);
 	}
 
 	/**
@@ -516,11 +514,11 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 	}
 
 	public static void onCreate(Activity a, Bundle savedInstanceState) {
-		try {
-			a.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// a.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		if (DEBUG) {
 			Log.i(LOG_TAG, "onCreate" + " by " + a);
 		}

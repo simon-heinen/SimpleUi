@@ -130,16 +130,18 @@ public abstract class M_ProgressBar implements ModifierInterface, UiDecoratable 
 	 */
 	@Deprecated
 	public void updateValue(final int newProgressValue, final String updatedText) {
-		// do it from the UI thread:
-		mHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				progressBar.setProgress(newProgressValue);
-				if (updatedText != null) {
-					nameText.setText(updatedText);
+		if (progressBar != null) {
+			// do it from the UI thread:
+			mHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					progressBar.setProgress(newProgressValue);
+					if (updatedText != null) {
+						nameText.setText(updatedText);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	public void setValue(int newProgressValue) {

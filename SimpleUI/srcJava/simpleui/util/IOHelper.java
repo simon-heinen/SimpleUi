@@ -1,6 +1,7 @@
 package simpleui.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.util.Arrays;
@@ -156,6 +158,16 @@ public class IOHelper {
 		saveSerializableToExternalStorage(file, objectToSave);
 	}
 
+	public static boolean saveStringToFile(File targetFile, String stringToSave)
+			throws IOException {
+		targetFile = newFile(targetFile);
+		PrintWriter out = new PrintWriter(targetFile);
+		out.println(stringToSave);
+		out.flush();
+		out.close();
+		return true;
+	}
+
 	public static void saveSerializableToExternalStorage(File file,
 			Serializable objectToSave) throws FileNotFoundException,
 			IOException {
@@ -167,6 +179,13 @@ public class IOHelper {
 		return newFile(new File(filePath));
 	}
 
+	/**
+	 * Creates the file plus all needed folders
+	 * 
+	 * @param f
+	 * @return
+	 * @throws IOException
+	 */
 	public static File newFile(File f) throws IOException {
 		if (!f.exists()) {
 			if (!f.getParentFile().exists()) {
@@ -226,6 +245,19 @@ public class IOHelper {
 			in.close();
 			out.close();
 		}
+	}
+
+	public static byte[] loadFileAsByteArray(File file) throws IOException {
+		InputStream is = new FileInputStream(file);
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		int nRead;
+		byte[] data = new byte[16384];
+		while ((nRead = is.read(data, 0, data.length)) != -1) {
+			buffer.write(data, 0, nRead);
+		}
+		buffer.flush();
+		is.close();
+		return buffer.toByteArray();
 	}
 
 	public static List<File> getFilesInPath(String path) {

@@ -106,7 +106,7 @@ public class M_Caption implements ModifierInterface, UiDecoratable {
 	@Override
 	public String toString() {
 		if (myText != null) {
-			return "Caption " + myText;
+			return "Caption=" + myText;
 		}
 		return super.toString();
 	}

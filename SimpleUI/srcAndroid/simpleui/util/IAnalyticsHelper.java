@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 
 public interface IAnalyticsHelper {
+
+	public static final String TRACK_DEFAULT_CATEGORY = "defEvents";
+
 	public void trackStart(Activity a, String screenName);
 
 	public void trackStop(Activity a);
 
 	/**
-	 * see {@link AnalyticsHelper#track(Context, String, String, String, Long)}
+	 * see {@link IAnalyticsHelper#track(Context, String, String, String, Long)}
 	 * 
 	 * @param c
 	 * @param action

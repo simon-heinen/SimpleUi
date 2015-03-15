@@ -6,7 +6,8 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Not yet working. use {@link ScalableImageView} for now
+ * Not yet working. use android:scaleType="centerCrop" on your normal
+ * {@link ImageView} for now
  * 
  * Will display the contained drawable always without borders (in fullscreen
  * mode). This view calculates its size manually so xml attributes will be

@@ -2,15 +2,13 @@ package simpleui.examples.injection;
 
 import javax.inject.Inject;
 
+import simpleui.examples.R;
 import simpleui.util.ButterknifeHelper;
 import simpleui.util.DaggerHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import butterknife.InjectView;
-
-import com.googlecode.simpleui.R;
-
 import dagger.ObjectGraph;
 
 /**

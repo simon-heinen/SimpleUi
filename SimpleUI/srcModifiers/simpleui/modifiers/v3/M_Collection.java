@@ -28,4 +28,27 @@ public abstract class M_Collection extends ArrayList<ModifierInterface>
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		if (!isEmpty()) {
+			if (get(0).getClass() == M_Caption.class
+					|| get(0).getClass().isAssignableFrom(M_Caption.class)
+					|| M_Caption.class.isAssignableFrom(get(0).getClass())) {
+				return "Screen with " + get(0).toString();
+			} else if (get(0).getClass() == M_Toolbar.class
+					|| get(0).getClass().isAssignableFrom(M_Toolbar.class)
+					|| M_Toolbar.class.isAssignableFrom(get(0).getClass())) {
+				return "Screen with " + get(0).toString();
+			} else {
+				String cl = "";
+				for (ModifierInterface m : this) {
+					cl += m.getClass() + ",";
+				}
+				return "(" + this.size() + ")[" + cl + "]";
+			}
+		}
+		return getClass() + "(0)[]";
+	}
+
 }

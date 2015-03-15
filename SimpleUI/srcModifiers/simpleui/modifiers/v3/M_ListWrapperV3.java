@@ -72,12 +72,23 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 
 			@Override
 			protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+				Log.d(LOG_TAG, "onSizeChanged, oldw=" + oldw);
 				if (oldw <= 0) { // the first time the view is resized:
 					if (startInVerticalMode) {
 						switchToVerticalGrid(initialRowOrColumnCount);
 					} else {
 						switchToHorizontalGrid(initialRowOrColumnCount);
 					}
+				} else {
+					// now the correct size is known, so force the currently
+					// visible children to update their layout
+					// int size = getChildCount();
+					// Log.d(LOG_TAG, "Updating " + size + " children");
+					// for (int i = 0; i < size; i++) {
+					// View child = getChildAt(i);
+					// child.requestLayout();
+					// child.invalidate();
+					// }
 				}
 				super.onSizeChanged(w, h, oldw, oldh);
 			}

@@ -121,14 +121,12 @@ public class M_CardViewTests extends M_Container {
 		c.add(new M_InfoText(text));
 		c.add(M_SeperatorLine.newMaterialOne(null));
 		M_Button left = new M_Button("No", true) {
-
 			@Override
 			public void onClick(Context arg0, Button arg1) {
 				System.out.println("No");
 			}
 		};
 		M_Button right = new M_Button("Yes", true) {
-
 			@Override
 			public void onClick(Context arg0, Button arg1) {
 				System.out.println("Yes");
@@ -136,7 +134,6 @@ public class M_CardViewTests extends M_Container {
 
 		};
 		c.add(new M_HalfHalf(left, right));
-
 		return c;
 	}
 

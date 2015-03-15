@@ -4,6 +4,7 @@ import java.util.List;
 
 import simpleui.adapters.SimpleBaseAdapter;
 import simpleui.adapters.SimpleBaseAdapter.HasItsOwnView;
+import simpleui.examples.R;
 import simpleui.util.ButterknifeHelper;
 import simpleui.util.ColorUtils;
 import android.content.Context;
@@ -15,11 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.InjectView;
 
-import com.googlecode.simpleui.R;
-
 public class ExampleListItemView implements HasItsOwnView {
 
-	private static final String LOG_TAG = ExampleListItemView.class.getSimpleName();
+	private static final String LOG_TAG = ExampleListItemView.class
+			.getSimpleName();
 	@InjectView(R.id.swype_list_item_front_text)
 	TextView t;
 	@InjectView(R.id.swype_list_item_back_button)

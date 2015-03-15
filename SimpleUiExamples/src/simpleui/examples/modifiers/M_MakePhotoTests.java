@@ -5,11 +5,14 @@ import java.io.File;
 import simpleui.modifiers.v3.M_Container;
 import simpleui.modifiers.v3.M_MakePhoto;
 import simpleui.util.ActivityLifecycleListener;
+import simpleui.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 
 public class M_MakePhotoTests extends M_Container implements
 		ActivityLifecycleListener {
+	protected static final String LOG_TAG = M_MakePhotoTests.class
+			.getSimpleName();
 	private M_MakePhoto photo;
 	private File file;
 
@@ -20,7 +23,8 @@ public class M_MakePhotoTests extends M_Container implements
 			@Override
 			public boolean save(Activity activity, File takenBitmapFile) {
 				file = takenBitmapFile;
-				return false;
+				Log.i(LOG_TAG, "User picked file=" + takenBitmapFile);
+				return true;
 			}
 
 			@Override

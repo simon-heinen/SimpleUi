@@ -43,42 +43,64 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 	private boolean fillCompleteScreen = false;
 	private Integer bgDimmingColor = OUTER_BACKGROUND_DIMMING_COLOR;
 	private CardView card;
+	private LinearLayout mostOuterBox;
 
 	@Override
-	public View getView(Context context) {
-		this.context = context;
-		LinearLayout mostOuterBox = new LinearLayout(context);
+	public View getView(Context c) {
+		this.context = c;
+		mostOuterBox = new LinearLayout(context);
 		mostOuterBox.setGravity(Gravity.CENTER);
 		if (bgDimmingColor != null) {
 			mostOuterBox.setBackgroundColor(bgDimmingColor);
 		}
+		rebuildUi();
+		return mostOuterBox;
+	}
 
-		LinearLayout outerContainer = new LinearLayout(context);
-		LinearLayout listItemContainer = new LinearLayout(context);
-		boolean firstEntryIsToolbar = get(0) instanceof M_Toolbar;
-		boolean fillScreen = firstEntryIsToolbar || this.fillCompleteScreen;
+	public boolean rebuildUi() {
+		if (mostOuterBox == null) {
+			return false;
+		}
+		if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+			mostOuterBox.removeAllViews();
+			createCardWithContent();
+			mostOuterBox.addView(card);
+		} else {
+			myHandler.post(new Runnable() {
+				@Override
+				public void run() {
+					rebuildUi(); // execute again on ui thread
+				}
+			});
+		}
+		return true;
+	}
+
+	private void createCardWithContent() {
+		LinearLayout outerCardContainer = new LinearLayout(context);
+		LinearLayout cardItems = new LinearLayout(context);
+		boolean firstEntryIsToolbar = size() > 0 && get(0) instanceof M_Toolbar;
+		boolean fillScreenHeight = firstEntryIsToolbar
+				|| this.fillCompleteScreen;
 
 		int shaddowSize = (int) ImageTransform.dipToPixels(context,
 				DEFAULT_SHADDOW_SIZE_IN_DIP);
-		if (fillScreen) {
+		if (fillScreenHeight) {
 			shaddowSize = 0;
 		}
-		card = newCardViewWithContainers(context, outerContainer,
-				listItemContainer, shaddowSize);
+		card = newCardViewWithContainers(context, outerCardContainer,
+				cardItems, shaddowSize);
 		if (cardBackgroundColor != null) {
 			card.setCardBackgroundColor(cardBackgroundColor);
 		}
-		createViewsForAllModifiers(context, listItemContainer,
-				firstEntryIsToolbar);
-		if (fillScreen) {
+		createViewsForAllModifiers(context, cardItems, firstEntryIsToolbar);
+		if (fillScreenHeight) {
 			card.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
 					LayoutParams.MATCH_PARENT));
 		}
 		if (firstEntryIsToolbar) {
-			outerContainer.addView(get(0).getView(context), 0);
+			outerCardContainer.addView(get(0).getView(context), 0);
 		}
-		mostOuterBox.addView(card);
-		return mostOuterBox;
 	}
 
 	public static CardView newCardViewWithContainers(Context context,
@@ -116,6 +138,16 @@ public class M_Container extends M_Collection implements OptionsMenuListener {
 
 	public void setFillCompleteScreen(boolean fillCompleteScreen) {
 		this.fillCompleteScreen = fillCompleteScreen;
+	}
+
+	public boolean closeParentActivity() {
+		if (getContext() instanceof Activity) {
+			((Activity) getContext()).finish();
+			return true;
+		}
+		Log.w(LOG_TAG, "Could not close window, parent context=" + context
+				+ " was not an activity");
+		return false;
 	}
 
 	@Override
