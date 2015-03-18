@@ -132,9 +132,10 @@ public class IOHelper {
 		 * @param fileSizeOnServer
 		 *            file size in bytes on server, check additionally to the
 		 *            lastModifiedTimestamp, can be null if unknown
-		 * @return
+		 * @return the cached file if available, or null if the file should be
+		 *         downloaded
 		 */
-		boolean onStart(String fileName, long lastModifiedTimestamp,
+		File onGetCachedVersion(String fileName, long lastModifiedTimestamp,
 				Integer fileSizeOnServer);
 
 		void onStop(File downloadedFile);
@@ -254,9 +255,10 @@ public class IOHelper {
 				}
 				// debugOutputHeaderFields(connection);
 				Log.v(LOG_TAG, "final lastModifiedDate=" + lastModifiedDate);
-				if (!l.onStart(fallbackFileName, lastModifiedDate,
-						fileSizeOnServer)) {
-					return null; // abort download
+				File cachedFile = l.onGetCachedVersion(fallbackFileName, lastModifiedDate,
+						fileSizeOnServer);
+				if (cachedFile != null) {
+					return cachedFile; // abort download
 				}
 			}
 			OutputStream output = new FileOutputStream(targetFile);
