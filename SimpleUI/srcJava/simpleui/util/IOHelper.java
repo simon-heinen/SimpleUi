@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -460,7 +461,11 @@ public class IOHelper {
 	}
 
 	public static List<File> getFilesInPath(File directory) {
-		return Arrays.asList(directory.listFiles());
+		File[] files = directory.listFiles();
+		if (files == null || files.length == 0) {
+			return new ArrayList<File>();
+		}
+		return Arrays.asList(files);
 	}
 
 	protected static void saveSerializableToStream(Serializable objectToSave,
