@@ -30,7 +30,7 @@ import java.util.zip.GZIPOutputStream;
 
 public class IOHelper {
 
-	private static final String LOG_TAG = "IO";
+	private static final String LOG_TAG = IOHelper.class.getSimpleName();
 
 	/**
 	 * @param filename
@@ -156,7 +156,8 @@ public class IOHelper {
 	}
 
 	/**
-	 * Synchronously loads data into a {@link File} from the specified Uri
+	 * Synchronously loads data into a {@link File} from the specified
+	 * {@link URL}
 	 * 
 	 * @param sourceUri
 	 *            the {@link URL} where the content should come from
@@ -198,7 +199,7 @@ public class IOHelper {
 			// might be -1: server did not report the length
 			int fileLength = connection.getContentLength();
 
-			debugOutputHeaderFields(connection);
+			// debugOutputHeaderFields(connection);
 
 			Integer fileSizeOnServer = null;
 			try {
