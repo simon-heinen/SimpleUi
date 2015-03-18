@@ -16,14 +16,21 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class IOHelper {
 
-	private static final String LOG_TAG = "IO";
+	private static final String LOG_TAG = IOHelper.class.getSimpleName();
 
 	/**
 	 * @param filename
@@ -111,6 +118,198 @@ public class IOHelper {
 			sb.append(line).append("\n");
 		}
 		return sb.toString();
+	}
+
+	public interface FileFromUriListener {
+
+		/**
+		 * @param fileName
+		 *            the name of the file which will be downloaded
+		 * @param lastModifiedTimestamp
+		 *            the timestamp when the file was last changed, can be 0 if
+		 *            not available
+		 * @return true to continue the process, false to abort it
+		 * @param fileSizeOnServer
+		 *            file size in bytes on server, check additionally to the
+		 *            lastModifiedTimestamp, can be null if unknown
+		 * @return the cached file if available, or null if the file should be
+		 *         downloaded
+		 */
+		File onGetCachedVersion(String fileName, long lastModifiedTimestamp,
+				Integer fileSizeOnServer);
+
+		void onStop(File downloadedFile);
+
+		void onError(Exception e);
+
+		/**
+		 * @return every time this method is called false can be returned to
+		 *         stop the download process
+		 */
+		boolean cancelDownload();
+
+		/**
+		 * @param percent
+		 *            value between 0 to 100
+		 */
+		void onProgress(int percent);
+
+	}
+
+	/**
+	 * Synchronously loads data into a {@link File} from the specified
+	 * {@link URL}
+	 * 
+	 * @param sourceUri
+	 *            the {@link URL} where the content should come from
+	 * @param targetFolder
+	 *            the folder where the content should be stored in
+	 * @param fallbackFileName
+	 *            the fallback filename if the online resource does not provide
+	 *            its filename
+	 * @param l
+	 *            can be null, if no error or update information is needed
+	 * @return the downloaded {@link File} or null if an error happened
+	 */
+	public static File loadFileFromUri(URL sourceUri, File targetFolder,
+			String fallbackFileName, FileFromUriListener l) {
+		try {
+			if (!targetFolder.exists() && !targetFolder.mkdirs()) {
+				if (l != null) {
+					l.onError(new Exception("Could not create folder "
+							+ targetFolder));
+				}
+				return null;
+			}
+			Log.d(LOG_TAG, "Downoading " + sourceUri);
+			URL url = sourceUri;
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.connect();
+
+			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				if (l != null) {
+					l.onError(new Exception("Server returned HTTP "
+							+ connection.getResponseCode() + " "
+							+ connection.getResponseMessage()));
+				}
+				return null;
+			}
+
+			// this will be useful to display download percentage
+			// might be -1: server did not report the length
+			int fileLength = connection.getContentLength();
+
+			// debugOutputHeaderFields(connection);
+
+			Integer fileSizeOnServer = null;
+			try {
+				String fileSizeString = connection
+						.getHeaderField("Content-Length");
+				if (fileSizeString != null) {
+					fileSizeOnServer = Integer.parseInt(fileSizeString);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+			String rawContDisp = connection
+					.getHeaderField("Content-Disposition");
+			if (rawContDisp != null) {
+				Log.d("raw=" + rawContDisp);
+				Pattern regex = Pattern.compile("(?<=filename=\").*?(?=\")");
+				Matcher regexMatcher = regex.matcher(rawContDisp);
+				if (regexMatcher.find()) {
+					fallbackFileName = regexMatcher.group();
+				} else if (rawContDisp.contains("=")) {
+					fallbackFileName = ""
+							+ rawContDisp.subSequence(
+									rawContDisp.lastIndexOf("=") + 1,
+									rawContDisp.length());
+					fallbackFileName = fallbackFileName.trim();
+				}
+
+			}
+			File targetFile = new File(targetFolder, fallbackFileName);
+			InputStream input = connection.getInputStream();
+			if (l != null) {
+				long lastModifiedDate = 0;
+				try {
+					String lmString = connection
+							.getHeaderField("Last-Modified");
+					if (lmString != null) {
+						lastModifiedDate = Long.parseLong(lmString);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (lastModifiedDate <= 0) {
+					Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate
+							+ ", trying to get it from getLastModified()");
+					lastModifiedDate = connection.getLastModified();
+				}
+				if (lastModifiedDate <= 0) {
+					Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate
+							+ ", trying to get it from header field 'Date'");
+					lastModifiedDate = connection.getHeaderFieldDate("Date", 0);
+				}
+				// debugOutputHeaderFields(connection);
+				Log.v(LOG_TAG, "final lastModifiedDate=" + lastModifiedDate);
+				File cachedFile = l.onGetCachedVersion(fallbackFileName, lastModifiedDate,
+						fileSizeOnServer);
+				if (cachedFile != null) {
+					return cachedFile; // abort download
+				}
+			}
+			OutputStream output = new FileOutputStream(targetFile);
+
+			byte data[] = new byte[4096];
+			long total = 0;
+			int count;
+
+			while ((count = input.read(data)) != -1) {
+				// allow canceling with back button
+				if (l != null && l.cancelDownload()) {
+					input.close();
+					output.close();
+					return null;
+				}
+				total += count;
+				if (l != null && fileLength > 0) {
+					l.onProgress((int) (total * 100 / fileLength));
+				}
+				output.write(data, 0, count);
+			}
+			if (output != null) {
+				output.close();
+			}
+			if (input != null) {
+				input.close();
+			}
+			if (connection != null) {
+				connection.disconnect();
+			}
+			if (l != null) {
+				l.onStop(targetFile);
+			}
+			return targetFile;
+		} catch (Exception e) {
+			if (l != null) {
+				l.onError(e);
+			}
+			return null;
+		}
+	}
+
+	private static void debugOutputHeaderFields(HttpURLConnection connection) {
+		Map<String, List<String>> f = connection.getHeaderFields();
+		for (Entry<String, List<String>> e : f.entrySet()) {
+			Log.i(LOG_TAG, "       > header key=" + e.getKey());
+			List<String> values = e.getValue();
+			for (String v : values) {
+				Log.i(LOG_TAG, "              >> value=" + v);
+			}
+		}
 	}
 
 	public static String loadStringFromFile(File file) throws IOException {
@@ -265,7 +464,11 @@ public class IOHelper {
 	}
 
 	public static List<File> getFilesInPath(File directory) {
-		return Arrays.asList(directory.listFiles());
+		File[] files = directory.listFiles();
+		if (files == null || files.length == 0) {
+			return new ArrayList<File>();
+		}
+		return Arrays.asList(files);
 	}
 
 	protected static void saveSerializableToStream(Serializable objectToSave,
