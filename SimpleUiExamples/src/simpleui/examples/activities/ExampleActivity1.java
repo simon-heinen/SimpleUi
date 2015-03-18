@@ -230,7 +230,7 @@ public class ExampleActivity1 extends Activity {
 			}
 		});
 
-		c.add(new M_Button("Close SimpleUi Demp App") {
+		c.add(new M_Button("Close SimpleUi Demo App") {
 
 			@Override
 			public void onClick(Context context, Button clickedButton) {
