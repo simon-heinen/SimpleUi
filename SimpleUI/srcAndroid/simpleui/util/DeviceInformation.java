@@ -129,10 +129,13 @@ public class DeviceInformation {
 	 * @param a
 	 * @return the size with size.x=width and size.y=height
 	 */
-	@SuppressLint("NewApi")
 	public static Point getScreenSize(Activity a) {
+		return getScreenSize(a.getWindowManager().getDefaultDisplay());
+	}
+
+	@SuppressLint("NewApi")
+	public static Point getScreenSize(Display d) {
 		Point size = new Point();
-		Display d = a.getWindowManager().getDefaultDisplay();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			d.getSize(size);
 		} else {
@@ -141,4 +144,5 @@ public class DeviceInformation {
 		}
 		return size;
 	}
+
 }
