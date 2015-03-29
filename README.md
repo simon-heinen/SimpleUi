@@ -5,6 +5,30 @@ SimpleUI is a small library to generate out of the box usable and good looking U
 
 Whenever there is something important new I will probably post it here: http://andrdev.blogspot.com/
 
+##Screenshots
+
+http://andrdev.blogspot.de/2015/01/simpleui-now-has-material-design.html
+
+![](http://1.bp.blogspot.com/-4iaDhOgG5Es/VL1BF7vsB_I/AAAAAAAAu5E/EJHRkIzBw2I/w786-h715-no/m_imageview.jpg  "")
+
+http://1.bp.blogspot.com/-DaOQ8IsWfyQ/VL1BGqMoiLI/AAAAAAAAu5Q/X-HNs2ASAuA/w786-h715-no/overviewIntro.jpg
+
+http://1.bp.blogspot.com/-iVXPSohHths/VL1BF-GMdTI/AAAAAAAAu5I/XcqPZaOkLo4/w786-h715-no/m_buttonAndHalfHalf.jpg
+
+http://4.bp.blogspot.com/-w9UrvjjRcIY/VL1BGNdu9hI/AAAAAAAAu5A/1zMTySBKALM/w786-h715-no/m_progressBar.jpg
+
+http://4.bp.blogspot.com/-zmRGYm1tqfI/VL1BExJzwjI/AAAAAAAAu40/P3WR2sxA7cU/w786-h715-no/containerTypes.jpg
+
+http://1.bp.blogspot.com/-4Cc0VXcxRdg/VL1BE4Xd3WI/AAAAAAAAu5M/qE8E_UjLOhQ/w786-h715-no/cardExamples.jpg
+
+http://3.bp.blogspot.com/-6xn_kTLpSMQ/VL1BE8pPTEI/AAAAAAAAu4o/Ball-Oic5m8/w786-h715-no/dialog.jpg
+
+
+Updated screenshots (Your modifiers will now automatically use the Material UI):
+![](https://lh4.googleusercontent.com/-yXBpidCLw9E/VJhVEO5yxkI/AAAAAAAAt-8/gBViaczGf7w/w814-h757-no/simpleUiAndroidLvsPreL.png  "")
+
+http://simpleui.googlecode.com/files/SimpleUI.jpeg
+
 ##Screencast tutorials
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
@@ -85,7 +109,7 @@ The error handler can be used to catch any type of exception to give the user a 
 It should be noted that the ErrorHandler-activity cannot be displayed by the same Android process that reported the crash since this process is in an undefined state. Therefore the error handler has to be started via an intent and handled like an external application. This is done by setting both the android:taskAffinity and android:process attributes to values different from the main activity (Google n.d.).
 
 
-##Example APK
+##Old Example APK
 ![](http://simpleui.googlecode.com/files/simpeUiExampleAPK.png "QR Code")
 
 The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/bin/SimpleUiExamples.apk)
@@ -94,9 +118,4 @@ The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/
 1. Import the SimpleUi project
 2. Add the google play services to the linked libraries
 
-##Screenshots
 
-Updated screenshots (Your modifiers will now automatically use the Material UI):
-![](https://lh4.googleusercontent.com/-yXBpidCLw9E/VJhVEO5yxkI/AAAAAAAAt-8/gBViaczGf7w/w814-h757-no/simpleUiAndroidLvsPreL.png  "")
-
-http://simpleui.googlecode.com/files/SimpleUI.jpeg
