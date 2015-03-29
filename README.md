@@ -26,9 +26,11 @@ If you want to see the source code for each screenshot go to http://andrdev.blog
 The following code snippet shows a basic example of a created controller which can interact with the user and which generates the UI shown in the screenshot below. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
  
 The code for the controller:
+
 ![](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
 
 This will generate the following fully functional UI:
+
 ![](http://3.bp.blogspot.com/-6xn_kTLpSMQ/VL1BE8pPTEI/AAAAAAAAu4o/Ball-Oic5m8/w786-h715-no/dialog.jpg  "")
 
 #Details about the ideas behind SimpleUI
