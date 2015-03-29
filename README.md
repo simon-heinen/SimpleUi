@@ -105,13 +105,6 @@ The error handler can be used to catch any type of exception to give the user a 
 It should be noted that the ErrorHandler-activity cannot be displayed by the same Android process that reported the crash since this process is in an undefined state. Therefore the error handler has to be started via an intent and handled like an external application. This is done by setting both the android:taskAffinity and android:process attributes to values different from the main activity (Google n.d.).
 
 
-##Old Example APK
-![](http://simpleui.googlecode.com/files/simpeUiExampleAPK.png "QR Code")
-
-The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/bin/SimpleUiExamples.apk)
-
-##Installation in Eclipse
-1. Import the SimpleUi project
-2. Add the google play services to the linked libraries
-
-
+##Setup in Eclipse
+1. Import the appcompat_v7 + appcompat_v7_cardview + SimpleUi projects ("Import existing Eclipse project") 
+2. If you want to try the examples import "SimpleUiExamples" as well
