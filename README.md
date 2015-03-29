@@ -21,28 +21,17 @@ If you want to see the source code for each screenshot go to http://andrdev.blog
 
 ![](http://1.bp.blogspot.com/-4Cc0VXcxRdg/VL1BE4Xd3WI/AAAAAAAAu5M/qE8E_UjLOhQ/w786-h715-no/cardExamples.jpg  "")
 
+##A code example
+
+The following code snippet shows a basic example of a created controller which can interact with the user and which generates the UI shown in the screenshot below. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
+ 
+The code for the controller:
+![](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
+
+This will generate the following fully functional UI:
 ![](http://3.bp.blogspot.com/-6xn_kTLpSMQ/VL1BE8pPTEI/AAAAAAAAu4o/Ball-Oic5m8/w786-h715-no/dialog.jpg  "")
 
-http://simpleui.googlecode.com/files/SimpleUI.jpeg
-
-##Screencast tutorials
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
-" target="_blank"><img src="http://img.youtube.com/vi/PWwyYP0ck3Y/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=tMLi3OVEUCY
-" target="_blank"><img src="http://img.youtube.com/vi/tMLi3OVEUCY/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=hcZ8AHGL4Oc
-" target="_blank"><img src="http://img.youtube.com/vi/hcZ8AHGL4Oc/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=VEqCZdWmUnw
-" target="_blank"><img src="http://img.youtube.com/vi/VEqCZdWmUnw/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
-
-
-#Details
+#Details about the ideas behind SimpleUI
 The SimpleUI component is a user interface generator based on the model view controller pattern. It was created for fast prototyping and to generate dynamic views based on the presented content. It is built in a modular way to allow including single independent components into an existing architecture, but it can also be used as a complete replacement for the activity system in Android. 
 
 ### Structure of the SimpleUi project
@@ -82,23 +71,6 @@ The different modifiers represent best practice use cases and hide all the inter
 
 ***
 
-
-Snippet 1 shows a basic example of a created controller which can interact with the user and which generates the UI shown in figure 3. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
- 
-***
-
-![6](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
-
-(Snippet 1)	The code for the controller
-
-         
-![15](https://lh5.googleusercontent.com/-DQKukfshyU8/U8ZE-uwAVKI/AAAAAAAAm0M/NVniMzUsLj8/s2048/2014-07-16%25252011_24_58-Clipboard01%252520-%252520IrfanView%252520%252528Zoom_%252520531%252520x%252520945%252529.png)
-
-(Figure 3)	The generated view
-
-
-***
-
 ### Error Handler
 
 The error handler can be used to catch any type of exception to give the user a better feedback and the possibility to report an existing problem with a shipped application. The Error-Handler implements the UncaughtExceptionHandler-interface provided by Android and thus can be registered as the default uncaught exception handler. The same way crash reports are collected, users can also report problems manually. The error reports are sent via email to give the user the full control what is send and when it should be send.
@@ -108,3 +80,19 @@ It should be noted that the ErrorHandler-activity cannot be displayed by the sam
 ##Setup in Eclipse
 1. Import the appcompat_v7 + appcompat_v7_cardview + SimpleUi projects ("Import existing Eclipse project") 
 2. If you want to try the examples import "SimpleUiExamples" as well
+
+##Screencast tutorials
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
+" target="_blank"><img src="http://img.youtube.com/vi/PWwyYP0ck3Y/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=tMLi3OVEUCY
+" target="_blank"><img src="http://img.youtube.com/vi/tMLi3OVEUCY/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=hcZ8AHGL4Oc
+" target="_blank"><img src="http://img.youtube.com/vi/hcZ8AHGL4Oc/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=VEqCZdWmUnw
+" target="_blank"><img src="http://img.youtube.com/vi/VEqCZdWmUnw/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
