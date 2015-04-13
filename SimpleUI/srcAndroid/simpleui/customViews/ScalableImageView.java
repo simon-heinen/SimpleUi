@@ -1,12 +1,11 @@
 package simpleui.customViews;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ScalableImageView extends ImageView {
 
 	public ScalableImageView(Context context) {
@@ -21,6 +20,7 @@ public class ScalableImageView extends ImageView {
 		super(context, attrs, defStyle);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int width = MeasureSpec.getSize(widthMeasureSpec);
@@ -33,7 +33,12 @@ public class ScalableImageView extends ImageView {
 						/ intrinsicWidth;
 			}
 		} else {
-			height = getMinimumHeight();
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				height = getMinimumHeight();
+			} else {
+				height = 1;
+			}
+
 		}
 		setMeasuredDimension(width, height);
 	}

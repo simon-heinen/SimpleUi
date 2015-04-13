@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
@@ -62,6 +63,7 @@ public class IntentHelper {
 	 * @param message
 	 * @param seconds
 	 */
+	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public static void startTimer(Context a, String message, int seconds) {
 		Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
 				.putExtra(AlarmClock.EXTRA_MESSAGE, message)
@@ -72,7 +74,6 @@ public class IntentHelper {
 		}
 	}
 
-	@SuppressLint("NewApi")
 	public static void addCalenderEvent(Context a, String title,
 			String location, Calendar begin, Calendar end) {
 		Intent intent = new Intent(Intent.ACTION_INSERT)

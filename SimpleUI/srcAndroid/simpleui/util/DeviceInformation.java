@@ -42,6 +42,16 @@ public class DeviceInformation {
 		return activeNetworkInfo != null;
 	}
 
+	/**
+	 * use {@link SystemUtil#isGlass()} instead
+	 * 
+	 * @return
+	 */
+	@Deprecated
+	public static boolean isGlass() {
+		return SystemUtil.isGlass();
+	}
+
 	public static String getInfosAboutDevice(Activity a) {
 		String s = "";
 		try {
