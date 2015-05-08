@@ -114,9 +114,47 @@ public class ProxyFactory {
 			/*
 			 * First extract the parameters
 			 */
-			String methodPath = method.getAnnotation(Path.class).value();
+			Path pathAnnotation = method.getAnnotation(Path.class);
+			String methodPath = pathAnnotation != null ? pathAnnotation.value()
+					: "";
 
 			methodPath = replaceReservedChars(methodPath);
+
+			if (params != null) {
+				methodPath = processAllMethodParameters(params, method,
+						httpMethodType, methodPath);
+			}
+
+			/*
+			 * then the other relevant attributes:
+			 */
+			Class<?> responseType = method.getReturnType();
+			String contentType = getContentType(proxy, method);
+			String[] typesThatCanBeProducedByServer = getAcceptedMediaTypes(
+					proxy, method);
+
+			if (!"".equals(methodPath)) {
+				/*
+				 * create complete url
+				 */
+				if (!(methodPath.charAt(0) == '/')
+						&& !getBaseUrl(method).endsWith("/")) {
+					methodPath = "/" + methodPath;
+				} else if ((methodPath.charAt(0) == '/')
+						&& getBaseUrl(method).endsWith("/")) {
+					methodPath = methodPath.substring(1);
+				}
+			}
+			String completeUrl = this.getBaseUrl(method) + methodPath;
+
+			return checkForCorrectType(
+					doRequest(httpMethodType, completeUrl,
+							typesThatCanBeProducedByServer, contentType,
+							responseType), responseType);
+		}
+
+		private String processAllMethodParameters(Object[] params,
+				Method method, String httpMethodType, String methodPath) {
 			for (int i = 0; i < params.length; i++) {
 				if (params[i] == null) {
 					if (EXTENDED_LOGGING) {
@@ -198,33 +236,7 @@ public class ProxyFactory {
 					}
 				}
 			}
-
-			/*
-			 * then the other relevant attributes:
-			 */
-			Class<?> responseType = method.getReturnType();
-			String contentType = getContentType(proxy, method);
-			String[] typesThatCanBeProducedByServer = getAcceptedMediaTypes(
-					proxy, method);
-
-			if (!"".equals(methodPath)) {
-				/*
-				 * create complete url
-				 */
-				if (!(methodPath.charAt(0) == '/')
-						&& !getBaseUrl(method).endsWith("/")) {
-					methodPath = "/" + methodPath;
-				} else if ((methodPath.charAt(0) == '/')
-						&& getBaseUrl(method).endsWith("/")) {
-					methodPath = methodPath.substring(1);
-				}
-			}
-			String completeUrl = this.getBaseUrl(method) + methodPath;
-
-			return checkForCorrectType(
-					doRequest(httpMethodType, completeUrl,
-							typesThatCanBeProducedByServer, contentType,
-							responseType), responseType);
+			return methodPath;
 		}
 
 		private String analyseBaseUrlForPossibleErrors(String baseUrl) {
