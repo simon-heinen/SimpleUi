@@ -32,7 +32,7 @@ The SimpleUI component is a user interface generator based on the model view con
 - srcJava: Contains pure Java classes to be used not only in Android but also Java projects
 - srcJavaEE: Contains JavaEE related sources like a JaxRS Proxy
 - srcAddons: Contains Android classes which relate to another library like Otto, Picasso, Butterknife etc.
-- srcOtherAddons: Optional Android classes for some less frequntly needed libraries
+- srcOtherAddons: Optional Android classes for some less frequently needed libraries
 
 
 ***
