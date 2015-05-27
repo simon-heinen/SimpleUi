@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Set;
 
 import simpleui.commands.CommandInUiThread;
 import android.annotation.TargetApi;
@@ -370,6 +371,11 @@ public class IO extends simpleui.util.IOHelper {
 					.getString(key, null);
 		}
 
+		public Set<String> loadStringSet(String key) {
+			return context.getSharedPreferences(mySettingsName, mode)
+					.getStringSet(key, null);
+		}
+
 		/**
 		 * @param key
 		 * @param defaultValue
@@ -399,6 +405,14 @@ public class IO extends simpleui.util.IOHelper {
 				e = context.getSharedPreferences(mySettingsName, mode).edit();
 			}
 			e.putString(key, value);
+			return e.commit();
+		}
+
+		public boolean storeStringSet(String key, Set<String> values) {
+			if (e == null) {
+				e = context.getSharedPreferences(mySettingsName, mode).edit();
+			}
+			e.putStringSet(key, values);
 			return e.commit();
 		}
 

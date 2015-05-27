@@ -22,25 +22,17 @@ import android.util.Log;
 public abstract class DeviceHasInternetListener extends BroadcastReceiver {
 
 	private static final String LOG_TAG = "NetworkStateReceiver";
-	private static final long MIN_WAIT_TIME_IN_MS = 10 * 1000;
-	private static long lastTimeOnline = 0;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.d(LOG_TAG, "Network connectivity change");
-
+		Log.d(LOG_TAG, "Network connectivity changed");
 		if (intent.getExtras() != null) {
 			final ConnectivityManager connectivityManager = (ConnectivityManager) context
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
 			final NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
-
-			long now = System.currentTimeMillis();
-
-			if (ni != null && ni.isConnected()
-					&& now - lastTimeOnline > MIN_WAIT_TIME_IN_MS) {
-				lastTimeOnline = now;
+			if (ni != null && ni.isConnected()) {
 				onInternetAvailable(context,
-						ni.getType() == ConnectivityManager.TYPE_WIFI);
+						ni.getType() == ConnectivityManager.TYPE_WIFI, ni);
 			} else if (intent.getBooleanExtra(
 					ConnectivityManager.EXTRA_NO_CONNECTIVITY, Boolean.FALSE)) {
 				onNoInternetAvailable(context);
@@ -55,7 +47,7 @@ public abstract class DeviceHasInternetListener extends BroadcastReceiver {
 	 *            network etc
 	 */
 	public abstract void onInternetAvailable(Context context,
-			boolean connectedViaWifi);
+			boolean connectedViaWifi, NetworkInfo ni);
 
 	public abstract void onNoInternetAvailable(Context context);
 
