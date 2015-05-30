@@ -1,5 +1,6 @@
 package simpleui.util;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
@@ -20,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,6 +30,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 public class IOHelper {
 
@@ -255,8 +261,8 @@ public class IOHelper {
 				}
 				// debugOutputHeaderFields(connection);
 				Log.v(LOG_TAG, "final lastModifiedDate=" + lastModifiedDate);
-				File cachedFile = l.onGetCachedVersion(fallbackFileName, lastModifiedDate,
-						fileSizeOnServer);
+				File cachedFile = l.onGetCachedVersion(fallbackFileName,
+						lastModifiedDate, fileSizeOnServer);
 				if (cachedFile != null) {
 					return cachedFile; // abort download
 				}
@@ -357,6 +363,16 @@ public class IOHelper {
 		saveSerializableToExternalStorage(file, objectToSave);
 	}
 
+	public static void saveStringToExternalStorage(String filename,
+			String textToSave) throws IOException {
+		File file = newFile(filename);
+		FileOutputStream foStream = new FileOutputStream(file);
+		OutputStreamWriter stringOut = new OutputStreamWriter(foStream);
+		stringOut.write(textToSave);
+		stringOut.close();
+		foStream.close();
+	}
+
 	public static boolean saveStringToFile(File targetFile, String stringToSave)
 			throws IOException {
 		targetFile = newFile(targetFile);
@@ -436,13 +452,62 @@ public class IOHelper {
 			OutputStream out = new FileOutputStream(targetLocation);
 
 			// Copy the bits from instream to outstream
-			byte[] buf = new byte[1024];
-			int len;
-			while ((len = in.read(buf)) > 0) {
-				out.write(buf, 0, len);
-			}
-			in.close();
+			copyFromInToOut(in, out);
 			out.close();
+		}
+	}
+
+	private static void copyFromInToOut(InputStream in, OutputStream out)
+			throws IOException {
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+		in.close();
+	}
+
+	public static boolean zip(File targetFile, boolean overrideExistingFile,
+			File... filesToZip) {
+		if (!overrideExistingFile && targetFile.exists()) {
+			return false;
+		}
+		try {
+			newFile(targetFile);
+			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(
+					targetFile));
+			for (File f : filesToZip) {
+				out.putNextEntry(new ZipEntry(f.getName()));
+				copyFromInToOut(new FileInputStream(f), out);
+				out.closeEntry();
+			}
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public static void unzip(ZipFile sourceZipFile, File targetFile) {
+		try {
+			targetFile.mkdir();
+			Enumeration entries = sourceZipFile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = (ZipEntry) entries.nextElement();
+				if (entry.isDirectory()) {
+					(new File(targetFile, entry.getName())).mkdirs();
+					continue;
+				}
+				File entryFile = new File(targetFile, entry.getName());
+				IOHelper.newFile(entryFile);
+				BufferedOutputStream out = new BufferedOutputStream(
+						new FileOutputStream(entryFile));
+				copyFromInToOut(sourceZipFile.getInputStream(entry), out);
+				out.close();
+			}
+			sourceZipFile.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 

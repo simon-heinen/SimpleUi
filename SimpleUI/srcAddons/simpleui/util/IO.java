@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
@@ -308,18 +307,6 @@ public class IO extends simpleui.util.IOHelper {
 	public static Drawable loadDrawableFromId(Context context, int id)
 			throws NotFoundException {
 		return context.getResources().getDrawable(id);
-	}
-
-	public static void saveStringToExternalStorage(String filename,
-			String textToSave) throws IOException {
-
-		File file = newFile(filename);
-
-		FileOutputStream foStream = new FileOutputStream(file);
-		OutputStreamWriter stringOut = new OutputStreamWriter(foStream);
-		stringOut.write(textToSave);
-		stringOut.close();
-		foStream.close();
 	}
 
 	public static void saveSerializableToPrivateStorage(Context context,
