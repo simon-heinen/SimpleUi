@@ -221,22 +221,28 @@ public class IOHelper {
 
 			String rawContDisp = connection
 					.getHeaderField("Content-Disposition");
+			String downloadFileName = null;
 			if (rawContDisp != null) {
 				Log.d("raw=" + rawContDisp);
 				Pattern regex = Pattern.compile("(?<=filename=\").*?(?=\")");
 				Matcher regexMatcher = regex.matcher(rawContDisp);
 				if (regexMatcher.find()) {
-					fallbackFileName = regexMatcher.group();
+					downloadFileName = regexMatcher.group();
 				} else if (rawContDisp.contains("=")) {
-					fallbackFileName = ""
+					downloadFileName = ""
 							+ rawContDisp.subSequence(
 									rawContDisp.lastIndexOf("=") + 1,
 									rawContDisp.length());
-					fallbackFileName = fallbackFileName.trim();
+					downloadFileName = downloadFileName.trim();
 				}
-
 			}
-			File targetFile = new File(targetFolder, fallbackFileName);
+			if (downloadFileName == null) {
+				downloadFileName = fallbackFileName;
+			}
+			if (fallbackFileName != null && !downloadFileName.contains(".")) {
+				downloadFileName = fallbackFileName;
+			}
+			File targetFile = new File(targetFolder, downloadFileName);
 			InputStream input = connection.getInputStream();
 			if (l != null) {
 				long lastModifiedDate = 0;
