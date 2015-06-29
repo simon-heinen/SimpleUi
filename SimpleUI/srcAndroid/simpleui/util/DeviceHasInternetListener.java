@@ -22,7 +22,7 @@ import android.util.Log;
 public abstract class DeviceHasInternetListener extends BroadcastReceiver {
 
 	private static final String LOG_TAG = "NetworkStateReceiver";
-	private static final long MIN_WAIT_TIME_IN_MS = 10 * 1000;
+	private static final long MIN_WAIT_TIME_IN_MS = 1000;
 	private static long lastTimeOnline = 0;
 
 	@Override
