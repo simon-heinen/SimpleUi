@@ -41,6 +41,7 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 	private final int initialRowOrColumnCount;
 	private final boolean startInVerticalMode;
 	private FreeFlowContainer container;
+	private Context context;
 
 	public M_ListWrapperV3(List<T> targetList, int listHeight,
 			int nrOfParallelGridElements, boolean startInVerticalMode) {
@@ -50,9 +51,17 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 		this.startInVerticalMode = startInVerticalMode;
 	}
 
+	public Context getContext() {
+		return context;
+	}
+
+	public FreeFlowContainer getContainer() {
+		return container;
+	}
+
 	@Override
 	public View getView(final Context c) {
-
+		this.context = c;
 		container = new FreeFlowContainer(c) {
 
 			@Override
