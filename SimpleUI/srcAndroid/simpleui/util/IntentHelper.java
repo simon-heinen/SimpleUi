@@ -40,19 +40,19 @@ public class IntentHelper {
 	 * needs this permission: com.android.alarm.permission.SET_ALARM
 	 * <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 	 * 
-	 * @param a
+	 * @param c
 	 * @param message
 	 * @param hour
 	 * @param minutes
 	 */
-	public static void createAlarm(Context a, String message, int hour,
+	public static void createAlarm(Context c, String message, int hour,
 			int minutes) {
 		Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
 				.putExtra(AlarmClock.EXTRA_MESSAGE, message)
 				.putExtra(AlarmClock.EXTRA_HOUR, hour)
 				.putExtra(AlarmClock.EXTRA_MINUTES, minutes);
-		if (intent.resolveActivity(a.getPackageManager()) != null) {
-			a.startActivity(intent);
+		if (intent.resolveActivity(c.getPackageManager()) != null) {
+			c.startActivity(intent);
 		}
 	}
 
@@ -64,30 +64,30 @@ public class IntentHelper {
 	 * @param seconds
 	 */
 	@TargetApi(Build.VERSION_CODES.KITKAT)
-	public static void startTimer(Context a, String message, int seconds) {
+	public static void startTimer(Context c, String message, int seconds) {
 		Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
 				.putExtra(AlarmClock.EXTRA_MESSAGE, message)
 				.putExtra(AlarmClock.EXTRA_LENGTH, seconds)
 				.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-		if (intent.resolveActivity(a.getPackageManager()) != null) {
-			a.startActivity(intent);
+		if (intent.resolveActivity(c.getPackageManager()) != null) {
+			c.startActivity(intent);
 		}
 	}
 
-	public static void addCalenderEvent(Context a, String title,
+	public static void addCalenderEvent(Context c, String title,
 			String location, Calendar begin, Calendar end) {
 		Intent intent = new Intent(Intent.ACTION_INSERT)
 				.setData(Events.CONTENT_URI).putExtra(Events.TITLE, title)
 				.putExtra(Events.EVENT_LOCATION, location)
 				.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
 				.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
-		if (intent.resolveActivity(a.getPackageManager()) != null) {
-			a.startActivity(intent);
+		if (intent.resolveActivity(c.getPackageManager()) != null) {
+			c.startActivity(intent);
 		}
 	}
 
 	/**
-	 * @param a
+	 * @param c
 	 * @param geoLocation
 	 * 
 	 *            geo:latitude,longitude Show the map at the given longitude and
@@ -112,24 +112,30 @@ public class IntentHelper {
 	 *            1st%20%26%20Pike%2C%20Seattle. Spaces in the string can be
 	 *            encoded with %20 or replaced with the plus sign (+).
 	 */
-	public static void showMapApp(Context a, Uri geoLocation) {
+	public static void showMapApp(Context c, Uri geoLocation) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(geoLocation);
-		if (intent.resolveActivity(a.getPackageManager()) != null) {
-			a.startActivity(intent);
+		if (intent.resolveActivity(c.getPackageManager()) != null) {
+			c.startActivity(intent);
 		}
 	}
 
-	public static boolean openFile(Context a, Uri pathToFile) {
+	public static boolean openFile(Context c, Uri pathToFile) {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setData(pathToFile);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		try {
-			a.startActivity(intent);
+			c.startActivity(intent);
 			return true;
 		} catch (ActivityNotFoundException e) {
 		}
 		return false;
+	}
+
+	public static void openLink(Context c, String url) {
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		c.startActivity(i);
 	}
 
 	public static boolean openPdfFile(Context a, Uri pathToPdf) {
@@ -156,31 +162,81 @@ public class IntentHelper {
 		return false;
 	}
 
-	public static void installApp(Context a, String strPackageName) {
-		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("market://details?id=" + strPackageName));
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		a.startActivity(intent);
+	/**
+	 * Open another app.
+	 * 
+	 * @param c
+	 *            current Context, like Activity, App, or Service
+	 * @param strPackageName
+	 *            the full package name of the app to open
+	 * @return true if likely successful, false if unsuccessful
+	 */
+	public static boolean startApp(Context c, String strPackageName) {
+		try {
+			PackageManager manager = c.getPackageManager();
+			Intent i = manager.getLaunchIntentForPackage(strPackageName);
+			if (i == null) {
+				return false;
+			}
+			i.addCategory(Intent.CATEGORY_LAUNCHER);
+			c.startActivity(i);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
-	public static void updateApp(Context a) {
+	public static void startOrInstallApp(Context c, String strPackageName) {
+		if (isAppInstalled(c, strPackageName)) {
+			startApp(c, strPackageName);
+		} else {
+			installApp(c, strPackageName);
+		}
+	}
+
+	public static boolean isAppInstalled(Context c, String strPackageName) {
+		try {
+			c.getPackageManager().getPackageInfo(strPackageName,
+					PackageManager.GET_ACTIVITIES);
+			return true;
+		} catch (PackageManager.NameNotFoundException e) {
+			return false;
+		}
+	}
+
+	public static void installApp(Context c, String strPackageName) {
+		try {
+			Intent intent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse("market://details?id=" + strPackageName));
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			c.startActivity(intent);
+		} catch (android.content.ActivityNotFoundException e) {
+			Intent intent = new Intent(Intent.ACTION_VIEW,
+					Uri.parse("https://play.google.com/store/apps/details?id="
+							+ strPackageName));
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			c.startActivity(intent);
+		}
+	}
+
+	public static void updateApp(Context c) {
 		Intent intent = new Intent(Intent.ACTION_VIEW,
 				Uri.parse("market://details?id="
-						+ a.getApplicationContext().getPackageName()));
+						+ c.getApplicationContext().getPackageName()));
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		a.startActivity(intent);
+		c.startActivity(intent);
 	}
 
-	public static void uninstallApp(Context a, String strPackageName) {
+	public static void uninstallApp(Context c, String strPackageName) {
 		Uri uri = Uri.fromParts("package", strPackageName, null);
 		Intent it = new Intent(Intent.ACTION_DELETE, uri);
-		a.startActivity(it);
+		c.startActivity(it);
 	}
 
-	public static void showAppDetails(Context a, String strPackageName) {
+	public static void showAppDetails(Context c, String strPackageName) {
 		Uri uri = Uri.parse("market://details?id=" + strPackageName);
 		Intent it = new Intent(Intent.ACTION_VIEW, uri);
-		a.startActivity(it);
+		c.startActivity(it);
 	}
 
 	private static Intent newImageIntent(File takenPhotoPath,
@@ -195,19 +251,19 @@ public class IntentHelper {
 		return share;
 	}
 
-	public static void launchFacebook(Context a, Intent targetIntent) {
-		defineAppToLaunch(a, targetIntent, "facebook");
-		a.startActivity(Intent.createChooser(targetIntent, ""));
+	public static void launchFacebook(Context c, Intent targetIntent) {
+		defineAppToLaunch(c, targetIntent, "facebook");
+		c.startActivity(Intent.createChooser(targetIntent, ""));
 	}
 
-	public static void launchGooglePlus(Context a, Intent targetIntent) {
-		defineAppToLaunch(a, targetIntent, "google", "plus");
-		a.startActivity(Intent.createChooser(targetIntent, ""));
+	public static void launchGooglePlus(Context c, Intent targetIntent) {
+		defineAppToLaunch(c, targetIntent, "google", "plus");
+		c.startActivity(Intent.createChooser(targetIntent, ""));
 	}
 
-	public static void launchGoogleMail(Context a, Intent targetIntent) {
-		defineAppToLaunch(a, targetIntent, "google", "gm");
-		a.startActivity(Intent.createChooser(targetIntent, ""));
+	public static void launchGoogleMail(Context c, Intent targetIntent) {
+		defineAppToLaunch(c, targetIntent, "google", "gm");
+		c.startActivity(Intent.createChooser(targetIntent, ""));
 	}
 
 	public static boolean defineAppToLaunch(Context c, Intent targetIntent,
@@ -237,7 +293,7 @@ public class IntentHelper {
 	}
 
 	/**
-	 * @param context
+	 * @param c
 	 * @param myMailSubject
 	 * @param mailText
 	 * @param emailAddresses
@@ -245,7 +301,7 @@ public class IntentHelper {
 	 *            you can only send files which are located in the storage
 	 *            (internal or external SD card e.g.)
 	 */
-	public static void sendMailIntent(Context context, String myMailSubject,
+	public static void sendMailIntent(Context c, String myMailSubject,
 			String mailText, String[] emailAddresses, List<File> filesToSend) {
 
 		ArrayList<Uri> uris = new ArrayList<Uri>();
@@ -286,7 +342,7 @@ public class IntentHelper {
 						uris);
 			}
 		}
-		context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+		c.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 	}
 
 }
