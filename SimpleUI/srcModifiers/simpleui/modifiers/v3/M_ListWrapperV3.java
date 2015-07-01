@@ -42,6 +42,7 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 	private final boolean startInVerticalMode;
 	private FreeFlowContainer container;
 	private Context context;
+	private Integer bgColor = null;
 
 	public M_ListWrapperV3(List<T> targetList, int listHeight,
 			int nrOfParallelGridElements, boolean startInVerticalMode) {
@@ -185,7 +186,17 @@ public class M_ListWrapperV3<T extends HasItsOwnView> implements
 			}
 		};
 		container.setAdapter(wrappingAdapter);
+		if (bgColor != null) {
+			container.setBackgroundColor(bgColor);
+		}
 		return container;
+	}
+
+	public void setBackgroundColor(int bgColor) {
+		if (container != null) {
+			container.setBackgroundColor(bgColor);
+		}
+		this.bgColor = bgColor;
 	}
 
 	public boolean switchToVerticalGrid(int columnCount) {
