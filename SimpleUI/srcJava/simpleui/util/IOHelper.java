@@ -236,13 +236,14 @@ public class IOHelper {
 					downloadFileName = downloadFileName.trim();
 				}
 			}
-			if (downloadFileName == null) {
+			if (downloadFileName == null || downloadFileName.isEmpty()) {
 				downloadFileName = fallbackFileName;
 			}
-			if (fallbackFileName != null && !downloadFileName.contains(".")) {
+			if (fallbackFileName != null && !fallbackFileName.isEmpty()
+					&& !downloadFileName.contains(".")) {
 				downloadFileName = fallbackFileName;
 			}
-			File targetFile = new File(targetFolder, downloadFileName);
+
 			InputStream input = connection.getInputStream();
 			if (l != null) {
 				long lastModifiedDate = 0;
@@ -273,6 +274,7 @@ public class IOHelper {
 					return cachedFile; // abort download
 				}
 			}
+			File targetFile = new File(targetFolder, downloadFileName);
 			OutputStream output = new FileOutputStream(targetFile);
 
 			byte data[] = new byte[4096];
