@@ -11,16 +11,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Set;
 
 import simpleui.commands.CommandInUiThread;
 import android.annotation.TargetApi;
@@ -314,18 +309,6 @@ public class IO extends simpleui.util.IOHelper {
 		return context.getResources().getDrawable(id);
 	}
 
-	public static void saveStringToExternalStorage(String filename,
-			String textToSave) throws IOException {
-
-		File file = newFile(filename);
-
-		FileOutputStream foStream = new FileOutputStream(file);
-		OutputStreamWriter stringOut = new OutputStreamWriter(foStream);
-		stringOut.write(textToSave);
-		stringOut.close();
-		foStream.close();
-	}
-
 	public static void saveSerializableToPrivateStorage(Context context,
 			String filename, Serializable objectToSave) throws IOException {
 		FileOutputStream fileOut = context.openFileOutput(filename,
@@ -375,6 +358,11 @@ public class IO extends simpleui.util.IOHelper {
 					.getString(key, null);
 		}
 
+		public Set<String> loadStringSet(String key) {
+			return context.getSharedPreferences(mySettingsName, mode)
+					.getStringSet(key, null);
+		}
+
 		/**
 		 * @param key
 		 * @param defaultValue
@@ -404,6 +392,14 @@ public class IO extends simpleui.util.IOHelper {
 				e = context.getSharedPreferences(mySettingsName, mode).edit();
 			}
 			e.putString(key, value);
+			return e.commit();
+		}
+
+		public boolean storeStringSet(String key, Set<String> values) {
+			if (e == null) {
+				e = context.getSharedPreferences(mySettingsName, mode).edit();
+			}
+			e.putStringSet(key, values);
 			return e.commit();
 		}
 
@@ -507,196 +503,6 @@ public class IO extends simpleui.util.IOHelper {
 			relativePathInAssetsFolder = "/" + relativePathInAssetsFolder;
 		}
 		return Uri.parse("file:///android_asset" + relativePathInAssetsFolder);
-	}
-
-	public interface FileFromUriListener {
-
-		/**
-		 * @param fileName
-		 *            the name of the file which will be downloaded
-		 * @param lastModifiedTimestamp
-		 *            the timestamp when the file was last changed, can be 0 if
-		 *            not available
-		 * @return true to continue the process, false to abort it
-		 * @param fileSizeOnServer
-		 *            file size in bytes on server, check additionally to the
-		 *            lastModifiedTimestamp, can be null if unknown
-		 * @return
-		 */
-		boolean onStart(String fileName, long lastModifiedTimestamp,
-				Integer fileSizeOnServer);
-
-		void onStop(File downloadedFile);
-
-		void onError(Exception e);
-
-		/**
-		 * @return every time this method is called false can be returned to
-		 *         stop the download process
-		 */
-		boolean cancelDownload();
-
-		/**
-		 * @param percent
-		 *            value between 0 to 100
-		 */
-		void onProgress(int percent);
-
-	}
-
-	/**
-	 * Synchronously loads data into a {@link File} from the specified
-	 * {@link Uri}
-	 * 
-	 * @param sourceUri
-	 *            the {@link Uri} where the content should come from
-	 * @param targetFolder
-	 *            the folder where the content should be stored in
-	 * @param fallbackFileName
-	 *            the fallback filename if the online resource does not provide
-	 *            its filename
-	 * @param l
-	 *            can be null, if no error or update information is needed
-	 * @return the downloaded {@link File} or null if an error happened
-	 */
-	public static File loadFileFromUri(Uri sourceUri, File targetFolder,
-			String fallbackFileName, FileFromUriListener l) {
-		try {
-			if (!targetFolder.exists() && !targetFolder.mkdirs()) {
-				if (l != null) {
-					l.onError(new Exception("Could not create folder "
-							+ targetFolder));
-				}
-				return null;
-			}
-			Log.d(LOG_TAG, "Downoading " + sourceUri);
-			URL url = new URL(sourceUri.toString());
-			HttpURLConnection connection = (HttpURLConnection) url
-					.openConnection();
-			connection.connect();
-
-			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-				if (l != null) {
-					l.onError(new Exception("Server returned HTTP "
-							+ connection.getResponseCode() + " "
-							+ connection.getResponseMessage()));
-				}
-				return null;
-			}
-
-			// this will be useful to display download percentage
-			// might be -1: server did not report the length
-			int fileLength = connection.getContentLength();
-
-			debugOutputHeaderFields(connection);
-
-			Integer fileSizeOnServer = null;
-			try {
-				String fileSizeString = connection
-						.getHeaderField("Content-Length");
-				if (fileSizeString != null) {
-					fileSizeOnServer = Integer.parseInt(fileSizeString);
-				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-
-			String rawContDisp = connection
-					.getHeaderField("Content-Disposition");
-			if (rawContDisp != null) {
-				Log.d("raw=" + rawContDisp);
-				Pattern regex = Pattern.compile("(?<=filename=\").*?(?=\")");
-				Matcher regexMatcher = regex.matcher(rawContDisp);
-				if (regexMatcher.find()) {
-					fallbackFileName = regexMatcher.group();
-				} else if (rawContDisp.contains("=")) {
-					fallbackFileName = ""
-							+ rawContDisp.subSequence(
-									rawContDisp.lastIndexOf("=") + 1,
-									rawContDisp.length());
-					fallbackFileName = fallbackFileName.trim();
-				}
-
-			}
-			File targetFile = new File(targetFolder, fallbackFileName);
-			InputStream input = connection.getInputStream();
-			if (l != null) {
-				long lastModifiedDate = 0;
-				try {
-					String lmString = connection
-							.getHeaderField("Last-Modified");
-					if (lmString != null) {
-						lastModifiedDate = Long.parseLong(lmString);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				if (lastModifiedDate <= 0) {
-					Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate
-							+ ", trying to get it from getLastModified()");
-					lastModifiedDate = connection.getLastModified();
-				}
-				if (lastModifiedDate <= 0) {
-					Log.d(LOG_TAG, "lastModifiedDate=" + lastModifiedDate
-							+ ", trying to get it from header field 'Date'");
-					lastModifiedDate = connection.getHeaderFieldDate("Date", 0);
-				}
-				// debugOutputHeaderFields(connection);
-				Log.v(LOG_TAG, "final lastModifiedDate=" + lastModifiedDate);
-				if (!l.onStart(fallbackFileName, lastModifiedDate,
-						fileSizeOnServer)) {
-					return null; // abort download
-				}
-			}
-			OutputStream output = new FileOutputStream(targetFile);
-
-			byte data[] = new byte[4096];
-			long total = 0;
-			int count;
-
-			while ((count = input.read(data)) != -1) {
-				// allow canceling with back button
-				if (l != null && l.cancelDownload()) {
-					input.close();
-					output.close();
-					return null;
-				}
-				total += count;
-				if (l != null && fileLength > 0) {
-					l.onProgress((int) (total * 100 / fileLength));
-				}
-				output.write(data, 0, count);
-			}
-			if (output != null) {
-				output.close();
-			}
-			if (input != null) {
-				input.close();
-			}
-			if (connection != null) {
-				connection.disconnect();
-			}
-			if (l != null) {
-				l.onStop(targetFile);
-			}
-			return targetFile;
-		} catch (Exception e) {
-			if (l != null) {
-				l.onError(e);
-			}
-			return null;
-		}
-	}
-
-	private static void debugOutputHeaderFields(HttpURLConnection connection) {
-		Map<String, List<String>> f = connection.getHeaderFields();
-		for (Entry<String, List<String>> e : f.entrySet()) {
-			Log.i(LOG_TAG, "       > header key=" + e.getKey());
-			List<String> values = e.getValue();
-			for (String v : values) {
-				Log.i(LOG_TAG, "              >> value=" + v);
-			}
-		}
 	}
 
 	public interface AssetCopyCallback {

@@ -5,24 +5,35 @@ SimpleUI is a small library to generate out of the box usable and good looking U
 
 Whenever there is something important new I will probably post it here: http://andrdev.blogspot.com/
 
-##Screencast tutorials
+##Screenshots
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
-" target="_blank"><img src="http://img.youtube.com/vi/PWwyYP0ck3Y/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=tMLi3OVEUCY
-" target="_blank"><img src="http://img.youtube.com/vi/tMLi3OVEUCY/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+If you want to see the source code for each screenshot go to http://andrdev.blogspot.de/2015/01/simpleui-now-has-material-design.html and click on the images.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=hcZ8AHGL4Oc
-" target="_blank"><img src="http://img.youtube.com/vi/hcZ8AHGL4Oc/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=VEqCZdWmUnw
-" target="_blank"><img src="http://img.youtube.com/vi/VEqCZdWmUnw/0.jpg" 
-alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+![](http://1.bp.blogspot.com/-4iaDhOgG5Es/VL1BF7vsB_I/AAAAAAAAu5E/EJHRkIzBw2I/w786-h715-no/m_imageview.jpg  "")
 
+![](http://1.bp.blogspot.com/-DaOQ8IsWfyQ/VL1BGqMoiLI/AAAAAAAAu5Q/X-HNs2ASAuA/w786-h715-no/overviewIntro.jpg  "")
 
-#Details
+![](http://1.bp.blogspot.com/-iVXPSohHths/VL1BF-GMdTI/AAAAAAAAu5I/XcqPZaOkLo4/w786-h715-no/m_buttonAndHalfHalf.jpg  "")
+
+![](http://4.bp.blogspot.com/-w9UrvjjRcIY/VL1BGNdu9hI/AAAAAAAAu5A/1zMTySBKALM/w786-h715-no/m_progressBar.jpg  "")
+
+![](http://4.bp.blogspot.com/-zmRGYm1tqfI/VL1BExJzwjI/AAAAAAAAu40/P3WR2sxA7cU/w786-h715-no/containerTypes.jpg  "")
+
+![](http://1.bp.blogspot.com/-4Cc0VXcxRdg/VL1BE4Xd3WI/AAAAAAAAu5M/qE8E_UjLOhQ/w786-h715-no/cardExamples.jpg  "")
+
+##A code example
+
+The following code snippet shows a basic example of a created controller which can interact with the user and which generates the UI shown in the screenshot below. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
+ 
+The code for the controller:
+
+![](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
+
+This will generate the following fully functional UI:
+
+![](http://3.bp.blogspot.com/-6xn_kTLpSMQ/VL1BE8pPTEI/AAAAAAAAu4o/Ball-Oic5m8/w786-h715-no/dialog.jpg  "")
+
+#Details about the ideas behind SimpleUI
 The SimpleUI component is a user interface generator based on the model view controller pattern. It was created for fast prototyping and to generate dynamic views based on the presented content. It is built in a modular way to allow including single independent components into an existing architecture, but it can also be used as a complete replacement for the activity system in Android. 
 
 ### Structure of the SimpleUi project
@@ -62,41 +73,28 @@ The different modifiers represent best practice use cases and hide all the inter
 
 ***
 
-
-Snippet 1 shows a basic example of a created controller which can interact with the user and which generates the UI shown in figure 3. Four controller elements are added to a composite container called M_Container. This container is then passed to SimpleUI activity to be displayed to the user. The modifiers like M_Checkbox and M_Button are abstract classes and use the template method pattern to pass down events like the onClick-event for the button or the save event for the checkbox.
- 
-***
-
-![6](https://lh4.googleusercontent.com/-lV5X50L-oJY/U8ZERJjRhLI/AAAAAAAAmz8/iD--Fu80caU/s2048/2014-07-16%25252011_21_56-Java%252520-%252520SimpleUiExamples_src_de_rwth_StartExampleUi.java%252520-%252520Eclipse.png)
-
-(Snippet 1)	The code for the controller
-
-         
-![15](https://lh5.googleusercontent.com/-DQKukfshyU8/U8ZE-uwAVKI/AAAAAAAAm0M/NVniMzUsLj8/s2048/2014-07-16%25252011_24_58-Clipboard01%252520-%252520IrfanView%252520%252528Zoom_%252520531%252520x%252520945%252529.png)
-
-(Figure 3)	The generated view
-
-
-***
-
 ### Error Handler
 
 The error handler can be used to catch any type of exception to give the user a better feedback and the possibility to report an existing problem with a shipped application. The Error-Handler implements the UncaughtExceptionHandler-interface provided by Android and thus can be registered as the default uncaught exception handler. The same way crash reports are collected, users can also report problems manually. The error reports are sent via email to give the user the full control what is send and when it should be send.
 It should be noted that the ErrorHandler-activity cannot be displayed by the same Android process that reported the crash since this process is in an undefined state. Therefore the error handler has to be started via an intent and handled like an external application. This is done by setting both the android:taskAffinity and android:process attributes to values different from the main activity (Google n.d.).
 
 
-##Example APK
-![](http://simpleui.googlecode.com/files/simpeUiExampleAPK.png "QR Code")
+##Setup in Eclipse
+1. Import the appcompat_v7 + appcompat_v7_cardview + SimpleUi projects ("Import existing Eclipse project") 
+2. If you want to try the examples import "SimpleUiExamples" as well
 
-The QR code link is: (http://simpleui.googlecode.com/svn/trunk/SimpleUiExamples/bin/SimpleUiExamples.apk)
+##Screencast tutorials
 
-##Installation in Eclipse
-1. Import the SimpleUi project
-2. Add the google play services to the linked libraries
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=PWwyYP0ck3Y
+" target="_blank"><img src="http://img.youtube.com/vi/PWwyYP0ck3Y/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=tMLi3OVEUCY
+" target="_blank"><img src="http://img.youtube.com/vi/tMLi3OVEUCY/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
 
-##Screenshots
-
-Updated screenshots (Your modifiers will now automatically use the Material UI):
-![](https://lh4.googleusercontent.com/-yXBpidCLw9E/VJhVEO5yxkI/AAAAAAAAt-8/gBViaczGf7w/w814-h757-no/simpleUiAndroidLvsPreL.png  "")
-
-http://simpleui.googlecode.com/files/SimpleUI.jpeg
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=hcZ8AHGL4Oc
+" target="_blank"><img src="http://img.youtube.com/vi/hcZ8AHGL4Oc/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=VEqCZdWmUnw
+" target="_blank"><img src="http://img.youtube.com/vi/VEqCZdWmUnw/0.jpg" 
+alt="Link to the DroidAR video" width="240" height="180" border="10" /></a>

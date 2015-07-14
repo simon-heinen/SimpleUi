@@ -42,6 +42,16 @@ public class DeviceInformation {
 		return activeNetworkInfo != null;
 	}
 
+	/**
+	 * use {@link SystemUtil#isGlass()} instead
+	 * 
+	 * @return
+	 */
+	@Deprecated
+	public static boolean isGlass() {
+		return SystemUtil.isGlass();
+	}
+
 	public static String getInfosAboutDevice(Activity a) {
 		String s = "";
 		try {
@@ -129,10 +139,13 @@ public class DeviceInformation {
 	 * @param a
 	 * @return the size with size.x=width and size.y=height
 	 */
-	@SuppressLint("NewApi")
 	public static Point getScreenSize(Activity a) {
+		return getScreenSize(a.getWindowManager().getDefaultDisplay());
+	}
+
+	@SuppressLint("NewApi")
+	public static Point getScreenSize(Display d) {
 		Point size = new Point();
-		Display d = a.getWindowManager().getDefaultDisplay();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			d.getSize(size);
 		} else {
@@ -141,4 +154,5 @@ public class DeviceInformation {
 		}
 		return size;
 	}
+
 }

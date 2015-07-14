@@ -1,5 +1,6 @@
 package simpleui.rest;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationHandler;
@@ -9,6 +10,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,12 +24,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import util.Log;
+import simpleui.util.Log;
 
 /**
  * use {@link ProxyFactory#create(Class, String, ProxyMethodCallHandler)}
@@ -59,6 +62,12 @@ import util.Log;
  * 
  */
 public class ProxyFactory {
+
+	public interface HasFile {
+		public String getKey();
+
+		public File getFile();
+	}
 
 	public static abstract class ProxyMethodCallHandler implements
 			InvocationHandler {
@@ -114,89 +123,15 @@ public class ProxyFactory {
 			/*
 			 * First extract the parameters
 			 */
-			String methodPath = method.getAnnotation(Path.class).value();
+			Path pathAnnotation = method.getAnnotation(Path.class);
+			String methodPath = pathAnnotation != null ? pathAnnotation.value()
+					: "";
 
 			methodPath = replaceReservedChars(methodPath);
-			for (int i = 0; i < params.length; i++) {
-				if (params[i] == null) {
-					if (EXTENDED_LOGGING) {
-						Log.w(LOG_TAG, "" + method + " - Parameter " + i
-								+ " was null!");
-					}
-				}
 
-				String valueToSet = getStringForParamValue(params[i]);
-				Annotation[] aList = method.getParameterAnnotations()[i];
-
-				if (aList != null && aList.length != 0) {
-
-					DefaultValue defAnn = getAnnotation(DefaultValue.class,
-							aList);
-
-					PathParam pathParam = getAnnotation(PathParam.class, aList);
-					if (pathParam != null) {
-						methodPath = insertInPath(methodPath, pathParam,
-								defAnn, valueToSet, true);
-					} else {
-						QueryParam queryAnn = getAnnotation(QueryParam.class,
-								aList);
-						if (queryAnn != null) {
-							if (valueToSet != null) {
-								addQuerryParam(queryAnn, defAnn, valueToSet);
-							} else {
-								if (EXTENDED_LOGGING) {
-									Log.i(LOG_TAG,
-											queryAnn.value()
-													+ " was null, "
-													+ "will not be added to query params");
-								}
-							}
-						} else {
-							FormParam formAnn = getAnnotation(FormParam.class,
-									aList);
-							if (formAnn != null) {
-								addFormParam(formAnn, defAnn, valueToSet);
-							} else {
-								CookieParam cookie = getAnnotation(
-										CookieParam.class, aList);
-								if (cookie != null) {
-									addCookieParam(cookie, defAnn, valueToSet,
-											getHostForUrl(getBaseUrl(method)));
-								} else {
-									HeaderParam header = getAnnotation(
-											HeaderParam.class, aList);
-									if (header != null) {
-										addHeaderParam(header, defAnn,
-												valueToSet);
-									}
-								}
-							}
-						}
-					}
-				} else {
-					/*
-					 * this part is called if there was no annotation for the
-					 * variable
-					 */
-					if (HttpMethod.PUT.equals(httpMethodType)
-							|| HttpMethod.POST.equals(httpMethodType)) {
-
-						/*
-						 * if it is a put or a post request the not annotated
-						 * variable normally should be the request body
-						 * 
-						 * if its not a PUT or POST request the rest interface
-						 * is not specified correctly! only these to type can
-						 * have a entity body
-						 */
-						setPostOrPutRequestBody(valueToSet);
-					} else {
-						warningFromJaxRsParsingAnalysis("The parameter "
-								+ params[i] + " had no annotation and it "
-								+ "was not a PUT or POST request with "
-								+ "an entity body. REST interface incorrect");
-					}
-				}
+			if (params != null) {
+				methodPath = processAllMethodParameters(params, method,
+						httpMethodType, methodPath);
 			}
 
 			/*
@@ -225,6 +160,109 @@ public class ProxyFactory {
 					doRequest(httpMethodType, completeUrl,
 							typesThatCanBeProducedByServer, contentType,
 							responseType), responseType);
+		}
+
+		private String processAllMethodParameters(Object[] params,
+				Method method, String httpMethodType, String methodPath) {
+			for (int i = 0; i < params.length; i++) {
+				if (EXTENDED_LOGGING && params[i] == null) {
+					Log.w(LOG_TAG, "" + method + " - Parameter " + i
+							+ " was null!");
+				}
+
+				Annotation[] annotations = method.getParameterAnnotations()[i];
+				Context contextParam = getAnnotation(Context.class, annotations);
+				if (contextParam != null) {
+					if (params[i] instanceof HasFile) {
+						HasFile fileWrapper = (HasFile) params[i];
+						addFileParam(fileWrapper.getKey(),
+								fileWrapper.getFile());
+					} else {
+						Log.w(LOG_TAG, "Ignoring Context parameter " + i);
+					}
+				} else {
+					String valueToSet = getStringForParamValue(params[i]);
+					if (annotations != null && annotations.length != 0) {
+						if (EXTENDED_LOGGING && annotations.length > 1) {
+							Log.w(LOG_TAG, "More then one annoation "
+									+ "found for parameter " + i);
+						}
+						methodPath = processAnnorationsForParam(valueToSet,
+								annotations, method, methodPath);
+					} else {
+						/*
+						 * this part is called if there was no annotation for
+						 * the variable
+						 */
+						if (HttpMethod.PUT.equals(httpMethodType)
+								|| HttpMethod.POST.equals(httpMethodType)) {
+
+							/*
+							 * if it is a put or a post request the not
+							 * annotated variable normally should be the request
+							 * body
+							 * 
+							 * if its not a PUT or POST request the rest
+							 * interface is not specified correctly! only these
+							 * to type can have a entity body
+							 */
+							setPostOrPutRequestBody(valueToSet);
+						} else {
+							warningFromJaxRsParsingAnalysis("The parameter "
+									+ params[i]
+									+ " had no annotation and it "
+									+ "was not a PUT or POST request with "
+									+ "an entity body. REST interface incorrect");
+						}
+					}
+				}
+			}
+			return methodPath;
+		}
+
+		// TODO refactor, remove all these return statements:
+		private String processAnnorationsForParam(String param,
+				Annotation[] annotations, Method method, String methodPath) {
+			DefaultValue defAnn = getAnnotation(DefaultValue.class, annotations);
+			PathParam pathParam = getAnnotation(PathParam.class, annotations);
+			if (pathParam != null) {
+				methodPath = insertInPath(methodPath, pathParam, defAnn, param,
+						true);
+				return methodPath;
+			}
+			QueryParam queryAnn = getAnnotation(QueryParam.class, annotations);
+			if (queryAnn != null) {
+				addQueryParam(queryAnn, defAnn, param);
+				return methodPath;
+			}
+			FormParam formAnn = getAnnotation(FormParam.class, annotations);
+			if (formAnn != null) {
+				addFormParam(formAnn, defAnn, param);
+				return methodPath;
+			}
+			CookieParam cookie = getAnnotation(CookieParam.class, annotations);
+			if (cookie != null) {
+				addCookieParam(cookie, defAnn, param,
+						getHostForUrl(getBaseUrl(method)));
+				return methodPath;
+			}
+			HeaderParam header = getAnnotation(HeaderParam.class, annotations);
+			if (header != null) {
+				addHeaderParam(header, defAnn, param);
+			}
+			return methodPath;
+		}
+
+		private void addQueryParam(QueryParam queryAnn, DefaultValue defAnn,
+				String valueToSet) {
+			if (valueToSet != null) {
+				addQuerryParam(queryAnn, defAnn, valueToSet);
+			} else {
+				if (EXTENDED_LOGGING) {
+					Log.i(LOG_TAG, queryAnn.value() + " was null, "
+							+ "will not be added to query params");
+				}
+			}
 		}
 
 		private String analyseBaseUrlForPossibleErrors(String baseUrl) {
@@ -411,6 +449,8 @@ public class ProxyFactory {
 
 		public abstract void addFormParam(FormParam formAnn,
 				DefaultValue defAnn, String valueToSet);
+
+		public abstract void addFileParam(String key, File valueToSet);
 
 		public abstract void addCookieParam(CookieParam cookie,
 				DefaultValue def, String valueToSet, String baseUrl);
@@ -659,18 +699,33 @@ public class ProxyFactory {
 			return ae.getAnnotation(HttpMethod.class);
 		}
 
+		public abstract String fileUpload(String uploadUrl,
+				Map<String, File> files);
+
 	}
 
+	public static String fileUpload(String uploadUrl, Map<String, File> files) {
+		return getProxyMethodCallHandler().fileUpload(uploadUrl, files);
+	}
+
+	/**
+	 * not yet implemented
+	 * 
+	 * @param c
+	 * @param url
+	 * @return
+	 */
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public static <T> T create(Class<T> c, String url) {
-		return create(c, url, getProgyMethodCallHandler());
+		throw new RuntimeException("TODO not yet implemented");
+		// return create(c, url, getProxyMethodCallHandler());
 	}
 
-	private static ProxyMethodCallHandler getProgyMethodCallHandler() {
-		/*
-		 * TODO how to inject the handler?
-		 */
-		throw new RuntimeException("TODO init default ProxyMethodCallHandler");
+	private static ProxyMethodCallHandler handler;
+
+	private static ProxyMethodCallHandler getProxyMethodCallHandler() {
+		return handler;
 	}
 
 	/**
@@ -682,10 +737,11 @@ public class ProxyFactory {
 	 * @param methodCallHandler
 	 * @return
 	 */
-	@Deprecated
+
 	@SuppressWarnings("unchecked")
 	public static <T> T create(Class<T> c, String url,
 			ProxyMethodCallHandler methodCallHandler) {
+		handler = methodCallHandler;
 		methodCallHandler.setProxiedClass(c);
 		methodCallHandler.setBaseUrl(url);
 		return (T) Proxy.newProxyInstance(c.getClassLoader(),

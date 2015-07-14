@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -18,7 +19,6 @@ public abstract class M_WebView implements ModifierInterface {
 	protected static final String LOG_TAG = "M_WebView";
 	private final boolean useDefaultZoomControls;
 	private final boolean useTransparentBackground;
-	private WebView webView;
 
 	public M_WebView(boolean useDefaultZoomControls,
 			boolean useTransparentBackground) {
@@ -28,7 +28,7 @@ public abstract class M_WebView implements ModifierInterface {
 
 	@Override
 	public View getView(final Context context) {
-		webView = new WebView(context) {
+		final WebView webView = new WebView(context) {
 			private boolean is_gone = false;
 
 			@Override
@@ -60,12 +60,15 @@ public abstract class M_WebView implements ModifierInterface {
 			}
 
 		};
-		webView.getSettings().setBuiltInZoomControls(useDefaultZoomControls);
-		webView.getSettings().setSaveFormData(true);
+		WebSettings settings = webView.getSettings();
+		settings.setBuiltInZoomControls(useDefaultZoomControls);
+		settings.setSaveFormData(true);
+		settings.setJavaScriptEnabled(true);
+		settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
 		if (useTransparentBackground) {
 			webView.setBackgroundColor(0x00000000);
 		}
-		webView.getSettings().setJavaScriptEnabled(true);
 
 		webView.setWebChromeClient(new WebChromeClient() {
 			@Override

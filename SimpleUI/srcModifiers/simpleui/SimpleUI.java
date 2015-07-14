@@ -660,6 +660,12 @@ public class SimpleUI extends ActionBarActivity implements SimpleUIInterface {
 		if (m != null) {
 			m.onActivityResult(this, requestCode, resultCode, data);
 		} else {
+			Log.w(LOG_TAG,
+					"The modifier " + getMyModifier().getClass().getName()
+							+ " did not implement "
+							+ ActivityLifecycleListener.class.getName()
+							+ " and therefore was not informed "
+							+ "about the onActivityResult() event");
 			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}

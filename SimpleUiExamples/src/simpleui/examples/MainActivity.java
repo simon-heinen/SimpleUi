@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
 		registerErrorHandlerToCatchExceptions();
 
 		M_Container container = new M_Container();
+
 		container.add(new M_Toolbar("Simple UI Examples Overview"));
 		container
 				.add(new M_InfoText(
